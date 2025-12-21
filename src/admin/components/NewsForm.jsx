@@ -109,7 +109,8 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      const response = await fetch('/api/upload', {
+      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+      const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData
       });
