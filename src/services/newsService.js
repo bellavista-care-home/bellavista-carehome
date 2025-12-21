@@ -1,5 +1,6 @@
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+console.log('newsService loaded. API_BASE:', API_BASE);
 const SERVER_URL = API_BASE ? API_BASE.replace('/api', '') : '';
 
 function resolveImageUrl(path) {
