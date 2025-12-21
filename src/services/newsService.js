@@ -1,6 +1,8 @@
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
-console.log('newsService loaded. API_BASE:', API_BASE);
+const API_BASE = import.meta.env.PROD 
+  ? 'https://d2vw0p0lgszg44.cloudfront.net/api' 
+  : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api');
+
 const SERVER_URL = API_BASE ? API_BASE.replace('/api', '') : '';
 
 function resolveImageUrl(path) {
@@ -11,18 +13,29 @@ function resolveImageUrl(path) {
 }
 
 function dataURItoBlob(dataURI) {
-  if (!dataURI || typeof dataURI !== 'string' || !dataURI.startsWith('data:')) return null;
   try {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    if (!dataURI || typeof dataURI !== 'string') return null;
+    
+    // Check if it's already a blob url or http url (not base64)
+    if (dataURI.startsWith('blob:') || dataURI.startsWith('http')) {
+      return null;
+    }
+
+    const splitData = dataURI.split(',');
+    if (splitData.length < 2) return null;
+    
+    const byteString = atob(splitData[1]);
+    const mimeString = splitData[0].split(':')[1].split(';')[0];
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
+    
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    return new Blob([ab], {type: mimeString});
+    
+    return new Blob([ab], { type: mimeString });
   } catch (e) {
-    console.error("Error converting data URI to blob", e);
+    console.error('Error converting data URI to blob:', e);
     return null;
   }
 }
@@ -45,46 +58,55 @@ export async function fetchNewsItems() {
 }
 
 export async function createNewsItem(item) {
-  if (!API_BASE) return null;
-  
-  const formData = new FormData();
-  Object.keys(item).forEach(key => {
-    if (key === 'image' || key === 'gallery') return;
-    formData.append(key, item[key]);
-  });
-
-  // Handle Main Image
-  const mainImageBlob = dataURItoBlob(item.image);
-  if (mainImageBlob) {
-    formData.append('image', mainImageBlob, 'main-image.jpg');
-  } else if (item.image) {
-    formData.append('image', item.image);
+  if (!API_BASE) {
+    console.error('API_BASE is missing');
+    return null;
   }
-
-  // Handle Gallery Images
-  const galleryUrls = [];
-  if (Array.isArray(item.gallery)) {
-    item.gallery.forEach((img, idx) => {
-      const blob = dataURItoBlob(img);
-      if (blob) {
-        // Append file for backend to process
-        formData.append(`gallery_${idx}`, blob, `gallery-${idx}.jpg`);
-      } else if (img) {
-        // Keep existing URL
-        galleryUrls.push(img);
-      }
+  
+  try {
+    const formData = new FormData();
+    Object.keys(item).forEach(key => {
+      if (key === 'image' || key === 'gallery') return;
+      formData.append(key, item[key]);
     });
-    // Send existing URLs as JSON
-    formData.append('gallery', JSON.stringify(galleryUrls));
-  }
 
-  const res = await fetch(`${API_BASE}/news`, {
-    method: 'POST',
-    body: formData
-  });
-  
-  if (!res.ok) throw new Error('Failed to save news');
-  return await res.json();
+    // Handle Main Image
+    const mainImageBlob = dataURItoBlob(item.image);
+    if (mainImageBlob) {
+      formData.append('image', mainImageBlob, 'main-image.jpg');
+    } else if (item.image) {
+      formData.append('image', item.image);
+    }
+
+    // Handle Gallery Images
+    const galleryUrls = [];
+    if (Array.isArray(item.gallery)) {
+      item.gallery.forEach((img, idx) => {
+        const blob = dataURItoBlob(img);
+        if (blob) {
+          formData.append(`gallery_${idx}`, blob, `gallery-${idx}.jpg`);
+        } else if (img) {
+          galleryUrls.push(img);
+        }
+      });
+      formData.append('gallery', JSON.stringify(galleryUrls));
+    }
+
+    const res = await fetch(`${API_BASE}/news`, {
+      method: 'POST',
+      body: formData
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Failed to save news: ${res.status} ${res.statusText}`);
+    }
+    
+    return await res.json();
+  } catch (error) {
+    console.error('Failed to create news item:', error);
+    throw error;
+  }
 }
 
 export async function fetchNewsItemById(id) {

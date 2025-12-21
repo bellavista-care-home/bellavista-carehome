@@ -26,6 +26,11 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
   const [croppingImageIndex, setCroppingImageIndex] = useState(null);
   const videoInputRef = useRef(null);
 
+  React.useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+    console.log('NewsForm mounted. Using API:', API_URL);
+  }, []);
+
   // Load initial data if in edit mode
   React.useEffect(() => {
     if (mode === 'edit' && initialData) {
