@@ -138,7 +138,7 @@ const OurHomes = ({ isStandalone = false }) => {
                   src={home.images[imageIndices[index]]} 
                   alt={home.name} 
                   className="home-main-image"
-                  onError={(e) => {e.target.src = 'https://via.placeholder.com/400x300?text=Bellavista+Home'}}
+                  onError={(e) => {e.target.src = 'https://placehold.co/400x300?text=Bellavista+Home'}}
                 />
                 <div className="location-badge">
                   <i className="fas fa-map-marker-alt"></i> {home.location}
