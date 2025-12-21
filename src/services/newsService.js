@@ -52,48 +52,28 @@ export async function createNewsItem(item) {
     formData.append(key, item[key]);
   });
 
-  async function uploadBlob(blob, processType) {
-    const fd = new FormData();
-    fd.append('file', blob, 'upload.jpg');
-    fd.append('process_type', processType);
-    const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
-    if (!res.ok) throw new Error('Upload failed');
-    const data = await res.json();
-    return data.url;
-  }
-
-  let mainImageUrl = item.image;
+  // Handle Main Image
   const mainImageBlob = dataURItoBlob(item.image);
   if (mainImageBlob) {
-    mainImageUrl = await uploadBlob(mainImageBlob, 'resize_crop');
-  }
-  if (mainImageUrl) {
-    formData.append('image', mainImageUrl);
+    formData.append('image', mainImageBlob, 'main-image.jpg');
+  } else if (item.image) {
+    formData.append('image', item.image);
   }
 
+  // Handle Gallery Images
   const galleryUrls = [];
   if (Array.isArray(item.gallery)) {
-    const isDataUrl = (u) => typeof u === 'string' && u.startsWith('data:');
-    const loadDims = (u) => new Promise((resolve) => {
-      const im = new Image();
-      im.onload = () => resolve({ w: im.naturalWidth, h: im.naturalHeight });
-      im.onerror = () => resolve({ w: 0, h: 0 });
-      im.src = u;
-    });
-    for (const img of item.gallery) {
-      if (isDataUrl(img)) {
-        const dims = await loadDims(img);
-        const ratio = dims.h ? dims.w / dims.h : 0;
-        const target = 16/9;
-        const usePad = ratio && Math.abs(ratio - target) > 0.02;
-        const blob = dataURItoBlob(img);
-        const processType = usePad ? 'resize_gallery_pad' : 'resize_gallery';
-        const url = await uploadBlob(blob, processType);
-        galleryUrls.push(url);
+    item.gallery.forEach((img, idx) => {
+      const blob = dataURItoBlob(img);
+      if (blob) {
+        // Append file for backend to process
+        formData.append(`gallery_${idx}`, blob, `gallery-${idx}.jpg`);
       } else if (img) {
+        // Keep existing URL
         galleryUrls.push(img);
       }
-    }
+    });
+    // Send existing URLs as JSON
     formData.append('gallery', JSON.stringify(galleryUrls));
   }
 
