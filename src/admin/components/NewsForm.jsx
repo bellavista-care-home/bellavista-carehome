@@ -26,6 +26,11 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
   const [croppingImageIndex, setCroppingImageIndex] = useState(null);
   const videoInputRef = useRef(null);
 
+  React.useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+    console.log('NewsForm mounted. Using API:', API_URL);
+  }, []);
+
   // Load initial data if in edit mode
   React.useEffect(() => {
     if (mode === 'edit' && initialData) {
@@ -95,6 +100,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
   };
 
   const handleFileUpload = async (file, type) => {
+    console.log('handleFileUpload called with:', file, type);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('type', type);
@@ -110,16 +116,25 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
       }
 
       const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+      console.log('handleFileUpload: Using API_URL:', API_URL);
+
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData
       });
       
+      console.log('handleFileUpload: Response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('handleFileUpload: Success', data);
         if (type === 'video') {
           addVideo(data.url, 'uploaded');
         }
+      } else {
+        const errText = await response.text();
+        console.error('handleFileUpload: Upload failed', errText);
+        throw new Error('Upload failed');
       }
     } catch (error) {
       console.error('Upload failed:', error);
