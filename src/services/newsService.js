@@ -3,6 +3,13 @@ const API_BASE = import.meta.env.PROD
   ? 'https://d2vw0p0lgszg44.cloudfront.net/api' 
   : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api');
 
+console.log('=== NEWS SERVICE DEBUG ===');
+console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+console.log('MODE:', import.meta.env.MODE);
+console.log('PROD:', import.meta.env.PROD);
+console.log('Resolved API_BASE:', API_BASE);
+console.log('==========================');
+
 const SERVER_URL = API_BASE ? API_BASE.replace('/api', '') : '';
 
 function resolveImageUrl(path) {
@@ -18,6 +25,7 @@ function dataURItoBlob(dataURI) {
     
     // Check if it's already a blob url or http url (not base64)
     if (dataURI.startsWith('blob:') || dataURI.startsWith('http')) {
+      console.log('dataURItoBlob: Input is already a URL, skipping conversion:', dataURI.substring(0, 50) + '...');
       return null;
     }
 
@@ -58,8 +66,10 @@ export async function fetchNewsItems() {
 }
 
 export async function createNewsItem(item) {
+  console.log('createNewsItem: Starting upload...', item);
+  console.log('createNewsItem: Using API_BASE:', API_BASE);
   if (!API_BASE) {
-    console.error('API_BASE is missing');
+    console.error('createNewsItem: API_BASE is missing!');
     return null;
   }
   
@@ -73,17 +83,21 @@ export async function createNewsItem(item) {
     // Handle Main Image
     const mainImageBlob = dataURItoBlob(item.image);
     if (mainImageBlob) {
+      console.log('createNewsItem: Main image converted to blob', mainImageBlob.size, mainImageBlob.type);
       formData.append('image', mainImageBlob, 'main-image.jpg');
     } else if (item.image) {
+      console.log('createNewsItem: Main image is string/url', String(item.image).substring(0, 50));
       formData.append('image', item.image);
     }
 
     // Handle Gallery Images
+    console.log('createNewsItem: Processing gallery...');
     const galleryUrls = [];
     if (Array.isArray(item.gallery)) {
       item.gallery.forEach((img, idx) => {
         const blob = dataURItoBlob(img);
         if (blob) {
+          console.log(`createNewsItem: Gallery image ${idx} converted to blob`, blob.size);
           formData.append(`gallery_${idx}`, blob, `gallery-${idx}.jpg`);
         } else if (img) {
           galleryUrls.push(img);
@@ -92,19 +106,24 @@ export async function createNewsItem(item) {
       formData.append('gallery', JSON.stringify(galleryUrls));
     }
 
-    const res = await fetch(`${API_BASE}/news`, {
+    const url = `${API_BASE}/news`;
+    console.log('createNewsItem: Sending POST request to:', url);
+    const res = await fetch(url, {
       method: 'POST',
       body: formData
     });
     
+    console.log('createNewsItem: Response status:', res.status);
     if (!res.ok) {
       const errorText = await res.text();
+      console.error('createNewsItem: Request failed!', res.status, errorText);
       throw new Error(`Failed to save news: ${res.status} ${res.statusText}`);
     }
-    
-    return await res.json();
+    const json = await res.json();
+    console.log('createNewsItem: Success!', json);
+    return json;
   } catch (error) {
-    console.error('Failed to create news item:', error);
+    console.error('createNewsItem: Exception caught:', error);
     throw error;
   }
 }
