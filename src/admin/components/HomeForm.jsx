@@ -122,9 +122,10 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       formData.append('file', file);
       formData.append('process_type', 'none');
 
-      const API_URL = import.meta.env.PROD 
-        ? 'https://d2vw0p0lgszg44.cloudfront.net/api' 
-        : (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api');
+      const API_URL = import.meta.env.VITE_API_BASE_URL 
+        || (import.meta.env.PROD 
+          ? 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api' 
+          : 'http://localhost:8000/api');
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,

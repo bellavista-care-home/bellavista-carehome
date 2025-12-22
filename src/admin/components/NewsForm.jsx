@@ -27,7 +27,10 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
   const videoInputRef = useRef(null);
 
   React.useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+    const API_URL = import.meta.env.VITE_API_BASE_URL 
+      || (import.meta.env.PROD 
+        ? 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api' 
+        : 'http://localhost:8000/api');
     console.log('NewsForm mounted. Using API:', API_URL);
   }, []);
 
@@ -115,7 +118,10 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      const API_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://d2vw0p0lgszg44.cloudfront.net/api' : 'http://localhost:8000/api');
+      const API_URL = import.meta.env.VITE_API_BASE_URL 
+        || (import.meta.env.PROD 
+          ? 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api' 
+          : 'http://localhost:8000/api');
       console.log('handleFileUpload: Using API_URL:', API_URL);
 
       const response = await fetch(`${API_URL}/upload`, {
