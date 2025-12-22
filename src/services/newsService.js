@@ -4,11 +4,6 @@ function normalizeVite(v) {
   if (!v) return null;
   // If VITE is set to a relative path like '/api' prefer the configured secure endpoint in prod
   if (v === '/api') return null;
-  // Upgrade insecure http URLs to https to avoid Mixed Content errors
-  if (v.startsWith('http://')) {
-    console.warn('VITE_API_BASE_URL is insecure (http), upgrading to https to avoid Mixed Content.');
-    return v.replace(/^http:\/\//, 'https://');
-  }
   return v;
 }
 const VITE = normalizeVite(RAW_VITE);

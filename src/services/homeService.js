@@ -3,10 +3,6 @@ const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
 function normalizeViteHome(v) {
   if (!v) return null;
   if (v === '/api') return null;
-  if (v.startsWith('http://')) {
-    console.warn('VITE_API_BASE_URL is insecure (http), upgrading to https to avoid Mixed Content.');
-    return v.replace(/^http:\/\//, 'https://');
-  }
   return v;
 }
 const VITE = normalizeViteHome(RAW_VITE);
