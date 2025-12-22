@@ -9,11 +9,21 @@ const VITE = normalizeViteHome(RAW_VITE);
 const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
 const API_URL = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
 
+// Debug logging
+console.log('=== HOME SERVICE DEBUG ===');
+console.log('RAW_VITE_API_BASE_URL:', RAW_VITE);
+console.log('Resolved API_URL:', API_URL);
+console.log('import.meta.env.PROD:', import.meta.env.PROD);
+console.log('=======================');
+
 export async function fetchHomes() {
   try {
+    console.log('Fetching homes from:', `${API_URL}/homes`);
     const res = await fetch(`${API_URL}/homes`);
     if (!res.ok) throw new Error('Failed to fetch homes');
-    return await res.json();
+    const data = await res.json();
+    console.log('Homes fetched successfully:', data.length, 'homes');
+    return data;
   } catch (error) {
     console.error('Error fetching homes:', error);
     return [];
