@@ -1,15 +1,26 @@
 
-const VITE = import.meta.env.VITE_API_BASE_URL;
-const API_BASE = import.meta.env.PROD
-  ? (VITE && /^https?:\/\//.test(VITE) ? VITE : 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api')
-  : (VITE || 'http://localhost:8000/api');
+const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
+function normalizeVite(v) {
+  if (!v) return null;
+  // If VITE is set to a relative path like '/api' prefer the configured secure endpoint in prod
+  if (v === '/api') return null;
+  // Upgrade insecure http URLs to https to avoid Mixed Content errors
+  if (v.startsWith('http://')) {
+    console.warn('VITE_API_BASE_URL is insecure (http), upgrading to https to avoid Mixed Content.');
+    return v.replace(/^http:\/\//, 'https://');
+  }
+  return v;
+}
+const VITE = normalizeVite(RAW_VITE);
+const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
+const API_BASE = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
 
-console.log('=== NEWS SERVICE DEBUG ===');
-console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
-console.log('MODE:', import.meta.env.MODE);
-console.log('PROD:', import.meta.env.PROD);
-console.log('Resolved API_BASE:', API_BASE);
-console.log('==========================');
+if (import.meta.env.MODE !== 'production') {
+  console.log('=== NEWS SERVICE DEBUG ===');
+  console.log('VITE_API_BASE_URL:', RAW_VITE);
+  console.log('Resolved API_BASE:', API_BASE);
+  console.log('==========================');
+} 
 
 const SERVER_URL = API_BASE ? API_BASE.replace('/api', '') : '';
 
@@ -67,7 +78,7 @@ export async function fetchNewsItems() {
 }
 
 export async function createNewsItem(item) {
-  console.log('createNewsItem: Starting upload...', item);
+  console.log('createNewsItem: Starting upload...', { title: item.title, shortDescription: item.shortDescription, date: item.date, location: item.location, image: item.image ? '[REDACTED]' : null, galleryCount: Array.isArray(item.gallery) ? item.gallery.length : 0 });
   console.log('createNewsItem: Using API_BASE:', API_BASE);
   if (!API_BASE) {
     console.error('createNewsItem: API_BASE is missing!');

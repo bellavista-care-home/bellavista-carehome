@@ -1,8 +1,17 @@
 
-const VITE = import.meta.env.VITE_API_BASE_URL;
-const API_URL = import.meta.env.PROD
-  ? (VITE && /^https?:\/\//.test(VITE) ? VITE : 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api')
-  : (VITE || 'http://localhost:8000/api');
+const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
+function normalizeViteHome(v) {
+  if (!v) return null;
+  if (v === '/api') return null;
+  if (v.startsWith('http://')) {
+    console.warn('VITE_API_BASE_URL is insecure (http), upgrading to https to avoid Mixed Content.');
+    return v.replace(/^http:\/\//, 'https://');
+  }
+  return v;
+}
+const VITE = normalizeViteHome(RAW_VITE);
+const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
+const API_URL = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
 
 export async function fetchHomes() {
   try {

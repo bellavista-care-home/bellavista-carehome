@@ -124,7 +124,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
 
       const VITE = import.meta.env.VITE_API_BASE_URL;
       const API_URL = import.meta.env.PROD
-        ? (VITE && /^https?:\/\//.test(VITE) ? VITE : 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api')
+        ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
         : (VITE || 'http://localhost:8000/api');
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
