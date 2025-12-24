@@ -666,7 +666,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
-  z-index: 9999;
+  z-index: 100001; /* Ensure above header (100000) */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -685,6 +685,7 @@
   position: relative;
   box-shadow: var(--shadow-lg);
   animation: slideUp 0.4s ease;
+  z-index: 100002; /* Above overlay */
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -695,16 +696,60 @@
   position: absolute;
   top: var(--space-md);
   right: var(--space-md);
-  background: transparent;
+  background: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #999;
-  transition: color var(--transition-fast);
+  color: #333;
+  transition: all var(--transition-fast);
+  z-index: 10001; /* Ensure it's above everything including modal content */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .modal-close:hover {
+  transform: scale(1.1);
   color: var(--color-text-dark);
+}
+
+@media (max-width: 768px) {
+  .modal-close {
+    top: 15px; /* Adjust if needed, but z-index should fix overlap if menu is lower */
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Ensure modal content has enough padding at top so close button doesn't cover text */
+  .modal-content {
+    padding-top: 60px; 
+  }
+}
+
+@media (max-width: 576px) {
+  .facilities-grid {
+    grid-template-columns: repeat(2, 1fr); /* Force 2 columns on mobile */
+    gap: var(--space-sm);
+  }
+
+  .facility-card {
+    padding: var(--space-sm);
+  }
+
+  .facility-card__icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .facility-card__title {
+    font-size: 0.85rem;
+  }
 }
 
 .modal-title {
