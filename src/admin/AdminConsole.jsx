@@ -16,6 +16,7 @@ import './AdminConsole.css';
 const AdminConsole = () => {
   const navigate = useNavigate();
   const [activeView, setActiveView] = useState('update-home');
+  const [newsFormKey, setNewsFormKey] = useState(0);
   const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
   const [isBusy, setIsBusy] = useState(false);
   const [globalSearch, setGlobalSearch] = useState('');
@@ -614,6 +615,7 @@ const AdminConsole = () => {
 
         {activeView === 'add-news' && (
           <NewsForm 
+            key={newsFormKey}
             mode="add"
             onNotify={notify}
             onSave={async (newsData) => {
@@ -621,6 +623,7 @@ const AdminConsole = () => {
                 setIsBusy(true);
                 await createNewsItem(newsData);
                 notify('News published successfully!', 'success');
+                setNewsFormKey(prev => prev + 1);
                 setNewsForm({
                   id: '',
                   title: '',
