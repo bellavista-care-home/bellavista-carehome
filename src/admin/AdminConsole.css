@@ -47,6 +47,14 @@ input:focus, textarea:focus, select:focus{box-shadow:0 0 0 4px rgba(0,102,204,.1
 /* Drawer / Modal */
 
 /* Toast */
+.toast-container{position:fixed;top:20px;right:20px;z-index:100000}
+.toast{background:#fff;border:1.5px solid #e6eef7;box-shadow:var(--shadow);padding:12px 16px;border-radius:10px;color:var(--ink);display:flex;align-items:center;gap:8px;min-width:220px}
+.toast.success{border-color:#2ecc71}
+.toast.error{border-color:#e74c3c}
+.loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;z-index:100000}
+.spinner{width:40px;height:40px;border:3px solid #cde3fb;border-top-color:var(--primary-blue);border-radius:50%;animation:spin .8s linear infinite;margin:auto}
+.loading-text{margin-top:12px;color:var(--muted);font-weight:700;text-align:center}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* Responsive */
 @media (max-width:900px){

@@ -6,6 +6,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import '../styles/Careers.css';
 import '../styles/MainPage.css';
 
 const NewsDetail = () => {
@@ -14,6 +15,7 @@ const NewsDetail = () => {
   const [relatedNews, setRelatedNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -147,10 +149,23 @@ const NewsDetail = () => {
 
               <div className="article-image-large">
                 {news.image ? (
-                  <img src={news.image} alt={news.title} />
+                  <img src={news.image} alt={news.title} onClick={() => setShowImageModal(true)} />
                 ) : null}
                 {news.badge && <div className="article-badge-large">{news.badge}</div>}
               </div>
+              {showImageModal && (
+                <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                      <h3>Image</h3>
+                      <button className="modal-close" onClick={() => setShowImageModal(false)}>&times;</button>
+                    </div>
+                    <div className="modal-body">
+                      <img src={news.image} alt={news.title} style={{width:'100%',height:'auto'}} />
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="article-content">
                 <div className="article-description">
                   <div style={{ whiteSpace: 'pre-line' }}>

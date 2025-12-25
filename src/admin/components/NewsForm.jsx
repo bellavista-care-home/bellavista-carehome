@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import EnhancedImageUploader, { ImageCropper } from '../../components/EnhancedImageUploader';
 
-const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete }) => {
+const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete, onNotify = null }) => {
   const [formData, setFormData] = useState({
     // Main Card Section
     title: '',
@@ -144,7 +144,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
       }
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Upload failed. Please try again.');
+      if (onNotify) onNotify('Upload failed. Please try again.', 'error'); else alert('Upload failed. Please try again.');
     } finally {
       setUploadProgress(prev => {
         const newProgress = { ...prev };
@@ -156,19 +156,19 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
 
   const validateForm = () => {
     if (!formData.title.trim()) {
-      alert('Please enter a title');
+      if (onNotify) onNotify('Please enter a title', 'error'); else alert('Please enter a title');
       return false;
     }
     if (!formData.shortDescription.trim()) {
-      alert('Please enter a short description');
+      if (onNotify) onNotify('Please enter a short description', 'error'); else alert('Please enter a short description');
       return false;
     }
     if (!formData.date) {
-      alert('Please select a date');
+      if (onNotify) onNotify('Please select a date', 'error'); else alert('Please select a date');
       return false;
     }
     if (!formData.mainImage) {
-      alert('Please upload a main image');
+      if (onNotify) onNotify('Please upload a main image', 'error'); else alert('Please upload a main image');
       return false;
     }
     return true;

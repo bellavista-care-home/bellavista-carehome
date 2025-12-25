@@ -16,6 +16,8 @@ import './AdminConsole.css';
 const AdminConsole = () => {
   const navigate = useNavigate();
   const [activeView, setActiveView] = useState('update-home');
+  const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
+  const [isBusy, setIsBusy] = useState(false);
   const [globalSearch, setGlobalSearch] = useState('');
   const [selectedHome, setSelectedHome] = useState(null);
   const [homes, setHomes] = useState([]);
@@ -51,13 +53,16 @@ const AdminConsole = () => {
 
   const handleSaveHome = async (homeData) => {
     try {
+      setIsBusy(true);
       await updateHome(homeData.id, homeData);
-      alert('Home updated successfully!');
+      notify('Home updated successfully!', 'success');
       setSelectedHome(null);
       loadHomes();
     } catch (error) {
       console.error(error);
-      alert('Failed to update home.');
+      notify('Failed to update home.', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -67,7 +72,7 @@ const AdminConsole = () => {
 
   const downloadExcel = (data, filename) => {
     if (!data.length) {
-      alert('No data to download');
+      notify('No data to download', 'error');
       return;
     }
     
@@ -139,7 +144,7 @@ const AdminConsole = () => {
       setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
     } catch (error) {
       console.error('Failed to update booking status:', error);
-      alert('Failed to update status');
+      notify('Failed to update status', 'error');
     }
   };
 
@@ -213,7 +218,7 @@ const AdminConsole = () => {
   // Add news
   const addNews = async () => {
     if (!newsForm.title || !newsForm.date || !newsForm.excerpt) {
-      alert('Please fill in at least title, date, and summary');
+      notify('Please fill in at least title, date, and summary', 'error');
       return;
     }
     
@@ -226,8 +231,9 @@ const AdminConsole = () => {
     };
 
     try {
+      setIsBusy(true);
       await createNewsItem(payload);
-      alert('News saved successfully!');
+      notify('News saved successfully!', 'success');
       
       // Reset form
       setNewsForm({
@@ -252,14 +258,16 @@ const AdminConsole = () => {
       }
     } catch (e) {
       console.error(e);
-      alert('Failed to save news. See console.');
+      notify('Failed to save news. See console.', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
   const updateNews = async () => {
     if (!selectedNews) return;
     if (!newsForm.title || !newsForm.date || !newsForm.excerpt) {
-      alert('Please fill in at least title, date, and summary');
+      notify('Please fill in at least title, date, and summary', 'error');
       return;
     }
     
@@ -269,8 +277,9 @@ const AdminConsole = () => {
     };
 
     try {
+      setIsBusy(true);
       await updateNewsItem(payload);
-      alert('News updated successfully!');
+      notify('News updated successfully!', 'success');
       
       // Refresh list
       loadNews();
@@ -293,7 +302,9 @@ const AdminConsole = () => {
       });
     } catch (e) {
       console.error(e);
-      alert('Failed to update news. See console.');
+      notify('Failed to update news. See console.', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -326,6 +337,11 @@ const AdminConsole = () => {
     if (activeView === 'update-news') loadNews();
   }, []);
 
+  const notify = (message, type = 'success') => {
+    setToast({ message, type, visible: true });
+    setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2500);
+  };
+
   const loadFaqs = async () => {
     try {
       const data = await fetchFaqs();
@@ -338,18 +354,18 @@ const AdminConsole = () => {
 
   const addFaqHandler = async () => {
     if (!faqQuestion || !faqAnswer) {
-      alert('Please enter question and answer');
+      notify('Please enter question and answer', 'error');
       return;
     }
     try {
       await createFaq({ question: faqQuestion, answer: faqAnswer });
-      alert('FAQ added successfully!');
+      notify('FAQ added successfully!', 'success');
       setFaqQuestion('');
       setFaqAnswer('');
       loadFaqs();
     } catch (e) {
       console.error(e);
-      alert('Failed to add FAQ');
+      notify('Failed to add FAQ', 'error');
     }
   };
 
@@ -357,10 +373,11 @@ const AdminConsole = () => {
     if(!window.confirm('Delete this FAQ?')) return;
     try {
       await deleteFaq(id);
+      notify('FAQ deleted successfully!', 'success');
       loadFaqs();
     } catch (e) {
       console.error(e);
-      alert('Failed to delete FAQ');
+      notify('Failed to delete FAQ', 'error');
     }
   };
 
@@ -380,6 +397,7 @@ const AdminConsole = () => {
 
   const handleSaveVacancy = async (data) => {
     try {
+      setIsBusy(true);
       const formData = new FormData();
       Object.keys(data).forEach(key => {
         if (data[key] !== null) {
@@ -389,17 +407,19 @@ const AdminConsole = () => {
 
       if (selectedVacancy) {
         await updateVacancy(selectedVacancy.id, formData);
-        alert('Vacancy updated successfully!');
+        notify('Vacancy updated successfully!', 'success');
       } else {
         await createVacancy(formData);
-        alert('Vacancy created successfully!');
+        notify('Vacancy created successfully!', 'success');
       }
       setSelectedVacancy(null);
       setIsAddingVacancy(false);
       loadVacancies();
     } catch (e) {
       console.error(e);
-      alert('Failed to save vacancy');
+      notify('Failed to save vacancy', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -407,13 +427,16 @@ const AdminConsole = () => {
     if (!selectedVacancy) return;
     if (!window.confirm('Are you sure you want to delete this vacancy?')) return;
     try {
+      setIsBusy(true);
       await deleteVacancy(selectedVacancy.id);
-      alert('Vacancy deleted successfully!');
+      notify('Vacancy deleted successfully!', 'success');
       setSelectedVacancy(null);
       loadVacancies();
     } catch (e) {
       console.error(e);
-      alert('Failed to delete vacancy');
+      notify('Failed to delete vacancy', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -433,13 +456,16 @@ const AdminConsole = () => {
 
   const saveHomeEmail = async (home) => {
     try {
+      setIsBusy(true);
       await updateHome(home.id, { ...home, adminEmail: tempAdminEmail });
-      alert('Admin email updated successfully!');
+      notify('Admin email updated successfully!', 'success');
       setEditingHomeId(null);
       loadHomes();
     } catch (error) {
       console.error(error);
-      alert('Failed to update email.');
+      notify('Failed to update email.', 'error');
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -589,11 +615,12 @@ const AdminConsole = () => {
         {activeView === 'add-news' && (
           <NewsForm 
             mode="add"
+            onNotify={notify}
             onSave={async (newsData) => {
               try {
+                setIsBusy(true);
                 await createNewsItem(newsData);
-                alert('News published successfully!');
-                // Reset form after successful save
+                notify('News published successfully!', 'success');
                 setNewsForm({
                   id: '',
                   title: '',
@@ -612,7 +639,9 @@ const AdminConsole = () => {
                 });
               } catch (error) {
                 console.error('Failed to publish news:', error);
-                alert('Failed to publish news. Please try again.');
+                notify('Failed to publish news. Please try again.', 'error');
+              } finally {
+                setIsBusy(false);
               }
             }}
           />
@@ -644,32 +673,39 @@ const AdminConsole = () => {
               <NewsForm 
                 mode="edit"
                 initialData={selectedNews}
+                onNotify={notify}
                 onCancel={()=>{
                   setSelectedNews(null); 
                   setNewsForm({id:'',title:'',excerpt:'',fullDescription:'',image:'',category:'events',date:'',location:'All Locations',author:'Bellavista Team',badge:'',important:false,gallery:[],videoUrl:'',videoDescription:''});
                 }}
                 onSave={async (newsData) => {
                   try {
+                    setIsBusy(true);
                     await updateNewsItem(newsData);
-                    alert('News updated successfully!');
+                    notify('News updated successfully!', 'success');
                     setSelectedNews(null);
                     setNewsForm({id:'',title:'',excerpt:'',fullDescription:'',image:'',category:'events',date:'',location:'All Locations',author:'Bellavista Team',badge:'',important:false,gallery:[],videoUrl:'',videoDescription:''});
                     loadNews();
                   } catch (error) {
                     console.error('Failed to update news:', error);
-                    alert('Failed to update news. Please try again.');
+                    notify('Failed to update news. Please try again.', 'error');
+                  } finally {
+                    setIsBusy(false);
                   }
                 }}
                 onDelete={async (id) => {
                   try {
+                    setIsBusy(true);
                     await deleteNewsItem(id);
-                    alert('News deleted successfully!');
+                    notify('News deleted successfully!', 'success');
                     setSelectedNews(null);
                     setNewsForm({id:'',title:'',excerpt:'',fullDescription:'',image:'',category:'events',date:'',location:'All Locations',author:'Bellavista Team',badge:'',important:false,gallery:[],videoUrl:'',videoDescription:''});
                     loadNews();
                   } catch (error) {
                     console.error('Failed to delete news:', error);
-                    alert('Failed to delete news. Please try again.');
+                    notify('Failed to delete news. Please try again.', 'error');
+                  } finally {
+                    setIsBusy(false);
                   }
                 }}
               />
@@ -1080,6 +1116,19 @@ const AdminConsole = () => {
           </section>
         )}
       </main>
+      {isBusy && (
+        <div className="loading-overlay">
+          <div style={{display:'grid',placeItems:'center'}}>
+            <div className="spinner"></div>
+            <div className="loading-text">Processing…</div>
+          </div>
+        </div>
+      )}
+      {toast.visible && (
+        <div className="toast-container">
+          <div className={`toast ${toast.type}`}>{toast.message}</div>
+        </div>
+      )}
     </div>
   );
 };
