@@ -114,6 +114,16 @@ const OurHomes = ({ isStandalone = false }) => {
   useEffect(() => {
     const loadHomes = async () => {
       try {
+        // 1. Try to load from cache first for instant render
+        const cached = sessionStorage.getItem('bellavista_homes_data');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          setHomes(parsed);
+          setImageIndices(parsed.map(() => 0));
+          setLoading(false); // Stop loading immediately if cache exists
+        }
+
+        // 2. Fetch fresh data in background (or foreground if no cache)
         const data = await fetchHomes();
         if (data && data.length > 0) {
            const mappedHomes = data.map(h => {
@@ -133,16 +143,26 @@ const OurHomes = ({ isStandalone = false }) => {
                link: getLinkFromName(h.homeName)
              };
            });
+           
+           // Update state and cache
            setHomes(mappedHomes);
-           setImageIndices(mappedHomes.map(() => 0));
-        } else {
+           sessionStorage.setItem('bellavista_homes_data', JSON.stringify(mappedHomes));
+           
+           // Only reset indices if we didn't have cache (to avoid jumping images)
+           if (!cached) {
+             setImageIndices(mappedHomes.map(() => 0));
+           }
+        } else if (!cached) {
+           // Only fall back if no cache AND no API data
            setHomes(FALLBACK_HOMES_DATA);
            setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
         }
       } catch (err) {
         console.error("Error loading homes:", err);
-        setHomes(FALLBACK_HOMES_DATA);
-        setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
+        if (!sessionStorage.getItem('bellavista_homes_data')) {
+          setHomes(FALLBACK_HOMES_DATA);
+          setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
+        }
       } finally {
         setLoading(false);
       }
