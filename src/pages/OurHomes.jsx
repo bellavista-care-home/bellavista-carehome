@@ -238,7 +238,7 @@ const OurHomes = ({ isStandalone = false }) => {
                 <div className="home-features">
                   {home.features.slice(0, 3).map((feature, i) => (
                     <span key={i} className="feature-tag">
-                      <i className="fas fa-check"></i> {feature}
+                      <i className="fas fa-check"></i> {typeof feature === 'object' ? (feature.title || feature.text || 'Feature') : feature}
                     </span>
                   ))}
                 </div>
