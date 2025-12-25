@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchHomes } from '../services/homeService';
 import '../styles/OurHomes.css';
 
-export const HOMES_DATA = [
+const FALLBACK_HOMES_DATA = [
   {
     id: 'cardiff',
     name: 'Bellavista Cardiff',
@@ -10,8 +11,8 @@ export const HOMES_DATA = [
     description: 'A homely and friendly purpose-built Nursing Home with overlooking views of Cardiff Bay waterfront. Situated in a sought-after area, it offers a chic, cosmopolitan atmosphere where residents can enjoy the vibrant surroundings.',
     features: ['62 Bedrooms', 'Ensuite Facilities', 'Cinema/Sensory Room', 'Dementia Friendly Areas', 'Views of Cardiff Bay'],
     images: [
-      '/HomeImages/cfnh1-1-150x150.jpg',
-      '/HomeImages/IMG_0456_425x300_acf_cropped-150x150.jpg'
+      'https://placehold.co/400x300?text=Bellavista+Cardiff',
+      'https://placehold.co/400x300?text=Cardiff+View'
     ],
     link: '/bellavista-cardiff'
   },
@@ -22,8 +23,8 @@ export const HOMES_DATA = [
     description: 'A long-established quality Nursing Home situated in the seaside town of Barry with spectacular views over the Bristol Channel. Running since 2007, we enable elderly people to live as independently as possible.',
     features: ['39 Bedded Home', 'Seaside Views', 'Cinema Lounge', 'Landscaped Gardens', 'Dementia Friendly Dining'],
     images: [
-      '/HomeImages/IMG_0736_425x300_acf_cropped-150x150.jpg',
-      '/HomeImages/IMG_5863-1_360x360_acf_cropped-150x150.jpg'
+      'https://placehold.co/400x300?text=Bellavista+Barry',
+      'https://placehold.co/400x300?text=Barry+View'
     ],
     link: '/bellavista-barry'
   },
@@ -34,8 +35,8 @@ export const HOMES_DATA = [
     description: 'A family-owned nursing home overlooking the sea and open countryside. We offer a warm, friendly, and professional environment where "little things make all the difference".',
     features: ['129 Registered Places', 'General Nursing', 'EMI & FMI Care', 'Stunning Coast Views', 'Walking Distance to Penarth'],
     images: [
-      '/HomeImages/preview_b-1_425x300_acf_cropped-2.jpg',
-      '/HomeImages/preview_bellavista1_425x300_acf_cropped.jpg'
+      'https://placehold.co/400x300?text=Waverley+Care',
+      'https://placehold.co/400x300?text=Penarth+View'
     ],
     link: '/waverley-care-center'
   },
@@ -46,8 +47,8 @@ export const HOMES_DATA = [
     description: 'Priding ourselves on creating an environment where residents truly feel at home. We focus on technically correct care combined with personal interaction and fulfilling activities.',
     features: ['Home-cooked Meals', 'Personalized Care', 'In-house Laundry', 'Warm & Spacious Environment', 'Dedicated Staff'],
     images: [
-      '/HomeImages/preview_Carresr-Page_425x300_acf_cropped.png',
-      '/HomeImages/preview_cfnh10-1_425x300_acf_cropped.jpg'
+      'https://placehold.co/400x300?text=College+Fields',
+      'https://placehold.co/400x300?text=Barry+View'
     ],
     link: '/college-fields-nursing-home'
   },
@@ -58,8 +59,8 @@ export const HOMES_DATA = [
     description: 'A welcoming residential care home providing a safe and comfortable environment. We focus on individual needs and creating a supportive community for all our residents.',
     features: ['Residential Care', 'Comfortable Rooms', 'Community Atmosphere', 'Daily Activities', 'Pastoral Area'],
     images: [
-      '/HomeImages/preview_cfnh2-1_425x300_acf_cropped.jpg',
-      '/HomeImages/preview_IMG-20180716-WA0016_425x300_acf_cropped.jpg'
+      'https://placehold.co/400x300?text=Baltimore+Care',
+      'https://placehold.co/400x300?text=Barry+View'
     ],
     link: '/baltimore-care-home'
   },
@@ -70,8 +71,8 @@ export const HOMES_DATA = [
     description: 'A "home from home" style Young Onset Dementia Nursing 24-hour Care provision. Designed for younger dementia registered persons with stunning views of the Vale of Glamorgan.',
     features: ['Young Onset Dementia', '9 Bed Capacity', 'Nurse-Led Service', 'Rural Country Setting', 'Respite Service'],
     images: [
-      '/HomeImages/IMG_0736_425x300_acf_cropped-150x150.jpg',
-      '/HomeImages/IMG_5863-1_360x360_acf_cropped-150x150.jpg'
+      'https://placehold.co/400x300?text=Meadow+Vale',
+      'https://placehold.co/400x300?text=Barry+View'
     ],
     link: '/meadow-vale-cwtch'
   },
@@ -82,24 +83,86 @@ export const HOMES_DATA = [
     description: 'Our newest location coming soon to Pontypridd. We are excited to bring our high standards of care to this community.',
     features: ['Coming Soon', 'Nursing Care', 'Dementia Care'],
     images: [
-      '/HomeImages/cfnh1-1-150x150.jpg',
-      '/HomeImages/IMG_0456_425x300_acf_cropped-150x150.jpg'
+      'https://placehold.co/400x300?text=Bellavista+Pontypridd',
+      'https://placehold.co/400x300?text=Coming+Soon'
     ],
     link: '/bellavista-pontypridd'
   }
 ];
 
+// Export for backward compatibility if needed, though mostly internal use now
+export const HOMES_DATA = FALLBACK_HOMES_DATA;
+
+const getLinkFromName = (name) => {
+  const normalized = (name || '').toLowerCase().trim();
+  if (normalized.includes('cardiff')) return '/bellavista-cardiff';
+  if (normalized.includes('barry')) return '/bellavista-barry';
+  if (normalized.includes('waverley')) return '/waverley-care-center';
+  if (normalized.includes('college fields')) return '/college-fields-nursing-home';
+  if (normalized.includes('baltimore')) return '/baltimore-care-home';
+  if (normalized.includes('meadow vale')) return '/meadow-vale-cwtch';
+  if (normalized.includes('pontypridd')) return '/bellavista-pontypridd';
+  return '#';
+};
+
 const OurHomes = ({ isStandalone = false }) => {
-  const [imageIndices, setImageIndices] = useState(HOMES_DATA.map(() => 0));
+  const [homes, setHomes] = useState([]);
+  const [imageIndices, setImageIndices] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const loadHomes = async () => {
+      try {
+        const data = await fetchHomes();
+        if (data && data.length > 0) {
+           const mappedHomes = data.map(h => {
+             const activityImgs = (h.activityImages || []).map(img => 
+               typeof img === 'object' ? img.url : img
+             );
+             // Use main image + first activity image (as second card image)
+             const cardImages = [h.homeImage, activityImgs[0]].filter(Boolean);
+             
+             return {
+               id: h.id,
+               name: h.homeName,
+               location: h.homeLocation,
+               description: h.homeDesc,
+               features: h.facilitiesList || [],
+               images: cardImages.length > 0 ? cardImages : ['https://placehold.co/400x300?text=No+Image'],
+               link: getLinkFromName(h.homeName)
+             };
+           });
+           setHomes(mappedHomes);
+           setImageIndices(mappedHomes.map(() => 0));
+        } else {
+           setHomes(FALLBACK_HOMES_DATA);
+           setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
+        }
+      } catch (err) {
+        console.error("Error loading homes:", err);
+        setHomes(FALLBACK_HOMES_DATA);
+        setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadHomes();
+  }, []);
+
+  useEffect(() => {
+    if (homes.length === 0) return;
+
     const interval = setInterval(() => {
-      setImageIndices(prev => prev.map(index => (index + 1) % 2));
+      setImageIndices(prev => prev.map((currentIndex, homeIndex) => {
+        const home = homes[homeIndex];
+        if (!home || !home.images || home.images.length === 0) return 0;
+        return (currentIndex + 1) % home.images.length;
+      }));
     }, 4000); // Slower rotation
 
     return () => clearInterval(interval);
-  }, []);
+  }, [homes]);
 
   const handleImageChange = (homeIndex, imageIndex) => {
     setImageIndices(prev => {
@@ -108,6 +171,16 @@ const OurHomes = ({ isStandalone = false }) => {
       return newIndices;
     });
   };
+
+  if (loading && homes.length === 0) {
+    return (
+        <div className={`our-homes-page ${isStandalone ? 'standalone' : ''}`}>
+             <div className="container" style={{textAlign:'center', padding:'50px'}}>
+                 <i className="fas fa-spinner fa-spin" style={{fontSize:'2rem'}}></i> Loading homes...
+             </div>
+        </div>
+    );
+  }
 
   return (
     <div className={`our-homes-page ${isStandalone ? 'standalone' : ''}`}>
@@ -131,11 +204,11 @@ const OurHomes = ({ isStandalone = false }) => {
         )}
         
         <div className={`homes-grid ${!isStandalone ? 'scrollable' : ''}`}>
-          {HOMES_DATA.map((home, index) => (
+          {homes.map((home, index) => (
             <div key={home.id} className="home-card" onClick={() => navigate(home.link)}>
               <div className="home-image-container">
                 <img 
-                  src={home.images[imageIndices[index]]} 
+                  src={home.images[imageIndices[index] || 0]} 
                   alt={home.name} 
                   className="home-main-image"
                   onError={(e) => {e.target.src = 'https://placehold.co/400x300?text=Bellavista+Home'}}
