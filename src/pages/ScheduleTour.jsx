@@ -14,6 +14,7 @@ const ScheduleTour = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -51,7 +52,7 @@ const ScheduleTour = () => {
     } catch {}
 
     setLoading(false);
-    alert('Tour request submitted. Our team will contact you to confirm your visit.');
+    setSuccess(true);
     
     setFormData({
       name: '',
@@ -59,10 +60,57 @@ const ScheduleTour = () => {
       phone: '',
       preferredDate: '',
       preferredTime: '',
-      location: 'Barry',
+      location: 'Bellavista Barry',
       message: ''
     });
   };
+
+  if (success) {
+    return (
+      <div className="tour-page">
+        <div className="tour-header">
+          <div className="container">
+            <h1>Schedule a Tour</h1>
+            <p>Come and see our facilities and meet our friendly team</p>
+          </div>
+        </div>
+        <div className="container" style={{ padding: '50px 0', textAlign: 'center' }}>
+          <div style={{
+            background: 'white',
+            padding: '40px',
+            borderRadius: '15px',
+            boxShadow: '0 5px 20px rgba(0,0,0,0.1)',
+            maxWidth: '600px',
+            margin: '0 auto'
+          }}>
+            <div style={{
+              width: '80px',
+              height: '80px',
+              background: '#28a745',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px auto'
+            }}>
+              <i className="fas fa-check" style={{ fontSize: '40px', color: 'white' }}></i>
+            </div>
+            <h2 style={{ color: '#003366', marginBottom: '15px' }}>Booking Successful!</h2>
+            <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '30px' }}>
+              Thank you for scheduling a tour. We have received your request and sent a confirmation email. Our team will contact you shortly to confirm the details of your visit.
+            </p>
+            <button 
+              className="submit-btn" 
+              onClick={() => setSuccess(false)}
+              style={{ maxWidth: '200px' }}
+            >
+              Book Another Tour
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tour-page">
