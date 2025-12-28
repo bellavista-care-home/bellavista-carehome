@@ -13,6 +13,7 @@ const Enquiry = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -35,30 +36,74 @@ const Enquiry = () => {
       createdAt: new Date().toISOString(),
       status: 'received'
     };
-    let savedLocal = false;
+    
     try {
       saveEnquiryLocal(enquiry);
-      savedLocal = true;
     } catch {}
+    
     try {
       await saveEnquiryToAPI(enquiry);
     } catch {}
     
     setLoading(false);
-    if (savedLocal) {
-      alert('Thank you for your enquiry. We will get back to you as soon as possible.');
-    } else {
-      alert('We received your enquiry but could not save it locally.');
-    }
+    setSubmitted(true);
     setFormData({
       name: '',
       email: '',
       phone: '',
       enquiryType: 'General',
-      location: 'Barry',
+      location: 'Bellavista Barry',
       message: ''
     });
   };
+
+  if (submitted) {
+    return (
+      <div className="tour-page">
+        <div className="tour-header">
+          <div className="container">
+            <h1>Make an Enquiry</h1>
+          </div>
+        </div>
+        <div className="container" style={{ padding: '60px 20px', textAlign: 'center' }}>
+          <div style={{ 
+            maxWidth: '600px', 
+            margin: '0 auto', 
+            background: 'white', 
+            padding: '40px', 
+            borderRadius: '15px', 
+            boxShadow: '0 10px 30px rgba(0,0,0,0.08)' 
+          }}>
+            <div style={{ 
+              width: '80px', 
+              height: '80px', 
+              background: '#e6f7ee', 
+              color: '#00b85c', 
+              borderRadius: '50%', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              fontSize: '32px', 
+              margin: '0 auto 20px' 
+            }}>
+              <i className="fas fa-check"></i>
+            </div>
+            <h2 style={{ color: '#2c3e50', marginBottom: '15px' }}>Enquiry Sent!</h2>
+            <p style={{ color: '#666', fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '30px' }}>
+              Thank you for reaching out. We have received your message and will get back to you shortly.
+            </p>
+            <button 
+              className="submit-btn" 
+              onClick={() => setSubmitted(false)}
+              style={{ maxWidth: '200px' }}
+            >
+              Send Another Message
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="tour-page">
@@ -133,8 +178,6 @@ const Enquiry = () => {
                 >
                   <option value="General">General Enquiry</option>
                   <option value="Care Availability">Care Availability</option>
-                  <option value="Funding">Funding & Fees</option>
-                  <option value="Recruitment">Recruitment</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -147,11 +190,13 @@ const Enquiry = () => {
                   onChange={handleChange}
                 >
                   <option value="Any">Any / Not Sure</option>
-                  <option value="Barry">Bellavista Barry</option>
-                  <option value="Cardiff">Bellavista Cardiff</option>
-                  <option value="Waverley">Waverley Care Centre</option>
-                  <option value="College Fields">College Fields Nursing Home</option>
-                  <option value="Baltimore">Baltimore Care Home</option>
+                  <option value="Bellavista Barry">Bellavista Barry</option>
+                  <option value="Bellavista Cardiff">Bellavista Cardiff</option>
+                  <option value="Waverley Care Centre">Waverley Care Centre</option>
+                  <option value="College Fields Nursing Home">College Fields Nursing Home</option>
+                  <option value="Baltimore Care Home">Baltimore Care Home</option>
+                  <option value="Meadow Vale Cwtch">Meadow Vale Cwtch</option>
+                  <option value="Bellavista Pontypridd">Bellavista Pontypridd</option>
                 </select>
               </div>
 
