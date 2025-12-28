@@ -188,6 +188,8 @@ const ScheduleTour = () => {
                   <option value="Waverley">Waverley Care Centre</option>
                   <option value="College Fields">College Fields Nursing Home</option>
                   <option value="Baltimore">Baltimore Care Home</option>
+                  <option value="Meadow Vale Cwtch">Meadow Vale Cwtch</option>
+                  <option value="Bellavista Pontypridd">Bellavista Pontypridd</option>
                 </select>
               </div>
 
