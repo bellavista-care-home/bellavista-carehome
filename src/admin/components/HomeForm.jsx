@@ -31,9 +31,18 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
   // Load initial data if in edit mode
   useEffect(() => {
     if (mode === 'edit' && initialData) {
+      console.log('Loading home data:', initialData); // Debug log
       setFormData({
         ...formData,
-        ...initialData
+        ...initialData,
+        // Ensure arrays are properly loaded
+        teamMembers: initialData.teamMembers || [],
+        teamGalleryImages: initialData.teamGalleryImages || [],
+        activities: initialData.activities || [],
+        activityImages: initialData.activityImages || [],
+        facilitiesList: initialData.facilitiesList || [],
+        detailedFacilities: initialData.detailedFacilities || [],
+        facilitiesGalleryImages: initialData.facilitiesGalleryImages || []
       });
     }
   }, [mode, initialData]);
