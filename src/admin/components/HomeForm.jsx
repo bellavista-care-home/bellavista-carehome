@@ -320,6 +320,70 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
            backgroundColor: '#fafafa',
            marginBottom: '20px'
          }}>
+          
+          {/* Bulk Upload Section */}
+          <div style={{marginBottom: '15px', padding: '15px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '8px', color: 'white'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px'}}>
+              <div>
+                <strong style={{display: 'block', marginBottom: '5px', fontSize: '15px'}}>📦 Bulk Upload (Testing)</strong>
+                <span style={{fontSize: '12px', opacity: 0.9}}>Upload up to 30 images at once</span>
+              </div>
+              <button 
+                className="btn"
+                style={{background: 'white', color: '#667eea', border: 'none', fontWeight: 'bold'}}
+                onClick={() => document.getElementById('bulk-facility-upload').click()}
+                disabled={isUploading}
+              >
+                {isUploading ? <><i className="fa-solid fa-spinner fa-spin"></i> Uploading...</> : <><i className="fa-solid fa-images"></i> Select Multiple</>}
+              </button>
+            </div>
+            <input
+              type="file"
+              id="bulk-facility-upload"
+              accept="image/*"
+              multiple
+              style={{display: 'none'}}
+              onChange={async (e) => {
+                const files = Array.from(e.target.files).slice(0, 30);
+                if (files.length === 0) return;
+                
+                setIsUploading(true);
+                let uploaded = 0;
+                
+                try {
+                  for (const file of files) {
+                    try {
+                      const formData = new FormData();
+                      formData.append('file', file);
+                      formData.append('process_type', 'none');
+                      
+                      const API_URL = window.location.hostname === 'localhost' 
+                        ? 'http://localhost:8000/api' 
+                        : 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
+                      
+                      const response = await fetch(`${API_URL}/upload`, {
+                        method: 'POST',
+                        body: formData,
+                      });
+                      
+                      if (response.ok) {
+                        const data = await response.json();
+                        addItem('facilitiesGalleryImages', { type: 'image', url: data.url, cropMode: 'uncropped' });
+                        uploaded++;
+                      }
+                    } catch (error) {
+                      console.error('Upload error for file:', file.name, error);
+                    }
+                  }
+                } finally {
+                  setIsUploading(false);
+                  e.target.value = '';
+                  alert(`✅ Successfully uploaded ${uploaded} of ${files.length} images!`);
+                }
+              }}
+            />
+          </div>
+          
            <div style={{marginBottom:'15px'}}>
              <label style={{fontWeight: 'bold', fontSize: '14px', marginBottom: '8px', display: 'block'}}>Media Type</label>
              <div style={{display: 'flex', gap: '15px'}}>
@@ -697,6 +761,70 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
            backgroundColor: '#fafafa',
            marginBottom: '20px'
          }}>
+          
+          {/* Bulk Upload Section */}
+          <div style={{marginBottom: '15px', padding: '15px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '8px', color: 'white'}}>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px'}}>
+              <div>
+                <strong style={{display: 'block', marginBottom: '5px', fontSize: '15px'}}>📦 Bulk Upload (Testing)</strong>
+                <span style={{fontSize: '12px', opacity: 0.9}}>Upload up to 30 images at once</span>
+              </div>
+              <button 
+                className="btn"
+                style={{background: 'white', color: '#667eea', border: 'none', fontWeight: 'bold'}}
+                onClick={() => document.getElementById('bulk-team-upload').click()}
+                disabled={isUploading}
+              >
+                {isUploading ? <><i className="fa-solid fa-spinner fa-spin"></i> Uploading...</> : <><i className="fa-solid fa-images"></i> Select Multiple</>}
+              </button>
+            </div>
+            <input
+              type="file"
+              id="bulk-team-upload"
+              accept="image/*"
+              multiple
+              style={{display: 'none'}}
+              onChange={async (e) => {
+                const files = Array.from(e.target.files).slice(0, 30);
+                if (files.length === 0) return;
+                
+                setIsUploading(true);
+                let uploaded = 0;
+                
+                try {
+                  for (const file of files) {
+                    try {
+                      const formData = new FormData();
+                      formData.append('file', file);
+                      formData.append('process_type', 'none');
+                      
+                      const API_URL = window.location.hostname === 'localhost' 
+                        ? 'http://localhost:8000/api' 
+                        : 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
+                      
+                      const response = await fetch(`${API_URL}/upload`, {
+                        method: 'POST',
+                        body: formData,
+                      });
+                      
+                      if (response.ok) {
+                        const data = await response.json();
+                        addItem('teamGalleryImages', { type: 'image', url: data.url, cropMode: 'uncropped' });
+                        uploaded++;
+                      }
+                    } catch (error) {
+                      console.error('Upload error for file:', file.name, error);
+                    }
+                  }
+                } finally {
+                  setIsUploading(false);
+                  e.target.value = '';
+                  alert(`✅ Successfully uploaded ${uploaded} of ${files.length} images!`);
+                }
+              }}
+            />
+          </div>
+          
           <div style={{marginBottom:'15px'}}>
             <label style={{fontWeight: 'bold', fontSize: '14px', marginBottom: '8px', display: 'block'}}>Media Type</label>
             <div style={{display: 'flex', gap: '15px'}}>
