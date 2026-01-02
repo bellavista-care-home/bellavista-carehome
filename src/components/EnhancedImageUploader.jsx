@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { uploadImageToS3 } from '../utils/imageUploadHelper';
 
 export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, allowSkip = false, onSkip }) => {
   const [cropMode, setCropMode] = useState('select'); // 'select', 'drag', 'resize'
@@ -425,13 +426,15 @@ const ImageUploader = ({
   maxFileSize = 5 * 1024 * 1024, // 5MB
   allowedFormats = ['image/jpeg', 'image/png', 'image/webp'],
   autoReset = false,
-  allowSkipOnUpload = false
+  allowSkipOnUpload = false,
+  autoUploadToS3 = true // NEW: Automatically upload to S3 after crop
 }) => {
   const [imageUrl, setImageUrl] = useState(initialValue);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showCropModal, setShowCropModal] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
+  const [uploadStatus, setUploadStatus] = useState(''); // NEW: For showing upload status
   const fileInputRef = useRef(null);
 
   const validateFile = (file) => {
@@ -500,11 +503,41 @@ const ImageUploader = ({
     reader.readAsDataURL(file);
   };
 
-  const handleCropComplete = (croppedImageUrl) => {
-    setImageUrl(croppedImageUrl);
+  const handleCropComplete = async (croppedImageUrl) => {
     setShowCropModal(false);
-    if (onImageSelected) {
-      onImageSelected(croppedImageUrl);
+    
+    // If auto-upload is enabled, upload to S3 immediately
+    if (autoUploadToS3 && croppedImageUrl.startsWith('data:')) {
+      try {
+        setIsUploading(true);
+        setUploadStatus('Uploading to server...');
+        
+        const s3Url = await uploadImageToS3(croppedImageUrl, 'none');
+        
+        setImageUrl(s3Url);
+        setUploadStatus('');
+        setIsUploading(false);
+        
+        if (onImageSelected) {
+          onImageSelected(s3Url);
+        }
+      } catch (error) {
+        console.error('Failed to upload image:', error);
+        setUploadStatus('Upload failed, using local image');
+        setIsUploading(false);
+        
+        // Fallback to base64 if upload fails
+        setImageUrl(croppedImageUrl);
+        if (onImageSelected) {
+          onImageSelected(croppedImageUrl);
+        }
+      }
+    } else {
+      // Use base64 directly
+      setImageUrl(croppedImageUrl);
+      if (onImageSelected) {
+        onImageSelected(croppedImageUrl);
+      }
     }
   };
 
@@ -625,7 +658,7 @@ const ImageUploader = ({
             <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px', color: '#007bff' }}></i>
           </div>
           <p style={{ fontSize: '14px', color: '#007bff', margin: '0 0 10px 0' }}>
-            Processing... {uploadProgress}%
+            {uploadStatus || `Processing... ${uploadProgress}%`}
           </p>
           <div style={{
             width: '100%',

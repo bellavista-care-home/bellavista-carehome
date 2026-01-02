@@ -9,6 +9,7 @@ import { fetchCareEnquiries } from '../services/enquiryService';
 import { fetchHomes, updateHome } from '../services/homeService';
 import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
+import { convertBase64ToURLs } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
 import './AdminConsole.css';
@@ -55,7 +56,12 @@ const AdminConsole = () => {
   const handleSaveHome = async (homeData) => {
     try {
       setIsBusy(true);
-      await updateHome(homeData.id, homeData);
+      
+      // Convert any remaining base64 images to S3 URLs before sending
+      notify('Processing images...', 'info');
+      const optimizedData = await convertBase64ToURLs(homeData);
+      
+      await updateHome(optimizedData.id, optimizedData);
       notify('Home updated successfully!', 'success');
       setSelectedHome(null);
       loadHomes();
