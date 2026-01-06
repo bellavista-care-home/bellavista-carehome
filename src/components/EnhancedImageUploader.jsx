@@ -514,12 +514,18 @@ const ImageUploader = ({
         
         const s3Url = await uploadImageToS3(croppedImageUrl, 'none');
         
-        setImageUrl(s3Url);
         setUploadStatus('');
         setIsUploading(false);
         
         if (onImageSelected) {
           onImageSelected(s3Url);
+        }
+        
+        // Reset to empty state after successful upload
+        setImageUrl('');
+        setTempImageUrl('');
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
         }
       } catch (error) {
         console.error('Failed to upload image:', error);
@@ -534,9 +540,15 @@ const ImageUploader = ({
       }
     } else {
       // Use base64 directly
-      setImageUrl(croppedImageUrl);
       if (onImageSelected) {
         onImageSelected(croppedImageUrl);
+      }
+      
+      // Reset to empty state
+      setImageUrl('');
+      setTempImageUrl('');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
     }
   };
