@@ -307,6 +307,97 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
         </div>
       </div>
 
+      {/* Card Images Preview Gallery */}
+      {(formData.homeImage || getSecondCardImage()) && (
+        <div className="field" style={{marginTop: '20px'}}>
+          <label style={{marginBottom: '10px', display: 'block', fontWeight: 'bold'}}>
+            {[formData.homeImage, getSecondCardImage()].filter(Boolean).length} Card {[formData.homeImage, getSecondCardImage()].filter(Boolean).length === 1 ? 'Image' : 'Images'} Preview
+          </label>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '15px'
+          }}>
+            {formData.homeImage && (
+              <div style={{
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                background: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+              }}>
+                <div style={{
+                  height: '140px',
+                  background: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img src={formData.homeImage} style={{width: '100%', height: '100%', objectFit: 'cover', backgroundColor: '#333'}} alt="Card 1" />
+                  <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
+                    Main Card
+                  </div>
+                </div>
+                <div style={{
+                  padding: '10px',
+                  borderTop: '1px solid #eee',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  background: 'white'
+                }}>
+                  <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => handleChange('homeImage', '')} title="Remove">
+                    <i className="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+            {getSecondCardImage() && (
+              <div style={{
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                background: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+              }}>
+                <div style={{
+                  height: '140px',
+                  background: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img src={getSecondCardImage()} style={{width: '100%', height: '100%', objectFit: 'cover', backgroundColor: '#333'}} alt="Card 2" />
+                  <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
+                    Second Card
+                  </div>
+                </div>
+                <div style={{
+                  padding: '10px',
+                  borderTop: '1px solid #eee',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  background: 'white'
+                }}>
+                  <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => handleSecondCardImageChange('')} title="Remove">
+                    <i className="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* 3. Facilities */}
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-building"></i> Facilities Gallery

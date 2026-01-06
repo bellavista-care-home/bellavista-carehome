@@ -698,19 +698,10 @@ const ImageUploader = ({
           </div>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
             <button 
-              className="btn ghost small"
-              onClick={handleRemoveImage}
-            >
-              <i className="fa-solid fa-trash"></i> Remove
-            </button>
-            <button 
               className="btn small"
-              onClick={() => {
-                setTempImageUrl(imageUrl);
-                setShowCropModal(true);
-              }}
+              onClick={() => fileInputRef.current?.click()}
             >
-              <i className="fa-solid fa-crop"></i> Recrop
+              <i className="fa-solid fa-plus"></i> Add New Image
             </button>
           </div>
         </div>
