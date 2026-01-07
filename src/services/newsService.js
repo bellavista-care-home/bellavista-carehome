@@ -1,8 +1,9 @@
 
 import * as authService from './authService';
+import { API_URL } from '../config/apiConfig';
 
 // Use relative paths for all requests - Vite proxy will route to appropriate backend
-const API_BASE = '/api';
+const API_BASE = API_URL;
 const SERVER_URL = '';
 
 function resolveImageUrl(path) {

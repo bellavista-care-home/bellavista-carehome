@@ -1,8 +1,6 @@
 
 import * as authService from './authService';
-
-// Use relative paths for all requests - Vite proxy will route to appropriate backend
-const API_URL = '/api';
+import { API_URL } from '../config/apiConfig';
 
 export async function fetchHomes() {
   try {

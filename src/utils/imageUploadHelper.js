@@ -3,15 +3,7 @@
  * Handles uploading images to S3 and converting base64 to server URLs
  */
 
-const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
-function normalizeViteHome(v) {
-  if (!v) return null;
-  if (v === '/api') return null;
-  return v;
-}
-const VITE = normalizeViteHome(RAW_VITE);
-const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
-const API_URL = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
+import { API_URL } from '../config/apiConfig';
 
 /**
  * Converts a base64 data URL to a Blob

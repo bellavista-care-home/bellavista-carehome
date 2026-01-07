@@ -1,7 +1,7 @@
+import { API_URL } from '../config/apiConfig';
+
 const VITE = import.meta.env.VITE_API_BASE_URL;
-const API_BASE = import.meta.env.PROD
-  ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
-  : (VITE || 'http://localhost:8000/api');
+const API_BASE = API_URL;
 
 export function saveBookingLocal(booking) {
   // Deprecated but kept for safety

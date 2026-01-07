@@ -131,10 +131,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       formData.append('file', file);
       formData.append('process_type', 'none');
 
-      const VITE = import.meta.env.VITE_API_BASE_URL;
-      const API_URL = import.meta.env.PROD
-        ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
-        : (VITE || 'http://localhost:8000/api');
+      const { API_URL } = await import('../../../config/apiConfig');
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,

@@ -27,11 +27,11 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
   const videoInputRef = useRef(null);
 
   React.useEffect(() => {
-    const VITE = import.meta.env.VITE_API_BASE_URL;
-    const API_URL = import.meta.env.PROD
-      ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
-      : (VITE || 'http://localhost:8000/api');
-    console.log('NewsForm mounted. Using API:', API_URL);
+    const loadApiConfig = async () => {
+      const { API_URL } = await import('../../../config/apiConfig');
+      console.log('NewsForm mounted. Using API:', API_URL);
+    };
+    loadApiConfig();
   }, []);
 
   // Load initial data if in edit mode
@@ -118,10 +118,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      const VITE = import.meta.env.VITE_API_BASE_URL;
-      const API_URL = import.meta.env.PROD
-        ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
-        : (VITE || 'http://localhost:8000/api');
+      const { API_URL } = await import('../../../config/apiConfig');
       console.log('handleFileUpload: Using API_URL:', API_URL);
 
       const response = await fetch(`${API_URL}/upload`, {
