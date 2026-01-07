@@ -1,23 +1,9 @@
 
-const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
-function normalizeVite(v) {
-  if (!v) return null;
-  // If VITE is set to a relative path like '/api' prefer the configured secure endpoint in prod
-  if (v === '/api') return null;
-  return v;
-}
-const VITE = normalizeVite(RAW_VITE);
-const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
-const API_BASE = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
+import * as authService from './authService';
 
-if (import.meta.env.MODE !== 'production') {
-  console.log('=== NEWS SERVICE DEBUG ===');
-  console.log('VITE_API_BASE_URL:', RAW_VITE);
-  console.log('Resolved API_BASE:', API_BASE);
-  console.log('==========================');
-} 
-
-const SERVER_URL = API_BASE ? API_BASE.replace('/api', '') : '';
+// Use relative paths for all requests - Vite proxy will route to appropriate backend
+const API_BASE = '/api';
+const SERVER_URL = '';
 
 function resolveImageUrl(path) {
   if (!path) return '';
@@ -117,6 +103,7 @@ export async function createNewsItem(item) {
     console.log('createNewsItem: Sending POST request to:', url);
     const res = await fetch(url, {
       method: 'POST',
+      headers: authService.getAuthHeader(),
       body: formData
     });
     
@@ -155,7 +142,10 @@ export async function fetchNewsItemById(id) {
 export async function deleteNewsItem(id) {
     if (!API_BASE) return false;
     try {
-        const res = await fetch(`${API_BASE}/news/${id}`, { method: 'DELETE' });
+        const res = await fetch(`${API_BASE}/news/${id}`, {
+          method: 'DELETE',
+          headers: authService.getAuthHeader()
+        });
         return res.ok;
     } catch (err) {
         console.error(err);
@@ -193,6 +183,7 @@ export async function updateNewsItem(item) {
 
   const res = await fetch(`${API_BASE}/news/${item.id}`, {
     method: 'PUT',
+    headers: authService.getAuthHeader(),
     body: formData
   });
   

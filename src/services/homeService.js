@@ -1,13 +1,8 @@
 
-const RAW_VITE = import.meta.env.VITE_API_BASE_URL;
-function normalizeViteHome(v) {
-  if (!v) return null;
-  if (v === '/api') return null;
-  return v;
-}
-const VITE = normalizeViteHome(RAW_VITE);
-const DEFAULT_PROD_API = 'https://d2vw0p0lgszg44.cloudfront.net/api';
-const API_URL = import.meta.env.PROD ? (VITE || DEFAULT_PROD_API) : (VITE || 'http://localhost:8000/api');
+import * as authService from './authService';
+
+// Use relative paths for all requests - Vite proxy will route to appropriate backend
+const API_URL = '/api';
 
 export async function fetchHomes() {
   try {
@@ -35,7 +30,10 @@ export async function fetchHome(id) {
 export async function createHome(data) {
   const res = await fetch(`${API_URL}/homes`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
     body: JSON.stringify(data)
   });
   if (!res.ok) throw new Error('Failed to create home');
@@ -45,7 +43,10 @@ export async function createHome(data) {
 export async function updateHome(id, data) {
   const res = await fetch(`${API_URL}/homes/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
     body: JSON.stringify(data)
   });
   if (!res.ok) throw new Error('Failed to update home');
@@ -54,7 +55,8 @@ export async function updateHome(id, data) {
 
 export async function deleteHome(id) {
   const res = await fetch(`${API_URL}/homes/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: authService.getAuthHeader()
   });
   if (!res.ok) throw new Error('Failed to delete home');
   return await res.json();

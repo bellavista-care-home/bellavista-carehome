@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       }
     }

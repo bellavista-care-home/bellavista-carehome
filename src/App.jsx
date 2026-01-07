@@ -126,7 +126,11 @@ const AppContent = () => {
             } />
             <Route path="/admin/login" element={<Login />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/kiosk/:locationId" element={<ReceptionKiosk />} />
+            <Route path="/kiosk/:locationId" element={
+              <ProtectedRoute>
+                <ReceptionKiosk />
+              </ProtectedRoute>
+            } />
           </Routes>
         </Suspense>
       </div>

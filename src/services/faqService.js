@@ -1,7 +1,7 @@
-const VITE = import.meta.env.VITE_API_BASE_URL;
-const API_BASE = import.meta.env.PROD
-  ? (VITE && /^https:\/\//.test(VITE) ? VITE : 'https://d2vw0p0lgszg44.cloudfront.net/api')
-  : (VITE || 'http://localhost:8000/api');
+import * as authService from './authService';
+
+// Use relative paths for all requests - Vite proxy will route to appropriate backend
+const API_BASE = '/api';
 
 export const fetchFaqs = async () => {
   const res = await fetch(`${API_BASE}/faqs`);
@@ -12,7 +12,10 @@ export const fetchFaqs = async () => {
 export const createFaq = async (faq) => {
   const res = await fetch(`${API_BASE}/faqs`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
     body: JSON.stringify(faq)
   });
   if (!res.ok) throw new Error('Failed to create FAQ');
@@ -21,7 +24,8 @@ export const createFaq = async (faq) => {
 
 export const deleteFaq = async (id) => {
   const res = await fetch(`${API_BASE}/faqs/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: authService.getAuthHeader()
   });
   if (!res.ok) throw new Error('Failed to delete FAQ');
   return res.json();
