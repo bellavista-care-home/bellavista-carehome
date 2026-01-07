@@ -3,96 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { fetchHomes } from '../services/homeService';
 import '../styles/OurHomes.css';
 
-const FALLBACK_HOMES_DATA = [
-  {
-    id: 'cardiff',
-    name: 'Bellavista Cardiff',
-    location: 'Cardiff Bay',
-    description: 'A homely and friendly purpose-built Nursing Home with overlooking views of Cardiff Bay waterfront. Situated in a sought-after area, it offers a chic, cosmopolitan atmosphere where residents can enjoy the vibrant surroundings.',
-    features: ['62 Bedrooms', 'Ensuite Facilities', 'Cinema/Sensory Room', 'Dementia Friendly Areas', 'Views of Cardiff Bay'],
-    images: [
-      'https://placehold.co/400x300?text=Bellavista+Cardiff',
-      'https://placehold.co/400x300?text=Cardiff+View'
-    ],
-    link: '/bellavista-cardiff'
-  },
-  {
-    id: 'barry',
-    name: 'Bellavista Barry',
-    location: 'Barry',
-    description: 'A long-established quality Nursing Home situated in the seaside town of Barry with spectacular views over the Bristol Channel. Running since 2007, we enable elderly people to live as independently as possible.',
-    features: ['39 Bedded Home', 'Seaside Views', 'Cinema Lounge', 'Landscaped Gardens', 'Dementia Friendly Dining'],
-    images: [
-      'https://placehold.co/400x300?text=Bellavista+Barry',
-      'https://placehold.co/400x300?text=Barry+View'
-    ],
-    link: '/bellavista-barry'
-  },
-  {
-    id: 'waverley',
-    name: 'Waverley Care Centre',
-    location: 'Penarth',
-    description: 'A family-owned nursing home overlooking the sea and open countryside. We offer a warm, friendly, and professional environment where "little things make all the difference".',
-    features: ['129 Registered Places', 'General Nursing', 'EMI & FMI Care', 'Stunning Coast Views', 'Walking Distance to Penarth'],
-    images: [
-      'https://placehold.co/400x300?text=Waverley+Care',
-      'https://placehold.co/400x300?text=Penarth+View'
-    ],
-    link: '/waverley-care-center'
-  },
-  {
-    id: 'college-fields',
-    name: 'College Fields Nursing Home',
-    location: 'Barry',
-    description: 'Priding ourselves on creating an environment where residents truly feel at home. We focus on technically correct care combined with personal interaction and fulfilling activities.',
-    features: ['Home-cooked Meals', 'Personalized Care', 'In-house Laundry', 'Warm & Spacious Environment', 'Dedicated Staff'],
-    images: [
-      'https://placehold.co/400x300?text=College+Fields',
-      'https://placehold.co/400x300?text=Barry+View'
-    ],
-    link: '/college-fields-nursing-home'
-  },
-  {
-    id: 'baltimore',
-    name: 'Baltimore Care Home',
-    location: 'Barry',
-    description: 'A welcoming residential care home providing a safe and comfortable environment. We focus on individual needs and creating a supportive community for all our residents.',
-    features: ['Residential Care', 'Comfortable Rooms', 'Community Atmosphere', 'Daily Activities', 'Pastoral Area'],
-    images: [
-      'https://placehold.co/400x300?text=Baltimore+Care',
-      'https://placehold.co/400x300?text=Barry+View'
-    ],
-    link: '/baltimore-care-home'
-  },
-  {
-    id: 'meadow-vale',
-    name: 'Meadow Vale Cwtch',
-    location: 'Barry',
-    description: 'A "home from home" style Young Onset Dementia Nursing 24-hour Care provision. Designed for younger dementia registered persons with stunning views of the Vale of Glamorgan.',
-    features: ['Young Onset Dementia', '9 Bed Capacity', 'Nurse-Led Service', 'Rural Country Setting', 'Respite Service'],
-    images: [
-      'https://placehold.co/400x300?text=Meadow+Vale',
-      'https://placehold.co/400x300?text=Barry+View'
-    ],
-    link: '/meadow-vale-cwtch'
-  },
-  {
-    id: 'pontypridd',
-    name: 'Bellavista Pontypridd',
-    location: 'Pontypridd',
-    description: 'Our newest location coming soon to Pontypridd. We are excited to bring our high standards of care to this community.',
-    features: ['Coming Soon', 'Nursing Care', 'Dementia Care'],
-    images: [
-      'https://placehold.co/400x300?text=Bellavista+Pontypridd',
-      'https://placehold.co/400x300?text=Coming+Soon'
-    ],
-    link: '/bellavista-pontypridd'
-  }
-];
-
-// Export for backward compatibility if needed, though mostly internal use now
-export const HOMES_DATA = FALLBACK_HOMES_DATA;
-
 const getLinkFromName = (name) => {
   const normalized = (name || '').toLowerCase().trim();
   if (normalized.includes('cardiff')) return '/bellavista-cardiff';
@@ -123,7 +33,7 @@ const OurHomes = ({ isStandalone = false }) => {
           setLoading(false); // Stop loading immediately if cache exists
         }
 
-        // 2. Fetch fresh data in background (or foreground if no cache)
+        // 2. Fetch fresh data from database (always required, no fallback)
         const data = await fetchHomes();
         if (data && data.length > 0) {
            const mappedHomes = data.map(h => {
@@ -152,16 +62,17 @@ const OurHomes = ({ isStandalone = false }) => {
            if (!cached) {
              setImageIndices(mappedHomes.map(() => 0));
            }
-        } else if (!cached) {
-           // Only fall back if no cache AND no API data
-           setHomes(FALLBACK_HOMES_DATA);
-           setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
         }
       } catch (err) {
         console.error("Error loading homes:", err);
-        if (!sessionStorage.getItem('bellavista_homes_data')) {
-          setHomes(FALLBACK_HOMES_DATA);
-          setImageIndices(FALLBACK_HOMES_DATA.map(() => 0));
+        // Use cache if available, otherwise empty state (no fallback)
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          setHomes(parsed);
+          setImageIndices(parsed.map(() => 0));
+        } else {
+          setHomes([]);
+          setImageIndices([]);
         }
       } finally {
         setLoading(false);
