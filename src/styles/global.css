@@ -198,3 +198,113 @@ img {
     margin-bottom: 16px !important;
   }
 }
+
+/* Ultra-Wide Desktop / Full HD+ */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+  }
+
+  h1 { 
+    font-size: 3.5rem;
+    line-height: 1.2;
+  }
+  
+  h2 { 
+    font-size: 2.8rem;
+    line-height: 1.2;
+  }
+  
+  h3 { 
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+  
+  body { 
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .btn {
+    padding: 14px 36px;
+    font-size: 17px;
+    min-height: 48px;
+  }
+
+  /* Larger grids for ultra-wide */
+  [class*="-grid"],
+  [class*="grid"],
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 40px !important;
+  }
+
+  /* Increase spacing */
+  .section,
+  [class*="-section"] {
+    padding: 100px 0 !important;
+  }
+
+  [class*="-card"],
+  .card {
+    padding: 28px !important;
+  }
+}
+
+/* 4K / Ultra High Resolution */
+@media (min-width: 2560px) {
+  .container {
+    max-width: 2000px;
+  }
+
+  h1 { 
+    font-size: 4rem;
+    line-height: 1.15;
+  }
+  
+  h2 { 
+    font-size: 3.2rem;
+    line-height: 1.2;
+  }
+  
+  h3 { 
+    font-size: 2.3rem;
+    line-height: 1.3;
+  }
+  
+  body { 
+    font-size: 20px;
+    line-height: 1.8;
+  }
+
+  .btn {
+    padding: 16px 42px;
+    font-size: 18px;
+    min-height: 52px;
+  }
+
+  /* Maximum grid columns for 4K */
+  [class*="-grid"],
+  [class*="grid"],
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)) !important;
+    gap: 50px !important;
+  }
+
+  /* Premium spacing for large displays */
+  .section,
+  [class*="-section"] {
+    padding: 120px 0 !important;
+  }
+
+  [class*="-card"],
+  .card {
+    padding: 32px !important;
+  }
+
+  /* Larger image containers */
+  [class*="-image"],
+  img {
+    max-height: 600px;
+  }
+}

@@ -336,3 +336,123 @@
     font-size: 0.75rem;
   }
 }
+
+/* Large Screen Optimizations (1920px+) */
+@media (min-width: 1920px) {
+  .our-homes-page {
+    padding: 100px 0;
+  }
+
+  .homes-header {
+    padding: 80px 0;
+    margin-bottom: 60px;
+  }
+
+  .homes-header h1 {
+    font-size: 3.5rem;
+  }
+
+  .homes-header p {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+  }
+
+  .section-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .homes-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+
+  .homes-grid.scrollable {
+    gap: 40px;
+  }
+
+  .homes-grid.scrollable .home-card {
+    flex: 0 0 320px;
+  }
+
+  .home-image-container {
+    height: 250px;
+  }
+
+  .home-card {
+    margin-bottom: 30px;
+  }
+}
+
+/* Ultra Large Screen Optimizations (2560px+) */
+@media (min-width: 2560px) {
+  .our-homes-page {
+    padding: 120px 0;
+  }
+
+  .homes-header {
+    padding: 100px 0;
+    margin-bottom: 80px;
+  }
+
+  .homes-header h1 {
+    font-size: 4rem;
+    margin-bottom: 25px;
+  }
+
+  .homes-header p {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 3.5rem;
+    margin-bottom: 40px;
+  }
+
+  .section-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .homes-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 50px;
+  }
+
+  .homes-grid.scrollable {
+    gap: 50px;
+  }
+
+  .homes-grid.scrollable .home-card {
+    flex: 0 0 350px;
+  }
+
+  .home-image-container {
+    height: 280px;
+  }
+
+  .home-card {
+    margin-bottom: 40px;
+  }
+
+  .home-main-image {
+    height: 280px;
+  }
+
+  .location-badge {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .image-indicators {
+    gap: 12px;
+  }
+
+  .indicator-dot {
+    width: 14px;
+    height: 14px;
+  }
+}
