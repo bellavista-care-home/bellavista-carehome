@@ -127,6 +127,38 @@ img {
   h1 { font-size: 28px; }
   h2 { font-size: 24px; }
   h3 { font-size: 20px; }
+
+  /* Standardized Mobile Spacing */
+  .section, 
+  .activities-section,
+  .services-section,
+  .testimonials-section,
+  .training-section,
+  [class*="-section"] {
+    padding: 40px 0 !important;
+  }
+
+  [class*="-grid"],
+  [class*="grid"],
+  .grid,
+  .carousel {
+    gap: 20px !important;
+  }
+
+  [class*="-card"],
+  .card,
+  .item {
+    margin-bottom: 20px !important;
+  }
+
+  [class*="-card"],
+  .card {
+    padding: 20px !important;
+  }
+
+  h2, h3 {
+    margin-bottom: 20px !important;
+  }
 }
 
 @media (max-width: 576px) {
@@ -145,4 +177,24 @@ img {
   h1 { font-size: 24px; }
   h2 { font-size: 20px; }
   h3 { font-size: 18px; }
+
+  /* Standardized Small Mobile Spacing */
+  .section, 
+  [class*="-section"] {
+    padding: 30px 0 !important;
+  }
+
+  [class*="-grid"],
+  .grid {
+    gap: 16px !important;
+  }
+
+  [class*="-card"],
+  .card {
+    padding: 16px !important;
+  }
+
+  h2, h3 {
+    margin-bottom: 16px !important;
+  }
 }

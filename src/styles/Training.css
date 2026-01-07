@@ -71,7 +71,35 @@
 }
 
 @media (max-width: 768px) {
+  .training-section {
+    padding: 40px 0;
+  }
+
   .training-content-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .training-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .training-section h2 {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .training-section {
+    padding: 30px 0;
+  }
+
+  .training-content-grid {
+    gap: 16px;
+  }
+
+  .training-card {
+    padding: 16px;
   }
 }

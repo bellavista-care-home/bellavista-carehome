@@ -257,34 +257,78 @@
 }
 
 @media (max-width: 768px) {
+  .our-homes-page {
+    padding: 40px 0;
+  }
+
+  .homes-header {
+    padding: 40px 0;
+    margin-bottom: 40px;
+  }
+
+  .homes-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+
   .homes-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
     padding: 0 15px;
   }
   
   /* Maintain horizontal scroll on mobile for the section */
   .homes-grid.scrollable {
     grid-template-columns: none;
+    gap: 20px;
     padding-bottom: 20px;
   }
   
   .homes-grid.scrollable .home-card {
-    flex: 0 0 300px; /* Slightly narrower on mobile */
+    flex: 0 0 280px;
   }
 
-  .homes-header h1 {
-    font-size: 2.2rem;
-  }
-  
   .section-title {
     font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .home-card {
+    margin-bottom: 20px;
   }
 }
 
 @media (max-width: 576px) {
+  .our-homes-page {
+    padding: 30px 0;
+  }
+
+  .homes-header {
+    padding: 30px 0;
+    margin-bottom: 30px;
+  }
+
+  .homes-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .homes-grid {
+    gap: 16px;
+    padding: 0 12px;
+  }
+
+  .homes-grid.scrollable {
+    gap: 16px;
+  }
+
+  .homes-grid.scrollable .home-card {
+    flex: 0 0 260px;
+  }
+
   .home-image-container {
     height: 160px;
   }
+
   .location-badge {
     top: 12px;
     right: 12px;
