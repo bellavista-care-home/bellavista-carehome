@@ -131,7 +131,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       formData.append('file', file);
       formData.append('process_type', 'none');
 
-      const { API_URL } = await import('../../../config/apiConfig');
+      const { API_URL } = await import('../../config/apiConfig');
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,

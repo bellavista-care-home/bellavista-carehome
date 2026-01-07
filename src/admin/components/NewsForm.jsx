@@ -28,7 +28,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
 
   React.useEffect(() => {
     const loadApiConfig = async () => {
-      const { API_URL } = await import('../../../config/apiConfig');
+      const { API_URL } = await import('../../config/apiConfig');
       console.log('NewsForm mounted. Using API:', API_URL);
     };
     loadApiConfig();
@@ -118,7 +118,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      const { API_URL } = await import('../../../config/apiConfig');
+      const { API_URL } = await import('../../config/apiConfig');
       console.log('handleFileUpload: Using API_URL:', API_URL);
 
       const response = await fetch(`${API_URL}/upload`, {
