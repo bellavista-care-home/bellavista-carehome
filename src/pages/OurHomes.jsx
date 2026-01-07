@@ -233,9 +233,6 @@ const OurHomes = ({ isStandalone = false }) => {
                   className="home-main-image"
                   onError={(e) => {e.target.src = 'https://placehold.co/400x300?text=Bellavista+Home'}}
                 />
-                <div className="location-badge">
-                  <i className="fas fa-map-marker-alt"></i> {home.location}
-                </div>
                 <div className="image-indicators">
                   {home.images.map((_, imgIndex) => (
                     <button
@@ -254,14 +251,6 @@ const OurHomes = ({ isStandalone = false }) => {
               <div className="home-content">
                 <h3>{home.name}</h3>
                 <p className="home-description">{home.description}</p>
-                
-                <div className="home-features">
-                  {home.features.slice(0, 3).map((feature, i) => (
-                    <span key={i} className="feature-tag">
-                      <i className="fas fa-check"></i> {typeof feature === 'object' ? (feature.title || feature.text || 'Feature') : feature}
-                    </span>
-                  ))}
-                </div>
 
                 <button className="view-home-btn">
                   View Home <i className="fas fa-arrow-right"></i>
