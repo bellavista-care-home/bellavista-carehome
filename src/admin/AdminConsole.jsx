@@ -76,6 +76,8 @@ const AdminConsole = () => {
   const [bookings, setBookings] = useState([]);
   const [bookingSearch, setBookingSearch] = useState('');
   const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [kioskCheckIns, setKioskCheckIns] = useState([]);
+  const [kioskSearch, setKioskSearch] = useState('');
 
   const downloadExcel = (data, filename) => {
     if (!data.length) {
@@ -141,6 +143,23 @@ const AdminConsole = () => {
       setBookings(Array.isArray(data) ? data : []);
     } catch {
       setBookings([]);
+    }
+  };
+
+  const loadKioskCheckIns = async () => {
+    try {
+      const { API_URL } = await import('../config/apiConfig');
+      const { getAuthHeader } = await import('../services/authService');
+      const response = await fetch(`${API_URL}/kiosk/check-ins`, {
+        headers: getAuthHeader()
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setKioskCheckIns(Array.isArray(data) ? data : []);
+      }
+    } catch (error) {
+      console.error('Failed to load kiosk check-ins:', error);
+      setKioskCheckIns([]);
     }
   };
 
@@ -563,6 +582,12 @@ const AdminConsole = () => {
             <i className="fa-solid fa-calendar-check"></i><span>Scheduled Tours</span>
           </button>
           <button 
+            className={activeView === 'kiosk-checkins' ? 'active' : ''}
+            onClick={() => { setActiveView('kiosk-checkins'); loadKioskCheckIns(); }}
+          >
+            <i className="fa-solid fa-clipboard-list"></i><span>Kiosk Check-Ins</span>
+          </button>
+          <button 
             className={activeView === 'care-enquiries' ? 'active' : ''}
             onClick={() => setActiveView('care-enquiries')}
           >
@@ -956,6 +981,68 @@ const AdminConsole = () => {
                   {bookings.length === 0 && (
                     <tr>
                       <td colSpan="8" style={{padding:'20px', textAlign:'center', color:'#666'}}>No tour requests yet</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {activeView === 'kiosk-checkins' && (
+          <section className="panel">
+            <h2>Visitor Check-Ins (Kiosk)</h2>
+            <div className="toolbar">
+              <input placeholder="Search by name, location, email..." style={{flex:1}} value={kioskSearch} onChange={e=>setKioskSearch(e.target.value)}/>
+              <button className="btn ghost small" onClick={loadKioskCheckIns}><i className="fa-solid fa-rotate"></i>&nbsp;Refresh</button>
+            </div>
+            
+            <div style={{marginTop:'16px', overflowX:'auto'}}>
+              <table style={{width:'100%', borderCollapse:'collapse'}}>
+                <thead>
+                  <tr style={{background:'#f7f9fc'}}>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Name</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Email</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Phone</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Location</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Check-In Time</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Purpose</th>
+                    <th style={{textAlign:'left', padding:'10px', borderBottom:'1px solid #e0e0e0'}}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {kioskCheckIns
+                    .filter(c => kioskSearch === '' || 
+                      c.name?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
+                      c.location?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
+                      c.email?.toLowerCase().includes(kioskSearch.toLowerCase())
+                    )
+                    .map(c => (
+                      <tr key={c.id} style={{borderBottom:'1px solid #f0f0f0'}}>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}><strong>{c.name}</strong></td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}>{c.email}</td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}>{c.phone}</td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}>{c.location}</td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0', fontSize:'13px'}}>
+                          {new Date(c.checkInTime).toLocaleString()}
+                        </td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0', fontSize:'13px'}}>
+                          {c.visitPurpose || '—'}
+                        </td>
+                        <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}>
+                          <span style={{
+                            background: c.status === 'checked-out' ? '#d4edda' : '#cce5ff',
+                            color: c.status === 'checked-out' ? '#155724' : '#0366d6', 
+                            padding:'4px 8px', borderRadius:'12px', fontSize:'12px'
+                          }}>
+                            {c.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  {kioskCheckIns.length === 0 && (
+                    <tr>
+                      <td colSpan="7" style={{padding:'20px', textAlign:'center', color:'#666'}}>No check-ins yet</td>
                     </tr>
                   )}
                 </tbody>
