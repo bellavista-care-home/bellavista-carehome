@@ -10,7 +10,7 @@ const getApiUrl = () => {
   
   // If on Amplify subdomain, use production backend
   if (hostname.includes('amplifyapp.com')) {
-    return 'https://tx33akztgs.eu-west-2.awsapprunner.com';
+    return 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
   }
   
   // For localhost development, use relative path (Vite proxy)
