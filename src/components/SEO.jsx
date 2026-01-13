@@ -8,7 +8,8 @@ const SEO = ({ title, description, keywords, image, url }) => {
   const siteUrl = "https://www.bellavistanursinghomes.com";
   const defaultImage = "https://www.bellavistanursinghomes.com/bellalogo1.png";
 
-  const fullTitle = title ? `${title} | Bellavista Nursing Homes` : siteTitle;
+  // If the provided title contains "Bellavista", use it as is, otherwise append the brand
+  const fullTitle = title && title.includes('Bellavista') ? title : (title ? `${title} | Bellavista Nursing Homes` : siteTitle);
   const metaDescription = description || defaultDescription;
   const metaKeywords = keywords || defaultKeywords;
   const metaImage = image || defaultImage;

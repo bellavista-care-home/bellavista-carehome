@@ -206,22 +206,24 @@ const Home = () => {
   return (
     <div className="home">
       <SEO 
-        title="Bellavista Nursing Home"
-        description="Bellavista Group of Nursing Homes is an established and trusted Nursing Care provider in South Wales area, reputed for its friendly, warm, caring and relaxed environment “A Home from home”."
-        keywords="Bellavista Nursing Home, nursing home cardiff, care home barry, dementia care south wales, residential care home, elderly care"
+        title="Bellavista Nursing Home - Premier Care in Cardiff & Barry"
+        description="Welcome to Bellavista Nursing Home. We provide established and trusted Nursing, Dementia, and Residential Care in Cardiff and Barry, South Wales. A friendly, warm, 'Home from Home' environment."
+        keywords="Bellavista Nursing Home, Bellavista Care Home, nursing home cardiff, care home barry, dementia care south wales, residential care home"
       />
       <section className="hero">
         <div className="hero-slideshow">
           {slides.map((slide, index) => (
             <div key={index} className={`slide ${index === currentSlide ? 'active' : ''}`}>
-              <img src={slide} alt={`Bellavista ${index + 1}`} />
+              <img src={slide} alt={`Bellavista Nursing Home View ${index + 1}`} />
             </div>
           ))}
         </div>
         <div className="container hero-content">
-          <h1>Bellavista Care Homes</h1>
+          <h1>Bellavista Nursing Homes</h1>
           <p className="hero-tagline">A Home From Home</p>
-          <p className="hero-description">Premium residential & nursing care across South Wales. Experience personalized attention in our modern, home-like environments designed for dignity, comfort & wellbeing.</p>
+          <p className="hero-description">
+            Welcome to <strong>Bellavista Nursing Home</strong>. We provide premium residential & nursing care across South Wales. Experience personalized attention in our modern, home-like environments designed for dignity, comfort & wellbeing.
+          </p>
           <div className="hero-actions">
             <Link className="btn btn-primary" to="/schedule-tour">
               <i className="fas fa-calendar-check"></i> Book a Tour

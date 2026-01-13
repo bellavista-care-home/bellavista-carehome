@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/Contact.css';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [status, setStatus] = useState({
+    loading: false,
+    success: false,
+    error: null
+  });
+
   const locations = [
     {
       name: 'Bellavista Nursing Home Barry',
@@ -40,6 +52,48 @@ const Contact = () => {
     }
   ];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ loading: true, success: false, error: null });
+
+    try {
+      const response = await fetch('/api/care-enquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          enquiryType: 'General Contact',
+          location: 'General'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      setStatus({ loading: false, success: true, error: null });
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setStatus(prev => ({ ...prev, success: false }));
+      }, 5000);
+
+    } catch (err) {
+      setStatus({ loading: false, success: false, error: err.message });
+    }
+  };
+
   return (
     <div className="contact-page">
       <div className="page-header">
@@ -76,20 +130,64 @@ const Contact = () => {
 
           <div className="contact-form-section">
             <h2>Send us a Message</h2>
-            <form className="contact-form">
+            {status.success && (
+              <div className="alert success">
+                Thank you for your message! We will get back to you shortly.
+              </div>
+            )}
+            {status.error && (
+              <div className="alert error">
+                {status.error}. Please try again later.
+              </div>
+            )}
+            <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <input type="text" placeholder="Your Name" required />
+                <input 
+                  type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your Name" 
+                  required 
+                  disabled={status.loading}
+                />
               </div>
               <div className="form-group">
-                <input type="email" placeholder="Your Email" required />
+                <input 
+                  type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Your Email" 
+                  required 
+                  disabled={status.loading}
+                />
               </div>
               <div className="form-group">
-                <input type="tel" placeholder="Your Phone" />
+                <input 
+                  type="tel" 
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Your Phone"
+                  required
+                  disabled={status.loading}
+                />
               </div>
               <div className="form-group">
-                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Your Message" 
+                  rows="5" 
+                  required
+                  disabled={status.loading}
+                ></textarea>
               </div>
-              <button type="submit" className="btn-submit">Send Message</button>
+              <button type="submit" className="btn-submit" disabled={status.loading}>
+                {status.loading ? 'Sending...' : 'Send Message'}
+              </button>
             </form>
           </div>
         </div>
