@@ -303,18 +303,6 @@ We Regularly take advantage of our big garden space and often hold garden partie
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Life at Bellavista</span>
-                <h2 className="section-header__title">Activities Cardiff</h2>
-              </div>
-              <p className="loc-text">
-                At Bellavista Nursing Home Cardiff, we believe encouraging our clients to be as active as possible is a key part of maintaining good physical and mental well being. We have a dedicated in house Activities coordinator who arranges varied activity program for all of our residents.
-              </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
-            </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -327,6 +315,18 @@ We Regularly take advantage of our big garden space and often hold garden partie
                   ))}
                 </Swiper>
               </div>
+            </div>
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Life at Bellavista</span>
+                <h2 className="section-header__title">Activities Cardiff</h2>
+              </div>
+              <p className="loc-text">
+                At Bellavista Nursing Home Cardiff, we believe encouraging our clients to be as active as possible is a key part of maintaining good physical and mental well being. We have a dedicated in house Activities coordinator who arranges varied activity program for all of our residents.
+              </p>
+              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
+                See More Activities
+              </button>
             </div>
           </div>
         </div>
@@ -366,20 +366,6 @@ We Regularly take advantage of our big garden space and often hold garden partie
       <section className="loc-section loc-section--light">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-            
             <div className="loc-grid__content">
               <div className="section-header">
                 <span className="section-header__subtitle">Comfort & Care</span>
@@ -406,6 +392,20 @@ We Regularly take advantage of our big garden space and often hold garden partie
                 >
                   {facilitiesExpanded ? 'Read Less' : 'Read More'}
                 </button>
+              </div>
+            </div>
+
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
           </div>

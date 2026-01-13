@@ -262,7 +262,7 @@
 }
 
 .loc-hero__expanded--open {
-  max-height: 1000px;
+  max-height: 2000px; /* Increased to accommodate mobile text wrapping */
   opacity: 1;
 }
 

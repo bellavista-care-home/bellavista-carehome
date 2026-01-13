@@ -245,18 +245,6 @@ const MeadowValeCwtch = () => {
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Life at Meadow Vale</span>
-                <h2 className="section-header__title">Activities</h2>
-              </div>
-              <p className="loc-text">
-                The service aims to create a relaxed but focused approach to mental health. The service will be led by the persons themselves and supported to meet their own identified outcomes.
-              </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
-            </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -269,6 +257,18 @@ const MeadowValeCwtch = () => {
                   ))}
                 </Swiper>
               </div>
+            </div>
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Life at Meadow Vale</span>
+                <h2 className="section-header__title">Activities</h2>
+              </div>
+              <p className="loc-text">
+                The service aims to create a relaxed but focused approach to mental health. The service will be led by the persons themselves and supported to meet their own identified outcomes.
+              </p>
+              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
+                See More Activities
+              </button>
             </div>
           </div>
         </div>
@@ -301,20 +301,6 @@ const MeadowValeCwtch = () => {
       <section className="loc-section loc-section--light">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-            
             <div className="loc-grid__content">
               <div className="section-header">
                 <span className="section-header__subtitle">Comfort & Care</span>
@@ -341,6 +327,19 @@ const MeadowValeCwtch = () => {
                 >
                   {facilitiesExpanded ? 'Read Less' : 'Read More'}
                 </button>
+              </div>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
           </div>

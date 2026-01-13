@@ -228,18 +228,6 @@ const BellavistaBaltimore = () => {
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Life at Baltimore House</span>
-                <h2 className="section-header__title">Activities Baltimore</h2>
-              </div>
-              <p className="loc-text">
-                At Baltimore House, we believe encouraging our residents to be as active as possible is a key part of maintaining good physical and mental well being. We offer a varied activity program designed to be stimulating, fun, and promote socialisation.
-              </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
-            </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -252,6 +240,18 @@ const BellavistaBaltimore = () => {
                   ))}
                 </Swiper>
               </div>
+            </div>
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Life at Baltimore House</span>
+                <h2 className="section-header__title">Activities Baltimore</h2>
+              </div>
+              <p className="loc-text">
+                At Baltimore House, we believe encouraging our residents to be as active as possible is a key part of maintaining good physical and mental well being. We offer a varied activity program designed to be stimulating, fun, and promote socialisation.
+              </p>
+              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
+                See More Activities
+              </button>
             </div>
           </div>
         </div>
@@ -279,20 +279,6 @@ const BellavistaBaltimore = () => {
       <section className="loc-section loc-section--light">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-            
             <div className="loc-grid__content">
               <div className="section-header">
                 <span className="section-header__subtitle">Comfort & Care</span>
@@ -332,6 +318,19 @@ const BellavistaBaltimore = () => {
                 >
                   {facilitiesExpanded ? 'Read Less' : 'Read More'}
                 </button>
+              </div>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
           </div>

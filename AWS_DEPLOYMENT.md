@@ -98,6 +98,14 @@ Amplify is the easiest way to deploy React apps.
 3.  **Environment Variables**:
     *   Add `VITE_API_BASE_URL` pointing to your Elastic Beanstalk URL (e.g., `http://bellavista-backend-env.eba-7zhec9xm.eu-west-2.elasticbeanstalk.com/api`).
 
+4.  **Rewrites and Redirects (Critical for SPA)**:
+    *   Go to App settings > Rewrites and redirects.
+    *   Add a new rule to handle Single Page Application routing (so refreshing pages doesn't give 404):
+        *   **Source address**: `</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|xml)$)([^.]+$)/>`
+        *   **Target address**: `/index.html`
+        *   **Type**: `200 (Rewrite)`
+    *   This rule ensures that `robots.txt`, `sitemap.xml`, and images are served correctly, while all other routes go to your React app.
+
 4.  **Deploy**:
     *   Click "Save and Deploy".
 
