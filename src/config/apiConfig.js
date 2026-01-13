@@ -8,8 +8,8 @@ const getApiUrl = () => {
   // In production on Amplify, use the full backend URL
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   
-  // If on Amplify subdomain, use production backend
-  if (hostname.includes('amplifyapp.com')) {
+  // If on Amplify subdomain or production custom domain, use production backend
+  if (hostname.includes('amplifyapp.com') || hostname.includes('bellavistanursinghomes.com')) {
     return 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
   }
   
