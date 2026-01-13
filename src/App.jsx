@@ -200,12 +200,10 @@ const AppContent = () => {
 
 function App() {
   return (
-    <HelmetProvider>
-      <Router>
-        <ScrollToTop />
-        <AppContent />
-      </Router>
-    </HelmetProvider>
+    <Router>
+      <ScrollToTop />
+      <AppContent />
+    </Router>
   );
 }
 
