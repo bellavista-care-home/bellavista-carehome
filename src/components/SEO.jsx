@@ -16,26 +16,52 @@ const SEO = ({ title, description, keywords, image, url }) => {
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
-    "name": "Bellavista Nursing Homes",
-    "url": siteUrl,
-    "logo": defaultImage,
-    "image": metaImage,
-    "description": metaDescription,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Barry",
-      "addressRegion": "South Wales",
-      "addressCountry": "UK"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "51.405",
-      "longitude": "-3.270"
-    },
-    "telephone": "+44 1446 743983",
-    "priceRange": "£££",
-    "areaServed": ["Cardiff", "Barry", "South Wales", "Vale of Glamorgan"]
+    "@graph": [
+      {
+        "@type": "NursingHome",
+        "@id": "https://www.bellavistanursinghomes.com/#organization",
+        "name": "Bellavista Nursing Home",
+        "url": siteUrl,
+        "logo": defaultImage,
+        "image": metaImage,
+        "description": metaDescription,
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "106-108 Tynewydd Road",
+          "addressLocality": "Barry",
+          "postalCode": "CF62 8BB",
+          "addressRegion": "South Wales",
+          "addressCountry": "UK"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "51.405",
+          "longitude": "-3.270"
+        },
+        "telephone": "+44 1446 743983",
+        "priceRange": "£££",
+        "areaServed": ["Cardiff", "Barry", "South Wales", "Vale of Glamorgan"],
+        "sameAs": [
+          "https://www.facebook.com/bellavistanursinghome/",
+          "https://x.com/home_bellavista?lang=en",
+          "https://www.youtube.com/@bellavistagroupofnursinghomes"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.bellavistanursinghomes.com/#website",
+        "url": siteUrl,
+        "name": "Bellavista Nursing Home",
+        "publisher": {
+          "@id": "https://www.bellavistanursinghomes.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.bellavistanursinghomes.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
   };
 
   return (

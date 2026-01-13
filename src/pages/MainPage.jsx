@@ -206,9 +206,9 @@ const Home = () => {
   return (
     <div className="home">
       <SEO 
-        title="Home"
-        description="Bellavista Nursing Homes - Award-winning nursing, residential and dementia care in Cardiff and Barry. A home away from home with exceptional care standards."
-        keywords="nursing home cardiff, care home barry, dementia care south wales, residential care home, bellavista nursing home"
+        title="Bellavista Nursing Home"
+        description="Bellavista Group of Nursing Homes is an established and trusted Nursing Care provider in South Wales area, reputed for its friendly, warm, caring and relaxed environment “A Home from home”."
+        keywords="Bellavista Nursing Home, nursing home cardiff, care home barry, dementia care south wales, residential care home, elderly care"
       />
       <section className="hero">
         <div className="hero-slideshow">
