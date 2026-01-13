@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import OurHomes from './OurHomes';
 import { fetchNewsItems } from '../services/newsService';
 import '../styles/MainPage.css';
+import SEO from '../components/SEO';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
