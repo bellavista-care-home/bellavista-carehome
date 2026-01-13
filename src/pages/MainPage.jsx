@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import OurHomes from './OurHomes';
+import SEO from '../components/SEO';
 import { fetchNewsItems } from '../services/newsService';
 import '../styles/MainPage.css';
-import SEO from '../components/SEO';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -205,6 +205,11 @@ const Home = () => {
 
   return (
     <div className="home">
+      <SEO 
+        title="Home"
+        description="Bellavista Nursing Homes - Award-winning nursing, residential and dementia care in Cardiff and Barry. A home away from home with exceptional care standards."
+        keywords="nursing home cardiff, care home barry, dementia care south wales, residential care home, bellavista nursing home"
+      />
       <section className="hero">
         <div className="hero-slideshow">
           {slides.map((slide, index) => (
