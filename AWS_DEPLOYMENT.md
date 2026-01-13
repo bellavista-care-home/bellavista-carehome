@@ -100,11 +100,24 @@ Amplify is the easiest way to deploy React apps.
 
 4.  **Rewrites and Redirects (Critical for SPA)**:
     *   Go to App settings > Rewrites and redirects.
-    *   Add a new rule to handle Single Page Application routing (so refreshing pages doesn't give 404):
+    *   **Option 1: Text Editor**: Add a new rule with these details:
         *   **Source address**: `</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|xml)$)([^.]+$)/>`
         *   **Target address**: `/index.html`
         *   **Type**: `200 (Rewrite)`
-    *   This rule ensures that `robots.txt`, `sitemap.xml`, and images are served correctly, while all other routes go to your React app.
+    *   **Option 2: JSON Editor** (Easier): Click "Edit" (text mode), paste this JSON, and save.
+        ```json
+        [
+            {
+                "source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|xml)$)([^.]+$)/>",
+                "status": "200",
+                "target": "/index.html"
+            }
+        ]
+        ```
+    *   **Why is this needed?** This rule ensures that:
+        1.  React routes (e.g., `/about`) are rewritten to `index.html` (so the app loads).
+        2.  Static files (`robots.txt`, `sitemap.xml`, images, fonts) are **excluded** from the rewrite and served directly.
+        3.  **Note**: We explicitly added `xml` to the exclusion list to ensure your sitemap is readable by Google.
 
 4.  **Deploy**:
     *   Click "Save and Deploy".
