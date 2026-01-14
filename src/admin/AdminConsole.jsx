@@ -9,6 +9,7 @@ import { fetchCareEnquiries } from '../services/enquiryService';
 import { fetchHomes, updateHome } from '../services/homeService';
 import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
+import { fetchReviews, deleteReview } from '../services/reviewService';
 import { convertBase64ToURLs } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
@@ -47,6 +48,9 @@ const AdminConsole = () => {
   const [vacancies, setVacancies] = useState([]);
   const [selectedVacancy, setSelectedVacancy] = useState(null);
   const [isAddingVacancy, setIsAddingVacancy] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [reviewSearch, setReviewSearch] = useState('');
+  const [reviewLocationFilter, setReviewLocationFilter] = useState('');
 
   const loadHomes = async () => {
     const data = await fetchHomes();
@@ -239,6 +243,9 @@ const AdminConsole = () => {
     if (activeView === 'manage-users') {
       loadHomes(); // Reuse homes for "Home Admins"
     }
+    if (activeView === 'reviews') {
+      loadReviews();
+    }
   }, [activeView]);
 
   // Add news
@@ -421,6 +428,29 @@ const AdminConsole = () => {
     if (activeView === 'manage-vacancies') loadVacancies();
   }, [activeView]);
 
+  const loadReviews = async () => {
+    try {
+      const data = await fetchReviews(reviewLocationFilter ? { location: reviewLocationFilter } : {});
+      setReviews(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
+      setReviews([]);
+      notify('Failed to load reviews', 'error');
+    }
+  };
+
+  const handleDeleteReview = async (id) => {
+    if (!window.confirm('Delete this review?')) return;
+    try {
+      await deleteReview(id);
+      notify('Review deleted successfully', 'success');
+      setReviews(prev => prev.filter(r => r.id !== id));
+    } catch (e) {
+      console.error(e);
+      notify('Failed to delete review', 'error');
+    }
+  };
+
   const handleSaveVacancy = async (data) => {
     try {
       setIsBusy(true);
@@ -560,6 +590,12 @@ const AdminConsole = () => {
             onClick={() => setActiveView('manage-vacancies')}
           >
             <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
+          </button>
+          <button
+            className={activeView === 'reviews' ? 'active' : ''}
+            onClick={() => setActiveView('reviews')}
+          >
+            <i className="fa-solid fa-star-half-stroke"></i><span>Reviews</span>
           </button>
           <div className="group-title">Users</div>
           <button 
@@ -744,6 +780,108 @@ const AdminConsole = () => {
                 }}
               />
             )}
+          </section>
+        )}
+
+        {activeView === 'reviews' && (
+          <section className="panel">
+            <h2>Reviews</h2>
+            <div className="toolbar">
+              <input
+                placeholder="Search by name, location, text..."
+                style={{ flex: 1 }}
+                value={reviewSearch}
+                onChange={e => setReviewSearch(e.target.value)}
+              />
+              <select
+                value={reviewLocationFilter}
+                onChange={e => setReviewLocationFilter(e.target.value)}
+                style={{ marginLeft: '8px', minWidth: '200px' }}
+              >
+                <option value="">All Locations</option>
+                <option value="Bellavista Barry">Bellavista Barry</option>
+                <option value="Bellavista Cardiff">Bellavista Cardiff</option>
+                <option value="Waverley Care Centre">Waverley Care Centre</option>
+                <option value="College Fields Nursing Home">College Fields Nursing Home</option>
+                <option value="Baltimore Care Home">Baltimore Care Home</option>
+                <option value="Meadow Vale Cwtch">Meadow Vale Cwtch</option>
+                <option value="Bellavista Nursing Homes">Bellavista Nursing Homes (Group)</option>
+              </select>
+              <button
+                className="btn ghost small"
+                style={{ marginLeft: '8px' }}
+                onClick={loadReviews}
+              >
+                <i className="fa-solid fa-rotate"></i>&nbsp;Refresh
+              </button>
+            </div>
+            <div style={{ marginTop: '16px', overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ background: '#f7f9fc' }}>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Name</th>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Location</th>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Rating</th>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Review</th>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Source</th>
+                    <th style={{ textAlign: 'left', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Created</th>
+                    <th style={{ textAlign: 'right', padding: '10px', borderBottom: '1px solid #e0e0e0' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reviews
+                    .filter(r => {
+                      const q = reviewSearch.trim().toLowerCase();
+                      if (!q) return true;
+                      return [
+                        r.name,
+                        r.location,
+                        r.review,
+                        r.source
+                      ].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+                    })
+                    .map(r => (
+                      <tr key={r.id}>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0' }}>{r.name}</td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0' }}>{r.location}</td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0' }}>
+                          <span style={{ color: '#ffc107' }}>
+                            {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                          </span>
+                          <span style={{ marginLeft: '4px', fontSize: '12px', color: '#555' }}>
+                            {r.rating}/5
+                          </span>
+                        </td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', maxWidth: '350px' }}>
+                          {r.review}
+                        </td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0' }}>
+                          <span className="muted" style={{ fontSize: '12px' }}>{r.source}</span>
+                        </td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', fontSize: '12px' }}>
+                          {r.createdAt ? new Date(r.createdAt).toLocaleString() : ''}
+                        </td>
+                        <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0', textAlign: 'right' }}>
+                          <button
+                            className="btn small"
+                            style={{ background: '#ff4d4f', color: 'white' }}
+                            onClick={() => handleDeleteReview(r.id)}
+                          >
+                            <i className="fa-solid fa-trash"></i> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  {reviews.length === 0 && (
+                    <tr>
+                      <td colSpan="7" style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                        No reviews found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </section>
         )}
 

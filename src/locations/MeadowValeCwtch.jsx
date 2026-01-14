@@ -591,7 +591,10 @@ const MeadowValeCwtch = () => {
               <i className="fas fa-times"></i>
             </button>
             <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm locationName="Meadow Vale Cwtch" />
+            <ReviewForm 
+              locationName="Meadow Vale Cwtch" 
+              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Meadow+Vale+Cwtch+Barry"
+            />
           </div>
         </div>
       )}

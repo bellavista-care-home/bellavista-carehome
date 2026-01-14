@@ -62,7 +62,10 @@ const Testimonials = () => {
         </div>
         
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <ReviewForm locationName="Bellavista Nursing Homes" />
+          <ReviewForm 
+            locationName="Bellavista Nursing Homes" 
+            googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Homes+South+Wales"
+          />
         </div>
       </div>
     </div>

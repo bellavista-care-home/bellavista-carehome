@@ -615,7 +615,10 @@ const WaverleyCareCentre = () => {
               <i className="fas fa-times"></i>
             </button>
             <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm locationName="Waverley Care Centre" />
+            <ReviewForm 
+              locationName="Waverley Care Centre" 
+              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth"
+            />
           </div>
         </div>
       )}

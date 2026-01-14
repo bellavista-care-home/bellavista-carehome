@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import '../styles/FAQ.css';
 
 const FAQ = () => {
@@ -29,6 +30,19 @@ const FAQ = () => {
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -37,6 +51,12 @@ const FAQ = () => {
 
   return (
     <div className="faq-page">
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
+
       <div className="faq-header">
         <div className="container">
           <h1>Frequently Asked Questions</h1>
@@ -47,8 +67,8 @@ const FAQ = () => {
       <div className="container">
         <div className="faq-list">
           {faqs.map((faq, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`faq-item ${activeIndex === index ? 'active' : ''}`}
               onClick={() => toggleFAQ(index)}
             >

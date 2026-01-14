@@ -663,7 +663,10 @@ const CollegeFieldsNursingHome = () => {
               <i className="fas fa-times"></i>
             </button>
             <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm locationName="College Fields Nursing Home" />
+            <ReviewForm 
+              locationName="College Fields Nursing Home" 
+              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=College+Fields+Nursing+Home+Barry"
+            />
           </div>
         </div>
       )}

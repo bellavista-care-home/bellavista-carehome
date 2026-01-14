@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Helmet } from 'react-helmet-async';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -181,6 +182,38 @@ const BellavistaBarry = () => {
     }
   };
 
+  const barrySchema = {
+    "@context": "https://schema.org",
+    "@type": "NursingHome",
+    "@id": "https://www.bellavistanursinghomes.com/bellavista-barry#nursing-home",
+    "name": "Bellavista Nursing Home Barry",
+    "url": "https://www.bellavistanursinghomes.com/bellavista-barry",
+    "description": "Bellavista Barry is a long-established quality nursing home in Barry with views over the Bristol Channel, providing dementia, nursing, respite and end-of-life care.",
+    "telephone": "+44 1446 743983",
+    "priceRange": "£££",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "106-108 Tynewydd Road",
+      "addressLocality": "Barry",
+      "postalCode": "CF62 8BB",
+      "addressRegion": "South Wales",
+      "addressCountry": "UK"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.405",
+      "longitude": "-3.270"
+    },
+    "image": [
+      "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-first.jpg"
+    ],
+    "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
+    "sameAs": [
+      "https://www.facebook.com/bellavistanursinghome/",
+      "https://x.com/home_bellavista?lang=en"
+    ]
+  };
+
   return (
     <div className="location-page theme-barry">
       <SEO 
@@ -188,6 +221,11 @@ const BellavistaBarry = () => {
         description="Bellavista Barry is a long-established nursing home overlooking the Bristol Channel, offering dementia, nursing, respite and end-of-life care in a warm, homely environment."
         url="/bellavista-barry"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(barrySchema)}
+        </script>
+      </Helmet>
       <div className="loc-hero">
         <div className="loc-hero__content">
           <h1 className="loc-hero__title">Welcome to Bellavista Barry</h1>
@@ -624,7 +662,10 @@ const BellavistaBarry = () => {
               <i className="fas fa-times"></i>
             </button>
             <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm locationName="Bellavista Barry" />
+            <ReviewForm 
+              locationName="Bellavista Barry" 
+              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Barry"
+            />
           </div>
         </div>
       )}

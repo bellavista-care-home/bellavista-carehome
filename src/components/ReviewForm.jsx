@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../styles/ReviewForm.css';
+import { submitReview } from '../services/reviewService';
 
-const ReviewForm = ({ locationName }) => {
+const ReviewForm = ({ locationName, googleReviewUrl }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [formData, setFormData] = useState({
@@ -10,18 +11,32 @@ const ReviewForm = ({ locationName }) => {
     review: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate submission
-    console.log('Review submitted:', { ...formData, rating, location: locationName });
-    setSubmitted(true);
-    // Reset form after delay or keep success message
-    setTimeout(() => {
-        setSubmitted(false);
-        setFormData({ name: '', email: '', review: '' });
-        setRating(0);
-    }, 5000);
+    setError('');
+    setSubmitting(true);
+
+    try {
+      await submitReview({
+        name: formData.name,
+        email: formData.email,
+        review: formData.review,
+        rating,
+        location: locationName || 'Bellavista Nursing Homes',
+        source: 'website'
+      });
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', review: '' });
+      setRating(0);
+    } catch {
+      setError('Something went wrong while submitting your review. Please try again later.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -31,9 +46,27 @@ const ReviewForm = ({ locationName }) => {
         <div className="success-message">
           <i className="fas fa-check-circle"></i>
           <p>Thank you for your review! It has been submitted for approval.</p>
+          {googleReviewUrl && (
+            <p>
+              You can also share your feedback on Google by{' '}
+              <a
+                href={googleReviewUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                leaving a Google review
+              </a>
+              .
+            </p>
+          )}
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="review-form">
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
           <div className="rating-input">
             <label>Your Rating:</label>
             <div className="star-rating">
@@ -54,41 +87,43 @@ const ReviewForm = ({ locationName }) => {
               })}
             </div>
           </div>
-          
+
           <div className="form-group">
             <label>Name</label>
-            <input 
-              type="text" 
-              required 
+            <input
+              type="text"
+              required
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Your Name"
             />
           </div>
 
           <div className="form-group">
             <label>Email</label>
-            <input 
-              type="email" 
-              required 
+            <input
+              type="email"
+              required
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="Your Email"
             />
           </div>
 
           <div className="form-group">
             <label>Review</label>
-            <textarea 
-              required 
+            <textarea
+              required
               value={formData.review}
-              onChange={(e) => setFormData({...formData, review: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, review: e.target.value })}
               placeholder="Share your experience..."
               rows="4"
             ></textarea>
           </div>
 
-          <button type="submit" className="submit-review-btn">Submit Review</button>
+          <button type="submit" className="submit-review-btn" disabled={submitting || rating === 0}>
+            {submitting ? 'Submitting...' : 'Submit Review'}
+          </button>
         </form>
       )}
     </div>

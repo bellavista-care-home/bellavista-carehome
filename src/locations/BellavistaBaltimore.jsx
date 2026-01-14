@@ -602,7 +602,10 @@ const BellavistaBaltimore = () => {
               <i className="fas fa-times"></i>
             </button>
             <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm locationName="Baltimore Care Home" />
+            <ReviewForm 
+              locationName="Baltimore Care Home" 
+              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry"
+            />
           </div>
         </div>
       )}
