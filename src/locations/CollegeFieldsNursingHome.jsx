@@ -11,6 +11,7 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import SEO from '../components/SEO';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
@@ -153,6 +154,11 @@ const CollegeFieldsNursingHome = () => {
 
   return (
     <div className="location-page theme-college-fields">
+      <SEO 
+        title="College Fields Nursing Home"
+        description="College Fields Nursing Home in Barry offers high-quality nursing and dementia care with a strong focus on activities, independence and quality of life."
+        url="/college-fields-nursing-home"
+      />
       {/* 1. HERO SECTION */}
       <div className="loc-hero">
         <div className="loc-hero__content">

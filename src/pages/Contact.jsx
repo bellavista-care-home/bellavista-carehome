@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -96,6 +97,11 @@ const Contact = () => {
 
   return (
     <div className="contact-page">
+      <SEO 
+        title="Contact Bellavista Nursing Homes"
+        description="Get in touch with Bellavista Nursing Homes in Barry, Cardiff, Penarth and the Vale of Glamorgan to discuss care options or arrange a visit."
+        url="/contact"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Contact Us</h1>

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Facilities.css';
+import SEO from '../components/SEO';
 
 const Facilities = () => {
   const facilities = [
@@ -23,6 +24,11 @@ const Facilities = () => {
 
   return (
     <div className="facilities-page">
+      <SEO 
+        title="Facilities at Bellavista Nursing Homes"
+        description="Explore the modern facilities at Bellavista Nursing Homes, including comfortable lounges, private rooms, gardens, cinema, therapy spaces and more."
+        url="/facilities"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Our Facilities</h1>

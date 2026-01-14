@@ -1,9 +1,15 @@
 import React from 'react';
 import '../styles/Services.css';
+import SEO from '../components/SEO';
 
 const Services = () => {
   return (
     <div className="services-page">
+      <SEO 
+        title="Our Care Services | Bellavista Nursing Homes"
+        description="Discover the range of care we provide at Bellavista Nursing Homes, including long term nursing care, dementia care, respite care and palliative care in Cardiff and Barry."
+        url="/services"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Our Care</h1>

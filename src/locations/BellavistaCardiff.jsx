@@ -12,6 +12,7 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import SEO from '../components/SEO';
 
 const BellavistaCardiff = () => {
   const navigate = useNavigate();
@@ -237,6 +238,11 @@ We Regularly take advantage of our big garden space and often hold garden partie
 
   return (
     <div className="location-page theme-cardiff">
+      <SEO 
+        title="Bellavista Cardiff Nursing Home"
+        description="Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment."
+        url="/bellavista-cardiff"
+      />
       {/* 1. HERO SECTION */}
       <div className="loc-hero">
         <div className="loc-hero__content">

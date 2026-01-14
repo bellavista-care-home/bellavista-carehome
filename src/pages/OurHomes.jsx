@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchHomes } from '../services/homeService';
 import '../styles/OurHomes.css';
+import SEO from '../components/SEO';
 
 const getLinkFromName = (name) => {
   const normalized = (name || '').toLowerCase().trim();
@@ -115,6 +116,13 @@ const OurHomes = ({ isStandalone = false }) => {
 
   return (
     <div className={`our-homes-page ${isStandalone ? 'standalone' : ''}`}>
+      {isStandalone && (
+        <SEO 
+          title="Our Care Homes | Bellavista Nursing Homes"
+          description="Browse the Bellavista group of nursing homes across South Wales and discover high-quality, homely care environments in Barry, Cardiff and the Vale of Glamorgan."
+          url="/our-homes"
+        />
+      )}
       {isStandalone && (
         <div className="homes-header">
           <div className="container">

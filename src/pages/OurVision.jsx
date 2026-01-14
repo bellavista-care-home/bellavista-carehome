@@ -1,9 +1,15 @@
 import React from 'react';
 import '../styles/About.css';
+import SEO from '../components/SEO';
 
 const OurVision = () => {
   return (
     <div className="about-page">
+      <SEO 
+        title="Our Vision | Bellavista Nursing Homes"
+        description="Read the vision of Bellavista Nursing Homes and how we work to preserve dignity, individuality and privacy for every resident."
+        url="/our-vision"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Our Vision</h1>

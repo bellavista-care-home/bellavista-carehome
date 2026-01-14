@@ -10,8 +10,8 @@ import '../styles/CareHome.css';
 import ReviewForm from '../components/ReviewForm';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
-
 import SlideMedia from '../components/SlideMedia';
+import SEO from '../components/SEO';
 
 const BellavistaBarry = () => {
   const navigate = useNavigate();
@@ -183,7 +183,11 @@ const BellavistaBarry = () => {
 
   return (
     <div className="location-page theme-barry">
-      {/* 1. HERO SECTION */}
+      <SEO 
+        title="Bellavista Barry Nursing Home"
+        description="Bellavista Barry is a long-established nursing home overlooking the Bristol Channel, offering dementia, nursing, respite and end-of-life care in a warm, homely environment."
+        url="/bellavista-barry"
+      />
       <div className="loc-hero">
         <div className="loc-hero__content">
           <h1 className="loc-hero__title">Welcome to Bellavista Barry</h1>

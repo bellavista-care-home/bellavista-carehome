@@ -10,10 +10,8 @@ import '../styles/CareHome.css';
 import ReviewForm from '../components/ReviewForm';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
-
-
-
 import SlideMedia from '../components/SlideMedia';
+import SEO from '../components/SEO';
 
 const BellavistaBaltimore = () => {
   const navigate = useNavigate();
@@ -160,6 +158,11 @@ const BellavistaBaltimore = () => {
 
   return (
     <div className="location-page theme-baltimore">
+      <SEO 
+        title="Baltimore House Care Home"
+        description="Baltimore House in Barry provides residential care for older people, including specialist support for dementia and mental health in a warm, homely setting."
+        url="/baltimore-care-home"
+      />
       {/* 1. HERO SECTION */}
       <div className="loc-hero">
         <div className="loc-hero__content">

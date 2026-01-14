@@ -1,9 +1,15 @@
 import React from 'react';
 import '../styles/About.css';
+import SEO from '../components/SEO';
 
 const About = () => {
   return (
     <div className="about-page">
+      <SEO 
+        title="About Bellavista Nursing Homes"
+        description="Learn more about Bellavista Nursing Homes, our history and our commitment to providing a warm, homely environment with high-quality nursing and dementia care in South Wales."
+        url="/about"
+      />
       <div className="page-header">
         <div className="container">
           <h1>About Us</h1>

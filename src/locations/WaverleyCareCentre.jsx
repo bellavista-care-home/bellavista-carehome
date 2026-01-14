@@ -11,6 +11,7 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import SEO from '../components/SEO';
 
 const WaverleyCareCentre = () => {
   const navigate = useNavigate();
@@ -153,6 +154,11 @@ const WaverleyCareCentre = () => {
 
   return (
     <div className="location-page theme-waverley">
+      <SEO 
+        title="Waverley Care Centre"
+        description="Waverley Care Centre in Penarth provides nursing and dementia care with beautiful coastal views, modern facilities and a friendly, homely atmosphere."
+        url="/waverley-care-center"
+      />
       {/* 1. HERO SECTION */}
       <div className="loc-hero">
         <div className="loc-hero__content">

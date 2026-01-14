@@ -10,8 +10,8 @@ import '../styles/CareHome.css';
 import ReviewForm from '../components/ReviewForm';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
-
 import SlideMedia from '../components/SlideMedia';
+import SEO from '../components/SEO';
 
 const MeadowValeCwtch = () => {
   const navigate = useNavigate();
@@ -179,6 +179,11 @@ const MeadowValeCwtch = () => {
 
   return (
     <div className="location-page theme-meadow-vale">
+      <SEO 
+        title="Meadow Vale Cwtch"
+        description="Meadow Vale Cwtch provides young onset dementia nursing care in a small, homely environment with stunning views over the Vale of Glamorgan."
+        url="/meadow-vale-cwtch"
+      />
       {/* 1. HERO SECTION */}
       <div className="loc-hero">
         <div className="loc-hero__content">

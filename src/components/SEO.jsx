@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, image, url }) => {
   const siteTitle = "Bellavista Nursing Homes | Premier Care in South Wales";
-  const defaultDescription = "Bellavista Nursing Homes provides exceptional nursing, dementia, and residential care in Cardiff and Barry. Award-winning care homes with a family atmosphere.";
-  const defaultKeywords = "nursing home, care home, cardiff, barry, dementia care, residential care, elderly care, south wales, nursing care";
+  const defaultDescription = "Bellavista Nursing Homes provides exceptional nursing, dementia and residential care in Cardiff and Barry, South Wales. Award-winning care homes with a warm, homely atmosphere.";
+  const defaultKeywords = "Bellavista Nursing Homes, nursing home, care home, Cardiff, Barry, dementia care, residential care, elderly care, South Wales, Vale of Glamorgan";
   const siteUrl = "https://www.bellavistanursinghomes.com";
   const defaultImage = "https://www.bellavistanursinghomes.com/bellalogo1.png";
 
@@ -21,7 +21,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
       {
         "@type": "NursingHome",
         "@id": "https://www.bellavistanursinghomes.com/#organization",
-        "name": "Bellavista Nursing Home",
+        "name": "Bellavista Nursing Homes",
         "url": siteUrl,
         "logo": defaultImage,
         "image": metaImage,
@@ -52,7 +52,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
         "@type": "WebSite",
         "@id": "https://www.bellavistanursinghomes.com/#website",
         "url": siteUrl,
-        "name": "Bellavista Nursing Home",
+        "name": "Bellavista Nursing Homes",
         "publisher": {
           "@id": "https://www.bellavistanursinghomes.com/#organization"
         },
@@ -67,14 +67,14 @@ const SEO = ({ title, description, keywords, image, url }) => {
 
   return (
     <Helmet>
-      {/* Standard Meta Tags */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={metaKeywords} />
+       <meta name="robots" content="index,follow" />
       <link rel="canonical" href={metaUrl} />
 
-      {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Bellavista Nursing Homes" />
       <meta property="og:url" content={metaUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />

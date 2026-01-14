@@ -1,9 +1,15 @@
 import React from 'react';
 import '../styles/About.css';
+import SEO from '../components/SEO';
 
 const OurValues = () => {
   return (
     <div className="about-page">
+      <SEO 
+        title="Our Values | Bellavista Nursing Homes"
+        description="Discover the values that guide Bellavista Nursing Homes, including dignity, independence, choice and respect for every resident."
+        url="/our-values"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Our Values</h1>
