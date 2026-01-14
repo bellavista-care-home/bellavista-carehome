@@ -3,11 +3,11 @@
 .our-homes-page {
   padding: 80px 0;
   background-color: #f8f9fa;
-  min-height: 100vh;
 }
 
 .our-homes-page.standalone {
   padding-top: 0;
+  min-height: 100vh;
 }
 
 .homes-header {
