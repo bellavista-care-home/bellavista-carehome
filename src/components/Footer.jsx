@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container">
         <div className="footer-container">
           <div className="footer-col">
-            <h3>Bellavista Nursing Homes</h3>
+            <h3>Bellavista Group Of Nursing Homes</h3>
             <p>Providing exceptional care with a focus on comfort, dignity, and personalized attention in a beautiful, serene environment.</p>
             <div className="social-links">
               <a aria-label="Facebook" href="https://www.facebook.com/bellavistanursinghome/" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook-f"></i></a>
@@ -46,7 +46,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="copyright">
-          <p>© 2024 Bellavista Nursing Homes. All Rights Reserved.</p>
+          <p>© 2026 Bellavista Group Of Nursing Homes. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

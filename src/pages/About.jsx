@@ -6,8 +6,8 @@ const About = () => {
   return (
     <div className="about-page">
       <SEO 
-        title="About Bellavista Nursing Homes"
-        description="Learn more about Bellavista Nursing Homes, our history and our commitment to providing a warm, homely environment with high-quality nursing and dementia care in South Wales."
+        title="About Bellavista Group Of Nursing Homes"
+        description="Learn more about Bellavista Group Of Nursing Homes, our history and our commitment to providing a warm, homely environment with high-quality nursing and dementia care in South Wales."
         url="/about"
       />
       <div className="page-header">
@@ -21,9 +21,9 @@ const About = () => {
         <div className="container">
           <div className="about-grid">
             <div className="about-text">
-              <h2>Welcome to Bellavista Nursing Home</h2>
+              <h2>Welcome to Bellavista Group Of Nursing Homes</h2>
               <p>
-                Bellavista Nursing Home is an established and trusted Nursing Care provider, reputed for its friendly, warm, caring and relaxed environment “A Home from home”.
+                Bellavista Group Of Nursing Homes is an established and trusted Nursing Care provider, reputed for its friendly, warm, caring and relaxed environment “A Home from home”.
               </p>
               <p>
                 With over 10 years’ experience in providing top quality nursing and specialist dementia care to the elderly. The design of Bellavista and our carefully selected staff, combined with our diligent approach to each and every resident, affords them the opportunity to flourish, make new friends, maintain contact with their local communities and live a life of possibility.
@@ -45,7 +45,7 @@ const About = () => {
             <div className="mv-card">
               <i className="fas fa-heart"></i>
               <h3>Our Mission</h3>
-              <p>Bellavista Nursing Home aims to provide its service users with a secure, relaxed and homely environment in which their care, well-being and comfort are of prime importance. Good reputation for its friendly warm, caring and relaxed environment – “A home from Home”.</p>
+              <p>Bellavista Group Of Nursing Homes aims to provide its service users with a secure, relaxed and homely environment in which their care, well-being and comfort are of prime importance. Good reputation for its friendly warm, caring and relaxed environment – “A home from Home”.</p>
             </div>
             <div className="mv-card">
               <i className="fas fa-eye"></i>

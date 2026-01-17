@@ -2,14 +2,14 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, image, url }) => {
-  const siteTitle = "Bellavista Nursing Homes | Premier Care in South Wales";
-  const defaultDescription = "Bellavista Nursing Homes provides exceptional nursing, dementia and residential care in Cardiff and Barry, South Wales. Award-winning care homes with a warm, homely atmosphere.";
-  const defaultKeywords = "Bellavista Nursing Homes, nursing home, care home, Cardiff, Barry, dementia care, residential care, elderly care, South Wales, Vale of Glamorgan";
+  const siteTitle = "Bellavista Group Of Nursing Homes | A Home From Home";
+  const defaultDescription = "Bellavista Group Of Nursing Homes provides exceptional residential and nursing care in a warm, modern, and welcoming environment in South Wales.";
+  const defaultKeywords = "Bellavista Group Of Nursing Homes, nursing home, care home, Cardiff, Barry, dementia care, residential care, elderly care, South Wales, Vale of Glamorgan";
   const siteUrl = "https://www.bellavistanursinghomes.com";
   const defaultImage = "https://www.bellavistanursinghomes.com/bellalogo1.png";
 
   // If the provided title contains "Bellavista", use it as is, otherwise append the brand
-  const fullTitle = title && title.includes('Bellavista') ? title : (title ? `${title} | Bellavista Nursing Homes` : siteTitle);
+  const fullTitle = title && title.includes('Bellavista') ? title : (title ? `${title} | Bellavista Group Of Nursing Homes` : siteTitle);
   const metaDescription = description || defaultDescription;
   const metaKeywords = keywords || defaultKeywords;
   const metaImage = image || defaultImage;
@@ -21,7 +21,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
       {
         "@type": "NursingHome",
         "@id": "https://www.bellavistanursinghomes.com/#organization",
-        "name": "Bellavista Nursing Homes",
+        "name": "Bellavista Group Of Nursing Homes",
         "url": siteUrl,
         "logo": defaultImage,
         "image": metaImage,

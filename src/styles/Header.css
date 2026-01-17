@@ -17,13 +17,13 @@
 
 /* Header Styles */
 header {
-  background: linear-gradient(90deg, var(--white), #f0f8ff);
+  background: linear-gradient(180deg, #3a7bd5 0%, #c2e9fb 100%);
   box-shadow: 0 2px 15px rgba(0,0,0,0.08);
   position: sticky;
   top: 0;
   z-index: 100000;
-  min-height: 80px; /* Changed from fixed height */
-  width: 100%; /* Explicit width */
+  min-height: 80px;
+  width: 100%;
   animation: slideDown 0.5s ease;
 }
 
@@ -42,10 +42,33 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px; /* Added horizontal padding */
-  max-width: 1400px; /* Wider container for header */
-  margin: 0 auto;
+  padding: 10px 40px;
   width: 100%;
+  gap: 24px;
+}
+
+@media (min-width: 1400px) {
+  .header-container {
+    padding: 10px 60px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .header-container {
+    padding: 10px 80px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .header-container {
+    padding: 15px 120px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .header-container {
+    padding: 20px 100px;
+  }
 }
 
 .logo {
@@ -53,6 +76,8 @@ header {
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+  min-width: 0; /* Prevent flex overflow */
+  flex-shrink: 0; /* Don't let logo shrink */
 }
 
 .logo-icon {
@@ -72,7 +97,8 @@ header {
 }
 
 .logo-text {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 28px;
   color: var(--text-dark);
   background: linear-gradient(45deg, var(--primary-blue), var(--primary-purple));
@@ -88,14 +114,43 @@ header {
 }
 
 /* Navigation */
-nav ul {
+nav {
+  position: relative;
+  z-index: 100006; /* High enough to be above header background but below dropdown-menu */
+}
+
+nav > ul {
   display: flex;
   list-style: none;
+  gap: 12px; /* Even smaller default gap for standard desktops */
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 1200px) {
+  nav > ul {
+    gap: 15px; /* Reduced from 20px */
+  }
+}
+
+@media (min-width: 1440px) {
+  nav > ul {
+    gap: 25px; /* Reduced from 30px */
+  }
+}
+
+@media (min-width: 1600px) {
+  nav > ul {
+    gap: 35px; /* Reduced from 40px */
+  }
 }
 
 nav li {
-  margin-left: 30px;
+  margin-left: 0;
   position: relative;
+  display: flex; /* Ensure li acts as a container */
+  align-items: center;
 }
 
 nav a {
@@ -105,6 +160,10 @@ nav a {
   font-size: 16px;
   transition: all 0.3s ease;
   position: relative;
+  padding: 5px 0;
+  display: flex; /* Make all links flex containers */
+  align-items: center; /* Vertically center content */
+  height: 100%;
 }
 
 nav a:hover {
@@ -137,25 +196,31 @@ nav a:hover::after {
   gap: 5px;
 }
 
+/* Ensure dropdowns are always on top and fully visible */
+.has-dropdown:hover {
+  z-index: 100005 !important;
+}
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  background: white;
-  min-width: 200px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  border-radius: 8px;
-  padding: 10px 0;
+  background: white !important;
+  min-width: 280px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+  border-radius: 12px !important;
+  padding: 8px 0 !important; /* Added some padding */
+  margin: 0 !important;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: all 0.3s ease;
-  z-index: 1000;
-  border: 1px solid rgba(0,0,0,0.1);
-  list-style: none;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100010 !important; /* Higher than header */
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  list-style: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important; /* Changed from hidden to visible */
 }
 
 .has-dropdown:hover .dropdown-menu {
@@ -164,29 +229,46 @@ nav a:hover::after {
   transform: translateY(0);
 }
 
+/* Align right-side dropdowns to the right to prevent horizontal overflow */
+.has-dropdown:nth-last-child(1) .dropdown-menu,
+.has-dropdown:nth-last-child(2) .dropdown-menu,
+.has-dropdown:nth-last-child(3) .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
 .dropdown-menu li {
-  margin: 0;
-  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  width: 100% !important;
+  display: block !important;
 }
 
 .dropdown-menu a {
-  display: block;
-  padding: 12px 20px;
-  color: var(--text-dark);
-  font-size: 14px;
-  border-radius: 0;
-  transition: all 0.3s ease;
-  text-decoration: none;
+  display: block !important;
+  width: 100% !important;
+  padding: 14px 24px !important;
+  color: var(--text-dark) !important;
+  font-size: 15px !important;
+  border-radius: 0 !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
 }
 
 .dropdown-menu a:hover {
-  background: linear-gradient(90deg, rgba(0,102,204,0.1), rgba(0,180,216,0.1));
-  color: var(--primary-blue);
-  padding-left: 25px;
+  background: rgba(0, 102, 204, 0.1) !important;
+  color: var(--primary-blue) !important;
 }
 
 .dropdown-menu a::after {
-  display: none;
+  display: none !important;
 }
 
 /* Left Side Menu */
@@ -403,18 +485,18 @@ nav a:hover::after {
 }
 
 /* Mobile Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .header-container {
     padding: 5px 20px;
+  }
+  
+  .left-menu-toggle {
+    display: flex;
   }
   
   /* Hide desktop nav on tablet/mobile */
   nav {
     display: none !important;
-  }
-  
-  .left-menu-toggle {
-    display: flex;
   }
   
   .side-dropdown-menu {
@@ -424,17 +506,33 @@ nav a:hover::after {
 
 @media (max-width: 576px) {
   .header-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    padding: 5px 15px;
   }
   
   .logo-text {
-    font-size: 24px;
+    font-size: 20px; /* Reduced from 24px */
   }
   
   .tagline {
-    font-size: 14px;
+    font-size: 12px; /* Reduced from 14px */
+  }
+
+  .left-menu-toggle {
+    margin-right: 10px;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .logo-text {
+    font-size: 18px;
+  }
+  
+  .logo-icon {
+    font-size: 24px;
+    margin-right: 5px;
   }
 }
 
@@ -486,7 +584,7 @@ header.christmas-theme .dropdown-menu {
 
 @keyframes santaWalk {
   from { transform: translateX(-100px) scaleX(-1); }
-  to { transform: translateX(100vw) scaleX(-1); }
+  to { transform: translateX(100%) scaleX(-1); } /* Changed 100vw to 100% */
 }
 
 /* Snow Effect */

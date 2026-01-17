@@ -8,7 +8,7 @@ body{font-family:'Lato',sans-serif;background:var(--bg-1);color:var(--ink);min-h
 header{grid-area:header;background:linear-gradient(90deg,var(--white),#f0f8ff);box-shadow:0 2px 15px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:10}
 .brand{display:flex;gap:10px;align-items:center}
 .brand i{font-size:26px;background:linear-gradient(45deg,var(--primary-blue),var(--primary-teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.brand h1{font-family:'Playfair Display',serif;font-size:20px}
+.brand h1{font-family:'Montserrat',sans-serif;font-size:20px}
 .admin-badge{font-size:12px;color:var(--white);background:var(--primary-purple);padding:4px 10px;border-radius:999px}
 .header-actions{display:flex;gap:8px;align-items:center}
 .btn{border:none;background:var(--grad);color:var(--white);padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:0 6px 16px rgba(0,102,204,.25);transition:.2s}
@@ -27,7 +27,7 @@ aside{grid-area:sidebar;background:linear-gradient(180deg,var(--white),#f6fbff);
 
 main{grid-area:main;padding:22px;}
 .panel{background:#fff;border:1px solid #e8eef5;border-radius:16px;box-shadow:var(--shadow);padding:18px;}
-.panel h2{font-family:'Playfair Display',serif;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.panel h2{font-family:'Montserrat',sans-serif;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
 .muted{color:var(--muted);font-size:14px}
 
 .grid{display:grid;gap:14px}
