@@ -81,7 +81,7 @@ header {
 }
 
 .tagline {
-  font-size: 16px;
+  font-size: clamp(12px, 0.9vw, 16px); /* Responsive sizing */
   color: var(--primary-teal);
   font-style: italic;
   margin-top: 2px;

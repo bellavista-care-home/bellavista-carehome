@@ -206,9 +206,9 @@ const Home = () => {
   return (
     <div className="home">
       <SEO 
-        title="Bellavista Nursing Home - Premier Care in Cardiff & Barry"
-        description="Welcome to Bellavista Nursing Home. We provide established and trusted Nursing, Dementia, and Residential Care in Cardiff and Barry, South Wales. A friendly, warm, 'Home from Home' environment."
-        keywords="Bellavista Nursing Home, Bellavista Care Home, nursing home cardiff, care home barry, dementia care south wales, residential care home"
+        title="Bellavista Group Of Nursing Homes | A Home From Home"
+        description="Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing."
+        keywords="Bellavista Group Of Nursing Homes, Bellavista Care Home, nursing home cardiff, care home barry, dementia care south wales, residential care home"
       />
       <section className="hero">
         <div className="hero-slideshow">
@@ -219,10 +219,12 @@ const Home = () => {
           ))}
         </div>
         <div className="container hero-content">
-          <h1>Bellavista Nursing Homes</h1>
-          <p className="hero-tagline">A Home From Home</p>
+          <h1 className="hero-title">
+            <span className="title-main">Bellavista Group Of Nursing Homes</span>
+            <span className="title-motto">A Home From Home</span>
+          </h1>
           <p className="hero-description">
-            Welcome to <strong>Bellavista Nursing Home</strong>. We provide premium residential & nursing care across South Wales. Experience personalized attention in our modern, home-like environments designed for dignity, comfort & wellbeing.
+            Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing. At Bellavista, every resident is treated with respect, care, and a true sense of home
           </p>
           <div className="hero-actions">
             <Link className="btn btn-primary" to="/schedule-tour">
@@ -236,12 +238,44 @@ const Home = () => {
 
 
       </section>
+
+      <section className="about-group-intro">
+        <div className="container">
+          <div className="about-group-content">
+            <h2 className="group-intro-title">
+              <span className="group-name">Bellavista Group Of Nursing Homes</span>
+              <span className="group-motto">A Home from Home</span>
+            </h2>
+            <div className="group-intro-text">
+              <p>
+                At Bellavista Group of Nursing Homes, we redefine care. Nestled in the heart of South 
+                Wales, we provide premium residential and nursing services tailored to the unique 
+                needs of each resident. Our modern, thoughtfully designed facilities combine the 
+                warmth and comfort of home with the highest professional standards, ensuring dignity, 
+                wellbeing, and peace of mind at every stage of life. 
+              </p>
+              <p>
+                Our team of highly trained, compassionate professionals is dedicated to delivering 
+                personalized care, attention, and support—creating an environment where residents 
+                feel valued, secure, and truly at home. From bespoke nursing plans to engaging 
+                activities and holistic wellness programs, every aspect of our service is designed to 
+                enhance quality of life. 
+              </p>
+              <p>
+                Experience a new standard of care at Bellavista Nursing Home—where expertise meets 
+                compassion, and every resident is at the heart of everything we do. 
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <OurHomes isStandalone={false} />
       <section className="news" id="news">
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Latest News & Updates</h2>
-            <p className="section-subtitle">Stay connected with our community through the latest developments, events & care innovations.</p>
+            <p className="section-subtitle">Stay connected with our community through recent developments, resident stories, events and care innovations.</p>
           </div>
           <div className="news-showcase">
             <div className="news-featured">
@@ -308,56 +342,55 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Enriching Activities & Wellness</h2>
-            <p className="section-subtitle">Engaging programs designed to promote physical, mental & social wellbeing for all residents.</p>
+            <p className="section-subtitle">Engaging programmes that support physical, emotional and social wellbeing for every resident.</p>
           </div>
-          <div className="activities-showcase">
-            <div className="activity-featured">
-              <div className="activity-image">
-                <img src="/music-and-arts-therapy.jpg" alt="Music Therapy"/>
-                <div className="activity-play-btn">
-                  <i className="fas fa-play"></i>
+          <div className="activities-layout">
+            <div className="activities-showcase">
+              <div className="activity-featured">
+                <div className="activity-image">
+                  <img src="/music-and-arts-therapy.jpg" alt="Music Therapy"/>
+                </div>
+                <div className="activity-info">
+                  <div className="activity-badge">🎵 Popular</div>
+                  <h3>Music & Arts Therapy</h3>
+                  <p>Professional music therapy sessions, art classes, and creative workshops that stimulate memory and promote emotional wellbeing.</p>
+                  <div className="activity-schedule">
+                    <span><i className="fas fa-calendar"></i> Daily Sessions</span>
+                    <span><i className="fas fa-users"></i> All Abilities</span>
+                    <span><i className="fas fa-clock"></i> 45 mins</span>
+                  </div>
                 </div>
               </div>
-              <div className="activity-info">
-                <div className="activity-badge">🎵 Popular</div>
-                <h3>Music & Arts Therapy</h3>
-                <p>Professional music therapy sessions, art classes, and creative workshops that stimulate memory and promote emotional wellbeing.</p>
-                <div className="activity-schedule">
-                  <span><i className="fas fa-calendar"></i> Daily Sessions</span>
-                  <span><i className="fas fa-users"></i> All Abilities</span>
-                  <span><i className="fas fa-clock"></i> 45 mins</span>
+            </div>
+            <div className="activity-grid">
+              <div className="activity-card" onClick={() => openModal('physical')}>
+                <div className="activity-icon physical">
+                  <i className="fas fa-dumbbell"></i>
                 </div>
+                <h4>Physical Wellness</h4>
+                <p>Chair exercises, physiotherapy, gentle yoga</p>
               </div>
-            </div>
-          </div>
-          <div className="activity-grid">
-            <div className="activity-card" onClick={() => openModal('physical')}>
-              <div className="activity-icon physical">
-                <i className="fas fa-dumbbell" style={{fontSize: '30px'}}></i>
+              <div className="activity-card" onClick={() => openModal('creative')}>
+                <div className="activity-icon creative">
+                  <i className="fas fa-brush"></i>
+                </div>
+                <h4>Creative Arts</h4>
+                <p>Painting, crafts, pottery, creative writing</p>
               </div>
-              <h4>Physical Wellness</h4>
-              <p>Chair exercises, physiotherapy, gentle yoga</p>
-            </div>
-            <div className="activity-card" onClick={() => openModal('creative')}>
-              <div className="activity-icon creative">
-                <i className="fas fa-brush" style={{fontSize: '30px'}}></i>
+              <div className="activity-card" onClick={() => openModal('social')}>
+                <div className="activity-icon social">
+                  <i className="fas fa-gamepad"></i>
+                </div>
+                <h4>Social & Games</h4>
+                <p>Bingo, quiz nights, social hours, outings</p>
               </div>
-              <h4>Creative Arts</h4>
-              <p>Painting, crafts, pottery, creative writing</p>
-            </div>
-            <div className="activity-card" onClick={() => openModal('social')}>
-              <div className="activity-icon social">
-                <i className="fas fa-gamepad" style={{fontSize: '30px'}}></i>
+              <div className="activity-card" onClick={() => openModal('therapeutic')}>
+                <div className="activity-icon therapeutic">
+                  <i className="fas fa-spa"></i>
+                </div>
+                <h4>Therapeutic Care</h4>
+                <p>Pet therapy, aromatherapy, meditation</p>
               </div>
-              <h4>Social & Games</h4>
-              <p>Bingo, quiz nights, social hours, outings</p>
-            </div>
-            <div className="activity-card" onClick={() => openModal('therapeutic')}>
-              <div className="activity-icon therapeutic">
-                <i className="fas fa-spa" style={{fontSize: '30px'}}></i>
-              </div>
-              <h4>Therapeutic Care</h4>
-              <p>Pet therapy, aromatherapy, meditation</p>
             </div>
           </div>
           <div className="activities-cta">
@@ -372,53 +405,42 @@ const Home = () => {
         <div className="container">
           <div className="section-header centered">
             <h2 className="section-title">Our Care Promise</h2>
-            <p className="section-subtitle">Committed to excellence in every aspect of care, comfort & community.</p>
+            <p className="section-subtitle">Excellence in every aspect of care, comfort and community – every day.</p>
           </div>
-          <div className="promise-showcase">
-            <div className="promise-main">
-              <div className="promise-image">
+          <div className="activities-layout">
+            <div className="activity-featured">
+              <div className="activity-image">
                 <img src="/personalized-care-plan.jpg" alt="Compassionate Care"/>
-                <div className="promise-badge">💝 Our Commitment</div>
+                <div className="activity-badge">💝 Our Commitment</div>
               </div>
-              <div className="promise-details">
+              <div className="activity-info">
                 <h3>Personalized Care Plans</h3>
                 <p>Every resident receives an individually tailored care plan developed by our multidisciplinary team, ensuring their unique needs, preferences, and dignity are always respected.</p>
-                <div className="promise-features">
-                  <div className="feature-item">
-                    <i className="fas fa-user-md"></i>
-                    <span>Qualified Nursing Staff</span>
-                  </div>
-                  <div className="feature-item">
-                    <i className="fas fa-clock"></i>
-                    <span>24/7 Care Available</span>
-                  </div>
-                  <div className="feature-item">
-                    <i className="fas fa-heart"></i>
-                    <span>Family-Centered Approach</span>
-                  </div>
+                <div className="activity-schedule">
+                  <span><i className="fas fa-user-md"></i> Qualified Nursing Staff</span>
+                  <span><i className="fas fa-clock"></i> 24/7 Care Available</span>
+                  <span><i className="fas fa-heart"></i> Family-Centered Approach</span>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="promise-scroll-container">
-            <div className="promise-grid">
-              <div className="promise-card" onClick={() => openModal('comfort')}>
-                <div className="promise-icon comfort"><i className="fas fa-home"></i></div>
+            <div className="activity-grid">
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Home Comfort details" onClick={() => openModal('comfort')}>
+                <div className="activity-icon physical"><i className="fas fa-home"></i></div>
                 <h4>Home Comfort</h4>
                 <p>A Warm, Welcoming Environment</p>
               </div>
-              <div className="promise-card" onClick={() => openModal('safety')}>
-                <div className="promise-icon safety"><i className="fas fa-shield-alt"></i></div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Safety First details" onClick={() => openModal('safety')}>
+                <div className="activity-icon creative"><i className="fas fa-shield-alt"></i></div>
                 <h4>Safety First</h4>
                 <p>Advanced Protection & Emergency Response</p>
               </div>
-              <div className="promise-card" onClick={() => openModal('community')}>
-                <div className="promise-icon community"><i className="fas fa-users"></i></div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Community details" onClick={() => openModal('community')}>
+                <div className="activity-icon social"><i className="fas fa-users"></i></div>
                 <h4>Community</h4>
                 <p>Vibrant Social Life & Connections</p>
               </div>
-              <div className="promise-card" onClick={() => openModal('wellness')}>
-                <div className="promise-icon wellness"><i className="fas fa-leaf"></i></div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Wellness Focus details" onClick={() => openModal('wellness')}>
+                <div className="activity-icon therapeutic"><i className="fas fa-leaf"></i></div>
                 <h4>Wellness Focus</h4>
                 <p>Holistic Health & Wellbeing</p>
               </div>
@@ -431,7 +453,7 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Modern Facilities & Amenities</h2>
-            <p className="section-subtitle">State-of-the-art facilities designed for comfort, safety & enriching experiences.</p>
+            <p className="section-subtitle">State-of-the-art spaces designed to offer comfort, safety and enriching daily experiences.</p>
           </div>
           <div className="facilities-showcase">
             <div className="facility-tabs">
