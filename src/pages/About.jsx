@@ -21,15 +21,21 @@ const About = () => {
         <div className="container">
           <div className="about-grid">
             <div className="about-text">
-              <h2>Welcome to Bellavista Group Of Nursing Homes</h2>
+              <h2>Our Vision</h2>
               <p>
-                Bellavista Group Of Nursing Homes is an established and trusted Nursing Care provider, reputed for its friendly, warm, caring and relaxed environment “A Home from home”.
+                "To set the benchmark for exceptional care in South Wales, where every resident experiences unmatched dignity, comfort, and personalised attention—creating a home that feels truly theirs."
               </p>
+              <h2>Our Values</h2>
               <p>
-                With over 10 years’ experience in providing top quality nursing and specialist dementia care to the elderly. The design of Bellavista and our carefully selected staff, combined with our diligent approach to each and every resident, affords them the opportunity to flourish, make new friends, maintain contact with their local communities and live a life of possibility.
+                "We are guided by compassion, integrity, and excellence, ensuring that every decision, every interaction, and every moment is infused with respect, empathy, and a commitment to the highest standard of care."
               </p>
+              <h2>Our Care</h2>
               <p>
-                Home is highly recommended by residents and relatives alike, our homes provide a safe, comfortable and stimulating environment that enable our highly trained staff to provide the best possible care.
+                "Our care is holistic, tailored, and attentive, blending expert nursing with emotional and social support, so every resident thrives in an environment that nurtures mind, body, and spirit."
+              </p>
+              <h2>Our Team</h2>
+              <p>
+                "Led by dedicated professionals, our team combines expertise, empathy, and innovation, delivering personalised care with warmth, reliability, and a passion for enhancing quality of life."
               </p>
             </div>
             <div className="about-image">

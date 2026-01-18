@@ -25,15 +25,13 @@ const Activities = () => {
     <div className="activities-page">
       <div className="page-header">
         <div className="container">
-          <h1>Activities & Wellness</h1>
-          <p>Enriching lives through active engagement</p>
+          <h1>Life at Bellavista – Engaging Activities for Every Interest</h1>
+          <p>Active, stimulating, and fulfilling lifestyles that support wellbeing every day.</p>
         </div>
       </div>
 
       <section className="activities-intro" style={{ padding: '80px 0', background: '#fff' }}>
         <div className="container">
-          
-          {/* Hero Quote */}
           <div className="quote-wrapper" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px' }}>
             <h2 style={{ 
               fontSize: '2rem', 
@@ -43,12 +41,11 @@ const Activities = () => {
               fontWeight: '300',
               marginBottom: '20px'
             }}>
-              “We provide a full and varied activity programme for all interests, there is always something to do…”
+              “At Bellavista, we believe that an active, stimulating, and fulfilling lifestyle is central to wellbeing.”
             </h2>
             <div style={{ width: '80px', height: '4px', background: 'var(--color-secondary)', margin: '0 auto', borderRadius: '2px' }}></div>
           </div>
 
-          {/* Two Column Content */}
           <div className="content-grid" style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
@@ -69,10 +66,10 @@ const Activities = () => {
                 }}>
                   <i className="fas fa-heart"></i>
                 </div>
-                <h3 style={{ fontSize: '1.4rem', margin: 0, color: '#333' }}>Therapeutic & Individual</h3>
+                <h3 style={{ fontSize: '1.4rem', margin: 0, color: '#333' }}>Individualised Activity Programmes</h3>
               </div>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555' }}>
-                Our Residents are offered encouragement to follow their individual interests and perhaps even develop new ones during their stay at Bellavista. Our activities are designed to be therapeutic, and our individualised personal pen pictures help us to achieve this. These are put together from the information gathered from your social wellbeing document and one-2-one time with our highly trained Activities Co-ordinators, we offer a wide range of activities, all of which are designed to meet individual needs.
+                Our individualised activity programmes are carefully designed to meet the unique needs, abilities, and preferences of each resident. Using detailed personal profiles, developed from social wellbeing assessments and one-to-one consultations with our highly trained Activities Coordinators, we tailor activities to support both cognitive and physical wellbeing.
               </p>
             </div>
 
@@ -89,23 +86,56 @@ const Activities = () => {
                 }}>
                   <i className="fas fa-calendar-alt"></i>
                 </div>
-                <h3 style={{ fontSize: '1.4rem', margin: 0, color: '#333' }}>A Full Timetable</h3>
+                <h3 style={{ fontSize: '1.4rem', margin: 0, color: '#333' }}>Diverse, Inclusive & Flexible</h3>
               </div>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555' }}>
-                Our friendly activity organisers encourage a person to pursue their hobbies and interests. We have a full timetable of outside entertainment, seasonal fairs and events.
+                From the moment residents join us, they are invited to explore a wide variety of activities that suit different interests, abilities, and energy levels. Whether it is creative arts, music, reminiscence therapy, gardening, or gentle exercise, there is always an opportunity to participate, relax, or simply enjoy the company of others.
+              </p>
+              <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555', marginTop: '20px' }}>
+                Our friendly and highly skilled activity team works closely with residents to identify hobbies and interests that are meaningful to them. Residents can choose quiet one-to-one support, small group sessions, or hands-on experiences such as potting plants in our gardens or cooking projects in our communal areas.
               </p>
             </div>
           </div>
 
-          {/* Bottom Banner */}
           <div className="feature-banner" style={{ 
             background: 'linear-gradient(to right, #f8f9fa, #e9ecef)', 
             padding: '40px', 
             borderRadius: '15px',
-            borderLeft: '5px solid var(--color-primary)'
+            borderLeft: '5px solid var(--color-primary)',
+            marginBottom: '40px'
           }}>
+            <h3 style={{ fontSize: '1.4rem', margin: '0 0 20px', color: '#333', textAlign: 'center' }}>
+              Why Our Activities Stand Out
+            </h3>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
+              gap: '20px'
+            }}>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Personalised programmes</strong> based on individual interests, skills, and wellbeing assessments.
+              </div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Wide variety of activities</strong>, including arts, music, reminiscence therapy, gardening, and gentle exercise.
+              </div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Seasonal and community events</strong> that foster social interaction and engagement within and beyond the home.
+              </div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Skilled, compassionate coordinators</strong> who encourage participation, confidence, and a sense of purpose.
+              </div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Flexible options</strong> for quiet reflection, group interaction, or hands-on projects.
+              </div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
+                <strong>Therapeutic, meaningful experiences</strong> that enhance emotional, mental, and social wellbeing.
+              </div>
+            </div>
+          </div>
+
+          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
             <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#444', margin: 0, textAlign: 'center' }}>
-              Our range of activities are designed to cater for a wide range of interests, skills, experiences, personalities and medical conditions. Whether a person prefers to relax and reflect on life with one of our friendly team or chooses to pot and plant in our stimulating gardens, we provide the security and facilities to make it so.
+              At Bellavista, every activity is designed with the resident in mind – to stimulate the mind, nurture the body, and enrich the spirit, creating a vibrant, supportive, and inspiring environment for all.
             </p>
           </div>
 

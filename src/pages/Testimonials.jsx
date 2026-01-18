@@ -31,11 +31,16 @@ const Testimonials = () => {
       <div className="testimonials-header">
         <div className="container">
           <h1>Testimonials</h1>
-          <p>What our residents and their families say about us</p>
+          <p>Trusted by Residents. Valued by Families.</p>
         </div>
       </div>
 
       <div className="container">
+        <div className="testimonials-intro">
+          <p>
+            The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Bellavista Nursing Home. Each testimonial represents a relationship built on trust, reassurance, and genuine care, offering comfort to families and a sense of belonging to those who call Bellavista home.
+          </p>
+        </div>
         <div className="testimonials-grid">
           {reviews.map((review, index) => (
             <div key={index} className="testimonial-card">
@@ -51,7 +56,9 @@ const Testimonials = () => {
         
         <div className="carehome-review-badge">
           <h3>Top Rated Care Home</h3>
-          <p>We are proud to be recognized as a leading care provider in South Wales.</p>
+          <p>
+            We are honoured to be recognised as one of South Wales’s leading care providers, a reflection of our unwavering commitment to excellence, compassion, and integrity. This recognition is built upon consistently high standards, dedicated professionals, and a genuine focus on the comfort, dignity, and wellbeing of every resident. At Bellavista, quality care is not just delivered—it is continuously upheld and proudly lived every day.
+          </p>
           <div className="stars">
             <i className="fas fa-star"></i>
             <i className="fas fa-star"></i>

@@ -13,7 +13,7 @@ const OurValues = () => {
       <div className="page-header">
         <div className="container">
           <h1>Our Values</h1>
-          <p>People, Not Patients</p>
+          <p>Compassion, integrity, and excellence in everything we do.</p>
         </div>
       </div>
 
@@ -23,13 +23,9 @@ const OurValues = () => {
           {/* Philosophy Section */}
           <div className="mv-card" style={{ marginBottom: '60px', textAlign: 'center' }}>
             <i className="fas fa-heart"></i>
-            <h2>Our Philosophy</h2>
+            <h2>Our Values</h2>
             <p style={{ fontSize: '1.2rem', maxWidth: '900px', margin: '0 auto 20px' }}>
-              We believe in people, not patients, and every resident is special and valued. 
-              Every resident, and the care we provide for them, is unique.
-            </p>
-            <p style={{ fontSize: '1.2rem', maxWidth: '900px', margin: '0 auto', fontWeight: '500', color: 'var(--color-primary)' }}>
-              Our professional work is led by the principles of kindness, empathy, dignity, integrity, respect and trust.
+              "We are guided by compassion, integrity, and excellence, ensuring that every decision, every interaction, and every moment is infused with respect, empathy, and a commitment to the highest standard of care."
             </p>
           </div>
 

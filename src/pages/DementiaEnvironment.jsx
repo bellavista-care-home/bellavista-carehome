@@ -15,8 +15,8 @@ const DementiaEnvironment = () => {
     <div className="services-page">
       <div className="page-header dementia-header">
         <div className="container">
-          <h1>Dementia Friendly Environment</h1>
-          <p>Designed to inspire memories and encourage conversations</p>
+          <h1>Living Well – Dementia Care at Bellavista</h1>
+          <p>Designed for independence, comfort, and meaningful connection every day.</p>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ const DementiaEnvironment = () => {
                 fontStyle: 'italic',
                 fontWeight: '300'
               }}>
-                "Our immediate surroundings can have a huge impact on our quality of life, particularly when trying to make sense of the world around us. We work hard to create an environment that helps people living with dementia to live as independent and stress-free a life as possible."
+                "Quality of life is shaped by the environment around us, especially for those living with dementia."
               </p>
             </div>
 
@@ -71,7 +71,7 @@ const DementiaEnvironment = () => {
                 color: '#555',
                 marginBottom: 0
               }}>
-                Our team is passionate about creating supporting and enabling dementia environments which balance <strong>colour schemes</strong>, <strong>points of interest</strong> and <strong>areas</strong> to create a safe, homely and easily understood environment.
+                At Bellavista, we create spaces that empower residents, helping them live as independently, confidently, and comfortably as possible. Every detail of our home – from layout and lighting to colour schemes and sensory elements – is designed to reduce stress, inspire engagement, and provide a safe, welcoming environment.
               </p>
             </div>
 
@@ -90,12 +90,12 @@ const DementiaEnvironment = () => {
                   <div className="icon-box">
                     <i className="fas fa-hand-holding-heart"></i>
                   </div>
-                  <h2>Commitment to Awareness</h2>
+                  <h2>Person-Centred Dementia Care</h2>
                   <p>
-                    As nursing care providers, Bellavista Nursing Home has been working closely with the Alzheimer’s Society, Social Services, Local Health Board and most of the departments in Cardiff Council to spread awareness to a wider population.
+                    We believe dementia care is about more than routines and support; it is about creating meaningful experiences. Personal touches, such as memory boxes, personalised rooms, and familiar objects, are integrated throughout the home to help residents feel secure, connected, and valued.
                   </p>
                   <p>
-                    Our home is dementia friendly, and the small things are just as important—like personalising a room or filling a memory box, and incorporating dementia-friendly features to support people with visual, hearing and mobility impairments associated with dementia. All through the home we have enhanced and carefully designed the environment to be dementia friendly with themed features for a calmer and stimulating atmosphere.
+                    Our home is carefully designed to be dementia friendly, with features that support people with visual, hearing, and mobility impairments. Themed areas, calming colours, and familiar cues create a safe, homely, and easily understood environment that reduces stress and builds confidence.
                   </p>
                 </div>
               </div>
@@ -109,12 +109,12 @@ const DementiaEnvironment = () => {
                 <div className="icon-box">
                   <i className="fas fa-user-nurse"></i>
                 </div>
-                <h2>Specialist Care & Environment</h2>
+                <h2>Expertise, Therapies & Relaxation Spaces</h2>
                 <p>
-                  Our staff are highly trained in all aspects of dementia care. We are always researching new information, ideas and technologies to give support to people living with Dementia, helping them lead fuller lives.
+                  Our team is highly trained and passionate about dementia care. We continually research and apply the latest practices, therapies, and technologies to provide innovative, evidence-based support that fosters independence and promotes wellbeing.
                 </p>
                 <p>
-                  With our new interaction-inspired 3D dementia areas throughout our home, we create scenes designed to inspire memories and encourage conversations. Across the home, there are naturally simulated features and surroundings to match themes like an indoor garden, café, library, etc., so that people can relate their previous memories to their present life.
+                  Dedicated therapy and relaxation spaces – including movie rooms, meditation areas, and comfort zones – provide opportunities for mindfulness, sensory engagement, and calm reflection. Throughout the home, interactive and themed areas are designed to inspire memories and encourage conversations.
                 </p>
               </div>
             </div>
@@ -126,16 +126,16 @@ const DementiaEnvironment = () => {
               <div className="icon-box">
                 <i className="fas fa-users"></i>
               </div>
-              <h2>Connecting Communities</h2>
+              <h2>Community and Connection</h2>
               <p>
-                As part of connecting communities towards Dementia Awareness, Bellavista Nursing Home organised a major event on 20th of April 2018 called ‘Dementia Friendly Cardiff Bay’ in association with Dementia Friends Cardiff and local communities, which was sponsored by Barclays Bank Plc.
+                Living well with dementia is not just about care inside the home – it is about being part of a connected community. Bellavista has a proud history of community engagement initiatives, helping local residents, families, and businesses understand dementia and support those living with it.
               </p>
               <p>
-                The event was a big success and we managed to give Dementia Friendly awareness to more than 300 local people in Cardiff Bay and the local area. This helped to support the needs of the local communities in Dementia Care along with the Residents of the area. We are hoping to connect the communities and people in Cardiff and Cardiff Bay.
+                We work closely with Alzheimer’s Society, Social Services, the Local Health Board, and Cardiff Council to share knowledge and promote dementia awareness across the wider community. Our events and awareness programmes foster inclusivity and encourage communities to be welcoming, informed, and supportive.
               </p>
               <div style={{ marginTop: '20px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px', borderLeft: '4px solid var(--color-primary)' }}>
                 <p style={{ fontStyle: 'italic', margin: 0 }}>
-                  "The initiative was to bring awareness and better understanding about Dementia to support families and friends of someone living with Dementia. We wanted the local population, shops, businesses and charities to be able to welcome and support them well when they are visiting Cardiff Bay."
+                  At Bellavista, we are committed to enhancing the lives of people living with dementia, supporting independence, engagement, and wellbeing every day, while connecting residents and families to wider support networks.
                 </p>
               </div>
             </div>

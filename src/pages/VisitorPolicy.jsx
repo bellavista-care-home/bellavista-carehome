@@ -28,7 +28,7 @@ const VisitorPolicy = () => {
              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '6px', background: 'linear-gradient(to right, var(--color-primary), var(--color-secondary))' }}></div>
              <h2 style={{ fontSize: '2rem', marginBottom: '20px', color: '#333' }}>Visiting Information</h2>
              <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#555' }}>
-               We aim to maintain a safe environment for all our residents and staff. We continue to undertake strict infection control policies. We look for your continued support to protect our residents.
+               At Bellavista Nursing Homes, we welcome visitors while prioritising the safety, wellbeing, and comfort of our residents and staff. Our homes follow strict infection control policies, and we ask all visitors to support these measures to help maintain a safe environment for everyone.
              </p>
           </div>
         </div>

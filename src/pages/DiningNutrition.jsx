@@ -7,7 +7,7 @@ const DiningNutrition = () => {
       <div className="dining-header">
         <div className="container">
           <h1>Dining & Nutrition</h1>
-          <p>Nutritious meals and a dementia-friendly dining experience</p>
+          <p>Nourishing body and mind through flavour, choice, and connection.</p>
         </div>
       </div>
 
@@ -19,7 +19,7 @@ const DiningNutrition = () => {
           <div className="quote-wrapper" style={{ textAlign: 'center', marginBottom: '50px' }}>
              <i className="fas fa-quote-left" style={{ fontSize: '3rem', color: '#e0e0e0', display: 'block', marginBottom: '20px' }}></i>
              <p style={{ fontSize: '1.8rem', fontStyle: 'italic', color: '#333', lineHeight: '1.6', fontFamily: 'Georgia, serif' }}>
-               "We attach high importance to residents meals and our cooks spend time with them to learn their tastes and preferences..."
+               "At Bellavista, we understand that mealtimes are about more than just food – they are an essential part of wellbeing, social connection, and enjoyment."
              </p>
           </div>
 
@@ -32,12 +32,15 @@ const DiningNutrition = () => {
             overflow: 'hidden'
           }}>
              <div style={{ position: 'absolute', top: 0, left: 0, width: '6px', height: '100%', background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))' }}></div>
-             <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: '#333' }}>Nutrition Matters</h3>
+             <h3 style={{ fontSize: '1.5rem', marginBottom: '20px', color: '#333' }}>Nourishing Body and Mind</h3>
              <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#555' }}>
-               Getting the right nutritional value from food is important throughout our lives, but arguably more important than ever in our later years. So you’ll be reassured to know that we don’t leave nutrition to chance. Our Kitchen team maintains the highest standards of traditional home cooking, providing a choice of meals and tempting snacks around the clock served in either of our two dining rooms or in your own room if preferred. We can also cater for private functions and your visitors are always welcome to join you at mealtimes.
+               At Bellavista, we understand that mealtimes are about more than just food – they are an essential part of wellbeing, social connection, and enjoyment. Nutrition plays a vital role in maintaining health, energy, and vitality, particularly in later life, and our approach ensures that every resident’s dietary needs, preferences, and lifestyle choices are met with care and attention.
              </p>
              <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#555', marginTop: '20px' }}>
-               We have varied menus to accommodate every one’s taste and needs. We take care to help people when they need it and to do so sensitively. We encourage relatives to join us for meals.
+               Our skilled kitchen team prepares meals to the highest standards, combining traditional home-cooked favourites with fresh, seasonal ingredients. Residents enjoy a wide choice of nutritious and appealing meals throughout the day, whether in one of our welcoming dining rooms or in the comfort of their own room. We can also accommodate private dining occasions so families and friends can share in special moments together.
+             </p>
+             <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#555', marginTop: '20px' }}>
+               At Bellavista, we place residents at the heart of every meal. Our chefs take the time to understand individual tastes, dietary requirements, and preferences, tailoring menus to suit everyone’s needs – from softer foods and fortified meals to specialist diets and culturally specific dishes.
              </p>
           </div>
         </div>
@@ -251,25 +254,25 @@ const DiningNutrition = () => {
              <div style={{ position: 'absolute', bottom: '-30px', left: '-30px', width: '100px', height: '100px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }}></div>
 
              <i className="fas fa-leaf" style={{ fontSize: '2.5rem', color: '#81c784', marginBottom: '20px', display: 'block' }}></i>
-             <h3 style={{ fontSize: '2rem', marginBottom: '20px', fontWeight: '300' }}>Dietary Requirements</h3>
+             <h3 style={{ fontSize: '2rem', marginBottom: '20px', fontWeight: '300' }}>Excellence in Every Bite</h3>
              
              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
                 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '10px' }}>
-                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Diabetic Special
+                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Nutritious, balanced menus for older adults
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '10px' }}>
-                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Gluten Free
+                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Personalised meal planning to tastes and medical needs
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '10px' }}>
-                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Dairy Free
+                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Fresh, seasonal ingredients and home-cooked dishes
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.1)', padding: '15px', borderRadius: '10px' }}>
-                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Vegetarian/Halal
+                  <i className="fas fa-check" style={{ color: '#81c784', marginRight: '8px' }}></i> Flexible communal and in-room dining options
                 </div>
              </div>
 
              <p style={{ fontSize: '1.1rem', opacity: 0.8, maxWidth: '700px', margin: '0 auto' }}>
-               Meals are fortified with Milk, Butter, and cheese as appropriate. Tea, Coffee, Fruit Juice, Soft Drinks, and Snacks are available throughout the day.
+               Our supportive, attentive staff ensure dignity and enjoyment at every meal and warmly welcome family and friends to join, making dining a shared, uplifting experience.
              </p>
           </div>
         </div>

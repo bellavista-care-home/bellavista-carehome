@@ -32,16 +32,17 @@ const Facilities = () => {
       <div className="page-header">
         <div className="container">
           <h1>Our Facilities</h1>
-          <p>Modern comforts in a home-like setting</p>
+          <p>Carefully designed spaces that promote comfort, wellbeing, and engagement.</p>
         </div>
       </div>
 
       <section className="facilities-intro">
         <div className="container">
           <p>
-            We have carefully designed our homes to offer the best possible environment for our residents. 
-            From comfortable private rooms to stimulating activity areas, every corner of Bellavista is 
-            crafted to enhance quality of life.
+            At Bellavista Nursing Homes, every detail of our facilities is carefully designed to promote comfort, wellbeing, and engagement. From spacious, private rooms to vibrant communal areas and dedicated activity zones, our homes create a safe, welcoming, and stimulating environment for all residents.
+          </p>
+          <p>
+            Modern dining spaces, therapeutic gardens, and purpose-built wellness areas complement our advanced care facilities, ensuring that every moment supports quality of life, connection, and independence.
           </p>
         </div>
       </section>
