@@ -465,8 +465,7 @@ const Home = () => {
                 <h4>Physical Wellness</h4>
                 <p>Chair exercises, physiotherapy, gentle yoga</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div
@@ -482,8 +481,7 @@ const Home = () => {
                 <h4>Creative Arts</h4>
                 <p>Painting, crafts, pottery, creative writing</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div
@@ -499,8 +497,7 @@ const Home = () => {
                 <h4>Social & Games</h4>
                 <p>Bingo, quiz nights, social hours, outings</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div
@@ -516,8 +513,7 @@ const Home = () => {
                 <h4>Therapeutic Care</h4>
                 <p>Pet therapy, aromatherapy, meditation</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
             </div>
@@ -558,8 +554,7 @@ const Home = () => {
                 <h4>Home Comfort</h4>
                 <p>A Warm, Welcoming Environment</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div className="activity-card" role="button" tabIndex="0" aria-label="Open Safety First details" onClick={() => openModal('safety')}>
@@ -567,8 +562,7 @@ const Home = () => {
                 <h4>Safety First</h4>
                 <p>Advanced Protection & Emergency Response</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div className="activity-card" role="button" tabIndex="0" aria-label="Open Community details" onClick={() => openModal('community')}>
@@ -576,8 +570,7 @@ const Home = () => {
                 <h4>Community</h4>
                 <p>Vibrant Social Life & Connections</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
               <div className="activity-card" role="button" tabIndex="0" aria-label="Open Wellness Focus details" onClick={() => openModal('wellness')}>
@@ -585,8 +578,7 @@ const Home = () => {
                 <h4>Wellness Focus</h4>
                 <p>Holistic Health & Wellbeing</p>
                 <span className="activity-cta-text">
-                  <i className="fas fa-mouse-pointer"></i>
-                  Tap for details
+                  Click here
                 </span>
               </div>
             </div>

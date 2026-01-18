@@ -124,18 +124,12 @@ footer::before {
 
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 20px;
     margin-bottom: 20px;
   }
 
   .footer-col {
     padding: 0 10px;
-    display: none;
-  }
-
-  /* Show only the first column (company info) on tablet */
-  .footer-col:first-child {
-    display: block;
   }
 
   .footer-col h3 {
@@ -154,8 +148,13 @@ footer::before {
     margin-bottom: 10px;
   }
 
-  .footer-links {
-    display: none;
+  .footer-links li {
+    margin-bottom: 4px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    padding-left: 12px;
   }
 
   .social-links {
@@ -183,19 +182,13 @@ footer::before {
 
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 15px;
   }
 
   .footer-col {
     padding: 0 8px;
     text-align: center;
-    display: none;
-  }
-
-  /* Show only the first column (company info) on mobile */
-  .footer-col:first-child {
-    display: block;
   }
 
   .footer-col h3 {
@@ -206,6 +199,8 @@ footer::before {
 
   .footer-col h3::after {
     width: 25px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .footer-col p {
@@ -213,14 +208,8 @@ footer::before {
     margin-bottom: 8px;
   }
 
-  .footer-links {
-    text-align: center;
-    display: none;
-  }
-
   .footer-links li {
     margin-bottom: 3px;
-    font-size: 12px;
   }
 
   .footer-links a {
@@ -248,5 +237,56 @@ footer::before {
     padding: 10px 0;
     margin-top: 10px;
     font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 12px 0;
+  }
+
+  .footer-container {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .footer-col {
+    padding: 0 5px;
+  }
+
+  .footer-col h3 {
+    font-size: 12px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+
+  .footer-col p {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .footer-links li {
+    margin-bottom: 2px;
+  }
+
+  .footer-links a {
+    font-size: 11px;
+  }
+
+  .social-links {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .social-links a {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .copyright {
+    padding: 8px 0;
+    margin-top: 8px;
+    font-size: 10px;
   }
 }
