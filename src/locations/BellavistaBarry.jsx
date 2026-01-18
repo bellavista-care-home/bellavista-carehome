@@ -237,23 +237,81 @@ const BellavistaBarry = () => {
             {heroExpanded ? 'See Less' : 'See More'}
           </button>
 
-          {/* Expanded Content */}
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                Bellavista Barry is a long-established quality nursing home situated in the seaside of Barry with spectacular views over the Bristol channel and has been running since 2007 to enable elderly people to continue living as independently as possible by receiving care and support consistent with their needs.
+                Bellavista Barry is a long-established, high-quality nursing home located in the
+                seaside town of Barry, offering stunning views over the Bristol Channel. Since
+                opening in 2007, we have been dedicated to enabling older adults to continue
+                living as independently as possible, with personalised care and support tailored
+                to their individual needs.
               </p>
               <p>
-                Bellavista Barry is a 39-bedded registered care home providing accommodation and nursing care for older people. Our main aim is to provide a continuum of care, which takes account of increasing needs and frailty. The privacy, dignity, independence, rights and choices of our clients are central throughout their stay in Bellavista. Individual care needs are carefully identified and a personalised care program created. We aim to nurture the social care needs of our clients and maintain the strong links with the local community. Above all, we work to ensure that the home has a relaxed and happy environment.
+                Our 39-bedded, fully registered care home provides accommodation, nursing, and
+                specialist dementia care, with a focus on supporting residents at every stage of
+                ageing. We provide a continuum of care that adapts to increasing frailty and
+                evolving needs, ensuring the privacy, dignity, independence, rights, and
+                choices of each resident are central to their stay at Bellavista Barry.
               </p>
               <p>
-                We offer professional social care and nursing services for the elderly. The home is registered to provide high level of  dementia nursing , Dementia Residential,General Nursing,  Respite ,CHC Nursing and End of Life care . We offer you and your loved ones the perfect mix of peace and tranquillity, privacy and companionship, all within a safe, secure and High-Quality Nursing caring environment. All staff within are appropriately qualified to deliver good standards of care. A continuous staff-training programme has been to ensure that standards are maintained in line with the legislation and regulations and with the requirements of the Care Inspectorate for Wales (CIW).
+                At Bellavista Barry, every resident’s care is person-centred and carefully
+                tailored. Individual needs are assessed and a personalised care plan is created
+                to ensure the highest standards of support and quality of life. We nurture
+                social connections, promote engagement with the local community, and strive to
+                maintain a relaxed, happy, and homely environment for everyone in our care.
               </p>
               <p>
-                All residents are assured that they will be treated with respect and dignity according to their individual needs and wishes. Our cheerful and highly qualified staff are on hand 24-hours a day to enable the very best quality of life for our residents.We have a dedicated activity team who tailored person centred activity to our residents. We trying to improve our quality of care  and support our staff through various training and development programs .
+                Our team delivers professional social care and nursing services for older
+                adults, including high-level dementia nursing, dementia residential care,
+                general nursing, respite care, Continuing Healthcare (CHC) nursing, and end of
+                life care. This comprehensive approach ensures residents enjoy the perfect
+                balance of peace, tranquillity, privacy, companionship, and safety, all within
+                a secure and supportive environment.
               </p>
               <p>
-                We are delighted to announce the opening of our brand new dining area in our Barry Bellavista ,which indeed reflects in each and every corner of the room to create a Dementia Friendly Dining Experience in a warm and welcoming environment for our beloved and well-deserved Residents. We are very proud of our new dining facilities and staff here at Bellavista Nursing Home Barry 
+                All staff at Bellavista Barry are highly trained and appropriately qualified to
+                deliver exceptional care. We invest in continuous professional development, with
+                regular training programmes to ensure compliance with legislation, regulations,
+                and Care Inspectorate for Wales (CIW) standards.
+              </p>
+              <p>
+                Our dedicated activities team designs and delivers person-centred programmes,
+                tailored to the interests, abilities, and wellbeing of each resident. From
+                social activities to cognitive engagement, we encourage residents to remain
+                active, independent, and fulfilled throughout their stay.
+              </p>
+              <p>
+                We are proud to offer a homely yet professional environment, with facilities
+                designed to support the needs of all residents, including those living with
+                dementia. Residents benefit from modern, safe, and comfortable surroundings,
+                including our brand new dining area, which provides a Dementia-Friendly Dining
+                Experience. The space has been carefully designed to create a warm, welcoming,
+                and engaging environment that encourages social interaction and enhances
+                mealtimes.
+              </p>
+              <p>
+                Our home combines high standards of care with a welcoming atmosphere, ensuring
+                residents feel secure, valued, and at home at all times. Staff are on hand
+                24 hours a day to provide support, comfort, and companionship.
+              </p>
+              <p>Why choose Bellavista Barry:</p>
+              <ul>
+                <li>Exceptional, person-centred care for older adults</li>
+                <li>Specialist nursing and dementia care from highly trained staff</li>
+                <li>Continuum of care supporting independence and evolving needs</li>
+                <li>
+                  Safe, secure, and welcoming environment with modern, dementia-friendly
+                  facilities
+                </li>
+                <li>
+                  Tailored activities and social engagement promoting quality of life and
+                  wellbeing
+                </li>
+                <li>Prime seaside location with stunning views over the Bristol Channel</li>
+              </ul>
+              <p>
+                To discover more about our approach, you can also visit the{' '}
+                <Link to="/our-care">Our Care</Link> page.
               </p>
             </div>
           </div>

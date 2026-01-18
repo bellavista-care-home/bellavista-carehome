@@ -175,16 +175,65 @@ const CollegeFieldsNursingHome = () => {
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                Everyone here prides themselves in giving not only technically correct care but also creating an environment where residents truly feel at home and that they, as they do, matter. We also try to make life as fulfilling as possible by personal interaction and offering activities that interest individuals.
+                At College Fields Nursing Home, we are dedicated to providing exceptional care
+                in a warm, welcoming, and homely environment. Our team takes pride not only in
+                delivering technically excellent nursing care but also in creating a space
+                where residents feel valued, respected, and truly at home.
               </p>
               <p>
-                It is not only residents who need comfort but often families as well. The reputation we have earned has been as a result of much hard work and staff showing how important it is to care properly and compassionately.
+                We believe that every resident matters and strive to make life fulfilling
+                through personal interaction, meaningful engagement, and activities tailored
+                to individual interests.
               </p>
               <p>
-                Residents enjoy their home comforts in a warm, spacious and delightful environment with lots of companionship. Relatives are confident that their loved ones are receiving tender, loving care given by highly trained professional nurses, 24 hours a day.
+                We understand that support extends beyond our residents – families often need
+                reassurance, guidance, and comfort. Our reputation for excellence has been
+                built on the dedication, professionalism, and compassion of our staff, who go
+                above and beyond to provide care that is both attentive and empathetic.
               </p>
               <p>
-                Visitors are welcome at any time both to see loved ones or to see whether it is the ideal place for themselves, their relatives or friends.
+                College Fields Nursing Home offers a warm, spacious, and comfortable
+                environment where residents can enjoy the familiarity of home while receiving
+                professional support. Our home promotes companionship, social engagement, and
+                a strong sense of community, ensuring that every resident feels connected and
+                supported.
+              </p>
+              <p>
+                Relatives can take comfort in knowing that their loved ones are cared for by
+                highly trained, professional nursing staff available 24 hours a day, providing
+                both medical support and emotional reassurance.
+              </p>
+              <p>
+                We warmly welcome visitors at any time. Whether you are looking to see your
+                loved ones, explore our facilities, or determine if College Fields Nursing Home
+                is the right choice for yourself, your relatives, or friends, we encourage you
+                to visit and experience our home firsthand.
+              </p>
+              <p>
+                Our team is committed to creating a safe, supportive, and inclusive environment
+                where residents, families, and staff feel valued, respected, and confident in
+                the quality of care provided.
+              </p>
+              <p>Why choose College Fields Nursing Home:</p>
+              <ul>
+                <li>
+                  Person-centred care tailored to individual needs, interests, and preferences
+                </li>
+                <li>Highly trained nursing staff available 24 hours a day</li>
+                <li>
+                  A warm, spacious, and homely environment promoting comfort and companionship
+                </li>
+                <li>Meaningful activities and engagement to enhance quality of life</li>
+                <li>A supportive approach for families, ensuring peace of mind</li>
+                <li>
+                  A reputation for compassionate, professional, and consistent care
+                </li>
+              </ul>
+              <p>
+                At College Fields, we are committed to enhancing the lives of our residents,
+                providing an environment where they feel safe, valued, and empowered to enjoy
+                life to the fullest. To learn more about our approach, you can also visit the{' '}
+                <Link to="/our-care">Our Care</Link> page.
               </p>
             </div>
           </div>

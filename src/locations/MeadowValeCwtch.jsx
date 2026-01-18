@@ -200,14 +200,37 @@ const MeadowValeCwtch = () => {
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                Meadow Vale Cwtch is a "home from home" style Young Onset Dementia Nursing 24-hour Care provision. 
-                Designed for younger dementia registered persons in a home with stunning views of the Vale of Glamorgan 
-                and a unique specialised care approach.
+                Meadow Vale Cwtch is a purpose-built specialist nursing home, proudly developed
+                by the Bellavista Group, dedicated to providing exceptional care for individuals
+                living with young onset dementia.
               </p>
               <p>
-                A satellite project under the umbrella of the highly esteemed Waverley Care Centre and Bellavista Group. 
-                This group home is to date one of its kind, run to the needs of the individuals living there with some 
-                provision for a much-needed respite service.
+                Located in a peaceful setting near Cardiff Airport, Rhoose, and Barry, our home
+                combines accessibility with tranquillity, offering a safe, supportive, and
+                enriching environment for residents and their families.
+              </p>
+              <p>
+                Our approach to care is person-centred, dignified, and empowering, recognising
+                the unique needs, abilities, and life experiences of younger individuals
+                affected by dementia.
+              </p>
+              <p>
+                At Meadow Vale Cwtch, we promote independence, meaningful engagement, and
+                emotional wellbeing through expert nursing care, therapeutic activities, and a
+                vibrant living atmosphere.
+              </p>
+              <p>
+                Designed with sustainability at its heart, Meadow Vale Cwtch embraces
+                eco-conscious practices and thoughtfully planned spaces that support comfort,
+                safety, and long-term wellbeing.
+              </p>
+              <p>
+                Our modern, home-like environment fosters connection, purpose, and a true sense
+                of belonging—creating not just a place of care, but a place to live well.
+              </p>
+              <p>
+                Opening soon, Meadow Vale Cwtch will set a new standard in young onset dementia
+                care—where professional excellence meets compassion, innovation, and community.
               </p>
             </div>
           </div>

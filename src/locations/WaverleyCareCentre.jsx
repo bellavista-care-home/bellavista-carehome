@@ -175,14 +175,98 @@ const WaverleyCareCentre = () => {
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                The Waverley is a family-owned nursing home that overlooks the sea and open countryside, 
-                offering stunning views over the coast and Bristol Channel. We are conveniently located 
-                within walking distance of Penarth's shops and facilities, just a few miles from Cardiff.
+                At Waverley Care Centre, we believe that it’s the little things that make all
+                the difference – a friendly smile in the morning, time spent chatting with our
+                residents, a sunny walk outdoors, or a personalised activity that brings joy.
+                Our mission is to create a home where residents feel valued, comfortable, and
+                truly cared for, where every detail is thoughtfully considered to support
+                happiness, wellbeing, and independence.
               </p>
               <p>
-                At the Waverley, we know that little things make all the difference to our lives – a smiling face 
-                in the morning, a trip outside when the sun is shining, or staff who have time to stop and chat. 
-                We go the extra mile to ensure the comfort and happiness of our residents.
+                As a family-owned nursing home, our directors are fully involved in the
+                day-to-day management of the home. This hands-on approach ensures that care
+                quality, safety, and resident satisfaction are consistently at the forefront of
+                everything we do.
+              </p>
+              <p>
+                Waverley Care Centre is designed to provide exceptional, person-centred care for
+                up to 129 residents, with plans for additional capacity through recent
+                developments. The home is thoughtfully organised into four specialist units –
+                Clif Haven 1, Clif Haven 2, Seaviews, and Glan-y-Mor – each with dedicated
+                management and staff to ensure tailored support for every resident.
+              </p>
+              <p>
+                Our general nursing care offers comprehensive support for residents with a wide
+                range of healthcare needs, delivering expert nursing and personalised care
+                plans. The EMI (Elderly Mentally Infirm) unit provides specialist support for
+                individuals living with dementia or cognitive impairments, focusing on safety,
+                engagement, and quality of life. For residents with specific mental health
+                challenges, our FMI (Functional Mental Infirmity) care offers focused,
+                compassionate support tailored to their needs.
+              </p>
+              <p>
+                Through ongoing redevelopment and enhancements, the home now includes
+                modernised accommodation, improved communal spaces, and additional beds,
+                allowing us to continue providing the highest standards of care while offering
+                residents a comfortable, home-like environment in each unit.
+              </p>
+              <p>
+                Our holistic approach ensures that every resident receives personalised,
+                person-centred care tailored to their individual preferences, abilities, and
+                wellbeing. With a team of over 200 highly trained and experienced staff, we
+                pride ourselves on exceptionally low staff turnover, reflecting a stable,
+                knowledgeable, and committed workforce dedicated to delivering the highest
+                standards of care.
+              </p>
+              <p>
+                Waverley Care Centre offers a safe, secure, and welcoming environment where
+                residents can feel at home while receiving professional support. The home is
+                situated in a scenic location, overlooking the coastline, the Bristol Channel,
+                and surrounding countryside, creating a serene and inspiring backdrop for daily
+                life.
+              </p>
+              <p>
+                We combine modern facilities with a homely atmosphere, encouraging residents to
+                engage in activities, social interaction, and outdoor experiences. Our care
+                environment is designed to meet the needs of all residents, including those
+                requiring specialist dementia or mental health support, while promoting
+                independence, dignity, and quality of life.
+              </p>
+              <p>
+                Conveniently located within walking distance of Penarth town centre, residents
+                have easy access to shops, cafés, and local amenities. The home is also just a
+                few miles from Cardiff, with excellent transport links via the M4 motorway,
+                making visits from family and friends straightforward and stress-free.
+              </p>
+              <p>Why choose Waverley Care Centre:</p>
+              <ul>
+                <li>Personalised, person-centred care tailored to each resident’s needs</li>
+                <li>
+                  Specialist nursing, dementia, and mental health care delivered by highly
+                  trained staff
+                </li>
+                <li>
+                  Family-owned management with hands-on oversight ensuring quality and safety
+                </li>
+                <li>Large, scenic site with stunning coastal and countryside views</li>
+                <li>
+                  Homely and welcoming environment combined with professional standards of care
+                </li>
+                <li>
+                  Low staff turnover and a highly experienced team, offering continuity of care
+                  and reassurance to families
+                </li>
+              </ul>
+              <p>
+                At Waverley, we go beyond providing care – we create a community where
+                residents thrive, families feel confident, and staff are supported to deliver
+                excellence every day. Our goal is to ensure that every resident enjoys a
+                fulfilling, engaging, and dignified life in a home that feels safe, warm, and
+                truly special.
+              </p>
+              <p>
+                To explore our approach in more detail, you can also visit the{' '}
+                <Link to="/our-care">Our Care</Link> page.
               </p>
             </div>
           </div>

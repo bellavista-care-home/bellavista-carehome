@@ -255,18 +255,67 @@ We Regularly take advantage of our big garden space and often hold garden partie
             {heroExpanded ? 'See Less' : 'See More'}
           </button>
 
-          {/* Expanded Content */}
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                Bellavista Nursing Home Cardiff we aim to provide its service users with a secure, relaxed and homely environment in which their care, well-being and comfort are of prime importance, we offer a homely, professional nursing, and Dementia friendly environment for people who want to retain a level of independence, but are unable to do so safely with in their own home.  We want people to enjoy living with us and feedback and support from families help us to achieve that.  We strive to preserve and maintain the dignity, privacy and individuality of everyone who chooses to live with us.              </p>
-              <p>
-                Bellavista Nursing Home Cardiff is located in a pleasant part of Cardiff Bay, residents benefit from living close to numerous amenities and transport routes, while enjoying the charm and comfort of homely and friendly purpose built Nursing Home with a overlooking view of Cardiff bay waterfront with a chic, cosmopolitan atmosphere, where Cardiff comes to relax. We also organise outings to local places of interest. Residents are encouraged to live an active and independent life according to preferences of residents.              </p>
-              <p>
-                The home is registered to provide high level of  dementia nursing , Dementia Residential,General Nursing,  Respite ,CHC Nursing and End of Life care . We offer you and your loved ones the perfect mix of peace and tranquillity, privacy and companionship, all within a safe, secure and High-Quality Nursing caring environment.
+                At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely
+                environment where the care, well-being, and comfort of our residents are our
+                highest priorities.
               </p>
               <p>
-                All our staffs are highly trained to provide high quality care to all our residents, we continue providing on going training to further improve skills.We have a dedicated activity team who tailored person centred activity to our residents. We trying to improve our quality of care  and support our staff through various training and development programs .
+                Our home offers a professional, dementia-friendly, and nursing-led setting for
+                individuals who wish to maintain independence but require support to live
+                safely. Families are encouraged to provide feedback, visit regularly, and
+                participate in care planning so that care feels truly shared and transparent.
+              </p>
+              <p>
+                We take pride in preserving dignity, privacy, and individuality, supporting
+                every resident to live with confidence, comfort, and respect.
+              </p>
+              <p>
+                Located in the heart of Cardiff Bay, our purpose-built home overlooks the
+                waterfront and combines convenience with tranquillity. Residents benefit from
+                easy access to local amenities and transport links, while enjoying a calm,
+                homely atmosphere with opportunities for regular outings and community
+                involvement.
+              </p>
+              <p>
+                Bellavista Nursing Home Cardiff is registered to provide a wide range of care
+                services, including high-level dementia nursing, dementia residential care,
+                general nursing care, respite care, Continuing Healthcare (CHC) nursing, and
+                end of life care. We work closely with health professionals to ensure safe,
+                consistent, person-centred care.
+              </p>
+              <p>
+                Our dedicated team receive ongoing training in dementia care and
+                evidence-based practice. Alongside nurses and carers, our activities team
+                designs tailored programmes that support engagement, independence, and quality
+                of life for every resident.
+              </p>
+              <p>Choosing Bellavista Cardiff means:</p>
+              <ul>
+                <li>
+                  A safe and secure environment for residents, and peace of mind for families
+                </li>
+                <li>
+                  Specialist dementia and nursing care from highly trained staff
+                </li>
+                <li>
+                  A homely yet professional atmosphere with a focus on dignity and
+                  individuality
+                </li>
+                <li>
+                  Personalised activity programmes promoting independence, wellbeing, and
+                  social connection
+                </li>
+                <li>
+                  A stunning location overlooking Cardiff Bay with excellent local transport
+                  and amenities
+                </li>
+              </ul>
+              <p>
+                To learn more about our approach to care, you can also visit the{' '}
+                <Link to="/our-care">Our Care</Link> page.
               </p>
             </div>
           </div>

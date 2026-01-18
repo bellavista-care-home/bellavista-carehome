@@ -179,16 +179,103 @@ const BellavistaBaltimore = () => {
           <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
             <div className="loc-hero__expanded-card">
               <p>
-                Baltimore House Care Home is situated in a pastoral area of Barry steeped in tradition and rural splendour Baltimore is a family-owned Residential Care Home, whose directors are fully involved in the management of the home and Situated opposite is All Saints Church which was founded at the turn of the 20th Century and is central to the Anglican and community worship in Barry. A short distance away is the Porthkerry Country Park which boasts 220 acres of woods and meadowland. Essentially a beautiful day out.
+                Baltimore House Care Home is a well-established residential home located in the
+                scenic and tranquil surroundings of Barry, offering the perfect balance of rural
+                charm and professional care.
               </p>
               <p>
-                Baltimore House is a well-established Residential Home for people with or without cognitive impairment. Home offering Bipolar/Manic Depression Alzheimer’s Care with a dedicated manager and staff for each speciality. It accommodates 26 residents and despite being a residential facility, has lift access to the upper floors. Baltimore boasts a wide-open conservatory with delightful garden views and hosts many social gatherings and visiting entertainment. The rooms are tastefully decorated and many of the lounge features remain in place as the original fittings. High ceilings and warm cosy areas that reflect a time gone but enhanced by the facilities needed for a care home.
+                Situated opposite the historic All Saints Church, and just a short distance from
+                Porthkerry Country Park with its 220 acres of woods and meadows, our location
+                provides residents with a serene and inspiring environment, ideal for
+                relaxation, outdoor enjoyment, and community engagement.
               </p>
               <p>
-                The staff are seasoned and have been in post for many years and describe Baltimore as a home from home. We are supported by community services such as dietetics, occupational therapy and community mental health teams. GP services are prompt and all residents receive the care and treatment they need. There is a visiting Chiropodist and families are more than welcome to arrange their own visiting therapist and hairdressers if they so wish.
+                Our directors and management team are actively involved in the day-to-day
+                operations, ensuring the highest standards of care and a personal approach that
+                makes every resident feel valued and supported.
               </p>
               <p>
-                The atmosphere at Baltimore House is warm and friendly so you are more than welcome to arrange to have a look around if you or your loved one is looking for care. Baltimore overlooks the Barry seaside We are conveniently within walking distance of the facilities and shops of Barry and just a few miles from Barry Dock and 4 minutes from the Barry Island
+                Baltimore House provides support for up to 26 residents, including those living
+                with cognitive impairments, dementia, Alzheimer’s disease, and functional mental
+                health conditions such as bipolar disorder and depression. Each speciality is
+                overseen by a dedicated manager and trained staff team, ensuring that every
+                resident receives care tailored to their individual needs.
+              </p>
+              <p>
+                Our home focuses on person-centred care, creating a homely environment where
+                residents can continue to live safely, comfortably, and independently wherever
+                possible.
+              </p>
+              <p>Services include:</p>
+              <ul>
+                <li>General residential care for older adults</li>
+                <li>Dementia and Alzheimer’s care</li>
+                <li>Support for functional mental illness (bipolar disorder and depression)</li>
+              </ul>
+              <p>
+                Residents benefit from prompt access to GP services and community healthcare
+                support, including dietetics, occupational therapy, and mental health teams.
+                Visiting specialists such as chiropodists are available, and families are
+                encouraged to arrange personal therapists or hairdressing visits if desired.
+              </p>
+              <p>
+                Baltimore House combines the charm of a traditional home with the modern
+                amenities required for contemporary residential care. The property features
+                wheelchair access throughout, lift access to upper floors, spacious lounges, and
+                a large conservatory with garden views.
+              </p>
+              <p>
+                Rooms are tastefully decorated, with high ceilings and original character
+                features enhanced by modern care facilities. Social spaces host regular
+                gatherings, entertainment, and community activities, helping residents feel
+                engaged and connected.
+              </p>
+              <p>
+                Additional amenities include the option for residents to bring their own
+                furniture, pet-friendly policies, phone and television points in rooms, and
+                internet access for residents.
+              </p>
+              <p>
+                Baltimore House is ideally situated within walking distance of Barry town
+                centre, with shops, facilities, and services close at hand. Residents also
+                benefit from proximity to Barry Dock and Barry Island, with excellent public
+                transport links and road access to surrounding areas.
+              </p>
+              <p>
+                Our location combines peaceful surroundings with convenience and connectivity,
+                making it easy for families and friends to visit.
+              </p>
+              <p>Why choose Baltimore House:</p>
+              <ul>
+                <li>Small, homely environment with personalised, person-centred care</li>
+                <li>
+                  Specialist support for dementia, Alzheimer’s, and functional mental health
+                  conditions
+                </li>
+                <li>
+                  Experienced and long-standing staff, creating a true home-from-home atmosphere
+                </li>
+                <li>
+                  Spacious, bright, and characterful environment, including conservatory and
+                  garden spaces
+                </li>
+                <li>
+                  Modern facilities and accessibility, including wheelchair access and lift
+                  service
+                </li>
+                <li>
+                  Pet-friendly policies and support for personalising rooms
+                </li>
+                <li>
+                  Strong links with community and healthcare services for holistic support
+                </li>
+              </ul>
+              <p>
+                At Baltimore House, our goal is to create a safe, welcoming, and professional
+                environment where residents feel secure, valued, and supported, while enjoying
+                quality of life, independence, and dignity every day. To learn more about our
+                approach, you can also visit the{' '}
+                <Link to="/our-care">Our Care</Link> page.
               </p>
             </div>
           </div>
