@@ -6,7 +6,6 @@ import { fetchNewsItems } from '../services/newsService';
 import '../styles/MainPage.css';
 
 const Home = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [activeTab, setActiveTab] = useState('living');
   const [activeFilter, setActiveFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,18 +23,12 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    
     const loadNews = async () => {
       const items = await fetchNewsItems();
       setNewsList(items);
     };
     loadNews();
-
-    return () => clearInterval(interval);
-  }, [slides.length]);
+  }, []);
 
   const filterNews = (filter) => {
     setActiveFilter(filter);
@@ -211,32 +204,39 @@ const Home = () => {
         keywords="Bellavista Group Of Nursing Homes, Bellavista Care Home, nursing home cardiff, care home barry, dementia care south wales, residential care home"
       />
       <section className="hero">
-        <div className="hero-slideshow">
-          {slides.map((slide, index) => (
-            <div key={index} className={`slide ${index === currentSlide ? 'active' : ''}`}>
-              <img src={slide} alt={`Bellavista Nursing Home View ${index + 1}`} />
-            </div>
-          ))}
-        </div>
-        <div className="container hero-content">
-          <h1 className="hero-title">
-            <span className="title-main">Bellavista Group Of Nursing Homes</span>
-            <span className="title-motto">A Home From Home</span>
-          </h1>
-          <p className="hero-description">
-            Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing. At Bellavista, every resident is treated with respect, care, and a true sense of home.
-          </p>
-          <div className="hero-actions">
-            <Link className="btn btn-primary" to="/schedule-tour">
-              <i className="fas fa-calendar-check"></i> Book a Tour
-            </Link>
-            <Link className="btn btn-outline" to="/enquiry">
-              <i className="fas fa-heart"></i> Care Enquiry
-            </Link>
+        <div className="hero-right-full">
+          <div className="hero-image-wrap">
+            <img src="/theraphy-rooms.jpg" alt="Therapy rooms" />
           </div>
         </div>
 
+        <div className="container hero-container">
+          <div className="hero-content-left">
+            <h1 className="hero-title">
+              <span className="title-main">Bellavista Group Of Nursing Homes</span>
+              <span className="title-sub">A Home from Home</span>
+            </h1>
+            <p className="hero-description">
+              Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing. At Bellavista, every resident is treated with respect, care, and a true sense of home.
+            </p>
+            <div className="hero-actions">
+              <Link className="btn btn-primary" to="/schedule-tour">
+                <i className="fas fa-calendar-check"></i> Book a Tour
+              </Link>
+              <Link className="btn btn-outline" to="/enquiry">
+                <i className="fas fa-heart"></i> Care Enquiry
+              </Link>
+            </div>
+          </div>
+        </div>
 
+        <div className="hero-marquee-full-width">
+          <div className="hero-marquee-track">
+            {slides.concat(slides).map((slide, index) => (
+              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="about-group-intro">

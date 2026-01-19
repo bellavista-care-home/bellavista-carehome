@@ -1,40 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 /* Global Styles & Reset */
 :root {
-  /* Modern Color Palette - Warm & Inviting */
-  --primary-blue: #ff6b6b;
-  --primary-teal: #feca57;
-  --primary-purple: #48dbfb;
-  --primary-pink: #ff9ff3;
-  --primary-orange: #feca57;
-  --primary-green: #1dd1a1;
-  --primary-red: #ff6b6b;
+  /* Core Brand Colors - User Defined Palette */
+  --smoky-black: #11120D;
+  --olive-drab: #565449;
+  --bone: #D8CFBC;
+  --floral-white: #FFFBF4;
+
+  /* Functional Color Mappings */
+  --primary-color: var(--olive-drab);
+  --secondary-color: var(--bone);
+  --accent-color: var(--smoky-black);
   
-  /* Modern Neutrals */
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --text-muted: #9ca3af;
-  --white: #ffffff;
-  --bg-light: #f9fafb;
-  --bg-medium: #f3f4f6;
-  --bg-dark: #e5e7eb;
-  --bg-darker: #d1d5db;
+  /* Overriding existing variables to enforce palette globally */
+  --primary-blue: var(--olive-drab);
+  --primary-teal: var(--bone);
+  --primary-purple: var(--olive-drab);
+  --primary-pink: var(--bone);
+  --primary-orange: var(--bone);
+  --primary-green: var(--olive-drab);
+  --primary-red: var(--smoky-black);
   
-  /* Modern Gradients - Warm & Vibrant */
-  --gradient-primary: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-  --gradient-secondary: linear-gradient(135deg, #ff9ff3 0%, #feca57 100%);
-  --gradient-accent: linear-gradient(135deg, #48dbfb 0%, #1dd1a1 100%);
-  --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  /* Neutrals */
+  --text-dark: var(--smoky-black);
+  --text-light: #5a574d; /* Slightly lighter smoky black/olive mix */
+  --text-muted: #8f8677;
+  --white: var(--floral-white);
   
-  /* Modern Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* Backgrounds */
+  --bg-light: var(--floral-white);
+  --bg-medium: #f1e9dc; 
+  --bg-dark: var(--bone);
+  --bg-darker: var(--olive-drab);
   
-  /* Modern Typography */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--olive-drab) 0%, var(--smoky-black) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--bone) 0%, var(--olive-drab) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--floral-white) 0%, var(--bone) 100%);
+  --gradient-dark: linear-gradient(135deg, var(--smoky-black) 0%, #2a271f 100%);
+  
+  /* Shadows - Tinted with brand colors */
+  --shadow-sm: 0 1px 2px 0 rgba(17, 18, 13, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(17, 18, 13, 0.1), 0 2px 4px -1px rgba(17, 18, 13, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(17, 18, 13, 0.1), 0 4px 6px -2px rgba(17, 18, 13, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(17, 18, 13, 0.1), 0 10px 10px -5px rgba(17, 18, 13, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(17, 18, 13, 0.25);
+  
+  /* Typography */
+  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
 }
 
@@ -80,6 +95,7 @@ section, footer, main, .App, .home {
 /* Except for those specifically intended to scroll horizontally */
 .scrollable, 
 .homes-grid.scrollable, 
+.activity-grid,
 .news-grid.modern {
   overflow-x: auto !important;
   max-width: 100% !important;
