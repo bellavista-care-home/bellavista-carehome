@@ -535,7 +535,7 @@ const Home = () => {
           <div className="activities-layout">
             <div className="activity-featured">
               <div className="activity-image">
-                <img src="/personalized-care-plan.jpg" alt="Compassionate Care"/>
+                <img src="/medical-suite.jpg" alt="Compassionate Care"/>
                 <div className="activity-badge">💝 Our Commitment</div>
               </div>
               <div className="activity-info">

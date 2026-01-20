@@ -2099,7 +2099,7 @@
     display: block;
     object-fit: contain !important;
     object-position: center center !important;
-    border: 8px solid var(--bone);
+    border: none;
     border-radius: 12px;
 }
 
@@ -2113,6 +2113,7 @@
     border-radius: 25px;
     font-size: 14px;
     font-weight: 700;
+    display: none;
 }
 
 .activity-info {
@@ -2226,28 +2227,49 @@
     :root { --featured-min: clamp(620px, 70vh, 800px); }
     
     .activity-featured {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
         align-items: center;
-        justify-content: center;
-        min-height: 80vh;
+        min-height: var(--featured-min);
+        padding: 60px;
     }
     
     .activity-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        height: clamp(500px, 65vh, 700px) !important;
-        max-height: 80vh;
+        position: relative;
+        width: 100%;
+        height: 100% !important;
+        min-height: 500px;
+        max-height: none;
+        margin: 0;
+        display: block;
     }
     
     .activity-image img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto !important;
-        height: auto !important;
-        object-fit: contain !important;
-        margin: auto;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none;
+        max-height: none;
+        object-fit: cover !important;
+        object-position: center;
+        margin: 0;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .activity-info {
+        padding: 20px;
+        text-align: left;
+    }
+
+    .activity-info h3 {
+        font-size: 3rem;
+        margin-bottom: 25px;
+    }
+
+    .activity-info p {
+        font-size: 1.2rem;
+        line-height: 1.8;
     }
 }
 
@@ -2644,6 +2666,7 @@
     }
 
     .activity-badge {
+        display: block;
         top: 12px;
         left: 12px;
         padding: 6px 12px;
@@ -3122,6 +3145,7 @@
     }
     
     .activity-badge {
+        display: block !important;
         top: 12px !important;
         left: 12px !important;
         padding: 6px 12px !important;
@@ -3281,6 +3305,7 @@
     }
     
     .activity-badge {
+        display: block !important;
         top: 8px !important;
         left: 8px !important;
         padding: 4px 8px !important;
