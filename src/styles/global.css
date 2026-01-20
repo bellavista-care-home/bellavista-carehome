@@ -24,13 +24,13 @@
   
   /* Neutrals */
   --text-dark: var(--smoky-black);
-  --text-light: #5a574d; /* Slightly lighter smoky black/olive mix */
-  --text-muted: #8f8677;
+  --text-light: var(--olive-drab);
+  --text-muted: var(--olive-drab); /* Using olive-drab as muted text */
   --white: var(--floral-white);
   
   /* Backgrounds */
   --bg-light: var(--floral-white);
-  --bg-medium: #f1e9dc; 
+  --bg-medium: var(--bone); 
   --bg-dark: var(--bone);
   --bg-darker: var(--olive-drab);
   
@@ -38,7 +38,7 @@
   --gradient-primary: linear-gradient(135deg, var(--olive-drab) 0%, var(--smoky-black) 100%);
   --gradient-secondary: linear-gradient(135deg, var(--bone) 0%, var(--olive-drab) 100%);
   --gradient-accent: linear-gradient(135deg, var(--floral-white) 0%, var(--bone) 100%);
-  --gradient-dark: linear-gradient(135deg, var(--smoky-black) 0%, #2a271f 100%);
+  --gradient-dark: linear-gradient(135deg, var(--smoky-black) 0%, var(--olive-drab) 100%);
   
   /* Shadows - Tinted with brand colors */
   --shadow-sm: 0 1px 2px 0 rgba(17, 18, 13, 0.05);
@@ -532,10 +532,14 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Enhanced Focus Styles */
+/* Enhanced Focus Styles - Removed global focus outline as requested */
 *:focus {
-  outline: 2px solid var(--primary-blue);
-  outline-offset: 2px;
+  outline: none;
+}
+
+/* Maintain accessibility for keyboard users if needed, but remove default visible ring */
+*:focus-visible {
+  outline: none;
 }
 
 /* Modern Selection Styles */

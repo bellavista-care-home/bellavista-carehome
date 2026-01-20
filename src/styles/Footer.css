@@ -1,11 +1,11 @@
 /* Footer Styles */
 footer {
-  background: var(--olive-drab);
+  background: linear-gradient(to right, var(--olive-drab), var(--smoky-black));
   color: var(--floral-white);
   padding: 60px 0 20px;
   position: relative;
   overflow: hidden;
-  border-top: 10px solid var(--bone);
+  border-top: 1px solid var(--bone);
 }
 
 footer::before {

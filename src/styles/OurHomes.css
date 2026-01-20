@@ -2,25 +2,26 @@
 
 .our-homes-page {
   padding: 80px 0;
-  background-color: #f8f9fa;
+  background-color: var(--bone);
 }
 
 .our-homes-page.standalone {
   padding-top: 0;
   min-height: 100vh;
+  background-color: var(--floral-white);
 }
 
 .homes-header {
-  background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 30, 60, 0.8)), url('/background-banner-image.png');
+  background: var(--gradient-dark), url('/background-banner-image.png');
   background-size: cover;
   background-position: center;
-  color: white;
+  color: var(--floral-white);
   padding: 120px 0;
   text-align: center;
   margin-bottom: 60px;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 10px 30px rgba(0, 102, 204, 0.15);
+  box-shadow: 0 10px 30px rgba(17, 18, 13, 0.15);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   position: relative;
@@ -30,7 +31,7 @@
 .homes-header h1 {
   font-size: 3rem;
   margin-bottom: 20px;
-  color: white;
+  color: var(--bone);
   font-family: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
@@ -39,6 +40,7 @@
   opacity: 0.9;
   max-width: 600px;
   margin: 0 auto;
+  color: var(--floral-white);
 }
 
 .section-header {
@@ -47,14 +49,14 @@
 }
 
 .section-title {
-  color: #003366;
+  color: var(--text-dark);
   font-size: 2.5rem;
   margin-bottom: 1rem;
   font-family: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .section-subtitle {
-  color: #6c757d;
+  color: var(--text-light);
   max-width: 700px;
   margin: 0 auto;
   font-size: 1.1rem;
@@ -76,7 +78,7 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: #0066cc #f0f0f0;
+  scrollbar-color: var(--olive-drab) var(--bone);
   grid-template-columns: none;
 }
 
@@ -85,17 +87,17 @@
 }
 
 .homes-grid.scrollable::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: var(--bone);
   border-radius: 4px;
 }
 
 .homes-grid.scrollable::-webkit-scrollbar-thumb {
-  background: #0066cc;
+  background: var(--olive-drab);
   border-radius: 4px;
 }
 
 .homes-grid.scrollable::-webkit-scrollbar-thumb:hover {
-  background: #00b4d8;
+  background: var(--smoky-black);
 }
 
 .homes-grid.scrollable .home-card {
@@ -113,10 +115,10 @@
 }
 
 .home-card {
-  background: white;
+  background: var(--floral-white);
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(17, 18, 13, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   display: flex;
@@ -125,7 +127,7 @@
 
 .home-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 15px 40px rgba(17, 18, 13, 0.15);
 }
 
 .home-image-container {
@@ -153,7 +155,7 @@
   padding: 6px 15px;
   border-radius: 20px;
   font-weight: 600;
-  color: #003366;
+  color: var(--olive-drab);
   font-size: 0.85rem;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   display: flex;
@@ -169,7 +171,7 @@
   display: flex;
   gap: 8px;
   z-index: 2;
-  background: rgba(0,0,0,0.2);
+  background: rgba(17, 18, 13, 0.4);
   padding: 5px 10px;
   border-radius: 10px;
 }
@@ -186,7 +188,7 @@
 }
 
 .indicator-dot.active {
-  background: white;
+  background: var(--floral-white);
   transform: scale(1.2);
 }
 
@@ -198,14 +200,14 @@
 }
 
 .home-content h3 {
-  color: #003366;
+  color: var(--smoky-black);
   margin-bottom: 5px;
   font-size: 1.3rem;
   font-family: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .home-description {
-  color: #6c757d;
+  color: var(--text-light);
   margin-bottom: 10px;
   line-height: 1.4;
   flex-grow: 1;
@@ -225,8 +227,8 @@
 }
 
 .feature-tag {
-  background: #e6f7ff;
-  color: #0066cc;
+  background: var(--bone);
+  color: var(--smoky-black);
   padding: 5px 12px;
   border-radius: 15px;
   font-size: 0.8rem;
@@ -242,8 +244,8 @@
 
 .view-home-btn {
   background: transparent;
-  border: 2px solid #003366;
-  color: #003366;
+  border: 2px solid var(--olive-drab);
+  color: var(--olive-drab);
   padding: 12px 20px;
   border-radius: 30px;
   font-weight: 600;
@@ -258,8 +260,8 @@
 }
 
 .home-card:hover .view-home-btn {
-  background: #003366;
-  color: white;
+  background: var(--olive-drab);
+  color: var(--floral-white);
 }
 
 @media (max-width: 768px) {
