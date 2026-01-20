@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import OurHomes from './OurHomes';
 import SEO from '../components/SEO';
 import { fetchNewsItems } from '../services/newsService';
+import { fetchReviews } from '../services/reviewService';
 import '../styles/MainPage.css';
 
 const Home = () => {
@@ -12,6 +13,60 @@ const Home = () => {
   const [modalContent, setModalContent] = useState(null);
   const [newsList, setNewsList] = useState([]);
   
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const [reviews, setReviews] = useState([
+    {
+      text: "Bellavista Nursing Home is an established and trusted Nursing Care provider in South Wales area, reputed for its friendly, warm, caring and relaxed environment 'A Home from home'.",
+      author: "Bellavista Group",
+      role: "Our Philosophy"
+    },
+    {
+      text: "At the Waverley we know that little things make all the difference to our lives – a smiling face in the morning, a trip outside when the sun is shining, staff who have time to stop and chat.",
+      author: "Waverley Care Centre",
+      role: "Care Team"
+    },
+    {
+      text: "Home is highly recommended by residents and relatives alike, our homes provide a safe, comfortable and stimulating environment that enable our highly trained staff to provide the best possible care.",
+      author: "Relative",
+      role: "Testimonial"
+    },
+    {
+      text: "The atmosphere at Baltimore House is warm and friendly so you are more than welcome to arrange to have a look around if you or your loved one is looking for care.",
+      author: "Baltimore House",
+      role: "Visitor"
+    }
+  ]);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const data = await fetchReviews();
+        if (data && data.length > 0) {
+          // Map backend data to UI format
+          // Backend likely returns: { review: "...", name: "...", rating: 5, ... }
+          const mappedReviews = data.slice(0, 5).map(r => ({
+            text: r.review,
+            author: r.name || "Verified Resident",
+            role: "Verified Review"
+          }));
+          setReviews(mappedReviews);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+        // Fallback to default reviews (already in state)
+      }
+    };
+    
+    loadReviews();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [reviews.length]);
+
   const featuredNews = newsList.find(news => news.important) || newsList[0] || {};
 
   const slides = [
@@ -253,10 +308,6 @@ const Home = () => {
                 needs of each resident. Our modern, thoughtfully designed facilities combine the 
                 warmth and comfort of home with the highest professional standards, ensuring dignity, 
                 wellbeing, and peace of mind at every stage of life. 
-                Wales, we provide premium residential and nursing services tailored to the unique 
-                needs of each resident. Our modern, thoughtfully designed facilities combine the 
-                warmth and comfort of home with the highest professional standards, ensuring dignity, 
-                wellbeing, and peace of mind at every stage of life. 
               </p>
               <p>
                 Our team of highly trained, compassionate professionals is dedicated to delivering 
@@ -268,45 +319,6 @@ const Home = () => {
               <p>
                 Experience a new standard of care at Bellavista Nursing Home—where expertise meets 
                 compassion, and every resident is at the heart of everything we do. 
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <OurHomes isStandalone={false} />
-
-      <section className="about-pillars">
-        <div className="container">
-          <div className="section-header centered">
-            <h2 className="section-title">About Us at a Glance</h2>
-            <p className="section-subtitle">
-              The principles that shape daily life, care and relationships at Bellavista Nursing Home.
-            </p>
-          </div>
-          <div className="about-pillars-grid">
-            <div className="about-pillar">
-              <h3>Our Vision</h3>
-              <p>
-                Setting the benchmark for exceptional care in South Wales, where every resident enjoys unmatched dignity, comfort and personalised attention in a home that feels truly their own.
-              </p>
-            </div>
-            <div className="about-pillar">
-              <h3>Our Values</h3>
-              <p>
-                Compassion, integrity and excellence guide every decision and interaction, with respect, empathy and a commitment to the highest standards at the heart of all we do.
-              </p>
-            </div>
-            <div className="about-pillar">
-              <h3>Our Care</h3>
-              <p>
-                Holistic, tailored and attentive support that blends expert nursing with emotional and social care, so each resident can thrive in mind, body and spirit.
-              </p>
-            </div>
-            <div className="about-pillar">
-              <h3>Our Team</h3>
-              <p>
-                Dedicated professionals who combine clinical expertise, empathy and innovation to deliver warm, reliable and personalised care that enhances quality of life.
               </p>
             </div>
           </div>
@@ -347,6 +359,45 @@ const Home = () => {
               <h3>Genuine Home-from-Home</h3>
               <p>
                 Warm lounges, homely dining, landscaped gardens and open visiting create a welcoming atmosphere for residents and their families.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <OurHomes isStandalone={false} />
+
+      <section className="about-pillars">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">About Us at a Glance</h2>
+            <p className="section-subtitle">
+              The principles that shape daily life, care and relationships at Bellavista Nursing Home.
+            </p>
+          </div>
+          <div className="about-pillars-grid">
+            <div className="about-pillar">
+              <h3>Our Vision</h3>
+              <p>
+                Setting the benchmark for exceptional care in South Wales, where every resident enjoys unmatched dignity, comfort and personalised attention in a home that feels truly their own.
+              </p>
+            </div>
+            <div className="about-pillar">
+              <h3>Our Values</h3>
+              <p>
+                Compassion, integrity and excellence guide every decision and interaction, with respect, empathy and a commitment to the highest standards at the heart of all we do.
+              </p>
+            </div>
+            <div className="about-pillar">
+              <h3>Our Care</h3>
+              <p>
+                Holistic, tailored and attentive support that blends expert nursing with emotional and social care, so each resident can thrive in mind, body and spirit.
+              </p>
+            </div>
+            <div className="about-pillar">
+              <h3>Our Team</h3>
+              <p>
+                Dedicated professionals who combine clinical expertise, empathy and innovation to deliver warm, reliable and personalised care that enhances quality of life.
               </p>
             </div>
           </div>
@@ -416,6 +467,119 @@ const Home = () => {
             <Link to="/news" className="btn btn-outline-large">
               <i className="fas fa-newspaper"></i> View All News
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-testimonials" id="testimonials">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <p className="section-subtitle">
+              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Bellavista Nursing Home.
+            </p>
+          </div>
+          <div className="testimonials-content-wrapper">
+            <div className="google-reviews-card">
+              <div className="google-header">
+                <i className="fab fa-google google-icon"></i>
+                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: '#555' }}>Google Reviews</span>
+              </div>
+              <div className="rating-display">4.9</div>
+              <div className="google-stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+              <p className="review-count">Based on verified reviews</p>
+              <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn-google">
+                See our reviews
+              </a>
+            </div>
+
+            <div className="vertical-testimonials-container">
+              {reviews.map((review, index) => {
+                 let className = 'testimonial-slide';
+                 if (index === currentReviewIndex) {
+                     className += ' active';
+                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
+                     className += ' prev';
+                 }
+                 
+                 return (
+                    <div key={index} className={className}>
+                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                      <p className="testimonial-text">"{review.text}"</p>
+                      <div className="testimonial-author">
+                        <h4>{review.author}</h4>
+                        <span>{review.role}</span>
+                      </div>
+                    </div>
+                 );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="care-promise" id="care-promise">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Our Care Promise</h2>
+            <p className="section-subtitle">Excellence in every aspect of care, comfort and community – every day.</p>
+          </div>
+          <div className="activities-layout">
+            <div className="activity-featured">
+              <div className="activity-image">
+                <img src="/medical-suite.jpg" alt="Compassionate Care"/>
+                <div className="activity-badge">💝 Our Commitment</div>
+              </div>
+              <div className="activity-info">
+                <h3>Personalized Care Plans</h3>
+                <p>Every resident receives an individually tailored care plan developed by our multidisciplinary team, ensuring their unique needs, preferences, and dignity are always respected.</p>
+                <div className="activity-schedule">
+                  <span><i className="fas fa-user-md"></i> Qualified Nursing Staff</span>
+                  <span><i className="fas fa-clock"></i> 24/7 Care Available</span>
+                  <span><i className="fas fa-heart"></i> Family-Centered Approach</span>
+                </div>
+              </div>
+            </div>
+            <div className="activity-grid">
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Home Comfort details" onClick={() => openModal('comfort')}>
+                <div className="activity-icon physical"><i className="fas fa-home"></i></div>
+                <h4>Home Comfort</h4>
+                <p>A Warm, Welcoming Environment</p>
+                <span className="activity-cta-text">
+                  Click here
+                </span>
+              </div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Safety First details" onClick={() => openModal('safety')}>
+                <div className="activity-icon creative"><i className="fas fa-shield-alt"></i></div>
+                <h4>Safety First</h4>
+                <p>Advanced Protection & Emergency Response</p>
+                <span className="activity-cta-text">
+                  Click here
+                </span>
+              </div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Community details" onClick={() => openModal('community')}>
+                <div className="activity-icon social"><i className="fas fa-users"></i></div>
+                <h4>Community</h4>
+                <p>Vibrant Social Life & Connections</p>
+                <span className="activity-cta-text">
+                  Click here
+                </span>
+              </div>
+              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Wellness Focus details" onClick={() => openModal('wellness')}>
+                <div className="activity-icon therapeutic"><i className="fas fa-leaf"></i></div>
+                <h4>Wellness Focus</h4>
+                <p>Holistic Health & Wellbeing</p>
+                <span className="activity-cta-text">
+                  Click here
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -522,66 +686,6 @@ const Home = () => {
             <Link to="/activities" className="btn btn-primary">
               <i className="fas fa-calendar-alt"></i> View All Activities
             </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="care-promise" id="care-promise">
-        <div className="container">
-          <div className="section-header centered">
-            <h2 className="section-title">Our Care Promise</h2>
-            <p className="section-subtitle">Excellence in every aspect of care, comfort and community – every day.</p>
-          </div>
-          <div className="activities-layout">
-            <div className="activity-featured">
-              <div className="activity-image">
-                <img src="/medical-suite.jpg" alt="Compassionate Care"/>
-                <div className="activity-badge">💝 Our Commitment</div>
-              </div>
-              <div className="activity-info">
-                <h3>Personalized Care Plans</h3>
-                <p>Every resident receives an individually tailored care plan developed by our multidisciplinary team, ensuring their unique needs, preferences, and dignity are always respected.</p>
-                <div className="activity-schedule">
-                  <span><i className="fas fa-user-md"></i> Qualified Nursing Staff</span>
-                  <span><i className="fas fa-clock"></i> 24/7 Care Available</span>
-                  <span><i className="fas fa-heart"></i> Family-Centered Approach</span>
-                </div>
-              </div>
-            </div>
-            <div className="activity-grid">
-              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Home Comfort details" onClick={() => openModal('comfort')}>
-                <div className="activity-icon physical"><i className="fas fa-home"></i></div>
-                <h4>Home Comfort</h4>
-                <p>A Warm, Welcoming Environment</p>
-                <span className="activity-cta-text">
-                  Click here
-                </span>
-              </div>
-              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Safety First details" onClick={() => openModal('safety')}>
-                <div className="activity-icon creative"><i className="fas fa-shield-alt"></i></div>
-                <h4>Safety First</h4>
-                <p>Advanced Protection & Emergency Response</p>
-                <span className="activity-cta-text">
-                  Click here
-                </span>
-              </div>
-              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Community details" onClick={() => openModal('community')}>
-                <div className="activity-icon social"><i className="fas fa-users"></i></div>
-                <h4>Community</h4>
-                <p>Vibrant Social Life & Connections</p>
-                <span className="activity-cta-text">
-                  Click here
-                </span>
-              </div>
-              <div className="activity-card" role="button" tabIndex="0" aria-label="Open Wellness Focus details" onClick={() => openModal('wellness')}>
-                <div className="activity-icon therapeutic"><i className="fas fa-leaf"></i></div>
-                <h4>Wellness Focus</h4>
-                <p>Holistic Health & Wellbeing</p>
-                <span className="activity-cta-text">
-                  Click here
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -724,34 +828,6 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-testimonials" id="testimonials">
-        <div className="container">
-          <div className="section-header centered">
-            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
-            <p className="section-subtitle">
-              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Bellavista Nursing Home.
-            </p>
-          </div>
-          <div className="testimonials-highlight">
-            <div className="testimonials-card">
-              <div className="testimonials-icon">
-                <i className="fas fa-award"></i>
-              </div>
-              <h3>Top-Rated Care Home</h3>
-              <p>
-                We are honoured to be recognised as one of South Wales’s leading care providers, a reflection of our unwavering commitment to excellence, compassion, and integrity. This recognition is built upon consistently high standards, dedicated professionals, and a genuine focus on the comfort, dignity, and wellbeing of every resident.
-              </p>
-              <p>
-                At Bellavista, quality care is not just delivered—it is continuously upheld and proudly lived every day.
-              </p>
-              <Link to="/testimonials" className="btn btn-outline-large">
-                <i className="fas fa-comment-dots"></i> Read Testimonials
-              </Link>
             </div>
           </div>
         </div>
