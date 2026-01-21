@@ -15,7 +15,6 @@ import SEO from '../components/SEO';
 
 const MeadowValeCwtch = () => {
   const navigate = useNavigate();
-  const [heroExpanded, setHeroExpanded] = useState(false);
   const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
@@ -177,6 +176,14 @@ const MeadowValeCwtch = () => {
     }
   };
 
+  const slides = [
+    '/FrontPageBanner/banner-first.jpg',
+    '/FrontPageBanner/banner-second.png',
+    '/FrontPageBanner/banner-third.png',
+    '/FrontPageBanner/banner-fourth.jpg',
+    '/FrontPageBanner/banner-fifth.jpg'
+  ];
+
   return (
     <div className="location-page theme-meadow-vale">
       <SEO 
@@ -185,20 +192,51 @@ const MeadowValeCwtch = () => {
         url="/meadow-vale-cwtch"
       />
       {/* 1. HERO SECTION */}
-      <div className="loc-hero">
-        <div className="loc-hero__content">
-          <h1 className="loc-hero__title">Welcome to Meadow Vale Cwtch</h1>
-          <p className="loc-hero__subtitle">
-            Young Onset Dementia Nursing Care
-          </p>
-          
-          <button className="loc-hero__btn" onClick={() => setHeroExpanded(!heroExpanded)}>
-            {heroExpanded ? 'See Less' : 'See More'}
-          </button>
+      <section className="hero">
+        <div className="hero-right-full">
+          <div className="hero-image-wrap">
+            <img src="/FrontPageBanner/banner-first.jpg" alt="Meadow Vale Cwtch" />
+          </div>
+        </div>
 
-          {/* Expanded Content */}
-          <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
-            <div className="loc-hero__expanded-card">
+        <div className="container hero-container">
+          <div className="hero-content-left">
+            <h1 className="hero-title">
+              <span className="title-main">Meadow Vale Cwtch</span>
+              <span className="title-sub">Specialist Young Onset Dementia Nursing Care</span>
+            </h1>
+            <p className="hero-description">
+              Meadow Vale Cwtch is a purpose-built specialist nursing home, proudly developed by the Bellavista Group, dedicated to providing exceptional care for individuals living with young onset dementia
+            </p>
+          </div>
+        </div>
+
+        <div className="hero-marquee-full-width">
+          <div className="hero-marquee-track">
+            {slides.concat(slides).map((slide, index) => (
+              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-group-intro">
+        <div className="container">
+          <div className="about-group-content">
+            <h2 className="group-intro-title">
+              <span className="group-name">Welcome to Meadow Vale Cwtch</span>
+            </h2>
+
+            <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
+              <Link className="btn btn-primary" to="/schedule-tour">
+                <i className="fas fa-calendar-check"></i> Book a Tour
+              </Link>
+              <Link className="btn btn-outline" to="/enquiry">
+                <i className="fas fa-heart"></i> Care Enquiry
+              </Link>
+            </div>
+
+            <div className="group-intro-text">
               <p>
                 Meadow Vale Cwtch is a purpose-built specialist nursing home, proudly developed
                 by the Bellavista Group, dedicated to providing exceptional care for individuals
@@ -267,7 +305,7 @@ const MeadowValeCwtch = () => {
             <span>Expert Team</span>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* 2. ACTIVITIES SECTION */}
       <section className="loc-section loc-section--white">

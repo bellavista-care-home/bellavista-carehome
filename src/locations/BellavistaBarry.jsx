@@ -16,7 +16,6 @@ import SEO from '../components/SEO';
 
 const BellavistaBarry = () => {
   const navigate = useNavigate();
-  const [heroExpanded, setHeroExpanded] = useState(false);
   const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
@@ -214,6 +213,14 @@ const BellavistaBarry = () => {
     ]
   };
 
+  const slides = [
+    '/FrontPageBanner/banner-first.jpg',
+    '/FrontPageBanner/banner-second.png',
+    '/FrontPageBanner/banner-third.png',
+    '/FrontPageBanner/banner-fourth.jpg',
+    '/FrontPageBanner/banner-fifth.jpg'
+  ];
+
   return (
     <div className="location-page theme-barry">
       <SEO 
@@ -226,19 +233,51 @@ const BellavistaBarry = () => {
           {JSON.stringify(barrySchema)}
         </script>
       </Helmet>
-      <div className="loc-hero">
-        <div className="loc-hero__content">
-          <h1 className="loc-hero__title">Welcome to Bellavista Barry</h1>
-          <p className="loc-hero__subtitle">
-            A long-established quality nursing home situated in the seaside of Barry with spectacular views over the Bristol channel.
-          </p>
-          
-          <button className="loc-hero__btn" onClick={() => setHeroExpanded(!heroExpanded)}>
-            {heroExpanded ? 'See Less' : 'See More'}
-          </button>
+      <section className="hero">
+        <div className="hero-right-full">
+          <div className="hero-image-wrap">
+            <img src="/FrontPageBanner/banner-first.jpg" alt="Bellavista Barry" />
+          </div>
+        </div>
 
-          <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
-            <div className="loc-hero__expanded-card">
+        <div className="container hero-container">
+          <div className="hero-content-left">
+            <h1 className="hero-title">
+              <span className="title-main">Bellavista Nursing Home Barry</span>
+              <span className="title-sub">stunning views over the Bristol Channel.</span>
+            </h1>
+            <p className="hero-description">
+              Bellavista Barry is a long-established, high-quality nursing home located in the seaside town of Barry, offering stunning views over the Bristol Channel.
+            </p>
+          </div>
+        </div>
+
+        <div className="hero-marquee-full-width">
+          <div className="hero-marquee-track">
+            {slides.concat(slides).map((slide, index) => (
+              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-group-intro">
+        <div className="container">
+          <div className="about-group-content">
+            <h2 className="group-intro-title">
+              <span className="group-name">Welcome to Bellavista Barry</span>
+            </h2>
+
+            <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
+              <Link className="btn btn-primary" to="/schedule-tour">
+                <i className="fas fa-calendar-check"></i> Book a Tour
+              </Link>
+              <Link className="btn btn-outline" to="/enquiry">
+                <i className="fas fa-heart"></i> Care Enquiry
+              </Link>
+            </div>
+
+            <div className="group-intro-text">
               <p>
                 Bellavista Barry is a long-established, high-quality nursing home located in the
                 seaside town of Barry, offering stunning views over the Bristol Channel. Since
@@ -348,7 +387,7 @@ const BellavistaBarry = () => {
             <span>Expert Team</span>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* 2. ACTIVITIES SECTION */}
       <section className="loc-section loc-section--white">

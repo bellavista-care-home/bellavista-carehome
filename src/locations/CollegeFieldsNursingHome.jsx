@@ -15,7 +15,6 @@ import SEO from '../components/SEO';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
-  const [heroExpanded, setHeroExpanded] = useState(false);
   const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
@@ -152,6 +151,14 @@ const CollegeFieldsNursingHome = () => {
     }
   };
 
+  const slides = [
+    '/FrontPageBanner/banner-first.jpg',
+    '/FrontPageBanner/banner-second.png',
+    '/FrontPageBanner/banner-third.png',
+    '/FrontPageBanner/banner-fourth.jpg',
+    '/FrontPageBanner/banner-fifth.jpg'
+  ];
+
   return (
     <div className="location-page theme-college-fields">
       <SEO 
@@ -160,20 +167,51 @@ const CollegeFieldsNursingHome = () => {
         url="/college-fields-nursing-home"
       />
       {/* 1. HERO SECTION */}
-      <div className="loc-hero">
-        <div className="loc-hero__content">
-          <h1 className="loc-hero__title">Welcome to College Fields</h1>
-          <p className="loc-hero__subtitle">
-            Where residents truly feel at home
-          </p>
-          
-          <button className="loc-hero__btn" onClick={() => setHeroExpanded(!heroExpanded)}>
-            {heroExpanded ? 'See Less' : 'See More'}
-          </button>
+      <section className="hero">
+        <div className="hero-right-full">
+          <div className="hero-image-wrap">
+            <img src="/FrontPageBanner/banner-first.jpg" alt="College Fields Nursing Home" />
+          </div>
+        </div>
 
-          {/* Expanded Content */}
-          <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
-            <div className="loc-hero__expanded-card">
+        <div className="container hero-container">
+          <div className="hero-content-left">
+            <h1 className="hero-title">
+              <span className="title-main">College Fields Nursing Home</span>
+              <span className="title-sub">Compassionate, Person-Centred Care</span>
+            </h1>
+            <p className="hero-description">
+              At College Fields Nursing Home, we are dedicated to providing exceptional care in a warm, welcoming, and homely environment.
+            </p>
+          </div>
+        </div>
+
+        <div className="hero-marquee-full-width">
+          <div className="hero-marquee-track">
+            {slides.concat(slides).map((slide, index) => (
+              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-group-intro">
+        <div className="container">
+          <div className="about-group-content">
+            <h2 className="group-intro-title">
+              <span className="group-name">Welcome to College Fields</span>
+            </h2>
+
+            <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
+              <Link className="btn btn-primary" to="/schedule-tour">
+                <i className="fas fa-calendar-check"></i> Book a Tour
+              </Link>
+              <Link className="btn btn-outline" to="/enquiry">
+                <i className="fas fa-heart"></i> Care Enquiry
+              </Link>
+            </div>
+
+            <div className="group-intro-text">
               <p>
                 At College Fields Nursing Home, we are dedicated to providing exceptional care
                 in a warm, welcoming, and homely environment. Our team takes pride not only in
@@ -270,7 +308,7 @@ const CollegeFieldsNursingHome = () => {
             <span>Expert Team</span>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* 2. ACTIVITIES SECTION */}
       <section className="loc-section loc-section--white">

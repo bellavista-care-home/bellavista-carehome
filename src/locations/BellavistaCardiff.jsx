@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Helmet } from 'react-helmet-async';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
 import ReviewForm from '../components/ReviewForm';
@@ -16,7 +16,6 @@ import SEO from '../components/SEO';
 
 const BellavistaCardiff = () => {
   const navigate = useNavigate();
-  const [heroExpanded, setHeroExpanded] = useState(false);
   const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
@@ -236,6 +235,46 @@ We Regularly take advantage of our big garden space and often hold garden partie
     }
   };
 
+  const cardiffSchema = {
+    "@context": "https://schema.org",
+    "@type": "NursingHome",
+    "@id": "https://www.bellavistanursinghomes.com/bellavista-cardiff#nursing-home",
+    "name": "Bellavista Nursing Home Cardiff",
+    "url": "https://www.bellavistanursinghomes.com/bellavista-cardiff",
+    "description": "Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment.",
+    "telephone": "+44 29 2070 5282",
+    "priceRange": "£££",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Near Techniquest, Cardiff Bay",
+      "addressLocality": "Cardiff",
+      "postalCode": "CF10 5BW",
+      "addressRegion": "South Wales",
+      "addressCountry": "UK"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "51.464",
+      "longitude": "-3.165"
+    },
+    "image": [
+      "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-second.png"
+    ],
+    "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
+    "sameAs": [
+      "https://www.facebook.com/bellavistanursinghome/",
+      "https://x.com/home_bellavista?lang=en"
+    ]
+  };
+
+  const slides = [
+    '/FrontPageBanner/banner-first.jpg',
+    '/FrontPageBanner/banner-second.png',
+    '/FrontPageBanner/banner-third.png',
+    '/FrontPageBanner/banner-fourth.jpg',
+    '/FrontPageBanner/banner-fifth.jpg'
+  ];
+
   return (
     <div className="location-page theme-cardiff">
       <SEO 
@@ -243,20 +282,57 @@ We Regularly take advantage of our big garden space and often hold garden partie
         description="Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment."
         url="/bellavista-cardiff"
       />
-      {/* 1. HERO SECTION */}
-      <div className="loc-hero">
-        <div className="loc-hero__content">
-          <h1 className="loc-hero__title">Welcome to Bellavista Cardiff</h1>
-          <p className="loc-hero__subtitle">
-            A chic, cosmopolitan atmosphere with views of Cardiff Bay.
-          </p>
-          
-          <button className="loc-hero__btn" onClick={() => setHeroExpanded(!heroExpanded)}>
-            {heroExpanded ? 'See Less' : 'See More'}
-          </button>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(cardiffSchema)}
+        </script>
+      </Helmet>
+      
+      <section className="hero">
+        <div className="hero-right-full">
+          <div className="hero-image-wrap">
+            <img src="/FrontPageBanner/banner-second.png" alt="Bellavista Cardiff" />
+          </div>
+        </div>
 
-          <div className={`loc-hero__expanded ${heroExpanded ? 'loc-hero__expanded--open' : ''}`}>
-            <div className="loc-hero__expanded-card">
+        <div className="container hero-container">
+          <div className="hero-content-left">
+            <h1 className="hero-title">
+              <span className="title-main">Bellavista Cardiff</span>
+              <span className="title-sub">A chic, cosmopolitan atmosphere with views of Cardiff Bay.</span>
+            </h1>
+            <p className="hero-description">
+              At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely environment where the care, well-being, and comfort of our residents are our highest priorities
+            </p>
+          </div>
+        </div>
+
+        <div className="hero-marquee-full-width">
+          <div className="hero-marquee-track">
+            {slides.concat(slides).map((slide, index) => (
+              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="about-group-intro">
+        <div className="container">
+          <div className="about-group-content">
+            <h2 className="group-intro-title">
+              <span className="group-name">Welcome to Bellavista Cardiff</span>
+            </h2>
+
+            <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
+              <Link className="btn btn-primary" to="/schedule-tour">
+                <i className="fas fa-calendar-check"></i> Book a Tour
+              </Link>
+              <Link className="btn btn-outline" to="/enquiry">
+                <i className="fas fa-heart"></i> Care Enquiry
+              </Link>
+            </div>
+
+            <div className="group-intro-text">
               <p>
                 At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely
                 environment where the care, well-being, and comfort of our residents are our
@@ -293,7 +369,7 @@ We Regularly take advantage of our big garden space and often hold garden partie
                 of life for every resident.
               </p>
               <p>Choosing Bellavista Cardiff means:</p>
-              <ul>
+              <ul style={{ textAlign: 'left', maxWidth: '800px', margin: '0 auto', paddingLeft: '20px' }}>
                 <li>
                   A safe and secure environment for residents, and peace of mind for families
                 </li>
@@ -320,8 +396,9 @@ We Regularly take advantage of our big garden space and often hold garden partie
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Quick Stats Row (Floating) */}
+      {/* Quick Stats Row (Floating) */}
         <div className="loc-stats">
           <div className="loc-stats__item">
             <i className="fas fa-bed"></i>
@@ -352,7 +429,6 @@ We Regularly take advantage of our big garden space and often hold garden partie
             <span>Expert Team</span>
           </div>
         </div>
-      </div>
 
       {/* 2. ACTIVITIES SECTION */}
       <section className="loc-section loc-section--white">
