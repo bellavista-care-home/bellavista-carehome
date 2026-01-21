@@ -170,7 +170,7 @@ const WaverleyCareCentre = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/FrontPageBanner/banner-first.jpg" alt="Waverley Care Centre" />
+            <img src="/home-images/waverley.jpg" alt="Waverley Care Centre" />
           </div>
         </div>
 

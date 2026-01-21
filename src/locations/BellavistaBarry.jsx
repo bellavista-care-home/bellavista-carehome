@@ -236,7 +236,7 @@ const BellavistaBarry = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/FrontPageBanner/banner-first.jpg" alt="Bellavista Barry" />
+            <img src="/home-images/barry.jpg" alt="Bellavista Nursing Home Barry" />
           </div>
         </div>
 

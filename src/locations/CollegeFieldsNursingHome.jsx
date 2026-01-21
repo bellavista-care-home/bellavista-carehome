@@ -170,7 +170,7 @@ const CollegeFieldsNursingHome = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/FrontPageBanner/banner-first.jpg" alt="College Fields Nursing Home" />
+            <img src="/home-images/college-fields.jpg" alt="College Fields Nursing Home" />
           </div>
         </div>
 

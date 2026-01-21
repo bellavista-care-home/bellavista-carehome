@@ -195,7 +195,7 @@ const MeadowValeCwtch = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/FrontPageBanner/banner-first.jpg" alt="Meadow Vale Cwtch" />
+            <img src="/home-images/meadow-vale-cwtch.jpg" alt="Meadow Vale Cwtch" />
           </div>
         </div>
 

@@ -291,7 +291,7 @@ We Regularly take advantage of our big garden space and often hold garden partie
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/FrontPageBanner/banner-second.png" alt="Bellavista Cardiff" />
+            <img src="/home-images/cardiff.jpg" alt="Bellavista Cardiff" />
           </div>
         </div>
 

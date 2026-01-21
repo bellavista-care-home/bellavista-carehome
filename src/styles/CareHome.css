@@ -1540,6 +1540,10 @@
         z-index: 1 !important;
         /* Restore diagonal clip-path */
         clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
     }
 
     /* Image Wrapper - Full Fill */
@@ -1547,14 +1551,18 @@
         width: 100% !important;
         height: 100% !important;
         min-height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
-    /* Actual Image - Focus on bottom/people */
+    /* Actual Image - Contain within bounds to prevent cropping */
     .location-page .hero-image-wrap img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important;
-        object-position: center bottom !important;
+        object-fit: cover !important; /* Changed from contain to cover for better fill */
+        object-position: center center !important; /* Center the image */
+        max-width: none !important; /* Allow filling */
     }
     
     /* Ensure container doesn't constrain the absolute image */
