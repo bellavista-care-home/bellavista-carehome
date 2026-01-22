@@ -7,22 +7,22 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '../styles/CareHome.css';
-import ReviewForm from '../components/ReviewForm';
+import '../styles/Testimonials.css';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import { fetchReviews } from '../services/reviewService';
 import SlideMedia from '../components/SlideMedia';
 import SEO from '../components/SEO';
 
 const BellavistaBaltimore = () => {
   const navigate = useNavigate();
-  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
   const [baltimoreNews, setBaltimoreNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
-  // Using Barry's images as placeholders
+  // Using Barry's images as placeholders where specific Baltimore images might be missing
   const defaultActivitiesImages = [
     "Bingo-Activity-150x150.jpg",
     "IMG-20180716-WA0005-150x150.jpg",
@@ -119,21 +119,66 @@ const BellavistaBaltimore = () => {
           setTeamGalleryImages(home.teamGalleryImages);
         }
       }
+
+      // Load Reviews
+      try {
+        const reviewData = await fetchReviews({ location: 'Baltimore' });
+        if (reviewData && reviewData.length > 0) {
+          const mappedReviews = reviewData.slice(0, 5).map(r => ({
+            text: r.review,
+            author: r.name || "Verified Resident",
+            role: "Verified Review"
+          }));
+          setReviews(mappedReviews);
+        } else {
+          // Fallback
+          setReviews([
+            {
+              text: "A wonderful home with a true family feel. The staff are incredibly supportive and kind.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "The environment is so peaceful and homely. It really feels like a proper home.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+        setReviews([
+          {
+            text: "A wonderful home with a true family feel. The staff are incredibly supportive and kind.",
+            author: "Family of Resident",
+            role: "Verified Review"
+          },
+          {
+            text: "The environment is so peaceful and homely. It really feels like a proper home.",
+            author: "Visitor",
+            role: "Verified Review"
+          }
+        ]);
+      }
     };
     loadData();
   }, []);
 
-
-
-
-
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [reviews.length]);
 
   const facilitiesList = [
-    { icon: "fas fa-bed", title: "Total 26 Rooms" },
-    { icon: "fas fa-bath", title: "7 Ensuite Rooms" },
+    { icon: "fas fa-bed", title: "26 Rooms" },
+    { icon: "fas fa-bath", title: "Ensuite Available" },
     { icon: "fas fa-wheelchair", title: "Wheelchair Access" },
-    { icon: "fas fa-arrow-up", title: "Lift Available" },
-    { icon: "fas fa-bus", title: "Transport Access" },
+    { icon: "fas fa-arrow-up", title: "Lift Access" },
+    { icon: "fas fa-tree", title: "Garden Views" },
     { icon: "fas fa-couch", title: "Own Furniture" },
     { icon: "fas fa-paw", title: "Pet Friendly" },
     { icon: "fas fa-wifi", title: "Internet Access" }
@@ -165,6 +210,246 @@ const BellavistaBaltimore = () => {
 
   return (
     <div className="location-page theme-baltimore">
+      <style>{`
+        .theme-baltimore {
+          /* Core Brand Colors - Standard Bellavista Palette */
+          --color-primary: #565449;       /* Olive Drab */
+          --color-primary-dark: #11120D;  /* Smoky Black */
+          --color-accent: #565449;        /* Olive Drab */
+          --color-secondary: #D8CFBC;     /* Bone */
+          --color-text-main: #11120D;     /* Smoky Black */
+          --color-bg-light: #FFFBF4;      /* Floral White */
+          --color-bg-white: #FFFFFF;
+          
+          /* Gradients matching MainPage */
+          --hero-gradient-start: rgba(17, 18, 13, 0.9);
+          --hero-gradient-end: rgba(86, 84, 73, 0.8);
+          
+          /* Typography */
+          --font-heading: 'Playfair Display', serif;
+          --font-body: 'Lato', sans-serif;
+          
+          /* Mappings for consistency */
+          --white: var(--color-bg-white);
+          --smoky-black: var(--color-primary-dark);
+          --text-light: #5a574d; /* Muted Olive Drab */
+          --olive-drab: var(--color-primary);
+          --bone: var(--color-secondary);
+          --floral-white: var(--color-bg-light);
+          
+          --font-display: var(--font-heading);
+          --font-primary: var(--font-body);
+        }
+
+        /* 1. HERO SECTION */
+        .theme-baltimore .hero-title {
+          width: 100%;
+        }
+        .theme-baltimore .hero-title .title-main {
+          white-space: normal;
+          line-height: 1.1;
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .hero-title .title-sub {
+          color: var(--color-secondary);
+          font-style: italic;
+          opacity: 0.95;
+          margin-top: 16px;
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .hero-description {
+          color: rgba(255, 251, 244, 0.9);
+          font-family: var(--font-body);
+        }
+        
+        /* 2. ABOUT / INTRO SECTION */
+        .theme-baltimore .group-intro-title .group-name {
+          color: var(--color-primary-dark);
+          border-bottom: 3px solid var(--color-secondary);
+          padding-bottom: 10px;
+          display: inline-block;
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .group-intro-text p {
+          color: var(--color-text-main);
+          line-height: 1.8;
+        }
+        .theme-baltimore .group-intro-text h3 {
+          color: var(--color-primary);
+          border-left: 4px solid var(--color-secondary);
+          padding-left: 15px;
+          margin-top: 30px;
+          margin-bottom: 15px;
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .btn-primary {
+          background-color: var(--color-primary);
+          border-color: var(--color-primary);
+          color: var(--color-bg-light);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          transition: all 0.3s ease;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-baltimore .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(86, 84, 73, 0.3);
+        }
+        .theme-baltimore .btn-outline {
+          color: var(--color-primary);
+          border-color: var(--color-primary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-baltimore .btn-outline:hover {
+          background-color: var(--color-primary);
+          color: var(--color-bg-light);
+        }
+
+        /* 3. QUICK STATS */
+        .theme-baltimore .loc-stats__item {
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid var(--color-secondary);
+          color: var(--color-primary-dark);
+        }
+        .theme-baltimore .loc-stats__item i {
+          color: var(--color-primary);
+        }
+        .theme-baltimore .loc-stats__item:hover {
+          background: var(--color-bg-light);
+          border-color: var(--color-primary);
+        }
+
+        /* 4. ACTIVITIES & FACILITIES SECTIONS */
+        .theme-baltimore .section-header__subtitle {
+          color: var(--color-primary);
+          font-family: var(--font-body);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .theme-baltimore .section-header__title {
+          color: var(--color-primary-dark);
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-baltimore .facility-card__icon {
+          color: var(--color-primary);
+          background-color: var(--color-bg-light);
+        }
+
+        /* 5. TEAM SECTION */
+        .theme-baltimore .team-member-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-baltimore .team-member-card span {
+          color: var(--color-primary);
+        }
+
+        /* 6. NEWS SECTION */
+        .theme-baltimore .news-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-baltimore .news-card__link {
+          color: var(--color-primary);
+        }
+        .theme-baltimore .news-card__link::after {
+          background-color: var(--color-primary);
+        }
+
+        /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
+        .theme-baltimore .bottom-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-baltimore .bottom-card__title {
+          color: var(--color-primary-dark);
+          border-bottom: 2px solid var(--color-secondary);
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          font-family: var(--font-heading);
+        }
+        .theme-baltimore .contact-mini-item i {
+          color: var(--color-primary);
+        }
+        .theme-baltimore .fact-label {
+          color: var(--color-primary);
+          font-weight: 700;
+        }
+        .theme-baltimore .fact-row {
+          border-bottom-color: var(--color-secondary);
+        }
+        .theme-baltimore .fact-value {
+          color: var(--color-text-main);
+        }
+        /* Override inline styles for links in facts */
+        .theme-baltimore .fact-value[style*="color: #0066cc"] {
+          color: var(--color-primary) !important;
+        }
+        .theme-baltimore .review-mini-text {
+          font-style: italic;
+          color: var(--text-light);
+        }
+        
+        /* 8. WHY CHOOSE SECTION */
+        .theme-baltimore .why-choose-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 15px;
+          text-align: left;
+          margin: 20px 0;
+        }
+        .theme-baltimore .why-choose-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 3px solid var(--color-secondary);
+          transition: transform 0.2s ease;
+        }
+        .theme-baltimore .why-choose-item:hover {
+          transform: translateX(5px);
+          border-left-color: var(--color-primary);
+        }
+        .theme-baltimore .why-choose-item i {
+          color: var(--color-primary);
+          margin-top: 4px;
+        }
+        
+        /* 9. CUSTOM LAYOUT OVERRIDES */
+        .hero-buttons-row {
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 15px;
+          overflow-x: auto;
+          padding-bottom: 5px;
+          -webkit-overflow-scrolling: touch;
+          justify-content: flex-start;
+        }
+        .hero-buttons-row::-webkit-scrollbar {
+          height: 0px;
+          background: transparent;
+        }
+        @media (max-width: 768px) {
+          .hero-buttons-row {
+            display: none !important;
+          }
+        }
+        @media (max-width: 900px) {
+          .activities-mobile-reverse {
+            flex-direction: column-reverse !important;
+            display: flex;
+          }
+        }
+      `}</style>
       <SEO 
         title="Baltimore House Care Home"
         description="Baltimore House in Barry provides residential care for older people, including specialist support for dementia and mental health in a warm, homely setting."
@@ -181,12 +466,29 @@ const BellavistaBaltimore = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Baltimore House Care Home</span>
+              <span className="title-main">Welcome to Baltimore House</span>
               <span className="title-sub">A Warm, Homely Environment with Professional Care</span>
             </h1>
             <p className="hero-description">
-              Baltimore House Care Home is a well-established residential facility located in the scenic and tranquil surroundings of Barry, offering the perfect balance of rural charm and professional care.
+              Baltimore House Care Home is a well-established residential facility located in the 
+              scenic and tranquil surroundings of Barry, offering the perfect balance of rural charm 
+              and professional care.
             </p>
+            
+            <div className="hero-cta-buttons hero-buttons-row">
+              <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-bed"></i> 26 Rooms
+              </div>
+              <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-map-marker-alt"></i> Barry
+              </div>
+              <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-star"></i> Quality Care
+              </div>
+              <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-users"></i> Expert Team
+              </div>
+            </div>
           </div>
         </div>
 
@@ -203,7 +505,7 @@ const BellavistaBaltimore = () => {
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
-              <span className="group-name">Welcome to Baltimore House Care Home</span>
+              <span className="group-name">Welcome to Baltimore House</span>
             </h2>
 
             <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
@@ -217,236 +519,124 @@ const BellavistaBaltimore = () => {
 
             <div className="group-intro-text">
               <p>
-                Baltimore House Care Home is a well-established residential home located in the
-                scenic and tranquil surroundings of Barry, offering the perfect balance of rural
-                charm and professional care.
+                Baltimore House Care Home is a well-established residential facility located in the 
+                scenic and tranquil surroundings of Barry, offering the perfect balance of rural charm 
+                and professional care. Situated opposite the historic All Saints Church, and just a 
+                short distance from Porthkerry Country Park with its 220 acres of woods and 
+                meadows, our location provides residents with a serene and inspiring environment, 
+                ideal for relaxation, outdoor enjoyment, and community engagement.
               </p>
               <p>
-                Situated opposite the historic All Saints Church, and just a short distance from
-                Porthkerry Country Park with its 220 acres of woods and meadows, our location
-                provides residents with a serene and inspiring environment, ideal for
-                relaxation, outdoor enjoyment, and community engagement.
-              </p>
-              <p>
-                Our directors and management team are actively involved in the day-to-day
-                operations, ensuring the highest standards of care and a personal approach that
+                Our directors and management team are actively involved in the day-to-day 
+                operations, ensuring the highest standards of care and a personal approach that 
                 makes every resident feel valued and supported.
               </p>
-              <p>
-                Baltimore House provides support for up to 26 residents, including those living
-                with cognitive impairments, dementia, Alzheimer’s disease, and functional mental
-                health conditions such as bipolar disorder and depression. Each speciality is
-                overseen by a dedicated manager and trained staff team, ensuring that every
-                resident receives care tailored to their individual needs.
-              </p>
-              <p>
-                Our home focuses on person-centred care, creating a homely environment where
-                residents can continue to live safely, comfortably, and independently wherever
-                possible.
-              </p>
-              <p>Services include:</p>
-              <ul>
-                <li>General residential care for older adults</li>
-                <li>Dementia and Alzheimer’s care</li>
-                <li>Support for functional mental illness (bipolar disorder and depression)</li>
-              </ul>
-              <p>
-                Residents benefit from prompt access to GP services and community healthcare
-                support, including dietetics, occupational therapy, and mental health teams.
-                Visiting specialists such as chiropodists are available, and families are
-                encouraged to arrange personal therapists or hairdressing visits if desired.
-              </p>
-              <p>
-                Baltimore House combines the charm of a traditional home with the modern
-                amenities required for contemporary residential care. The property features
-                wheelchair access throughout, lift access to upper floors, spacious lounges, and
-                a large conservatory with garden views.
-              </p>
-              <p>
-                Rooms are tastefully decorated, with high ceilings and original character
-                features enhanced by modern care facilities. Social spaces host regular
-                gatherings, entertainment, and community activities, helping residents feel
-                engaged and connected.
-              </p>
-              <p>
-                Additional amenities include the option for residents to bring their own
-                furniture, pet-friendly policies, phone and television points in rooms, and
-                internet access for residents.
-              </p>
-              <p>
-                Baltimore House is ideally situated within walking distance of Barry town
-                centre, with shops, facilities, and services close at hand. Residents also
-                benefit from proximity to Barry Dock and Barry Island, with excellent public
-                transport links and road access to surrounding areas.
-              </p>
-              <p>
-                Our location combines peaceful surroundings with convenience and connectivity,
-                making it easy for families and friends to visit.
-              </p>
-              <p>Why choose Baltimore House:</p>
-              <ul>
-                <li>Small, homely environment with personalised, person-centred care</li>
-                <li>
-                  Specialist support for dementia, Alzheimer’s, and functional mental health
-                  conditions
-                </li>
-                <li>
-                  Experienced and long-standing staff, creating a true home-from-home atmosphere
-                </li>
-                <li>
-                  Spacious, bright, and characterful environment, including conservatory and
-                  garden spaces
-                </li>
-                <li>
-                  Modern facilities and accessibility, including wheelchair access and lift
-                  service
-                </li>
-                <li>
-                  Pet-friendly policies and support for personalising rooms
-                </li>
-                <li>
-                  Strong links with community and healthcare services for holistic support
-                </li>
-              </ul>
-              <p>
-                At Baltimore House, our goal is to create a safe, welcoming, and professional
-                environment where residents feel secure, valued, and supported, while enjoying
-                quality of life, independence, and dignity every day. To learn more about our
-                approach, you can also visit the{' '}
-                <Link to="/our-care">Our Care</Link> page.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Quick Stats Row (Floating) */}
-        <div className="loc-stats">
-          <div className="loc-stats__item">
-            <i className="fas fa-bed"></i>
-            <span>26 Bedrooms</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry', '_blank')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-map-marker-alt"></i>
-            <span>Barry</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => navigate('/our-care')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-star"></i>
-            <span>Quality Care</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-users"></i>
-            <span>Expert Team</span>
+              <div className="location-highlight" style={{ marginTop: '40px', padding: '20px', background: 'rgba(255, 255, 255, 0.5)', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary)' }}>
+                <h3 className="section-header__title" style={{ marginTop: '0', marginBottom: '15px' }}>Location and Accessibility</h3>
+                <p style={{ marginBottom: '0' }}>
+                  Baltimore House is ideally situated within walking distance of Barry town centre, with 
+                  shops, facilities, and services close at hand. Residents also benefit from proximity to 
+                  Barry Dock and Barry Island, with excellent public transport links and road access to 
+                  surrounding areas. Our location combines peaceful, rural surroundings with 
+                  convenience and connectivity, making it easy for families and friends to visit.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 2. ACTIVITIES SECTION */}
+      {/* Why Choose Baltimore House */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {activitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryActivitiesGallery" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+            <div className="loc-grid__content" style={{ width: '100%' }}>
+              <div className="section-header section-header--center">
+                <span className="section-header__subtitle">Why Choose Us</span>
+                <h2 className="section-header__title">Why Choose Baltimore House</h2>
               </div>
-            </div>
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Life at Baltimore House</span>
-                <h2 className="section-header__title">Activities Baltimore</h2>
+              <div className="why-choose-grid">
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Small, homely environment with personalised, person-centred care</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Specialist support for dementia, Alzheimer’s, and functional mental health conditions</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Experienced and long-standing staff, creating a true home-from-home atmosphere</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Spacious, bright, and characterful environment, including conservatory and garden spaces</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Modern facilities and accessibility, including wheelchair access and lift service</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Pet-friendly policies and support for personalisation of rooms</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Integration with community and healthcare services for holistic support</span>
+                </div>
               </div>
-              <p className="loc-text">
-                At Baltimore House, we believe encouraging our residents to be as active as possible is a key part of maintaining good physical and mental well being. We offer a varied activity program designed to be stimulating, fun, and promote socialisation.
+              <p className="loc-text" style={{ textAlign: 'center', marginTop: '30px' }}>
+                At Baltimore House, our goal is to create a safe, welcoming, and professional 
+                environment where residents feel secure, valued, and supported, while enjoying 
+                quality of life, independence, and dignity every day.
               </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Activities Modal */}
-      {showActivitiesModal && (
-        <div className="modal-overlay" onClick={() => setShowActivitiesModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowActivitiesModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Activities at Baltimore House</h2>
-            <div className="modal-body">
-              <p>
-                We create a homely environment where residents can enjoy their hobbies and interests. Our activities are tailored to individual needs and preferences.
-              </p>
-
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3. FACILITIES SECTION */}
+      {/* Services Section */}
       <section className="loc-section loc-section--light">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Facilities & Services</h2>
+                <span className="section-header__subtitle">Our Care and Services</span>
+                <h2 className="section-header__title">Services</h2>
               </div>
-              <div className="facilities-content">
-                <p className="loc-text">
-                  We cater services primarily for general and dementia registered clients. This includes Old Age/Elderly Care and Dementia/Alzheimer’s Care for those assessed as needing residential care.
-                </p>
-                
-                <div className={`facilities-content__more ${facilitiesExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                  <p className="loc-text">
-                    There is provision for functional mental illness such as Bipolar Disorder/Depression also categorised as requiring residential rather than nursing care provision.
-                  </p>
-                  
-                  <div style={{ marginTop: '20px' }}>
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '15px' }}>Key Features</h3>
-                    <ul className="loc-text" style={{ listStyleType: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Total 26 Rooms</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>7 Rooms have ensuite facilities</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Wheelchair Access to all areas</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Lift Available</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Good access to public transport</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Own furniture if required</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Pet Friendly</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Phone Point in own room/Mobile</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Television point in own room</li>
-                      <li><i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>Residents Internet Access</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <button 
-                  className="btn btn--outline" 
-                  onClick={() => setFacilitiesExpanded(!facilitiesExpanded)}
-                  style={{ marginTop: '20px' }}
-                >
-                  {facilitiesExpanded ? 'Read Less' : 'Read More'}
-                </button>
-              </div>
+              <p className="loc-text">
+                Baltimore House provides support for up to 26 residents, including those living with 
+                cognitive impairments, dementia, Alzheimer’s disease, and functional mental health 
+                conditions such as Bipolar Disorder and Depression. Each speciality is overseen by a 
+                dedicated manager and trained staff team, ensuring that every resident receives care 
+                that is tailored to their individual needs.
+              </p>
+              <p className="loc-text">
+                Our home focuses on person-centred care, creating a homely environment where 
+                residents can continue to live safely, comfortably, and independently wherever 
+                possible. Services include:
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                    General Residential Care for older adults
+                </li>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                    Dementia and Alzheimer’s Care
+                </li>
+                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                    Support for Functional Mental Illness (Bipolar/Depression)
+                </li>
+              </ul>
+              <p className="loc-text">
+                Residents benefit from prompt access to GP services, community healthcare support 
+                including dietetics, occupational therapy, and mental health teams. Visiting specialists 
+                such as chiropodists are available, and families are encouraged to arrange personal 
+                therapists or hairdressing visits if desired.
+              </p>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -459,6 +649,53 @@ const BellavistaBaltimore = () => {
                     </SwiperSlide>
                   ))}
                 </Swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Facilities Section */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Comfort & Care</span>
+                <h2 className="section-header__title">Our Facilities</h2>
+              </div>
+              <div className="facilities-content">
+                <p className="loc-text">
+                  Baltimore House combines the charm of a traditional home with the modern 
+                  amenities required for contemporary residential care. The property features:
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        Wheelchair access throughout the home
+                    </li>
+                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        Lift access to upper floors
+                    </li>
+                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        Spacious lounges and a large conservatory with garden views
+                    </li>
+                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        Tastefully decorated rooms and high ceilings that retain original features, enhanced with modern care facilities
+                    </li>
+                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        Social spaces hosting regular gatherings, entertainment, and community activities
+                    </li>
+                </ul>
+                <p className="loc-text">
+                    Additional amenities include the option for residents to bring their own furniture, pet 
+                    friendly policies, phone and television points in rooms, and internet access for 
+                    residents.
+                </p>
               </div>
             </div>
           </div>
@@ -477,9 +714,42 @@ const BellavistaBaltimore = () => {
         </div>
       </section>
 
-      {/* 4. TEAM & CARE */}
+      {/* Activities Section */}
+      <section className="loc-section loc-section--light">
+        <div className="container">
+          <div className="loc-grid activities-mobile-reverse">
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {activitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryActivitiesGallery" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Life at Baltimore House</span>
+                <h2 className="section-header__title">Activities</h2>
+              </div>
+              <p className="loc-text">
+                Social spaces host regular gatherings, entertainment, and community activities, helping residents feel engaged and connected.
+              </p>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                We believe that every resident matters and strive to make life fulfilling through personal interaction, meaningful engagement, and activities tailored to individual interests.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
       {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-        <section className="loc-section loc-section--white" id="team-section">
+        <section id="team-section" className="loc-section loc-section--white">
           <div className="container">
             <div className="loc-grid">
               <div className="loc-grid__content">
@@ -488,7 +758,10 @@ const BellavistaBaltimore = () => {
                   <h2 className="section-header__title">Meet Our Team</h2>
                 </div>
                 <p className="loc-text">
-                  Our directors are fully involved in the management of the home, ensuring a personal touch. Our dedicated staff provide high-quality care tailored to the needs of each resident.
+                  Our directors and management team are actively involved in the day-to-day operations, ensuring the highest standards of care and a personal approach that makes every resident feel valued and supported.
+                </p>
+                <p className="loc-text" style={{ marginTop: '15px' }}>
+                   Experienced and long-standing staff create a true home-from-home atmosphere, ensuring residents receive care that is both attentive and empathetic.
                 </p>
               </div>
               <div className="loc-grid__media">
@@ -587,7 +860,76 @@ const BellavistaBaltimore = () => {
         </section>
       )}
 
+      {/* Reviews Section */}
+      <section className="home-testimonials" id="testimonials">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <p className="section-subtitle">
+              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Baltimore House Care Home.
+            </p>
+          </div>
+          <div className="testimonials-content-wrapper">
+            <div className="google-reviews-card">
+              <div className="google-header">
+                <i className="fab fa-google google-icon"></i>
+                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>Google Reviews</span>
+              </div>
+              <div className="rating-display">4.8</div>
+              <div className="google-stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+              <p className="review-count">Based on verified reviews</p>
+              <a href="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn-google">
+                See our reviews
+              </a>
+            </div>
+
+            <div className="vertical-testimonials-container">
+              {reviews.map((review, index) => {
+                 let className = 'testimonial-slide';
+                 if (index === currentReviewIndex) {
+                     className += ' active';
+                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
+                     className += ' prev';
+                 }
+                 
+                 return (
+                    <div key={index} className={className}>
+                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                      <p className="testimonial-text">"{review.text}"</p>
+                      <div className="testimonial-author">
+                        <h4>{review.author}</h4>
+                        <span>{review.role}</span>
+                      </div>
+                    </div>
+                 );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 5. NEWS SECTION */}
+      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
+          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
+            We invite families, healthcare professionals, and prospective residents to learn more 
+            about our person-centred approach, specialist services, and exceptional facilities. 
+            Baltimore House is committed to delivering the highest standards of care within 
+            a compassionate, professional, and inspiring environment.
+          </p>
+          <Link to="/our-care" className="btn btn-primary btn-lg">
+            Click here to explore OUR CARE
+          </Link>
+        </div>
+      </section>
+
       {baltimoreNews.length > 0 && (
         <section className="loc-section loc-section--light">
           <div className="container">
@@ -663,7 +1005,7 @@ const BellavistaBaltimore = () => {
                   <span className="fact-label">Location:</span>
                   <span 
                     className="fact-value" 
-                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                    style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                     onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry', '_blank')}
                   >
                     Barry
@@ -674,7 +1016,7 @@ const BellavistaBaltimore = () => {
                   <Link 
                     to="/our-care" 
                     className="fact-value" 
-                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                    style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                   >
                     Our Care
                   </Link>
@@ -710,30 +1052,14 @@ const BellavistaBaltimore = () => {
                 <p className="review-mini-text">
                   "A wonderful home with a true family feel. The staff are incredibly supportive and kind."
                 </p>
-                <button className="btn btn--outline" style={{width: '100%'}} onClick={() => setShowReviewModal(true)}>
+                <a href="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn btn--outline" style={{width: '100%', display: 'inline-block', textDecoration: 'none'}}>
                   Write a Review
-                </button>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowReviewModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm 
-              locationName="Baltimore Care Home" 
-              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
