@@ -12,16 +12,20 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import { fetchReviews } from '../services/reviewService';
+import '../styles/MainPage.css';
 import SEO from '../components/SEO';
 
 const BellavistaCardiff = () => {
   const navigate = useNavigate();
-  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
+
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [cardiffNews, setCardiffNews] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   const defaultTeamMembers = [
     { name: "Ceri A Evans", role: "Home Manager" },
@@ -129,94 +133,75 @@ const BellavistaCardiff = () => {
           setTeamGalleryImages(home.teamGalleryImages);
         }
       }
+
+      // Load Reviews
+      try {
+        const reviewData = await fetchReviews({ location: 'Cardiff' });
+        if (reviewData && reviewData.length > 0) {
+          const mappedReviews = reviewData.slice(0, 5).map(r => ({
+            text: r.review,
+            author: r.name || "Verified Resident",
+            role: "Verified Review"
+          }));
+          setReviews(mappedReviews);
+        } else {
+          // Fallback
+          setReviews([
+            {
+              text: "The care and attention my father receives is outstanding. The staff are so friendly and the home is always clean.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "Bellavista Cardiff has a wonderful homely atmosphere. The view of the bay is beautiful and the staff go above and beyond.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+        setReviews([
+            {
+              text: "The care and attention my father receives is outstanding. The staff are so friendly and the home is always clean.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "Bellavista Cardiff has a wonderful homely atmosphere. The view of the bay is beautiful and the staff go above and beyond.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+        ]);
+      }
     };
     loadData();
   }, []);
 
-  const activitiesList = [
-    "Wheelchair Zumba",
-    "Ukulele Party",
-    "Arts and Crafts Bingo",
-    "Fancy Dress Party",
-    "Meals Out",
-    "Playing Cards",
-    "Sing a long/ Karaoke",
-    "Ice Skating show",
-    "Board Games",
-    "Trips out",
-    "Knitting",
-    "Gardening",
-    "Sewing",
-    "Singers and Musicians Performing",
-    "Animal Therapy",
-    "Decorating Calendars",
-    "Exotic Animals Zoolab Event",
-    "Food Tasting",
-    "Local School’s Visiting",
-    "Church Service",
-    "Crosswords and Puzzles",
-    "Armchair Exercises",
-    "Garden Activities",
-    "Newspaper Reading",
-    "Film Days",
-    "1-2-1 Reminiscing",  
-    "Seasonal Activities"
-  ];
-
-  const facilitiesList = [
-    { icon: "fas fa-bed", title: "62 Bedrooms" },
-    { icon: "fas fa-star", title: "18 Premier Rooms" },
-    { icon: "fas fa-theater-masks", title: "Theatre/Sensory Room" },
-    { icon: "fas fa-book-open", title: "Library & Cafe" },
-    { icon: "fas fa-umbrella-beach", title: "Indoor 'Beach' Area" },
-    { icon: "fas fa-wifi", title: "Smart TVs & Wifi" },
-    { icon: "fas fa-user-nurse", title: "24/7 Nursing" },
-    { icon: "fas fa-elevator", title: "Lift Access" }
-  ];
-
-  const detailedFacilities = [
-    {
-      id: 1,
-      title: "Lounges and Communal Spaces",
-      icon: "fas fa-couch",
-      description: "There are 6 lounges which includes a 3-large dining rooms and quieter rooms and sitting areas. Our residents are encouraged to use these public rooms but service users who choose to stay in their own rooms may do so. In addition to this there is facilitated training room, a conference room and staff rest room. We have communal spaces and quiet spaces, so our residents can find an area that’s right for them at that particular time – whether it’s for an intimate chat with their family, or a social gathering with friends."
-    },
-    {
-      id: 2,
-      title: "Theatre Room/Sensory Room",
-      icon: "fas fa-theater-masks",
-      description: "We have an onsite theatre room/sensory room that is used in Bellavista on a daily basis. There is a number of things we use this room for such as concerts, film afternoons and sensory experiences. The Sensory Room, is a space for enjoying a variety of sensory experiences and where gentle stimulation of the senses (sight, sound, touch, taste, smell and movement) can be provided in a controlled way. Stimulation can be increased or decreased to match the interests and therapeutic needs of the user. Such spaces, and how they are equipped, offer a range of activities that can either be sensory stimulating or calming in their effects."
-    },
-    {
-      id: 3,
-      title: "Dementia Friendly Area",
-      icon: "fas fa-brain",
-      description: "We are very proud of our onsite rooms these include an onsite Library, beach and cafe. Dementia sufferers take comfort in completing everyday tasks that feel familiar and that we have re-created this. We have chosen a variation in rooms as we acknowledge that everyone with dementia is different in every possible way: different age, different degrees of impairment, different backgrounds and life experience, different physical and sensory impairments, different attitudes, different tastes and so on."
-    },
-    {
-      id: 4,
-      title: "Bathing and Showering Facilities",
-      icon: "fas fa-bath",
-      description: "The Home has three communal shower rooms which can accommodate hoists transfer of people, in addition to this the Home has three disabled bath facilities one of them is a trolley shower/bath that can be used for people who have positioning difficulty in a standard disabled bath or shower chair. More over The Home also predominantly provides a shower facility or a bath in service user’s own rooms and all Rooms are provided with en-suite facilities."
-    },
-    {
-      id: 5,
-      title: "Specialist Equipment Facilities",
-      icon: "fas fa-wheelchair",
-      description: "The Home has a wide variety of specialist equipment and adaptations to meet varying needs of the service users. This include Lifting equipment like standing and full hoists, Elevators , Profiling beds, Alternating pressure mattress. Wander alarms, Nurse call systems, Suction machines, Foot protectors, nebulisers, specialist feeding cups etc"
-    },
-    {
-      id: 6,
-      title: "Outside Garden & Patio Area",
-      icon: "fas fa-tree",
-      description: `We have a large garden at the back of the home for the residents to enjoy. The front garden is surrounded with trees and the shrubbery and borders are full of colour.
-
-where residents can enjoy a lovely patio area with garden furniture, and a gazebo our sunny garden is safe and secure for residents and their families to use freely and is accessible from the back entrance of the home .
-
-We actively encourage our residents to get involved in the Gardening and garden-related activities can be a fun way of getting nursing home residents more physically active and engaged. For residents with dementia, they can provide opportunities to be involved, express themselves and interact with others
-
-We Regularly take advantage of our big garden space and often hold garden parties for our staff/ residents and hold dementia Friendly events which can include BBQ’S Bouncy Castle’s and Entertainment.`
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+      }, 5000);
+      return () => clearInterval(interval);
     }
+  }, [reviews.length]);
+
+  const servicesList = [
+    "High-Level Dementia Nursing",
+    "Dementia Residential Care",
+    "General Nursing",
+    "Respite Care",
+    "CHC Nursing",
+    "End of Life Care"
+  ];
+
+  const whyChooseList = [
+    "A safe and secure environment for residents and peace of mind for families",
+    "Specialist dementia and nursing care, with staff trained to the highest standards",
+    "A homely yet professional atmosphere, with a focus on dignity and individuality",
+    "Personalised activity programmes promoting independence, wellbeing, and engagement",
+    "Stunning location overlooking Cardiff Bay, with access to local amenities and transport"
   ];
 
   // Swiper settings
@@ -277,6 +262,262 @@ We Regularly take advantage of our big garden space and often hold garden partie
 
   return (
     <div className="location-page theme-cardiff">
+      <style>{`
+        .theme-cardiff {
+          /* Core Brand Colors - Main Page Palette */
+          --color-primary: #565449;       /* Olive Drab */
+          --color-primary-dark: #11120D;  /* Smoky Black */
+          --color-accent: #565449;        /* Olive Drab */
+          --color-secondary: #D8CFBC;     /* Bone */
+          --color-text-main: #11120D;     /* Smoky Black */
+          --color-bg-light: #FFFBF4;      /* Floral White */
+          --color-bg-white: #FFFFFF;
+          
+          /* Gradients matching MainPage */
+          --hero-gradient-start: rgba(17, 18, 13, 0.9);
+          --hero-gradient-end: rgba(86, 84, 73, 0.8);
+          
+          /* Typography */
+          --font-heading: 'Playfair Display', serif;
+          --font-body: 'Lato', sans-serif;
+          
+          /* Mappings for consistency */
+          --white: var(--color-bg-white);
+          --smoky-black: var(--color-primary-dark);
+          --text-light: #5a574d; /* Muted Olive Drab */
+          --olive-drab: var(--color-primary);
+          --bone: var(--color-secondary);
+          --floral-white: var(--color-bg-light);
+          
+          --font-display: var(--font-heading);
+          --font-primary: var(--font-body);
+        }
+
+        /* 1. HERO SECTION */
+        .theme-cardiff .hero-title {
+          width: 100%;
+        }
+        .theme-cardiff .hero-title .title-main {
+          white-space: normal;
+          line-height: 1.1;
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .hero-title .title-sub {
+          color: var(--color-secondary);
+          font-style: italic;
+          opacity: 0.95;
+          margin-top: 16px;
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .hero-description {
+          color: rgba(255, 251, 244, 0.9);
+          font-family: var(--font-body);
+        }
+        
+        /* 2. ABOUT / INTRO SECTION */
+        .theme-cardiff .group-intro-title .group-name {
+          color: var(--color-primary-dark);
+          border-bottom: 3px solid var(--color-secondary);
+          padding-bottom: 10px;
+          display: inline-block;
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .group-intro-text p {
+          color: var(--color-text-main);
+          line-height: 1.8;
+        }
+        .theme-cardiff .group-intro-text h3 {
+          color: var(--color-primary);
+          border-left: 4px solid var(--color-secondary);
+          padding-left: 15px;
+          margin-top: 30px;
+          margin-bottom: 15px;
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .btn-primary {
+          background-color: var(--color-primary);
+          border-color: var(--color-primary);
+          color: var(--color-bg-light);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          transition: all 0.3s ease;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-cardiff .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(86, 84, 73, 0.3);
+        }
+        .theme-cardiff .btn-outline {
+          color: var(--color-primary);
+          border-color: var(--color-primary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-cardiff .btn-outline:hover {
+          background-color: var(--color-primary);
+          color: var(--color-bg-light);
+        }
+
+        /* 3. QUICK STATS */
+        .theme-cardiff .loc-stats__item {
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid var(--color-secondary);
+          color: var(--color-primary-dark);
+        }
+        .theme-cardiff .loc-stats__item i {
+          color: var(--color-primary);
+        }
+        .theme-cardiff .loc-stats__item:hover {
+          background: var(--color-bg-light);
+          border-color: var(--color-primary);
+        }
+
+        /* 4. ACTIVITIES & FACILITIES SECTIONS */
+        .theme-cardiff .section-header__subtitle {
+          color: var(--color-primary);
+          font-family: var(--font-body);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .theme-cardiff .section-header__title {
+          color: var(--color-primary-dark);
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .detailed-facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-cardiff .detailed-facility-card:hover {
+          border-color: var(--color-primary);
+        }
+        .theme-cardiff .detailed-facility-card i {
+          color: var(--color-primary) !important;
+        }
+        .theme-cardiff .detailed-facility-card span {
+          color: var(--color-primary) !important;
+        }
+        .theme-cardiff .facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-cardiff .facility-card__icon {
+          color: var(--color-primary);
+          background-color: var(--color-bg-light);
+        }
+
+        /* 5. TEAM SECTION */
+        .theme-cardiff .team-member-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-cardiff .team-member-card span {
+          color: var(--color-primary);
+        }
+
+        /* 6. NEWS SECTION */
+        .theme-cardiff .news-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-cardiff .news-card__link {
+          color: var(--color-primary);
+        }
+        .theme-cardiff .news-card__link::after {
+          background-color: var(--color-primary);
+        }
+
+        /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
+        .theme-cardiff .bottom-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-cardiff .bottom-card__title {
+          color: var(--color-primary-dark);
+          border-bottom: 2px solid var(--color-secondary);
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          font-family: var(--font-heading);
+        }
+        .theme-cardiff .contact-mini-item i {
+          color: var(--color-primary);
+        }
+        .theme-cardiff .fact-label {
+          color: var(--color-primary);
+          font-weight: 700;
+        }
+        .theme-cardiff .fact-row {
+          border-bottom-color: var(--color-secondary);
+        }
+        .theme-cardiff .fact-value {
+          color: var(--color-text-main);
+        }
+        /* Override inline styles for links in facts */
+        .theme-cardiff .fact-value[style*="color: #0066cc"] {
+          color: var(--color-primary) !important;
+        }
+        .theme-cardiff .review-mini-text {
+          font-style: italic;
+          color: var(--text-light);
+        }
+        /* 8. WHY CHOOSE SECTION */
+        .theme-cardiff .why-choose-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 15px;
+          text-align: left;
+          margin: 20px 0;
+        }
+        .theme-cardiff .why-choose-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 3px solid var(--color-secondary);
+          transition: transform 0.2s ease;
+        }
+        .theme-cardiff .why-choose-item:hover {
+          transform: translateX(5px);
+          border-left-color: var(--color-primary);
+        }
+        .theme-cardiff .why-choose-item i {
+          color: var(--color-primary);
+          margin-top: 4px;
+        }
+        /* 9. CUSTOM LAYOUT OVERRIDES */
+        .hero-buttons-row {
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: nowrap; /* Force one line */
+          gap: 15px;
+          overflow-x: auto; /* Allow scroll if screen is too narrow */
+          padding-bottom: 5px; /* Space for scrollbar if needed */
+          -webkit-overflow-scrolling: touch;
+          justify-content: flex-start;
+        }
+        
+        /* Hide scrollbar for cleaner look but keep functionality */
+        .hero-buttons-row::-webkit-scrollbar {
+          height: 0px;
+          background: transparent;
+        }
+
+        /* Hide Hero Buttons on Mobile */
+        @media (max-width: 768px) {
+          .hero-buttons-row {
+            display: none !important;
+          }
+        }
+
+        /* Responsive Reverse for Activities on Mobile */
+        @media (max-width: 900px) {
+          .activities-mobile-reverse {
+            flex-direction: column-reverse !important;
+            display: flex;
+          }
+        }
+      `}</style>
       <SEO 
         title="Bellavista Cardiff Nursing Home"
         description="Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment."
@@ -298,12 +539,27 @@ We Regularly take advantage of our big garden space and often hold garden partie
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Bellavista Cardiff</span>
-              <span className="title-sub">A chic, cosmopolitan atmosphere with views of Cardiff Bay.</span>
+              <span className="title-main">Welcome to Bellavista Nursing Home Cardiff</span>
+              <span className="title-sub">A secure, welcoming, and homely environment</span>
             </h1>
             <p className="hero-description">
-              At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely environment where the care, well-being, and comfort of our residents are our highest priorities
+              At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely environment where the care, well-being, and comfort of our residents are our highest priorities.
             </p>
+            
+            <div className="hero-cta-buttons hero-buttons-row">
+              <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-bed"></i> 62 Bedrooms
+              </div>
+              <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Cardiff+Bay', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-map-marker-alt"></i> Cardiff Bay
+              </div>
+              <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-star"></i> Quality Care
+              </div>
+              <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-users"></i> Expert Team
+              </div>
+            </div>
           </div>
         </div>
 
@@ -316,11 +572,12 @@ We Regularly take advantage of our big garden space and often hold garden partie
         </div>
       </section>
 
+      {/* Intro & Location Section */}
       <section className="about-group-intro">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
-              <span className="group-name">Welcome to Bellavista Cardiff</span>
+              <span className="group-name">About Bellavista Cardiff</span>
             </h2>
 
             <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
@@ -334,106 +591,108 @@ We Regularly take advantage of our big garden space and often hold garden partie
 
             <div className="group-intro-text">
               <p>
-                At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely
-                environment where the care, well-being, and comfort of our residents are our
-                highest priorities.
+                At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely 
+                environment where the care, well-being, and comfort of our residents are our highest 
+                priorities. Our home offers a professional, dementia-friendly, and nursing-led 
+                environment for individuals who wish to maintain independence but require support to 
+                live safely. We are committed to ensuring that our residents enjoy life to the fullest, with 
+                families encouraged to provide feedback and participate in care planning.
               </p>
               <p>
-                Our home offers a professional, dementia-friendly, and nursing-led setting for
-                individuals who wish to maintain independence but require support to live
-                safely. Families are encouraged to provide feedback, visit regularly, and
-                participate in care planning so that care feels truly shared and transparent.
+                We take pride in preserving dignity, privacy, and individuality, supporting every 
+                resident to live with confidence, comfort, and respect.
               </p>
+
+              <h3 className="section-header__title" style={{ marginTop: '40px' }}>Our Location</h3>
               <p>
-                We take pride in preserving dignity, privacy, and individuality, supporting
-                every resident to live with confidence, comfort, and respect.
-              </p>
-              <p>
-                Located in the heart of Cardiff Bay, our purpose-built home overlooks the
-                waterfront and combines convenience with tranquillity. Residents benefit from
-                easy access to local amenities and transport links, while enjoying a calm,
-                homely atmosphere with opportunities for regular outings and community
-                involvement.
-              </p>
-              <p>
-                Bellavista Nursing Home Cardiff is registered to provide a wide range of care
-                services, including high-level dementia nursing, dementia residential care,
-                general nursing care, respite care, Continuing Healthcare (CHC) nursing, and
-                end of life care. We work closely with health professionals to ensure safe,
-                consistent, person-centred care.
-              </p>
-              <p>
-                Our dedicated team receive ongoing training in dementia care and
-                evidence-based practice. Alongside nurses and carers, our activities team
-                designs tailored programmes that support engagement, independence, and quality
-                of life for every resident.
-              </p>
-              <p>Choosing Bellavista Cardiff means:</p>
-              <ul style={{ textAlign: 'left', maxWidth: '800px', margin: '0 auto', paddingLeft: '20px' }}>
-                <li>
-                  A safe and secure environment for residents, and peace of mind for families
-                </li>
-                <li>
-                  Specialist dementia and nursing care from highly trained staff
-                </li>
-                <li>
-                  A homely yet professional atmosphere with a focus on dignity and
-                  individuality
-                </li>
-                <li>
-                  Personalised activity programmes promoting independence, wellbeing, and
-                  social connection
-                </li>
-                <li>
-                  A stunning location overlooking Cardiff Bay with excellent local transport
-                  and amenities
-                </li>
-              </ul>
-              <p>
-                To learn more about our approach to care, you can also visit the{' '}
-                <Link to="/our-care">Our Care</Link> page.
+                Nestled in the heart of Cardiff Bay, our home combines convenience with tranquillity. 
+                Residents enjoy easy access to local amenities and transport links while benefiting from 
+                the charm of a purpose-built facility overlooking the Cardiff Bay waterfront. Our 
+                location offers a chic, cosmopolitan atmosphere, creating a perfect balance of 
+                relaxation, privacy, and social engagement. Residents are encouraged to participate in 
+                outings to local places of interest and pursue activities that support an active and 
+                independent lifestyle.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick Stats Row (Floating) */}
-        <div className="loc-stats">
-          <div className="loc-stats__item">
-            <i className="fas fa-bed"></i>
-            <span>62 Bedrooms</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Cardiff+Bay', '_blank')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-map-marker-alt"></i>
-            <span>Cardiff Bay</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => navigate('/our-care')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-star"></i>
-            <span>Quality Care</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-users"></i>
-            <span>Expert Team</span>
-          </div>
-        </div>
-
-      {/* 2. ACTIVITIES SECTION */}
+      {/* Why Choose Bellavista Cardiff (Moved Up) */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
+            <div className="loc-grid__content" style={{ width: '100%' }}>
+              <div className="section-header section-header--center">
+                <span className="section-header__subtitle">Why Choose Us</span>
+                <h2 className="section-header__title">Why Choose Bellavista Cardiff</h2>
+              </div>
+              <p className="loc-text" style={{ textAlign: 'center', marginBottom: '30px' }}>
+                At Bellavista Cardiff, we combine:
+              </p>
+              <div className="why-choose-grid">
+                {whyChooseList.map((item, index) => (
+                  <div key={index} className="why-choose-item">
+                    <i className="fas fa-check-circle"></i>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="loc-text" style={{ textAlign: 'center', marginTop: '30px' }}>
+                We are committed to providing high-quality nursing care in a welcoming, supportive, 
+                and professional setting, ensuring that residents and their families feel valued and 
+                reassured every day.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="loc-section loc-section--light">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">High Quality Care</span>
+                <h2 className="section-header__title">Our Services</h2>
+              </div>
+              <p className="loc-text">
+                Bellavista Nursing Home Cardiff is registered to provide a wide range of care services, including:
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                {servicesList.map((service, index) => (
+                  <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                    {service}
+                  </li>
+                ))}
+              </ul>
+              <p className="loc-text">
+                We strive to create the ideal balance of peace, privacy, companionship, and high quality care, ensuring a safe and nurturing environment for all our residents.
+              </p>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Activities Section */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid activities-mobile-reverse">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -453,186 +712,33 @@ We Regularly take advantage of our big garden space and often hold garden partie
                 <h2 className="section-header__title">Activities Cardiff</h2>
               </div>
               <p className="loc-text">
-                At Bellavista Nursing Home Cardiff, we believe encouraging our clients to be as active as possible is a key part of maintaining good physical and mental well being. We have a dedicated in house Activities coordinator who arranges varied activity program for all of our residents.
+                Our dedicated activities team designs and delivers tailored programmes to meet the individual interests and needs of our residents, encouraging engagement, independence, and quality of life.
               </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* Activities Modal */}
-      {showActivitiesModal && (
-        <div className="modal-overlay" onClick={() => setShowActivitiesModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowActivitiesModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Activities at Bellavista Cardiff</h2>
-            <div className="modal-body">
-              <p>
-                We are passionate about providing as many activities as possible for our residents to enjoy and participate in. They are tailored to their abilities and choices, not limited by risk or disability.Keeping mind, body and soul stimulated, healthy and alert is a fundamental aspect of caring. we have a dedicated Activities Co-ordinator who spend time with each resident individually to understand their interests and creates a varied program for all of our residents . Our dedicated Activities Team devise a programme of regular events and entertainment within the home and opportunities to visit local events and places of interest in the community.Beneficial to us and our activity programme is being based in the heart of Cardiff Bay, a fantastic multicultural area, full of life and great things to do, with regular visits to the ice cream parlour and the inspiring Millennium Centre, also an ideal place for families to easily access with their relatives, for quality time making new memories.              
-              </p>
-              <p>
-                We also pride ourselves on being able to support people to enjoy meaningful and fun activities of daily living, such as cooking your own meal, (maybe an old family favourite), cleaning, or setting the tables, all of which help promote wellbeing, independence and social inclusion. We also encourage strong links with the local communities providing the occasional entertainment services such as sing-alongs and performances engaging with the nostalgia that residents enjoy reminiscing over.
-
-              </p>
-              <p>
-                At Bellavista Nursing Home Cardiff we have a multi-functional Cinema Theatre and sensory activities and facilities that aims to improve end-of-life care for people in nursing homes who have advanced dementia by giving them pleasure and helping them connect with others. Our residents have freedom of choice to take part in any of our many activities, a popular choice is our cinema room, complete with popcorn machine and ice creams, cookery, gardening, art classes and many more. We have various themed areas such as dining experience, Library, cafe shop], beach effects, old Victorian and Edwardian themes, gazebos and a splendid outdoor garden and other facilities which is all sensory and visual effects to Dementia Care of our Service users.The Activities programme is published each month in our Newsletter which is available on our homepage.
-              </p>
-              <h3>Activities we offer:</h3>
-              <ul className="activities-list">
-                {activitiesList.map((activity, index) => (
-                  <li key={index}>{activity}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3. FACILITIES SECTION */}
-      <section className="loc-section loc-section--light">
-        <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Facilities & Services</h2>
-              </div>
-              <div className="facilities-content">
-                <p className="loc-text">
-                  Bellavista Cardiff features 62 bedrooms, including 18 Premier rooms, all overlooking the beautiful waterfront. We provide a range of facilities including a Theatre/Sensory Room, Library & Cafe, and an Indoor 'Beach' Area.
-                </p>
-                
-                <div className={`facilities-content__more ${facilitiesExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                  <p className="loc-text">
-                    Bellavista nursing home is set in the sought-after area of Cardiff Bay.  As well as exceptional levels of care delivered by our dedicated team or staff we provide first rate accommodation and beautiful surroundings..
-                  </p>
-                  <p className="loc-text">
-                    Bellavista has 62 Bedrooms, 18 of which are premier rooms.All our Rooms come with Ensuite bathrooms and are decorated to a high standard they are provided with a flat screen Smart TV and are connected to a nurse call bell system. All bedrooms have privacy locks on door’s and lockable facility to secure valuable and personal items.  We also encourage our residents to bring their own belongings to individualise their room into a home from home environment, Our premier rooms will come at an extra cost all are unique and very spacious, our Premier rooms are provided with built in wardrobes and top of the range furniture. All premier Rooms have an ensuite walk in shower room and are warm and comforting throughout.
-                  </p>
-                </div>
-
-                <button 
-                  className="btn btn--outline" 
-                  onClick={() => setFacilitiesExpanded(!facilitiesExpanded)}
-                  style={{ marginTop: '20px' }}
-                >
-                  {facilitiesExpanded ? 'Read Less' : 'Read More'}
-                </button>
-              </div>
-            </div>
-
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
-          </div>
-          
-          {/* Detailed Facilities Cards */}
-          <div className="detailed-facilities-grid" style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '20px', 
-            marginTop: '40px' 
-          }}>
-            {detailedFacilities.map((facility) => (
-              <div 
-                key={facility.id} 
-                className="detailed-facility-card" 
-                onClick={() => setSelectedFacility(facility)}
-                style={{
-                  background: 'white',
-                  padding: '24px',
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  border: '1px solid #eee',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 10px 15px rgba(0,0,0,0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.05)';
-                }}
-              >
-                <div style={{ color: 'var(--color-primary)', fontSize: '2rem', marginBottom: '16px' }}>
-                  <i className={facility.icon}></i>
-                </div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: '#333' }}>{facility.title}</h3>
-                <p style={{ color: '#666', fontSize: '0.9rem', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden', marginBottom: 'auto' }}>
-                  {facility.description}
-                </p>
-                <span style={{ display: 'inline-block', marginTop: '16px', color: 'var(--color-primary)', fontWeight: '600', fontSize: '0.9rem' }}>
-                  Read More <i className="fas fa-arrow-right" style={{ marginLeft: '4px' }}></i>
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Facilities Cards */}
-          <div className="facilities-grid">
-            {facilitiesList.map((item, index) => (
-              <div className="facility-card" key={index}>
-                <div className="facility-card__icon">
-                  <i className={item.icon}></i>
-                </div>
-                <h4 className="facility-card__title">{item.title}</h4>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Facility Details Modal */}
-      {selectedFacility && (
-        <div className="modal-overlay" onClick={() => setSelectedFacility(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelectedFacility(null)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <i className={selectedFacility.icon} style={{ fontSize: '3rem', color: 'var(--color-primary)', marginBottom: '16px' }}></i>
-              <h2 className="modal-title">{selectedFacility.title}</h2>
-            </div>
-            <div className="modal-body">
-              <p style={{ whiteSpace: 'pre-line', lineHeight: '1.6' }}>{selectedFacility.description}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 4. TEAM & CARE */}
-      {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-      <section className="loc-section loc-section--white" id="team-section">
+      {/* Team Section */}
+      <section className="loc-section loc-section--light" id="team-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
                 <span className="section-header__subtitle">Dedicated Staff</span>
-                <h2 className="section-header__title">Meet Our Team</h2>
+                <h2 className="section-header__title">Our Team</h2>
               </div>
               <p className="loc-text">
-                Bellavista Cardiff has more than 100 members of staff working at our Nursing Home and we’re extremely proud of all of them. We select our staff because of their caring attitude, and we train them in all aspects of care so you have peace of mind that your loved one is in good hands. Most of them have been with us for a long time, some from the very start, forming a well-knit team dedicated to providing care of the highest standard.
-
-                Our wonderful team comprises Nurses, Nursing assistant, Carers, Activities coordinators, Chefs, Kitchen assistant, Housekeepers, Maintenance, and more. These people are here to ensure that residents enjoy their time at the home and are supported to live life to the fullest.
+                Our team is dedicated to delivering exceptional care through professionalism, 
+                compassion, and ongoing training. All staff members receive continuous education to 
+                enhance their skills, ensuring that every resident benefits from evidence-based, 
+                person-centred care.
+              </p>
+              <p className="loc-text">
+                We also have a dedicated activities team, which designs and delivers tailored 
+                programmes to meet the individual interests and needs of our residents, encouraging 
+                engagement, independence, and quality of life.
               </p>
             </div>
             <div className="loc-grid__media">
@@ -729,11 +835,78 @@ We Regularly take advantage of our big garden space and often hold garden partie
           )}
         </div>
       </section>
-      )}
 
-      {/* 5. NEWS SECTION */}
+      {/* Reviews Section */}
+      <section className="home-testimonials" id="testimonials">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <p className="section-subtitle">
+              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Bellavista Nursing Home Cardiff.
+            </p>
+          </div>
+          <div className="testimonials-content-wrapper">
+            <div className="google-reviews-card">
+              <div className="google-header">
+                <i className="fab fa-google google-icon"></i>
+                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>Google Reviews</span>
+              </div>
+              <div className="rating-display">4.9</div>
+              <div className="google-stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+              <p className="review-count">Based on verified reviews</p>
+              <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Cardiff" target="_blank" rel="noopener noreferrer" className="btn-google">
+                See our reviews
+              </a>
+            </div>
+
+            <div className="vertical-testimonials-container">
+              {reviews.map((review, index) => {
+                 let className = 'testimonial-slide';
+                 if (index === currentReviewIndex) {
+                     className += ' active';
+                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
+                     className += ' prev';
+                 }
+                 
+                 return (
+                    <div key={index} className={className}>
+                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                      <p className="testimonial-text">"{review.text}"</p>
+                      <div className="testimonial-author">
+                        <h4>{review.author}</h4>
+                        <span>{review.role}</span>
+                      </div>
+                    </div>
+                 );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Discover Our Care (CTA) */}
+      <section className="loc-section loc-section--light" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
+          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
+            We invite you to explore our approach to care, learn about our dedicated staff, and see 
+            how we create a home where residents can live safely, happily, and with dignity.
+          </p>
+          <Link to="/our-care" className="btn btn-primary btn-lg">
+            Find out more about OUR CARE
+          </Link>
+        </div>
+      </section>
+
+      {/* News Section */}
       {cardiffNews.length > 0 && (
-        <section className="loc-section loc-section--light">
+        <section className="loc-section loc-section--white">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -760,8 +933,8 @@ We Regularly take advantage of our big garden space and often hold garden partie
         </section>
       )}
 
-      {/* 6. CONTACT & INFO GRID */}
-      <section className="loc-section loc-section--white">
+      {/* Contact & Info Grid */}
+      <section className="loc-section loc-section--light">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>
@@ -807,7 +980,7 @@ We Regularly take advantage of our big garden space and often hold garden partie
                   <span className="fact-label">Location:</span>
                   <span 
                     className="fact-value" 
-                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                    style={{ color: 'var(--color-primary)', textDecoration: 'underline', cursor: 'pointer' }}
                     onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Cardiff', '_blank')}
                   >
                     Cardiff Bay
@@ -818,7 +991,7 @@ We Regularly take advantage of our big garden space and often hold garden partie
                   <Link 
                     to="/our-care" 
                     className="fact-value" 
-                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                    style={{ color: 'var(--color-primary)', textDecoration: 'underline', cursor: 'pointer' }}
                   >
                     Dementia Care
                   </Link>

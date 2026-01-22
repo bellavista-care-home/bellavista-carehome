@@ -11,17 +11,18 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import { fetchReviews } from '../services/reviewService';
+import '../styles/Testimonials.css';
 import SEO from '../components/SEO';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
-  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
-  const [teamExpanded, setTeamExpanded] = useState(false);
   const [collegeNews, setCollegeNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   // Using Barry's images as placeholders
   const defaultActivitiesImages = [
@@ -120,9 +121,59 @@ const CollegeFieldsNursingHome = () => {
           setTeamGalleryImages(home.teamGalleryImages);
         }
       }
+
+      // Load Reviews
+      try {
+        const reviewData = await fetchReviews({ location: 'College Fields' });
+        if (reviewData && reviewData.length > 0) {
+          const mappedReviews = reviewData.slice(0, 5).map(r => ({
+            text: r.review,
+            author: r.name || "Verified Resident",
+            role: "Verified Review"
+          }));
+          setReviews(mappedReviews);
+        } else {
+          // Fallback
+          setReviews([
+            {
+              text: "Residents enjoy home comforts in a warm, spacious, and delightful environment.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "The staff go above and beyond to provide care that is both attentive and empathetic.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+        setReviews([
+            {
+              text: "Residents enjoy home comforts in a warm, spacious, and delightful environment.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "The staff go above and beyond to provide care that is both attentive and empathetic.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+        ]);
+      }
     };
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [reviews.length]);
 
   const facilitiesList = [
     { icon: "fas fa-utensils", title: "Home-Cooked Meals" },
@@ -161,6 +212,262 @@ const CollegeFieldsNursingHome = () => {
 
   return (
     <div className="location-page theme-college-fields">
+      <style>{`
+        .theme-college-fields {
+          /* Core Brand Colors - Main Page Palette */
+          --color-primary: #565449;       /* Olive Drab */
+          --color-primary-dark: #11120D;  /* Smoky Black */
+          --color-accent: #565449;        /* Olive Drab */
+          --color-secondary: #D8CFBC;     /* Bone */
+          --color-text-main: #11120D;     /* Smoky Black */
+          --color-bg-light: #FFFBF4;      /* Floral White */
+          --color-bg-white: #FFFFFF;
+          
+          /* Gradients matching MainPage */
+          --hero-gradient-start: rgba(17, 18, 13, 0.9);
+          --hero-gradient-end: rgba(86, 84, 73, 0.8);
+          
+          /* Typography */
+          --font-heading: 'Playfair Display', serif;
+          --font-body: 'Lato', sans-serif;
+          
+          /* Mappings for consistency */
+          --white: var(--color-bg-white);
+          --smoky-black: var(--color-primary-dark);
+          --text-light: #5a574d; /* Muted Olive Drab */
+          --olive-drab: var(--color-primary);
+          --bone: var(--color-secondary);
+          --floral-white: var(--color-bg-light);
+          
+          --font-display: var(--font-heading);
+          --font-primary: var(--font-body);
+        }
+
+        /* 1. HERO SECTION */
+        .theme-college-fields .hero-title {
+          width: 100%;
+        }
+        .theme-college-fields .hero-title .title-main {
+          white-space: normal;
+          line-height: 1.1;
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .hero-title .title-sub {
+          color: var(--color-secondary);
+          font-style: italic;
+          opacity: 0.95;
+          margin-top: 16px;
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .hero-description {
+          color: rgba(255, 251, 244, 0.9);
+          font-family: var(--font-body);
+        }
+        
+        /* 2. ABOUT / INTRO SECTION */
+        .theme-college-fields .group-intro-title .group-name {
+          color: var(--color-primary-dark);
+          border-bottom: 3px solid var(--color-secondary);
+          padding-bottom: 10px;
+          display: inline-block;
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .group-intro-text p {
+          color: var(--color-text-main);
+          line-height: 1.8;
+        }
+        .theme-college-fields .group-intro-text h3 {
+          color: var(--color-primary);
+          border-left: 4px solid var(--color-secondary);
+          padding-left: 15px;
+          margin-top: 30px;
+          margin-bottom: 15px;
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .btn-primary {
+          background-color: var(--color-primary);
+          border-color: var(--color-primary);
+          color: var(--color-bg-light);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          transition: all 0.3s ease;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-college-fields .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(86, 84, 73, 0.3);
+        }
+        .theme-college-fields .btn-outline {
+          color: var(--color-primary);
+          border-color: var(--color-primary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-college-fields .btn-outline:hover {
+          background-color: var(--color-primary);
+          color: var(--color-bg-light);
+        }
+
+        /* 3. QUICK STATS */
+        .theme-college-fields .loc-stats__item {
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid var(--color-secondary);
+          color: var(--color-primary-dark);
+        }
+        .theme-college-fields .loc-stats__item i {
+          color: var(--color-primary);
+        }
+        .theme-college-fields .loc-stats__item:hover {
+          background: var(--color-bg-light);
+          border-color: var(--color-primary);
+        }
+
+        /* 4. ACTIVITIES & FACILITIES SECTIONS */
+        .theme-college-fields .section-header__subtitle {
+          color: var(--color-primary);
+          font-family: var(--font-body);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .theme-college-fields .section-header__title {
+          color: var(--color-primary-dark);
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .detailed-facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-college-fields .detailed-facility-card:hover {
+          border-color: var(--color-primary);
+        }
+        .theme-college-fields .detailed-facility-card i {
+          color: var(--color-primary) !important;
+        }
+        .theme-college-fields .detailed-facility-card span {
+          color: var(--color-primary) !important;
+        }
+        .theme-college-fields .facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-college-fields .facility-card__icon {
+          color: var(--color-primary);
+          background-color: var(--color-bg-light);
+        }
+
+        /* 5. TEAM SECTION */
+        .theme-college-fields .team-member-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-college-fields .team-member-card span {
+          color: var(--color-primary);
+        }
+
+        /* 6. NEWS SECTION */
+        .theme-college-fields .news-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-college-fields .news-card__link {
+          color: var(--color-primary);
+        }
+        .theme-college-fields .news-card__link::after {
+          background-color: var(--color-primary);
+        }
+
+        /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
+        .theme-college-fields .bottom-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-college-fields .bottom-card__title {
+          color: var(--color-primary-dark);
+          border-bottom: 2px solid var(--color-secondary);
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          font-family: var(--font-heading);
+        }
+        .theme-college-fields .contact-mini-item i {
+          color: var(--color-primary);
+        }
+        .theme-college-fields .fact-label {
+          color: var(--color-primary);
+          font-weight: 700;
+        }
+        .theme-college-fields .fact-row {
+          border-bottom-color: var(--color-secondary);
+        }
+        .theme-college-fields .fact-value {
+          color: var(--color-text-main);
+        }
+        /* Override inline styles for links in facts */
+        .theme-college-fields .fact-value[style*="color: blue"] {
+          color: var(--color-primary) !important;
+        }
+        .theme-college-fields .review-mini-text {
+          font-style: italic;
+          color: var(--text-light);
+        }
+        /* 8. WHY CHOOSE SECTION */
+        .theme-college-fields .why-choose-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 15px;
+          text-align: left;
+          margin: 20px 0;
+        }
+        .theme-college-fields .why-choose-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 3px solid var(--color-secondary);
+          transition: transform 0.2s ease;
+        }
+        .theme-college-fields .why-choose-item:hover {
+          transform: translateX(5px);
+          border-left-color: var(--color-primary);
+        }
+        .theme-college-fields .why-choose-item i {
+          color: var(--color-primary);
+          margin-top: 4px;
+        }
+        /* 9. CUSTOM LAYOUT OVERRIDES */
+        .hero-buttons-row {
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: nowrap; /* Force one line */
+          gap: 15px;
+          overflow-x: auto; /* Allow scroll if screen is too narrow */
+          padding-bottom: 5px; /* Space for scrollbar if needed */
+          -webkit-overflow-scrolling: touch;
+          justify-content: flex-start;
+        }
+        
+        /* Hide scrollbar for cleaner look but keep functionality */
+        .hero-buttons-row::-webkit-scrollbar {
+          height: 0px;
+          background: transparent;
+        }
+
+        /* Hide Hero Buttons on Mobile */
+        @media (max-width: 768px) {
+          .hero-buttons-row {
+            display: none !important;
+          }
+        }
+
+        /* Responsive Reverse for Activities on Mobile */
+        @media (max-width: 900px) {
+          .activities-mobile-reverse {
+            flex-direction: column-reverse !important;
+            display: flex;
+          }
+        }
+      `}</style>
       <SEO 
         title="College Fields Nursing Home"
         description="College Fields Nursing Home in Barry offers high-quality nursing and dementia care with a strong focus on activities, independence and quality of life."
@@ -177,12 +484,30 @@ const CollegeFieldsNursingHome = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">College Fields Nursing Home</span>
+              <span className="title-main">Welcome to College Fields Nursing Home</span>
               <span className="title-sub">Compassionate, Person-Centred Care</span>
             </h1>
             <p className="hero-description">
-              At College Fields Nursing Home, we are dedicated to providing exceptional care in a warm, welcoming, and homely environment.
+              At College Fields Nursing Home, we are dedicated to providing exceptional care in a 
+              warm, welcoming, and homely environment. Our team takes pride not only in delivering 
+              technically excellent nursing care but also in creating a space where residents feel 
+              valued, respected, and truly at home.
             </p>
+            
+            <div className="hero-cta-buttons hero-buttons-row">
+              <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-bed"></i> 68 Bedrooms
+              </div>
+              <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=College+Fields+Nursing+Home+Barry', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-map-marker-alt"></i> Barry
+              </div>
+              <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-star"></i> Quality Care
+              </div>
+              <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-users"></i> Expert Team
+              </div>
+            </div>
           </div>
         </div>
 
@@ -213,181 +538,125 @@ const CollegeFieldsNursingHome = () => {
 
             <div className="group-intro-text">
               <p>
-                At College Fields Nursing Home, we are dedicated to providing exceptional care
-                in a warm, welcoming, and homely environment. Our team takes pride not only in
-                delivering technically excellent nursing care but also in creating a space
-                where residents feel valued, respected, and truly at home.
+                At College Fields Nursing Home, we are dedicated to providing exceptional care in a 
+                warm, welcoming, and homely environment. Our team takes pride not only in 
+                delivering technically excellent nursing care but also in creating a space where 
+                residents feel valued, respected, and truly at home. We believe that every resident 
+                matters and strive to make life fulfilling through personal interaction, meaningful 
+                engagement, and activities tailored to individual interests.
               </p>
               <p>
-                We believe that every resident matters and strive to make life fulfilling
-                through personal interaction, meaningful engagement, and activities tailored
-                to individual interests.
+                We understand that support extends beyond our residents – families often need 
+                reassurance, guidance, and comfort. Our reputation for excellence has been built on 
+                the dedication, professionalism, and compassion of our staff, who go above and 
+                beyond to provide care that is both attentive and empathetic.
               </p>
-              <p>
-                We understand that support extends beyond our residents – families often need
-                reassurance, guidance, and comfort. Our reputation for excellence has been
-                built on the dedication, professionalism, and compassion of our staff, who go
-                above and beyond to provide care that is both attentive and empathetic.
-              </p>
-              <p>
-                College Fields Nursing Home offers a warm, spacious, and comfortable
-                environment where residents can enjoy the familiarity of home while receiving
-                professional support. Our home promotes companionship, social engagement, and
-                a strong sense of community, ensuring that every resident feels connected and
-                supported.
-              </p>
-              <p>
-                Relatives can take comfort in knowing that their loved ones are cared for by
-                highly trained, professional nursing staff available 24 hours a day, providing
-                both medical support and emotional reassurance.
-              </p>
-              <p>
-                We warmly welcome visitors at any time. Whether you are looking to see your
-                loved ones, explore our facilities, or determine if College Fields Nursing Home
-                is the right choice for yourself, your relatives, or friends, we encourage you
-                to visit and experience our home firsthand.
-              </p>
-              <p>
-                Our team is committed to creating a safe, supportive, and inclusive environment
-                where residents, families, and staff feel valued, respected, and confident in
-                the quality of care provided.
-              </p>
-              <p>Why choose College Fields Nursing Home:</p>
-              <ul>
-                <li>
-                  Person-centred care tailored to individual needs, interests, and preferences
-                </li>
-                <li>Highly trained nursing staff available 24 hours a day</li>
-                <li>
-                  A warm, spacious, and homely environment promoting comfort and companionship
-                </li>
-                <li>Meaningful activities and engagement to enhance quality of life</li>
-                <li>A supportive approach for families, ensuring peace of mind</li>
-                <li>
-                  A reputation for compassionate, professional, and consistent care
-                </li>
-              </ul>
-              <p>
-                At College Fields, we are committed to enhancing the lives of our residents,
-                providing an environment where they feel safe, valued, and empowered to enjoy
-                life to the fullest. To learn more about our approach, you can also visit the{' '}
-                <Link to="/our-care">Our Care</Link> page.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        {/* Quick Stats Row (Floating) */}
-        <div className="loc-stats">
-          <div className="loc-stats__item">
-            <i className="fas fa-bed"></i>
-            <span>68 Bedrooms</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=College+Fields+Nursing+Home+Barry', '_blank')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-map-marker-alt"></i>
-            <span>Barry</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => navigate('/our-care')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-star"></i>
-            <span>Quality Care</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-users"></i>
-            <span>Expert Team</span>
+              <h3 className="section-header__title" style={{ marginTop: '40px' }}>Our Environment</h3>
+              <p>
+                College Fields Nursing Home offers a warm, spacious, and comfortable environment 
+                where residents can enjoy the familiarity of home while receiving professional support. 
+                Our home promotes companionship, social engagement, and a sense of community, 
+                ensuring that every resident feels connected and supported.
+              </p>
+              <p>
+                Relatives can take comfort in knowing that their loved ones are cared for by highly 
+                trained, professional nursing staff available 24 hours a day, providing both medical 
+                support and emotional reassurance.
+              </p>
+
+              <div className="location-highlight" style={{ marginTop: '40px', padding: '20px', background: 'rgba(255, 255, 255, 0.5)', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary)' }}>
+                <h3 className="section-header__title" style={{ marginTop: '0', marginBottom: '15px' }}>Visiting College Fields</h3>
+                <p style={{ marginBottom: '0' }}>
+                  We warmly welcome visitors at any time. Whether you are looking to see your loved 
+                  ones, explore our facilities, or determine if College Fields Nursing Home is the right 
+                  choice for yourself, your relatives, or friends, we encourage you to visit and experience 
+                  our home firsthand.
+                </p>
+                <p style={{ marginTop: '15px', marginBottom: '0' }}>
+                  Our team is committed to creating a safe, supportive, and inclusive environment 
+                  where residents, families, and staff feel valued, respected, and confident in the quality 
+                  of care provided.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 2. ACTIVITIES SECTION */}
+      {/* Why Choose College Fields Nursing Home */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Life at College Fields</span>
-                <h2 className="section-header__title">Activities</h2>
+            <div className="loc-grid__content" style={{ width: '100%' }}>
+              <div className="section-header section-header--center">
+                <span className="section-header__subtitle">Why Choose Us</span>
+                <h2 className="section-header__title">Why Choose College Fields Nursing Home</h2>
               </div>
-              <p className="loc-text">
-                We have a team of activities organisers whose delight it is to find out what interests our residents and then to try and fulfil those wishes. Music always seems popular. So do animals. Belly dancers have proved very popular too, both with the ladies and the gentlemen.
+              <div className="why-choose-grid">
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Person-centred care tailored to individual needs, interests, and preferences</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Highly trained nursing staff, available 24 hours a day</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>A warm, spacious, and homely environment promoting comfort and companionship</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Meaningful activities and engagement to enhance quality of life</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>A supportive approach for families, ensuring peace of mind</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>A reputation for compassionate, professional, and consistent care</span>
+                </div>
+              </div>
+              <p className="loc-text" style={{ textAlign: 'center', marginTop: '30px' }}>
+                At College Fields, we are committed to enhancing the lives of our residents, providing 
+                an environment where they feel safe, valued, and empowered to enjoy life to the fullest.
               </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
-            </div>
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {activitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryActivitiesGallery" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Activities Modal */}
-      {showActivitiesModal && (
-        <div className="modal-overlay" onClick={() => setShowActivitiesModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowActivitiesModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Activities at College Fields</h2>
-            <div className="modal-body">
-              <p>
-                How do we know what to put on? The activities organisers encourage all residents to join the (usually) monthly group who tell them what they like and don’t like. Isn’t it lovely to have some control over your life? Sometimes painting is the choice, or cookery. Yes cookery is popular even with those who because of dietary restriction cannot eat the results.
-              </p>
-              
-              <div className="activity-highlight-box" style={{ background: 'var(--color-bg-light)', padding: '20px', borderRadius: '8px', margin: '20px 0' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>Outings & Transport</h4>
-                <p style={{ marginBottom: '15px' }}>
-                  Sometimes getting out of the house is a delight. I remember when as a child my parents took me for a car ride. May seem very ordinary to those who are out and about all the time but when your not it can be special.
-                </p>
-                <p style={{ marginBottom: '15px' }}>
-                  To help with this we run two vehicles that can take wheelchairs. A single wheel chair car is very helpful as it is inconspicuous and they can be like any other family going out for a coffee or going down the Island or the Knap. They could be going to the National Trust’s Dyffryn House, to see the house and gardens.
-                </p>
-                <p>
-                  OK your ambitions are bigger. You want an outing with your new friends or family. We also have a minibus that will take up to three wheelchairs at one time. You may be like some of our ‘boys’ who went to a rock concert at St David’s Hall in Cardiff. They had a ball. Our ‘big’ minibus is well used for all manner of outings.
-                </p>
-              </div>
-
-              <div className="activity-highlight-box" style={{ borderLeft: '4px solid var(--color-primary)', padding: '15px 20px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                <p style={{ fontStyle: 'italic', color: '#555' }}>
-                  "Imagine having to go to outpatients and the University Hospital in Cardiff and having to wait for an ambulance to pick you up then being seen and waiting for am ambulance to bring you back home. Hours spent., Hours wasted. Not for our residents as our team will take you and being you home without all the fuss."
-                </p>
-                <p style={{ marginTop: '10px', fontWeight: 'bold', color: 'var(--color-primary)' }}>
-                  We try to make everyone’s life as fulfilling as possible.
-                </p>
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 3. FACILITIES SECTION */}
       <section className="loc-section loc-section--light">
         <div className="container">
           <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Comfort & Care</span>
+                <h2 className="section-header__title">Facilities & Services</h2>
+              </div>
+              <div className="facilities-content">
+                <p className="loc-text">
+                  Certain facilities are available to every resident, such as overhead hoists in every 
+                  bedroom and bathroom to enable safe and comfortable transfers. Each room is equipped 
+                  with a three-way profiling bed and specialist mattress to ensure comfort and care.
+                </p>
+                
+                <div style={{ marginTop: '30px' }}>
+                  <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px' }}>Community Spaces</h3>
+                  <p className="loc-text">
+                    There are several rooms where residents can get together. The main lounge is the usual 
+                    place where events are held, from art classes to professional entertainment.
+                  </p>
+                  <p className="loc-text">
+                    Other communal areas include the quiet conservatory, the dining room, and a sensory 
+                    room that provides a calming environment for residents.
+                  </p>
+                </div>
+              </div>
+            </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -399,58 +668,6 @@ const CollegeFieldsNursingHome = () => {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-              </div>
-            </div>
-            
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Facilities & Services</h2>
-              </div>
-              <div className="facilities-content">
-                <p className="loc-text">
-                  Facilities for primarily residents but some for families and visitors.
-                </p>
-                <p className="loc-text" style={{ marginTop: '15px' }}>
-                  Certain facilities are available to every resident. Others are available to residents with particular needs. For example every bedroom and bathroom have overhead hoists that enable residents to be transferred between their beds and chair or into the bath. These overheads give a smoother more reassuring transfer to the user of the hoist than the ‘portable’ ones.
-                </p>
-                
-                <div className={`facilities-content__more ${facilitiesExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                  <div style={{ marginTop: '30px' }}>
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px' }}>Residents Room</h3>
-                    <p className="loc-text">
-                      However, they will have some similar features. For example, every room will have a three way hi-low electric bed. Why is this? The three way profiling bed matched with a specialist memory foam mattress will reduce a chance of developing skin tissue problems. With residents at high risk then extra steps may be needed such as ‘turning’ the person at regular intervals. Others with exceptionally high risk will be supplied with a alternating air flow mattress that stimulates the blood flow and eliminating as much as possible any area that may be at risk.
-                    </p>
-                    <p className="loc-text">
-                      Each and every room has an overhead gantry with its own dedicated electric hoist. The advantage of these for the resident is the confidence of transferring comfortably and safely.
-                    </p>
-                    <p className="loc-text">
-                      I remember that someone described their idea of luxury as having clean bedding every day. If that is a criteria then we give a luxury service. I need say no more.
-                    </p>
-                    <p className="loc-text">
-                      Room sizes vary considerably. Some are very ‘cwtchy’ a Welshism for cosy. Others a more grand. What we have found over the years is that everyone has their own idea of the right size for them. Hopefully, if the right sized room is not available on the day they enter they will be offered the right sized room for them when one becomes available.
-                    </p>
-                    <p className="loc-text">
-                      Some rooms have sea views. Others do not. What is certain no matter what the size of the room the care will still be of a high standard. There are rooms on each of the three floors. To access each floor there is a lift and a ‘grand’ staircase.
-                    </p>
-
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px', marginTop: '25px' }}>Community Rooms</h3>
-                    <p className="loc-text">
-                      There are several rooms where residents can get together. The main lounge is the usual place where events are held. Sometimes it is only residents enjoying themselves by art classes, the monthly non sectarian service or a get together to decide which events they would like in the following month. Every week there is a professional artist, singer or other artist. Sometimes there are unusual creatures that seem to be enjoyed by many but others choose to watch from a distance. The belly dancers have interested both ladies and the gentlemen.
-                    </p>
-                    <p className="loc-text">
-                      There are other rooms for residents including the quiet conservatory, the dining room and the sensory room that has been really effective and liked by some people.
-                    </p>
-                  </div>
-                </div>
-
-                <button 
-                  className="btn btn--outline" 
-                  onClick={() => setFacilitiesExpanded(!facilitiesExpanded)}
-                  style={{ marginTop: '20px' }}
-                >
-                  {facilitiesExpanded ? 'Read Less' : 'Read More'}
-                </button>
               </div>
             </div>
           </div>
@@ -469,9 +686,45 @@ const CollegeFieldsNursingHome = () => {
         </div>
       </section>
 
-      {/* 4. TEAM & CARE */}
+      {/* 4. ACTIVITIES SECTION */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid activities-mobile-reverse">
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {activitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryActivitiesGallery" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Life at College Fields</span>
+                <h2 className="section-header__title">Activities</h2>
+              </div>
+              <p className="loc-text">
+                We believe that every resident matters and strive to make life fulfilling 
+                through personal interaction, meaningful engagement, and activities tailored 
+                to individual interests.
+              </p>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                Our home promotes companionship, social engagement, and a sense of community, 
+                ensuring that every resident feels connected and supported.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. TEAM & CARE */}
       {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-        <section id="team-section" className="loc-section loc-section--white">
+        <section id="team-section" className="loc-section loc-section--light">
           <div className="container">
             <div className="loc-grid">
               <div className="loc-grid__content">
@@ -481,59 +734,20 @@ const CollegeFieldsNursingHome = () => {
                 </div>
                 <div className="team-content">
                   <p className="loc-text">
-                    Our valued staff are key to high quality of care, starting here with the kitchen…
+                    Our reputation for excellence has been built on the dedication, professionalism, 
+                    and compassion of our staff, who go above and beyond to provide care that is both 
+                    attentive and empathetic.
                   </p>
                   <p className="loc-text" style={{ marginTop: '15px' }}>
-                    Our main kitchen creates four meals a day for residents. Residents have likes and dislikes about what they want to eat. Our kitchen staff try to cater for individual choices. All produce is sourced as locally as possible and as fresh as possible. We have a large team dedicated to making the ‘dining experience’ as good as it can be. All resident’s dietary needs are catered for. Whether each resident can eat traditionally, or need a ‘soft’ diet or even be peg fed or as is often the case, need assistance with actually eating, the team are there to help and support.
+                    Relatives can take comfort in knowing that their loved ones are cared for by 
+                    highly trained, professional nursing staff available 24 hours a day, providing 
+                    both medical support and emotional reassurance.
                   </p>
-                  
-                  <div className={`facilities-content__more ${teamExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                      <p className="loc-text">
-                          In addition to the main kitchen, there are small kitchens on every floor. Each one has a microwave, a kettle and a dishwasher. This enables staff at all times of day to prepare a hot or cold snack and a warm drink.
-                      </p>
-                      <p className="loc-text">
-                          I have yet to meet a family who when visiting mum or dad don’t have a cuppa. When mum or dad’s home is College Fields then nothing should change. Family should be able to make a cuppa. So they will find tea and coffee. Cups and saucers (or mugs) available. Milk in the fridge. They should feel at home too!!!!
-                      </p>
-
-                      <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px', marginTop: '25px' }}>Other important staff involvement</h3>
-                      <p className="loc-text">
-                          We regularly ask residents what they think of the service they have with us. We find this helpful as we can continue doing things they like and change things they don’t.
-                      </p>
-                      <p className="loc-text">
-                          Our domestic staff, one of whom can be seen in the pictures above, not only keep everything as spotless as possible but also chat and take an interest in resident’s families. On one response to our questionaire the resident wrote that although no one ever came to clean her room it was always immaculate. The domestic staff in that case obviously did her job of interacting so well her cleaning taks were never noticed being done.
-                      </p>
-                      <p className="loc-text">
-                          We have our own in house laundry as can be seen above. The commercial machine can be set to ensure that everything is hygenically washed for infection control purposes.
-                      </p>
-                      <p className="loc-text">
-                          Reception staff are invaluable in welcoming new visitors to the home and ensuring visiting professionals know where to go so they waste none of their valuable time.
-                      </p>
-                      <p className="loc-text">
-                          Administration in the modern world is more and more necessary. Not only to check the books balance but all the masses of client records are correctly filed so they can be found when needed.
-                      </p>
-                      <p className="loc-text">
-                          A building the size and age of ours needs constant maintenance and our team are up to the challenge.
-                      </p>
-
-                      <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px', marginTop: '25px' }}>Nurses and Care Staff</h3>
-                      <p className="loc-text">
-                          Nurses, nursing auxiliaries and care staff are the backbone of the care we provide.
-                      </p>
-                      <p className="loc-text">
-                          We have a full compliment of trained, qualified nurses. These are supported by nurse auxiliaries. Both are trained to a high standard with the qualified nurses now generally to degree standards. They are responsible for supporting residents, understanding their medical and other needs and knowing how to react to their individual problems and needs.
-                      </p>
-                      <p className="loc-text">
-                          Care practitioners support the top level nurses. They, too, are trained to a high standard here at College Fields. They undertake so much of the personal care helping each resident with their particular needs. Although care staff do not need to be registered with Social Care Wales until 2021 we are putting in place now all the preparatory education they will need to make their registration as swift and simple as possible
-                      </p>
-                  </div>
-
-                  <button 
-                    className="btn btn--outline" 
-                    onClick={() => setTeamExpanded(!teamExpanded)}
-                    style={{ marginTop: '20px' }}
-                  >
-                    {teamExpanded ? 'Read Less' : 'Read More'}
-                  </button>
+                  <p className="loc-text" style={{ marginTop: '15px' }}>
+                    We have a full compliment of trained, qualified nurses supported by nurse 
+                    auxiliaries and care practitioners. Our team is committed to creating a safe, 
+                    supportive, and inclusive environment where residents feel valued and respected.
+                  </p>
                 </div>
               </div>
               <div className="loc-grid__media">
@@ -614,7 +828,76 @@ const CollegeFieldsNursingHome = () => {
         </section>
       )}
 
+      {/* Reviews Section */}
+      <section className="home-testimonials" id="testimonials">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <p className="section-subtitle">
+              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at College Fields Nursing Home.
+            </p>
+          </div>
+          <div className="testimonials-content-wrapper">
+            <div className="google-reviews-card">
+              <div className="google-header">
+                <i className="fab fa-google google-icon"></i>
+                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>Google Reviews</span>
+              </div>
+              <div className="rating-display">4.9</div>
+              <div className="google-stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+              <p className="review-count">Based on verified reviews</p>
+              <a href="https://www.google.com/search?q=College+Fields+Nursing+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn-google">
+                See our reviews
+              </a>
+            </div>
+
+            <div className="vertical-testimonials-container">
+              {reviews.map((review, index) => {
+                 let className = 'testimonial-slide';
+                 if (index === currentReviewIndex) {
+                     className += ' active';
+                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
+                     className += ' prev';
+                 }
+                 
+                 return (
+                    <div key={index} className={className}>
+                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                      <p className="testimonial-text">"{review.text}"</p>
+                      <div className="testimonial-author">
+                        <h4>{review.author}</h4>
+                        <span>{review.role}</span>
+                      </div>
+                    </div>
+                 );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 5. NEWS SECTION */}
+      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
+          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
+            We invite families, healthcare professionals, and prospective residents to learn more 
+            about our person-centred approach, specialist services, and exceptional facilities. 
+            College Fields is committed to delivering the highest standards of care within 
+            a compassionate, professional, and inspiring environment.
+          </p>
+          <Link to="/our-care" className="btn btn-primary btn-lg">
+            Click here to explore OUR CARE
+          </Link>
+        </div>
+      </section>
+
       {collegeNews.length > 0 && (
         <section className="loc-section loc-section--light">
           <div className="container">

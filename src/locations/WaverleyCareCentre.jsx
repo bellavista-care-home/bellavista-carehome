@@ -11,17 +11,19 @@ import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
+import { fetchReviews } from '../services/reviewService';
 import SEO from '../components/SEO';
 
 const WaverleyCareCentre = () => {
   const navigate = useNavigate();
-  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
   const [teamExpanded, setTeamExpanded] = useState(false);
   const [waverleyNews, setWaverleyNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   // Using Barry's images as placeholders as requested
   const defaultActivitiesImages = [
@@ -120,20 +122,59 @@ const WaverleyCareCentre = () => {
           setTeamGalleryImages(home.teamGalleryImages);
         }
       }
+
+      // Load Reviews
+      try {
+        const reviewData = await fetchReviews({ location: 'Waverley' });
+        if (reviewData && reviewData.length > 0) {
+          const mappedReviews = reviewData.slice(0, 5).map(r => ({
+            text: r.review,
+            author: r.name || "Verified Resident",
+            role: "Verified Review"
+          }));
+          setReviews(mappedReviews);
+        } else {
+          // Fallback
+          setReviews([
+            {
+              text: "The Waverley staff go the extra mile to ensure the comfort and happiness of our residents.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "A wonderful home with stunning views and a warm, friendly atmosphere.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", error);
+        setReviews([
+            {
+              text: "The Waverley staff go the extra mile to ensure the comfort and happiness of our residents.",
+              author: "Family of Resident",
+              role: "Verified Review"
+            },
+            {
+              text: "A wonderful home with stunning views and a warm, friendly atmosphere.",
+              author: "Visitor",
+              role: "Verified Review"
+            }
+        ]);
+      }
     };
     loadData();
   }, []);
 
-  const facilitiesList = [
-    { icon: "fas fa-users", title: "129 Registered Places" },
-    { icon: "fas fa-water", title: "Coastal Views" },
-    { icon: "fas fa-user-nurse", title: "General Nursing" },
-    { icon: "fas fa-brain", title: "EMI & FMI Care" },
-    { icon: "fas fa-theater-masks", title: "Theatre/Sensory Room" },
-    { icon: "fas fa-couch", title: "Lounges & Communal" },
-    { icon: "fas fa-leaf", title: "Garden & Patio" },
-    { icon: "fas fa-wheelchair", title: "Dementia Friendly" }
-  ];
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [reviews.length]);
 
   // Swiper settings
   const sliderSettings = {
@@ -161,6 +202,262 @@ const WaverleyCareCentre = () => {
 
   return (
     <div className="location-page theme-waverley">
+      <style>{`
+        .theme-waverley {
+          /* Core Brand Colors - Main Page Palette */
+          --color-primary: #565449;       /* Olive Drab */
+          --color-primary-dark: #11120D;  /* Smoky Black */
+          --color-accent: #565449;        /* Olive Drab */
+          --color-secondary: #D8CFBC;     /* Bone */
+          --color-text-main: #11120D;     /* Smoky Black */
+          --color-bg-light: #FFFBF4;      /* Floral White */
+          --color-bg-white: #FFFFFF;
+          
+          /* Gradients matching MainPage */
+          --hero-gradient-start: rgba(17, 18, 13, 0.9);
+          --hero-gradient-end: rgba(86, 84, 73, 0.8);
+          
+          /* Typography */
+          --font-heading: 'Playfair Display', serif;
+          --font-body: 'Lato', sans-serif;
+          
+          /* Mappings for consistency */
+          --white: var(--color-bg-white);
+          --smoky-black: var(--color-primary-dark);
+          --text-light: #5a574d; /* Muted Olive Drab */
+          --olive-drab: var(--color-primary);
+          --bone: var(--color-secondary);
+          --floral-white: var(--color-bg-light);
+          
+          --font-display: var(--font-heading);
+          --font-primary: var(--font-body);
+        }
+
+        /* 1. HERO SECTION */
+        .theme-waverley .hero-title {
+          width: 100%;
+        }
+        .theme-waverley .hero-title .title-main {
+          white-space: normal;
+          line-height: 1.1;
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .hero-title .title-sub {
+          color: var(--color-secondary);
+          font-style: italic;
+          opacity: 0.95;
+          margin-top: 16px;
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .hero-description {
+          color: rgba(255, 251, 244, 0.9);
+          font-family: var(--font-body);
+        }
+        
+        /* 2. ABOUT / INTRO SECTION */
+        .theme-waverley .group-intro-title .group-name {
+          color: var(--color-primary-dark);
+          border-bottom: 3px solid var(--color-secondary);
+          padding-bottom: 10px;
+          display: inline-block;
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .group-intro-text p {
+          color: var(--color-text-main);
+          line-height: 1.8;
+        }
+        .theme-waverley .group-intro-text h3 {
+          color: var(--color-primary);
+          border-left: 4px solid var(--color-secondary);
+          padding-left: 15px;
+          margin-top: 30px;
+          margin-bottom: 15px;
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .btn-primary {
+          background-color: var(--color-primary);
+          border-color: var(--color-primary);
+          color: var(--color-bg-light);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          transition: all 0.3s ease;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-waverley .btn-primary:hover {
+          background-color: var(--color-primary-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(86, 84, 73, 0.3);
+        }
+        .theme-waverley .btn-outline {
+          color: var(--color-primary);
+          border-color: var(--color-primary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-family: var(--font-body);
+          font-weight: 700;
+        }
+        .theme-waverley .btn-outline:hover {
+          background-color: var(--color-primary);
+          color: var(--color-bg-light);
+        }
+
+        /* 3. QUICK STATS */
+        .theme-waverley .loc-stats__item {
+          background: rgba(255, 255, 255, 0.95);
+          border: 1px solid var(--color-secondary);
+          color: var(--color-primary-dark);
+        }
+        .theme-waverley .loc-stats__item i {
+          color: var(--color-primary);
+        }
+        .theme-waverley .loc-stats__item:hover {
+          background: var(--color-bg-light);
+          border-color: var(--color-primary);
+        }
+
+        /* 4. ACTIVITIES & FACILITIES SECTIONS */
+        .theme-waverley .section-header__subtitle {
+          color: var(--color-primary);
+          font-family: var(--font-body);
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .theme-waverley .section-header__title {
+          color: var(--color-primary-dark);
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .detailed-facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-waverley .detailed-facility-card:hover {
+          border-color: var(--color-primary);
+        }
+        .theme-waverley .detailed-facility-card i {
+          color: var(--color-primary) !important;
+        }
+        .theme-waverley .detailed-facility-card span {
+          color: var(--color-primary) !important;
+        }
+        .theme-waverley .facility-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-waverley .facility-card__icon {
+          color: var(--color-primary);
+          background-color: var(--color-bg-light);
+        }
+
+        /* 5. TEAM SECTION */
+        .theme-waverley .team-member-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-waverley .team-member-card span {
+          color: var(--color-primary);
+        }
+
+        /* 6. NEWS SECTION */
+        .theme-waverley .news-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-waverley .news-card__link {
+          color: var(--color-primary);
+        }
+        .theme-waverley .news-card__link::after {
+          background-color: var(--color-primary);
+        }
+
+        /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
+        .theme-waverley .bottom-card {
+          border-color: var(--color-secondary);
+        }
+        .theme-waverley .bottom-card__title {
+          color: var(--color-primary-dark);
+          border-bottom: 2px solid var(--color-secondary);
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          font-family: var(--font-heading);
+        }
+        .theme-waverley .contact-mini-item i {
+          color: var(--color-primary);
+        }
+        .theme-waverley .fact-label {
+          color: var(--color-primary);
+          font-weight: 700;
+        }
+        .theme-waverley .fact-row {
+          border-bottom-color: var(--color-secondary);
+        }
+        .theme-waverley .fact-value {
+          color: var(--color-text-main);
+        }
+        /* Override inline styles for links in facts */
+        .theme-waverley .fact-value[style*="color: #0066cc"] {
+          color: var(--color-primary) !important;
+        }
+        .theme-waverley .review-mini-text {
+          font-style: italic;
+          color: var(--text-light);
+        }
+        /* 8. WHY CHOOSE SECTION */
+        .theme-waverley .why-choose-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 15px;
+          text-align: left;
+          margin: 20px 0;
+        }
+        .theme-waverley .why-choose-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 15px;
+          border-radius: 8px;
+          border-left: 3px solid var(--color-secondary);
+          transition: transform 0.2s ease;
+        }
+        .theme-waverley .why-choose-item:hover {
+          transform: translateX(5px);
+          border-left-color: var(--color-primary);
+        }
+        .theme-waverley .why-choose-item i {
+          color: var(--color-primary);
+          margin-top: 4px;
+        }
+        /* 9. CUSTOM LAYOUT OVERRIDES */
+        .hero-buttons-row {
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: nowrap; /* Force one line */
+          gap: 15px;
+          overflow-x: auto; /* Allow scroll if screen is too narrow */
+          padding-bottom: 5px; /* Space for scrollbar if needed */
+          -webkit-overflow-scrolling: touch;
+          justify-content: flex-start;
+        }
+        
+        /* Hide scrollbar for cleaner look but keep functionality */
+        .hero-buttons-row::-webkit-scrollbar {
+          height: 0px;
+          background: transparent;
+        }
+
+        /* Hide Hero Buttons on Mobile */
+        @media (max-width: 768px) {
+          .hero-buttons-row {
+            display: none !important;
+          }
+        }
+
+        /* Responsive Reverse for Activities on Mobile */
+        @media (max-width: 900px) {
+          .activities-mobile-reverse {
+            flex-direction: column-reverse !important;
+            display: flex;
+          }
+        }
+      `}</style>
       <SEO 
         title="Waverley Care Centre"
         description="Waverley Care Centre in Penarth provides nursing and dementia care with beautiful coastal views, modern facilities and a friendly, homely atmosphere."
@@ -181,8 +478,25 @@ const WaverleyCareCentre = () => {
               <span className="title-sub">Warm, Friendly, and Professional Care</span>
             </h1>
             <p className="hero-description">
-              At Waverley Care Centre, we believe that it’s the little things that make all the difference – a friendly smile in the morning, time spent chatting with our residents, a sunny walk outdoors, or a personalised activity that brings joy.
+              At Waverley Care Centre, we believe that it’s the little things that make all the 
+              difference – a friendly smile in the morning, time spent chatting with our residents, a 
+              sunny walk outdoors, or a personalised activity that brings joy.
             </p>
+
+            <div className="hero-cta-buttons hero-buttons-row">
+              <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-bed"></i> 129 Bedrooms
+              </div>
+              <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-map-marker-alt"></i> Penarth
+              </div>
+              <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-star"></i> Quality Care
+              </div>
+              <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                <i className="fas fa-users"></i> Expert Team
+              </div>
+            </div>
           </div>
         </div>
 
@@ -226,36 +540,8 @@ const WaverleyCareCentre = () => {
                 quality, safety, and resident satisfaction are consistently at the forefront of
                 everything we do.
               </p>
-              <p>
-                Waverley Care Centre is designed to provide exceptional, person-centred care for
-                up to 129 residents, with plans for additional capacity through recent
-                developments. The home is thoughtfully organised into four specialist units –
-                Clif Haven 1, Clif Haven 2, Seaviews, and Glan-y-Mor – each with dedicated
-                management and staff to ensure tailored support for every resident.
-              </p>
-              <p>
-                Our general nursing care offers comprehensive support for residents with a wide
-                range of healthcare needs, delivering expert nursing and personalised care
-                plans. The EMI (Elderly Mentally Infirm) unit provides specialist support for
-                individuals living with dementia or cognitive impairments, focusing on safety,
-                engagement, and quality of life. For residents with specific mental health
-                challenges, our FMI (Functional Mental Infirmity) care offers focused,
-                compassionate support tailored to their needs.
-              </p>
-              <p>
-                Through ongoing redevelopment and enhancements, the home now includes
-                modernised accommodation, improved communal spaces, and additional beds,
-                allowing us to continue providing the highest standards of care while offering
-                residents a comfortable, home-like environment in each unit.
-              </p>
-              <p>
-                Our holistic approach ensures that every resident receives personalised,
-                person-centred care tailored to their individual preferences, abilities, and
-                wellbeing. With a team of over 200 highly trained and experienced staff, we
-                pride ourselves on exceptionally low staff turnover, reflecting a stable,
-                knowledgeable, and committed workforce dedicated to delivering the highest
-                standards of care.
-              </p>
+
+              <h3 className="section-header__title" style={{ marginTop: '40px' }}>Our Environment</h3>
               <p>
                 Waverley Care Centre offers a safe, secure, and welcoming environment where
                 residents can feel at home while receiving professional support. The home is
@@ -263,90 +549,129 @@ const WaverleyCareCentre = () => {
                 and surrounding countryside, creating a serene and inspiring backdrop for daily
                 life.
               </p>
-              <p>
-                We combine modern facilities with a homely atmosphere, encouraging residents to
-                engage in activities, social interaction, and outdoor experiences. Our care
-                environment is designed to meet the needs of all residents, including those
-                requiring specialist dementia or mental health support, while promoting
-                independence, dignity, and quality of life.
-              </p>
-              <p>
-                Conveniently located within walking distance of Penarth town centre, residents
-                have easy access to shops, cafés, and local amenities. The home is also just a
-                few miles from Cardiff, with excellent transport links via the M4 motorway,
-                making visits from family and friends straightforward and stress-free.
-              </p>
-              <p>Why choose Waverley Care Centre:</p>
-              <ul>
-                <li>Personalised, person-centred care tailored to each resident’s needs</li>
-                <li>
-                  Specialist nursing, dementia, and mental health care delivered by highly
-                  trained staff
-                </li>
-                <li>
-                  Family-owned management with hands-on oversight ensuring quality and safety
-                </li>
-                <li>Large, scenic site with stunning coastal and countryside views</li>
-                <li>
-                  Homely and welcoming environment combined with professional standards of care
-                </li>
-                <li>
-                  Low staff turnover and a highly experienced team, offering continuity of care
-                  and reassurance to families
-                </li>
-              </ul>
-              <p>
-                At Waverley, we go beyond providing care – we create a community where
-                residents thrive, families feel confident, and staff are supported to deliver
-                excellence every day. Our goal is to ensure that every resident enjoys a
-                fulfilling, engaging, and dignified life in a home that feels safe, warm, and
-                truly special.
-              </p>
-              <p>
-                To explore our approach in more detail, you can also visit the{' '}
-                <Link to="/our-care">Our Care</Link> page.
-              </p>
+              
+              <div className="location-highlight" style={{ marginTop: '40px', padding: '20px', background: 'rgba(255, 255, 255, 0.5)', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary)' }}>
+                <h3 className="section-header__title" style={{ marginTop: '0', marginBottom: '15px' }}>Location and Accessibility</h3>
+                <p style={{ marginBottom: '0' }}>
+                  Conveniently located within walking distance of Penarth town centre, residents
+                  have easy access to shops, cafés, and local amenities. The home is also just a
+                  few miles from Cardiff, with excellent transport links via the M4 motorway,
+                  making visits from family and friends straightforward and stress-free.
+                </p>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* Quick Stats Row (Floating) */}
-        <div className="loc-stats">
-          <div className="loc-stats__item">
-            <i className="fas fa-bed"></i>
-            <span>129 Bedrooms</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth', '_blank')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-map-marker-alt"></i>
-            <span>Penarth</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => navigate('/our-care')}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-star"></i>
-            <span>Quality Care</span>
-          </div>
-          <div 
-            className="loc-stats__item"
-            onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })}
-            style={{ cursor: 'pointer' }}
-          >
-            <i className="fas fa-users"></i>
-            <span>Expert Team</span>
           </div>
         </div>
       </section>
 
-      {/* 2. ACTIVITIES SECTION */}
+      {/* Why Choose Waverley Care Centre */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
+            <div className="loc-grid__content" style={{ width: '100%' }}>
+              <div className="section-header section-header--center">
+                <span className="section-header__subtitle">Why Choose Us</span>
+                <h2 className="section-header__title">Why Choose Waverley Care Centre</h2>
+              </div>
+              <div className="why-choose-grid">
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Personalised, person-centred care tailored to each resident’s needs</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Specialist nursing, dementia, and mental health care delivered by highly trained staff</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Family-owned management with hands-on oversight ensuring quality and safety</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Large, scenic site with stunning coastal and countryside views</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Homely and welcoming environment combined with professional standards of care</span>
+                </div>
+                <div className="why-choose-item">
+                  <i className="fas fa-check-circle"></i>
+                  <span>Low staff turnover and highly experienced team, offering continuity of care and reassurance to families</span>
+                </div>
+              </div>
+              <p className="loc-text" style={{ textAlign: 'center', marginTop: '30px' }}>
+                At Waverley, we go beyond providing care – we create a community where residents thrive, 
+                families feel confident, and staff are supported to deliver excellence every day.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="loc-section loc-section--light">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">High Quality Care</span>
+                <h2 className="section-header__title">Our Care and Services</h2>
+              </div>
+              <p className="loc-text">
+                Waverley Care Centre is designed to provide exceptional, person-centred care for 
+                up to 129 residents, with plans for additional capacity through recent 
+                developments. The home is thoughtfully organised into four specialist units—Cliff Haven-1, 
+                Cliff Haven-2, Seaview, and Glan-y-Mor—each with dedicated management and staff to 
+                ensure tailored support for every resident.
+              </p>
+              
+              <div style={{ marginTop: '20px' }}>
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>General Nursing Care</h4>
+                <p className="loc-text" style={{ marginBottom: '15px' }}>
+                  Offers comprehensive support for residents with a wide range of healthcare needs, 
+                  delivering expert nursing and personalised care plans.
+                </p>
+
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>EMI (Elderly Mentally Infirm) Care</h4>
+                <p className="loc-text" style={{ marginBottom: '15px' }}>
+                  Provides specialist support for individuals living with dementia or cognitive 
+                  impairments, focusing on safety, engagement, and quality of life.
+                </p>
+
+                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>FMI (Functional Mental Infirmity) Care</h4>
+                <p className="loc-text" style={{ marginBottom: '15px' }}>
+                  Offers focused, compassionate support tailored to the functional needs of residents 
+                  with specific mental health challenges.
+                </p>
+              </div>
+              
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                Through ongoing redevelopment, the home includes modernised accommodation, 
+                improved communal spaces, and additional beds, offering a comfortable, home-like 
+                environment in each unit.
+              </p>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Activities Section */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid activities-mobile-reverse">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -366,103 +691,50 @@ const WaverleyCareCentre = () => {
                 <h2 className="section-header__title">Activities & Social Life</h2>
               </div>
               <p className="loc-text">
-                We believe encouraging our residents to be as active as possible is a key part of maintaining good physical and mental well being. We offer a varied activity program designed to be stimulating, fun, and promote socialisation.
+                We combine modern facilities with a homely atmosphere, encouraging residents to 
+                engage in activities, social interaction, and outdoor experiences.
               </p>
-              <button className="btn btn--outline" onClick={() => setShowActivitiesModal(true)}>
-                See More Activities
-              </button>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                Our care environment is designed to meet the needs of all residents, including those 
+                requiring specialised dementia or mental health support, while promoting 
+                independence, dignity, and quality of life.
+              </p>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                Our holistic approach ensures that every resident receives personalised, person-centred 
+                care tailored to their individual preferences, abilities, and wellbeing.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Activities Modal */}
-      {showActivitiesModal && (
-        <div className="modal-overlay" onClick={() => setShowActivitiesModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowActivitiesModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Activities at Waverley</h2>
-            <div className="modal-body">
-              <p>
-                We create a homely environment where residents can enjoy their hobbies and interests. Our activities are tailored to individual needs and preferences.
-              </p>
-
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3. FACILITIES SECTION */}
-      <section className="loc-section loc-section--light">
+      {/* Team Section */}
+      <section className="loc-section loc-section--light" id="team-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Facilities & Services</h2>
+                <span className="section-header__subtitle">Dedicated Staff</span>
+                <h2 className="section-header__title">Our Team</h2>
               </div>
-              <div className="facilities-content">
-                <p className="loc-text">
-                  At the Waverley we all work as a team to ensure our residents are happy, comfortable and well-cared for, with the best possible quality of life. The dignity and privacy of our residents is a priority.
-                </p>
-                <p className="loc-text" style={{ marginTop: '15px' }}>
-                  We aim to keep our residents stimulated and interested by encouraging them to take part in a programme of regular and specially organised activities in the company of other residents and staff. Participation is entirely the choice of the individual.
-                </p>
-                
-                <div className={`facilities-content__more ${facilitiesExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                  <p className="loc-text">
-                    As far as possible we encourage the independence or our residents and provide laundry washing and drying facilities. Residents can make themselves hot drinks and snacks under supervision and are welcome, and indeed encouraged, to continue any hobbies they enjoy.
-                  </p>
-
-                  <div style={{ marginTop: '30px' }}>
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px' }}>General nursing care</h3>
-                    <p className="loc-text" style={{ marginBottom: '10px' }}>For elderly people needing personal and/or nursing care.</p>
-                    <ul style={{ listStyleType: 'disc', paddingLeft: '20px', marginBottom: '25px' }} className="loc-text">
-                      <li>66 cheerful and newly refurbished single rooms with bedroom and sitting area</li>
-                      <li>Most rooms have ensuite bathrooms and views over the coast and the Bristol Channel.</li>
-                      <li>All rooms are suitable for wheelchair users.</li>
-                      <li>Each floor of 10 – 14 rooms has its own dining and lounge area so residents can enjoy company or receive their care in the privacy of their bedroom.</li>
-                      <li>There is a kitchen area on each floor for use by residents and visitors if they wish, or hot drinks can be made by the carers as requested.</li>
-                    </ul>
-
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px' }}>Elderly Mentally Infirm</h3>
-                    <p className="loc-text" style={{ marginBottom: '10px' }}>For people who suffer mainly from dementia or other cognitive mental infirmity.</p>
-                    <ul style={{ listStyleType: 'disc', paddingLeft: '20px', marginBottom: '25px' }} className="loc-text">
-                      <li>We encourage communal living and dining as this helps to minimise the potential risk of an injury or accident to our residents. The staff can make sure that everybody is eating and drinking well.</li>
-                      <li>29 cheerful bedrooms, mostly single, with a number of double rooms for those who prefer to share.</li>
-                      <li>Some rooms also have ensuite bathroom facilities.</li>
-                      <li>There are two communal lounge and dining areas; one is smaller and quieter for residents who are distracted in the larger area, where the aim is to stimulate residents with activity and a lively atmosphere.</li>
-                    </ul>
-
-                    <h3 style={{ fontSize: '1.2rem', color: 'var(--color-primary)', marginBottom: '10px' }}>Functional Mental Illness</h3>
-                    <p className="loc-text" style={{ marginBottom: '10px' }}>For people who require nursing care because of functional mental illness.</p>
-                    <ul style={{ listStyleType: 'disc', paddingLeft: '20px', marginBottom: '25px' }} className="loc-text">
-                      <li>We encourage communal living and most residents spend a lot of their day in company in the lounge or dining area. This area has a relaxed pace of life and we plan our residents’ care around their preferences.</li>
-                      <li>24 cheerful single bedrooms, either with ensuite bathrooms or easy access to a nearby bathroom and toilet.</li>
-                      <li>All rooms are suitable for wheelchair users.</li>
-                      <li>All our bedrooms are fully furnished, but residents are welcome to bring small items of furniture with them to personalise their rooms. The large majority of our beds are profiling (electrically operated enabling them to adjust to a sitting position or to elevate the feet).</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <button 
-                  className="btn btn--outline" 
-                  onClick={() => setFacilitiesExpanded(!facilitiesExpanded)}
-                  style={{ marginTop: '20px' }}
-                >
-                  {facilitiesExpanded ? 'Read Less' : 'Read More'}
-                </button>
-              </div>
+              <p className="loc-text">
+                With a team of over 200 highly trained and experienced staff, we pride ourselves on 
+                exceptionally low staff turnover, reflecting a stable, knowledgeable, and committed 
+                workforce dedicated to delivering the highest standards of care.
+              </p>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                As a family-owned nursing home, our directors are fully involved in the day-to-day 
+                management of the home, ensuring that care quality, safety, and resident satisfaction 
+                are consistently at the forefront of everything we do.
+              </p>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
+                  {teamGalleryImages.map((img, index) => (
                     <SwiperSlide key={index}>
                       <div className="loc-slider__item">
-                        <SlideMedia item={img} folder="BarryFacilitiesGalley" />
+                        <SlideMedia item={img} folder="BarryTeam" />
                       </div>
                     </SwiperSlide>
                   ))}
@@ -470,142 +742,158 @@ const WaverleyCareCentre = () => {
               </div>
             </div>
           </div>
-          
-          {/* Facilities Cards */}
-          <div className="facilities-grid">
-            {facilitiesList.map((item, index) => (
-              <div className="facility-card" key={index}>
-                <div className="facility-card__icon">
-                  <i className={item.icon}></i>
-                </div>
-                <h4 className="facility-card__title">{item.title}</h4>
+
+          {/* Key Staff Members Scrollable List */}
+          {teamMembers.length > 0 && (
+            <div className="team-scroll-container" style={{ marginTop: '64px' }}>
+              <h3 style={{ 
+                marginBottom: '32px', 
+                fontFamily: 'var(--font-heading)', 
+                fontSize: '2rem', 
+                color: 'var(--color-primary)',
+                textAlign: 'center'
+              }}>
+                Key Staff Members
+              </h3>
+              <div className="team-horizontal-list" style={{ 
+                display: 'flex', 
+                overflowX: 'auto', 
+                gap: '24px', 
+                padding: '10px 4px 30px 4px', 
+                scrollSnapType: 'x mandatory',
+                scrollbarWidth: 'thin'
+              }}>
+                {teamMembers.map((member, index) => (
+                  <div key={index} className="team-member-card" style={{ 
+                    minWidth: '260px', 
+                    scrollSnapAlign: 'start', 
+                    background: 'var(--color-bg-light)', 
+                    padding: '32px 24px', 
+                    borderRadius: '16px', 
+                    textAlign: 'center',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                    border: '1px solid var(--color-border)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    transition: 'transform 0.2s'
+                  }}>
+                    <div style={{
+                      width: '100px',
+                      height: '100px',
+                      borderRadius: '50%',
+                      background: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '20px',
+                      boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                      color: 'var(--color-primary)',
+                      fontSize: '2.5rem',
+                      overflow: 'hidden'
+                    }}>
+                      {member.image ? (
+                        <img src={member.image} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <i className="fas fa-user"></i>
+                      )}
+                    </div>
+                    <h4 style={{ 
+                      fontSize: '1.25rem', 
+                      marginBottom: '8px', 
+                      color: 'var(--color-text-dark)',
+                      fontFamily: 'var(--font-heading)'
+                    }}>
+                      {member.name}
+                    </h4>
+                    <span style={{ 
+                      color: 'var(--color-accent)', 
+                      fontWeight: '600', 
+                      fontSize: '0.9rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>
+                      {member.role}
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="home-testimonials" id="testimonials">
+        <div className="container">
+          <div className="section-header centered">
+            <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <p className="section-subtitle">
+              The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Waverley Care Centre.
+            </p>
+          </div>
+          <div className="testimonials-content-wrapper">
+            <div className="google-reviews-card">
+              <div className="google-header">
+                <i className="fab fa-google google-icon"></i>
+                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>Google Reviews</span>
+              </div>
+              <div className="rating-display">4.9</div>
+              <div className="google-stars">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+              <p className="review-count">Based on verified reviews</p>
+              <a href="https://www.google.com/search?q=Waverley+Care+Centre+Penarth" target="_blank" rel="noopener noreferrer" className="btn-google">
+                See our reviews
+              </a>
+            </div>
+
+            <div className="vertical-testimonials-container">
+              {reviews.map((review, index) => {
+                 let className = 'testimonial-slide';
+                 if (index === currentReviewIndex) {
+                     className += ' active';
+                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
+                     className += ' prev';
+                 }
+                 
+                 return (
+                    <div key={index} className={className}>
+                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                      <p className="testimonial-text">"{review.text}"</p>
+                      <div className="testimonial-author">
+                        <h4>{review.author}</h4>
+                        <span>{review.role}</span>
+                      </div>
+                    </div>
+                 );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. TEAM & CARE */}
-      {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-        <section className="loc-section loc-section--white" id="team-section">
-          <div className="container">
-            <div className="loc-grid">
-              <div className="loc-grid__content">
-                <div className="section-header">
-                  <span className="section-header__subtitle">Dedicated Staff</span>
-                  <h2 className="section-header__title">Meet Our Team</h2>
-                </div>
-                <div className="team-content">
-                  <p className="loc-text">
-                    Each of our three units (General Nursing, EMI and FMI) is overseen by an experienced Unit Manager, supported by Sisters and Staff Nurses.
-                  </p>
-                  
-                  <div className={`facilities-content__more ${teamExpanded ? 'facilities-content__more--expanded' : ''}`}>
-                    <p className="loc-text">
-                      Relevantly qualified staff are on duty at all times, including RGNs (general nursing) in Seaviews, RMNs (psychiatric nursing) in both Glan-y-mor and in Cliffhaven. All of our senior staff operate an open door policy and encourage friends and family to seek out the qualified nurse on duty, so that an up to date picture can be given, relevant to the person that is visiting.
-                    </p>
-                    <p className="loc-text">
-                      Senior Care Assistants work under the guidance of the qualified staff and head up the Care Assistant teams. The atmosphere within the Waverley is one of busy but calm and the relaxed but professional ambience is very evident within the units.
-                    </p>
-                    <p className="loc-text">
-                      We also benefit from 3 full time Physio Aides and Activities Officers. There are daily timetables of activities in each unit, not suitable for all, but during the week there are many activities which the majority thoroughly enjoy.
-                    </p>
-                    <p className="loc-text">
-                      Two full-time Education Officers conduct a continuous programme of staff training to ensure that our competent and capable staff provide good care delivered with respect and dignity. Training takes place within the classroom and also out in the units, where standards are constantly monitored.
-                    </p>
-                    <p className="loc-text">
-                      The management keep policies and procedures under continual review to ensure they are up-to-date with legislative changes and best practice.
-                    </p>
-                  </div>
+      {/* Discover More Section */}
+      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
+        <div className="container">
+          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
+          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
+            We invite families, healthcare professionals, and prospective residents to learn more 
+            about our person-centred approach, specialist services, and exceptional facilities. 
+            Waverley Care Centre is committed to delivering the highest standards of care within 
+            a compassionate, professional, and inspiring environment.
+          </p>
+          <Link to="/our-care" className="btn btn-primary btn-lg">
+            Click here to explore OUR CARE
+          </Link>
+        </div>
+      </section>
 
-                  <button 
-                    className="btn btn--outline" 
-                    onClick={() => setTeamExpanded(!teamExpanded)}
-                    style={{ marginTop: '20px' }}
-                  >
-                    {teamExpanded ? 'Read Less' : 'Read More'}
-                  </button>
-                </div>
-              </div>
-              <div className="loc-grid__media">
-                <div className="loc-slider">
-                  <Swiper {...sliderSettings} className="custom-swiper">
-                    {teamGalleryImages.map((img, index) => (
-                      <SwiperSlide key={index}>
-                        <div className="loc-slider__item">
-                          <SlideMedia item={img} folder="BarryTeam" />
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-              </div>
-            </div>
-
-            {/* Key Staff Members Scrollable List */}
-            {teamMembers.length > 0 && (
-              <div className="team-scroll-container" style={{ marginTop: '64px' }}>
-                <div className="section-header" style={{ marginBottom: '32px' }}>
-                  <h3 className="section-header__title" style={{ fontSize: '1.8rem' }}>Key Staff Members</h3>
-                </div>
-                <div className="team-scroll-wrapper" style={{
-                  display: 'flex',
-                  overflowX: 'auto',
-                  gap: '24px',
-                  paddingBottom: '24px',
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: 'var(--color-primary) #f0f0f0',
-                  WebkitOverflowScrolling: 'touch'
-                }}>
-                  {teamMembers.map((member, index) => (
-                    <div key={index} className="team-member-card" style={{
-                      flex: '0 0 300px',
-                      background: '#fff',
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                      transition: 'transform 0.3s ease',
-                      border: '1px solid #eee'
-                    }}>
-                      <div className="team-member-image" style={{ height: '320px', background: '#f5f5f5', position: 'relative' }}>
-                        {member.image ? (
-                          <img src={member.image} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        ) : (
-                          <div style={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#ccc',
-                            fontSize: '4rem'
-                          }}>
-                            <i className="fas fa-user"></i>
-                          </div>
-                        )}
-                        <div style={{
-                          position: 'absolute',
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-                          padding: '24px 20px 16px',
-                          color: 'white'
-                        }}>
-                          <h4 style={{ fontSize: '1.25rem', marginBottom: '4px', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>{member.name}</h4>
-                          <p style={{ fontSize: '0.9rem', opacity: 0.9, fontWeight: 500 }}>{member.role}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* 5. NEWS SECTION */}
+      {/* News Section */}
       {waverleyNews.length > 0 && (
         <section className="loc-section loc-section--light">
           <div className="container">

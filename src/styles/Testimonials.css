@@ -1,145 +1,169 @@
-.testimonials-page {
-  padding-bottom: 80px;
+
+/* Testimonials Section Layout */
+.testimonials-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 40px auto 0;
+    align-items: stretch;
 }
 
-.testimonials-header {
-  background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 30, 60, 0.8)), url('/background-banner-image.png');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  padding: 120px 0;
-  text-align: center;
-  margin-bottom: 50px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 10px 30px rgba(0, 102, 204, 0.15);
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+/* Google Reviews Card */
+.google-reviews-card {
+    flex: 0 0 300px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
-.testimonials-header h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+.google-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.testimonials-header p {
-  font-size: 1.2rem;
-  max-width: 800px;
-  margin: 0 auto;
+.google-icon {
+    font-size: 24px;
+    color: #4285F4; /* Google Blue */
 }
 
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 40px;
-  margin-bottom: 60px;
+.rating-display {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1;
+    margin-bottom: 10px;
 }
 
-.testimonial-card {
-  background: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  position: relative;
-  transition: transform 0.3s ease;
-  border: 1px solid #eee;
+.google-stars {
+    color: #F4B400; /* Google Yellow */
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 4px;
 }
 
-.testimonial-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.quote-icon {
-  color: var(--primary-blue);
-  font-size: 2rem;
-  margin-bottom: 20px;
-  opacity: 0.2;
-}
-
-.review-text {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #555;
-  margin-bottom: 30px;
-  font-style: italic;
-}
-
-.review-author h4 {
-  color: var(--primary-blue);
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-}
-
-.review-author span {
-  color: #888;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.carehome-review-badge {
-  text-align: center;
-  background: #f9f9f9;
-  padding: 40px;
-  border-radius: 10px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.carehome-review-badge h3 {
-  color: var(--primary-blue);
-  margin-bottom: 15px;
-}
-
-.carehome-review-badge .stars {
-  color: #ffc107;
-  font-size: 1.5rem;
-  margin-top: 15px;
-}
-
-@media (max-width: 768px) {
-  .testimonials-section {
-    padding: 40px 0;
-  }
-
-  .testimonials-header {
-    margin-bottom: 40px;
-  }
-
-  .testimonials-header h1 {
-    font-size: 2rem;
-  }
-  
-  .testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .testimonial-card {
-    padding: 20px;
+.review-count {
+    font-size: 14px;
+    color: var(--text-light);
     margin-bottom: 20px;
-  }
-
-  .testimonial-content {
-    margin-bottom: 20px;
-  }
 }
 
-@media (max-width: 576px) {
-  .testimonials-section {
-    padding: 30px 0;
-  }
+.btn-google {
+    background: #f8f9fa;
+    color: #3c4043;
+    border: 1px solid #dadce0;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
 
-  .testimonials-header {
+.btn-google:hover {
+    background: #f1f3f4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Vertical Testimonials Slider */
+.vertical-testimonials-container {
+    flex: 1;
+    position: relative;
+    min-height: 300px; /* Ensure height for absolute slides */
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.testimonial-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+.testimonial-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    z-index: 2;
+}
+
+.testimonial-slide.prev {
+    transform: translateY(-20px);
+    opacity: 0;
+    z-index: 1;
+}
+
+.testimonial-quote-icon {
+    font-size: 32px;
+    color: var(--color-primary); /* Use theme color */
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+.testimonial-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text-dark);
     margin-bottom: 30px;
-  }
+    max-width: 90%;
+}
 
-  .testimonials-grid {
-    gap: 16px;
-  }
+.testimonial-author h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 5px;
+    color: var(--text-dark);
+}
 
-  .testimonial-card {
-    padding: 16px;
-  }
+.testimonial-author span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .testimonials-content-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .google-reviews-card {
+        width: 100%;
+        max-width: 500px;
+        flex: auto;
+    }
+
+    .vertical-testimonials-container {
+        width: 100%;
+        max-width: 500px;
+        min-height: 350px; /* Taller on mobile if text wraps */
+    }
 }
