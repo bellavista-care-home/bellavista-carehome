@@ -9,7 +9,7 @@ import { fetchCareEnquiries } from '../services/enquiryService';
 import { fetchHomes, updateHome } from '../services/homeService';
 import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
-import { fetchReviews, deleteReview } from '../services/reviewService';
+import { fetchReviews, deleteReview, importGoogleReviews } from '../services/reviewService';
 import { convertBase64ToURLs } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
@@ -51,6 +51,9 @@ const AdminConsole = () => {
   const [reviews, setReviews] = useState([]);
   const [reviewSearch, setReviewSearch] = useState('');
   const [reviewLocationFilter, setReviewLocationFilter] = useState('');
+  const [showImportGoogle, setShowImportGoogle] = useState(false);
+  const [importPlaceId, setImportPlaceId] = useState('');
+  const [importTargetLocation, setImportTargetLocation] = useState('Bellavista Barry');
 
   const loadHomes = async () => {
     const data = await fetchHomes();
@@ -451,6 +454,26 @@ const AdminConsole = () => {
     }
   };
 
+  const handleImportGoogle = async () => {
+    if (!importPlaceId) {
+      notify('Please enter a Google Place ID', 'error');
+      return;
+    }
+    try {
+      setIsBusy(true);
+      const res = await importGoogleReviews(importPlaceId, importTargetLocation);
+      notify(`Imported ${res.imported} reviews!`, 'success');
+      setShowImportGoogle(false);
+      setImportPlaceId('');
+      loadReviews();
+    } catch (e) {
+      console.error(e);
+      notify(e.message || 'Failed to import reviews', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
   const handleSaveVacancy = async (data) => {
     try {
       setIsBusy(true);
@@ -814,7 +837,53 @@ const AdminConsole = () => {
               >
                 <i className="fa-solid fa-rotate"></i>&nbsp;Refresh
               </button>
+              <button
+                className="btn primary small"
+                style={{ marginLeft: '8px' }}
+                onClick={() => setShowImportGoogle(!showImportGoogle)}
+              >
+                <i className="fab fa-google"></i>&nbsp;Import
+              </button>
             </div>
+
+            {showImportGoogle && (
+              <div style={{ background: '#e8f0fe', padding: '15px', marginTop: '15px', borderRadius: '8px', border: '1px solid #d2e3fc' }}>
+                <h4 style={{ margin: '0 0 10px 0', color: '#1967d2' }}>Import from Google Maps</h4>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 1, minWidth: '200px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px', color: '#555' }}>Target Location</label>
+                    <select
+                      value={importTargetLocation}
+                      onChange={e => setImportTargetLocation(e.target.value)}
+                      style={{ width: '100%', padding: '8px' }}
+                    >
+                      <option value="Bellavista Barry">Bellavista Barry</option>
+                      <option value="Bellavista Cardiff">Bellavista Cardiff</option>
+                      <option value="Waverley Care Centre">Waverley Care Centre</option>
+                      <option value="College Fields Nursing Home">College Fields Nursing Home</option>
+                      <option value="Baltimore Care Home">Baltimore Care Home</option>
+                      <option value="Meadow Vale Cwtch">Meadow Vale Cwtch</option>
+                      <option value="Bellavista Nursing Homes">Bellavista Nursing Homes (Group)</option>
+                    </select>
+                  </div>
+                  <div style={{ flex: 1, minWidth: '200px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px', color: '#555' }}>
+                      Google Place ID (<a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" rel="noreferrer">Find it here</a>)
+                    </label>
+                    <input
+                      placeholder="e.g. ChIJ..."
+                      value={importPlaceId}
+                      onChange={e => setImportPlaceId(e.target.value)}
+                      style={{ width: '100%', padding: '8px' }}
+                    />
+                  </div>
+                  <button className="btn primary" onClick={handleImportGoogle} disabled={isBusy}>
+                    {isBusy ? 'Importing...' : 'Import Reviews'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div style={{ marginTop: '16px', overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
