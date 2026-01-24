@@ -28,10 +28,15 @@ export async function fetchReviews(params = {}) {
   const url = query.toString() ? `${API_BASE}/reviews?${query.toString()}` : `${API_BASE}/reviews`;
   const res = await fetch(url, {
     headers: {
-      'Content-Type': 'application/json',
-      ...authService.getAuthHeader()
+      'Content-Type': 'application/json'
     }
   });
+  
+  if (res.status === 401 || res.status === 403) {
+    console.warn('Unauthorized to fetch reviews. Returning empty list.');
+    return [];
+  }
+
   if (!res.ok) {
     throw new Error('Failed to fetch reviews');
   }
@@ -48,4 +53,23 @@ export async function deleteReview(id) {
     throw new Error('Failed to delete review');
   }
   return true;
+}
+
+export async function importGoogleReviews(placeId, locationName) {
+  if (!API_BASE) return false;
+  const res = await fetch(`${API_BASE}/reviews/import-google`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
+    body: JSON.stringify({ place_id: placeId, location_name: locationName })
+  });
+  
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to import Google reviews');
+  }
+  
+  return res.json();
 }

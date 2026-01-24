@@ -13,6 +13,8 @@ const ReviewForm = ({ locationName, googleReviewUrl }) => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [lastSubmittedReview, setLastSubmittedReview] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ const ReviewForm = ({ locationName, googleReviewUrl }) => {
         source: 'website'
       });
 
+      setLastSubmittedReview(formData.review);
       setSubmitted(true);
       setFormData({ name: '', email: '', review: '' });
       setRating(0);
@@ -36,6 +39,31 @@ const ReviewForm = ({ locationName, googleReviewUrl }) => {
       setError('Something went wrong while submitting your review. Please try again later.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleCopyAndRedirect = async () => {
+    try {
+      await navigator.clipboard.writeText(lastSubmittedReview);
+      setCopySuccess(true);
+      
+      setTimeout(() => {
+        // Open a centered popup window
+        const width = 800;
+        const height = 800;
+        const left = window.screen.width / 2 - width / 2;
+        const top = window.screen.height / 2 - height / 2;
+        
+        window.open(
+          googleReviewUrl, 
+          'GoogleReview', 
+          `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+        );
+      }, 800);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      // Fallback: just open the URL in a new tab
+      window.open(googleReviewUrl, '_blank');
     }
   };
 
@@ -47,17 +75,41 @@ const ReviewForm = ({ locationName, googleReviewUrl }) => {
           <i className="fas fa-check-circle"></i>
           <p>Thank you for your review! It has been submitted for approval.</p>
           {googleReviewUrl && (
-            <p>
-              You can also share your feedback on Google by{' '}
-              <a
-                href={googleReviewUrl}
-                target="_blank"
-                rel="noreferrer"
+            <div className="google-review-promo" style={{ marginTop: '20px', padding: '15px', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
+              <p style={{ marginBottom: '15px', fontSize: '0.95rem', color: '#555' }}>
+                We'd love for you to share this on Google too!
+              </p>
+              <button 
+                type="button" 
+                onClick={handleCopyAndRedirect}
+                style={{ 
+                  backgroundColor: '#fff', 
+                  color: '#4285F4', 
+                  border: '1px solid #4285F4', 
+                  padding: '10px 20px', 
+                  borderRadius: '4px', 
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: '500',
+                  transition: 'all 0.2s ease'
+                }}
               >
-                leaving a Google review
-              </a>
-              .
-            </p>
+                {copySuccess ? (
+                  <>
+                    <i className="fas fa-check"></i> Copied! Opening Google...
+                  </>
+                ) : (
+                  <>
+                    <i className="fab fa-google"></i> Copy Text & Post on Google
+                  </>
+                )}
+              </button>
+              <p style={{ marginTop: '10px', fontSize: '0.8rem', color: '#888', fontStyle: 'italic' }}>
+                This will copy your review to your clipboard and open our Google page so you can easily paste it.
+              </p>
+            </div>
           )}
         </div>
       ) : (
@@ -124,6 +176,31 @@ const ReviewForm = ({ locationName, googleReviewUrl }) => {
           <button type="submit" className="submit-review-btn" disabled={submitting || rating === 0}>
             {submitting ? 'Submitting...' : 'Submit Review'}
           </button>
+          
+          {googleReviewUrl && (
+            <div className="google-review-option" style={{ marginTop: '15px', textAlign: 'center', borderTop: '1px solid #eee', paddingTop: '15px' }}>
+              <span style={{ display: 'block', marginBottom: '10px', fontSize: '0.9rem', color: '#666' }}>Or review us directly on Google</span>
+              <button 
+                type="button" 
+                onClick={() => window.open(googleReviewUrl, '_blank')}
+                style={{ 
+                  backgroundColor: '#fff', 
+                  color: '#4285F4', 
+                  border: '1px solid #4285F4', 
+                  padding: '8px 16px', 
+                  borderRadius: '4px', 
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: '500'
+                }}
+              >
+                <i className="fab fa-google"></i> Write a Google Review
+              </button>
+            </div>
+          )}
         </form>
       )}
     </div>
