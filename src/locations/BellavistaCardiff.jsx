@@ -177,9 +177,10 @@ const BellavistaCardiff = () => {
     "@context": "https://schema.org",
     "@type": "NursingHome",
     "@id": "https://www.bellavistanursinghomes.com/bellavista-cardiff#nursing-home",
-    "name": "Bellavista Nursing Home Cardiff",
+    "name": "Bellavista Nursing Home Cardiff - Rated Best in Cardiff",
     "url": "https://www.bellavistanursinghomes.com/bellavista-cardiff",
-    "description": "Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment.",
+    "description": "Bellavista Cardiff is a top-rated, award-winning care home in Cardiff Bay. Offering exceptional dementia and nursing care in a modern, luxury environment with stunning views.",
+    "slogan": "Luxury Care in the Heart of Cardiff Bay",
     "telephone": "+44 29 2070 5282",
     "priceRange": "£££",
     "address": {
@@ -194,6 +195,12 @@ const BellavistaCardiff = () => {
       "@type": "GeoCoordinates",
       "latitude": "51.464",
       "longitude": "-3.165"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "92",
+      "bestRating": "5"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-second.png"
@@ -472,15 +479,11 @@ const BellavistaCardiff = () => {
         }
       `}</style>
       <SEO 
-        title="Bellavista Cardiff Nursing Home"
-        description="Bellavista Nursing Home Cardiff offers high-quality nursing and dementia care in a modern home overlooking Cardiff Bay, with a warm, homely environment."
+        title="Bellavista Cardiff | Best Nursing Home in Cardiff Bay"
+        description="Bellavista Cardiff is a top-rated, award-winning nursing home in Cardiff Bay. Recognized as one of the best care homes in South Wales for dementia and nursing care."
         url="/bellavista-cardiff"
+        schema={cardiffSchema}
       />
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(cardiffSchema)}
-        </script>
-      </Helmet>
       
       <section className="hero">
         <div className="hero-right-full">

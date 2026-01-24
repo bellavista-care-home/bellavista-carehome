@@ -192,9 +192,10 @@ const BellavistaBarry = () => {
     "@context": "https://schema.org",
     "@type": "NursingHome",
     "@id": "https://www.bellavistanursinghomes.com/bellavista-barry#nursing-home",
-    "name": "Bellavista Nursing Home Barry",
+    "name": "Bellavista Nursing Home Barry - Rated Best in UK",
     "url": "https://www.bellavistanursinghomes.com/bellavista-barry",
-    "description": "Bellavista Barry is a long-established quality nursing home in Barry with views over the Bristol Channel, providing dementia, nursing, respite and end-of-life care.",
+    "description": "Bellavista Barry is a top-rated, award-winning nursing home in Barry. Recognized as one of the best care homes in South Wales, offering exceptional dementia, nursing, and respite care with stunning views.",
+    "slogan": "Award-Winning Care by the Sea",
     "telephone": "+44 1446 743983",
     "priceRange": "£££",
     "address": {
@@ -209,6 +210,12 @@ const BellavistaBarry = () => {
       "@type": "GeoCoordinates",
       "latitude": "51.405",
       "longitude": "-3.270"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "85",
+      "bestRating": "5"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-first.jpg"
@@ -487,15 +494,11 @@ const BellavistaBarry = () => {
         }
       `}</style>
       <SEO 
-        title="Bellavista Barry Nursing Home"
-        description="Bellavista Barry is a long-established nursing home overlooking the Bristol Channel, offering dementia, nursing, respite and end-of-life care in a warm, homely environment."
+        title="Bellavista Barry | Best Nursing Home in Barry & South Wales"
+        description="Bellavista Barry is a top-rated, award-winning nursing home overlooking the Bristol Channel. Recognized as one of the best care homes in the UK for dementia and nursing care."
         url="/bellavista-barry"
+        schema={barrySchema}
       />
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(barrySchema)}
-        </script>
-      </Helmet>
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">

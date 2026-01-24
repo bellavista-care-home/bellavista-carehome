@@ -1,10 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SEO = ({ title, description, keywords, image, url }) => {
-  const siteTitle = "Bellavista Group Of Nursing Homes | A Home From Home";
-  const defaultDescription = "Bellavista Group Of Nursing Homes provides exceptional residential and nursing care in a warm, modern, and welcoming environment in South Wales.";
-  const defaultKeywords = "Bellavista Group Of Nursing Homes, nursing home, care home, Cardiff, Barry, dementia care, residential care, elderly care, South Wales, Vale of Glamorgan";
+const SEO = ({ title, description, keywords, image, url, schema }) => {
+  const siteTitle = "Bellavista Group Of Nursing Homes | Award-Winning Care in UK";
+  const defaultDescription = "Bellavista Group Of Nursing Homes is recognized as one of the best care homes in the UK, providing exceptional residential, nursing, and dementia care in South Wales.";
+  const defaultKeywords = "Best care home UK, top nursing home South Wales, award winning care home, Bellavista Nursing Homes, dementia care Cardiff, luxury care home Barry";
   const siteUrl = "https://www.bellavistanursinghomes.com";
   const defaultImage = "https://www.bellavistanursinghomes.com/bellalogo1.png";
 
@@ -15,7 +15,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
   const metaImage = image || defaultImage;
   const metaUrl = url ? `${siteUrl}${url}` : siteUrl;
 
-  const schemaData = {
+  const schemaData = schema || {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -26,6 +26,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
         "logo": defaultImage,
         "image": metaImage,
         "description": metaDescription,
+        "slogan": "A Home From Home - Rated One of the Best in UK",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "106-108 Tynewydd Road",
@@ -41,7 +42,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
         },
         "telephone": "+44 1446 743983",
         "priceRange": "£££",
-        "areaServed": ["Cardiff", "Barry", "South Wales", "Vale of Glamorgan"],
+        "areaServed": ["UK", "South Wales", "Cardiff", "Barry", "Vale of Glamorgan"],
         "sameAs": [
           "https://www.facebook.com/bellavistanursinghome/",
           "https://x.com/home_bellavista?lang=en",

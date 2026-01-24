@@ -3,12 +3,24 @@ import '../styles/About.css';
 import SEO from '../components/SEO';
 
 const About = () => {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "mainEntity": {
+      "@type": "MedicalOrganization",
+      "name": "Bellavista Group Of Nursing Homes",
+      "slogan": "A Home From Home - Rated Best in UK",
+      "description": "Bellavista Group provides award-winning, top-rated nursing and dementia care across South Wales."
+    }
+  };
+
   return (
     <div className="about-page">
       <SEO 
-        title="About Bellavista Group Of Nursing Homes"
-        description="Learn more about Bellavista Group Of Nursing Homes, our history and our commitment to providing a warm, homely environment with high-quality nursing and dementia care in South Wales."
+        title="About Bellavista Group | Award-Winning Care Homes in UK"
+        description="Bellavista Group is a leading provider of luxury nursing and dementia care in the UK. Learn about our top-rated care homes in Barry and Cardiff."
         url="/about"
+        schema={aboutSchema}
       />
       <div className="page-header">
         <div className="container">

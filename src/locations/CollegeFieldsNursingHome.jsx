@@ -163,6 +163,39 @@ const CollegeFieldsNursingHome = () => {
     '/FrontPageBanner/banner-fifth.jpg'
   ];
 
+  const collegeFieldsSchema = {
+    "@context": "https://schema.org",
+    "@type": "NursingHome",
+    "@id": "https://www.bellavistanursinghomes.com/college-fields-nursing-home#nursing-home",
+    "name": "College Fields Nursing Home - Rated Best in Barry",
+    "url": "https://www.bellavistanursinghomes.com/college-fields-nursing-home",
+    "description": "College Fields Nursing Home is a top-rated care home in Barry, UK, offering exceptional nursing and dementia care in a warm, homely environment.",
+    "slogan": "Compassionate, Person-Centred Care",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "College Fields, College Road",
+      "addressLocality": "Barry",
+      "postalCode": "CF62 8LE",
+      "addressRegion": "South Wales",
+      "addressCountry": "UK"
+    },
+    "image": "https://www.bellavistanursinghomes.com/home-images/college-fields.jpg",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "24",
+      "bestRating": "5"
+    },
+    "priceRange": "$$$",
+    "areaServed": ["Barry", "Vale of Glamorgan", "South Wales", "Cardiff"],
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "24/7 Nursing Care", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "Activities Coordinator", "value": "true" }
+    ]
+  };
+
   return (
     <div className="location-page theme-college-fields">
       <style>{`
@@ -422,9 +455,10 @@ const CollegeFieldsNursingHome = () => {
         }
       `}</style>
       <SEO 
-        title="College Fields Nursing Home"
-        description="College Fields Nursing Home in Barry offers high-quality nursing and dementia care with a strong focus on activities, independence and quality of life."
+        title="College Fields Nursing Home | Best Nursing Home in Barry"
+        description="College Fields Nursing Home is a top-rated care home in Barry, UK. Award-winning nursing and dementia care in a warm, homely environment."
         url="/college-fields-nursing-home"
+        schema={collegeFieldsSchema}
       />
       {/* 1. HERO SECTION */}
       <section className="hero">

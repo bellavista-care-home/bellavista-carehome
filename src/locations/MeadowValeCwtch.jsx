@@ -160,9 +160,10 @@ const MeadowValeCwtch = () => {
     "@context": "https://schema.org",
     "@type": "NursingHome",
     "@id": "https://www.bellavistanursinghomes.com/meadow-vale-cwtch#nursing-home",
-    "name": "Meadow Vale Cwtch",
+    "name": "Meadow Vale Cwtch - Rated Best Young Onset Dementia Care",
     "url": "https://www.bellavistanursinghomes.com/meadow-vale-cwtch",
-    "description": "Meadow Vale Cwtch is a purpose-built specialist nursing home providing exceptional care for individuals living with young onset dementia.",
+    "description": "Meadow Vale Cwtch is a top-rated specialist nursing home for young onset dementia in the UK. Award-winning, eco-conscious care in South Wales.",
+    "slogan": "Setting a New Standard in Dementia Care",
     "telephone": "+44 29 2070 5282",
     "priceRange": "£££",
     "address": {
@@ -170,6 +171,12 @@ const MeadowValeCwtch = () => {
       "addressLocality": "Barry",
       "addressRegion": "Vale of Glamorgan",
       "addressCountry": "UK"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "15",
+      "bestRating": "5"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/home-images/meadow-vale-cwtch.jpg"

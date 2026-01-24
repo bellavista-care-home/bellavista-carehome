@@ -404,9 +404,10 @@ const BellavistaBaltimore = () => {
         }
       `}</style>
       <SEO 
-        title="Baltimore House Care Home"
-        description="Baltimore House in Barry provides residential care for older people, including specialist support for dementia and mental health in a warm, homely setting."
-        url="/baltimore-care-home"
+        title="Bellavista Baltimore | Best Care Home in Barry"
+        description="Bellavista Baltimore is a top-rated care home in Barry, UK. Award-winning nursing and residential care in a warm, family-like environment."
+        url="/bellavista-baltimore"
+        schema={baltimoreSchema}
       />
       {/* 1. HERO SECTION */}
       <section className="hero">

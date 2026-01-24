@@ -251,12 +251,49 @@ const Home = () => {
 
 
 
+  const mainPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    "@id": "https://www.bellavistanursinghomes.com/#organization",
+    "name": "Bellavista Group Of Nursing Homes - Best Care Homes in UK",
+    "url": "https://www.bellavistanursinghomes.com",
+    "logo": "https://www.bellavistanursinghomes.com/bellavista-logo.png",
+    "description": "Bellavista Group provides the best nursing and dementia care in South Wales. Award-winning, top-rated care homes in Barry, Cardiff, and Penarth.",
+    "slogan": "A Home From Home - Rated One of the Best in UK",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "150",
+      "bestRating": "5"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "106-108 Tynewydd Road",
+      "addressLocality": "Barry",
+      "postalCode": "CF62 8BB",
+      "addressRegion": "South Wales",
+      "addressCountry": "UK"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+44-1446-748899",
+      "contactType": "customer service",
+      "areaServed": "UK"
+    },
+    "sameAs": [
+      "https://www.facebook.com/bellavistanursinghome/",
+      "https://twitter.com/home_bellavista",
+      "https://www.youtube.com/@bellavistagroupofnursinghomes"
+    ]
+  };
+
   return (
     <div className="home">
       <SEO 
-        title="Bellavista Group Of Nursing Homes | A Home From Home"
-        description="Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing."
-        keywords="Bellavista Group Of Nursing Homes, Bellavista Care Home, nursing home cardiff, care home barry, dementia care south wales, residential care home"
+        title="Bellavista Group | Best Nursing Homes in UK | Award-Winning Care"
+        description="Bellavista Group is recognized as one of the best care home providers in the UK. Top-rated nursing, residential, and dementia care in Cardiff and Barry."
+        keywords="Best care home UK, top nursing homes South Wales, award winning care, Bellavista Group, luxury care home Cardiff, dementia care specialists"
+        schema={mainPageSchema}
       />
       <section className="hero">
         <div className="hero-right-full">

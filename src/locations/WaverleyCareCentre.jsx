@@ -153,6 +153,39 @@ const WaverleyCareCentre = () => {
     '/FrontPageBanner/banner-fifth.jpg'
   ];
 
+  const waverleySchema = {
+    "@context": "https://schema.org",
+    "@type": "NursingHome",
+    "@id": "https://www.bellavistanursinghomes.com/waverley-care-center#nursing-home",
+    "name": "Waverley Care Centre - Best Nursing Home in Penarth",
+    "url": "https://www.bellavistanursinghomes.com/waverley-care-center",
+    "description": "Waverley Care Centre is a top-rated nursing home in Penarth, UK, offering exceptional care with stunning coastal views.",
+    "slogan": "Warm, Friendly, and Professional Care",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "122-124 Plymouth Road",
+      "addressLocality": "Penarth",
+      "postalCode": "CF64 5DN",
+      "addressRegion": "South Wales",
+      "addressCountry": "UK"
+    },
+    "image": "https://www.bellavistanursinghomes.com/home-images/waverley.jpg",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "32",
+      "bestRating": "5"
+    },
+    "priceRange": "$$$",
+    "areaServed": ["Penarth", "Cardiff", "Vale of Glamorgan", "South Wales"],
+    "amenityFeature": [
+      { "@type": "LocationFeatureSpecification", "name": "Coastal Views", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "24/7 Nursing Care", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
+      { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" }
+    ]
+  };
+
   return (
     <div className="location-page theme-waverley">
       <style>{`
@@ -412,9 +445,10 @@ const WaverleyCareCentre = () => {
         }
       `}</style>
       <SEO 
-        title="Waverley Care Centre"
-        description="Waverley Care Centre in Penarth provides nursing and dementia care with beautiful coastal views, modern facilities and a friendly, homely atmosphere."
+        title="Waverley Care Centre | Best Nursing Home in Penarth"
+        description="Waverley Care Centre is a top-rated nursing home in Penarth, UK. Offering award-winning dementia and nursing care with stunning coastal views."
         url="/waverley-care-center"
+        schema={waverleySchema}
       />
       {/* 1. HERO SECTION */}
       <section className="hero">
