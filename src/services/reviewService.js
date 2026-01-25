@@ -3,22 +3,6 @@ import * as authService from './authService';
 
 const API_BASE = API_URL;
 
-export async function submitReview(payload) {
-  const res = await fetch(`${API_BASE}/reviews`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to submit review');
-  }
-
-  return res.json();
-}
-
 export async function fetchReviews(params = {}) {
   if (!API_BASE) return [];
   const query = new URLSearchParams();

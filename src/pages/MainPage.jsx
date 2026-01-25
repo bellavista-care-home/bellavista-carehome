@@ -4,6 +4,7 @@ import OurHomes from './OurHomes';
 import SEO from '../components/SEO';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchReviews } from '../services/reviewService';
+import { fetchHomes } from '../services/homeService';
 import '../styles/MainPage.css';
 
 const Home = () => {
@@ -69,13 +70,36 @@ const Home = () => {
 
   const featuredNews = newsList.find(news => news.important) || newsList[0] || {};
 
-  const slides = [
-    '/FrontPageBanner/banner-first.jpg',
-    '/FrontPageBanner/banner-second.png',
-    '/FrontPageBanner/banner-third.png',
-    '/FrontPageBanner/banner-fourth.jpg',
-    '/FrontPageBanner/banner-fifth.jpg'
-  ];
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    const loadBanners = async () => {
+      try {
+        const homes = await fetchHomes();
+        const allBanners = [];
+        
+        if (homes && Array.isArray(homes)) {
+          homes.forEach(home => {
+            let banners = home.bannerImages;
+            if (banners && Array.isArray(banners)) {
+              banners.forEach(img => {
+                if (img.showOnMain) {
+                  allBanners.push(img.url);
+                }
+              });
+            }
+          });
+        }
+        
+        if (allBanners.length > 0) {
+          setSlides(allBanners);
+        }
+      } catch (err) {
+        console.error("Error loading banners", err);
+      }
+    };
+    loadBanners();
+  }, []);
 
   useEffect(() => {
     const loadNews = async () => {
@@ -322,13 +346,15 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="hero-marquee-full-width">
-          <div className="hero-marquee-track">
-            {slides.concat(slides).map((slide, index) => (
-              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
-            ))}
+        {slides.length > 0 && (
+          <div className="hero-marquee-full-width">
+            <div className="hero-marquee-track">
+              {slides.concat(slides).map((slide, index) => (
+                <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <section className="about-group-intro">

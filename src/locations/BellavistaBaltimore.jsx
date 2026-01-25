@@ -19,6 +19,7 @@ const BellavistaBaltimore = () => {
   const [baltimoreNews, setBaltimoreNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [bannerImages, setBannerImages] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
@@ -70,6 +71,9 @@ const BellavistaBaltimore = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.bannerImages && Array.isArray(home.bannerImages)) {
+          setBannerImages(home.bannerImages.map(img => img.url));
         }
       }
 
@@ -152,14 +156,6 @@ const BellavistaBaltimore = () => {
       disableOnInteraction: false,
     }
   };
-
-  const slides = [
-    '/FrontPageBanner/banner-first.jpg',
-    '/FrontPageBanner/banner-second.png',
-    '/FrontPageBanner/banner-third.png',
-    '/FrontPageBanner/banner-fourth.jpg',
-    '/FrontPageBanner/banner-fifth.jpg'
-  ];
 
   const baltimoreSchema = {
     "@context": "https://schema.org",
@@ -464,13 +460,15 @@ const BellavistaBaltimore = () => {
           </div>
         </div>
 
-        <div className="hero-marquee-full-width">
-          <div className="hero-marquee-track">
-            {slides.concat(slides).map((slide, index) => (
-              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
-            ))}
+        {bannerImages.length > 0 && (
+          <div className="hero-marquee-full-width">
+            <div className="hero-marquee-track">
+              {bannerImages.concat(bannerImages).map((slide, index) => (
+                <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <section className="about-group-intro">

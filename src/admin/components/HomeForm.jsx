@@ -13,6 +13,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
     heroSubtitle: '',
     heroBgImage: '',
     heroExpandedDesc: '',
+    bannerImages: [],
     statsBedrooms: '',
     statsPremier: '',
     teamMembers: [],
@@ -394,6 +395,88 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
           </div>
         </div>
       )}
+
+      {/* Scrolling Banner Images */}
+      <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
+        <i className="fa-solid fa-panorama"></i> Scrolling Banner Images
+      </div>
+      <div className="field">
+        <label>Add Banner Image</label>
+        <div style={{marginBottom: '20px'}}>
+           <EnhancedImageUploader 
+              label="Upload Banner Image" 
+              aspectRatio={16/9}
+              onImageSelected={(url) => {
+                 if (url) {
+                    addItem('bannerImages', { url: url, showOnMain: false });
+                 }
+              }}
+              showCrop={false}
+              allowSkipOnUpload={true}
+            />
+        </div>
+
+        {formData.bannerImages && formData.bannerImages.length > 0 && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '15px',
+            marginTop: '15px'
+          }}>
+            {formData.bannerImages.map((item, index) => (
+              <div key={index} style={{
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                background: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+              }}>
+                <div style={{
+                  height: '140px',
+                  background: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img src={item.url} style={{width: '100%', height: '100%', objectFit: 'cover'}} alt={`Banner ${index + 1}`} />
+                </div>
+                <div style={{
+                  padding: '10px',
+                  borderTop: '1px solid #eee',
+                  background: 'white'
+                }}>
+                   <div style={{marginBottom: '10px'}}>
+                     <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontSize: '13px', fontWeight: '500'}}>
+                       <input 
+                         type="checkbox" 
+                         checked={item.showOnMain || false} 
+                         onChange={(e) => {
+                            const newBanners = [...formData.bannerImages];
+                            newBanners[index] = { ...newBanners[index], showOnMain: e.target.checked };
+                            setFormData(prev => ({ ...prev, bannerImages: newBanners }));
+                         }}
+                         style={{marginRight: '8px'}}
+                       />
+                       Show on Main Page
+                     </label>
+                   </div>
+                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                      <div style={{display: 'flex', gap: '4px'}}>
+                        <button className="btn ghost small icon-only" disabled={index === 0} onClick={() => moveItem('bannerImages', index, 'up')}><i className="fa-solid fa-chevron-left"></i></button>
+                        <button className="btn ghost small icon-only" disabled={index === formData.bannerImages.length - 1} onClick={() => moveItem('bannerImages', index, 'down')}><i className="fa-solid fa-chevron-right"></i></button>
+                      </div>
+                      <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => removeItem('bannerImages', index)}><i className="fa-solid fa-trash"></i></button>
+                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* 3. Facilities */}
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>

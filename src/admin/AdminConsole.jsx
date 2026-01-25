@@ -455,16 +455,17 @@ const AdminConsole = () => {
   };
 
   const handleImportGoogle = async () => {
-    if (!importPlaceId) {
+    if (useManualPlaceId && !importPlaceId) {
       notify('Please enter a Google Place ID', 'error');
       return;
     }
     try {
       setIsBusy(true);
-      const res = await importGoogleReviews(importPlaceId, importTargetLocation);
+      const res = await importGoogleReviews(useManualPlaceId ? importPlaceId : null, importTargetLocation);
       notify(`Imported ${res.imported} reviews!`, 'success');
       setShowImportGoogle(false);
       setImportPlaceId('');
+      setUseManualPlaceId(false);
       loadReviews();
     } catch (e) {
       console.error(e);

@@ -16,9 +16,10 @@ import SEO from '../components/SEO';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
-  const [collegeNews, setCollegeNews] = useState([]);
+  const [collegeFieldsNews, setCollegeFieldsNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [bannerImages, setBannerImages] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
@@ -53,7 +54,7 @@ const CollegeFieldsNursingHome = () => {
         news.location.toLowerCase().includes('college') || 
         news.location === 'All Locations'
       );
-      setCollegeNews(filtered);
+      setCollegeFieldsNews(filtered);
 
       // Load Home Data from Backend
       const home = await fetchHome('college-fields');
@@ -70,6 +71,9 @@ const CollegeFieldsNursingHome = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.bannerImages && Array.isArray(home.bannerImages)) {
+          setBannerImages(home.bannerImages.map(img => img.url));
         }
       }
 
@@ -152,14 +156,6 @@ const CollegeFieldsNursingHome = () => {
       disableOnInteraction: false,
     }
   };
-
-  const slides = [
-    '/FrontPageBanner/banner-first.jpg',
-    '/FrontPageBanner/banner-second.png',
-    '/FrontPageBanner/banner-third.png',
-    '/FrontPageBanner/banner-fourth.jpg',
-    '/FrontPageBanner/banner-fifth.jpg'
-  ];
 
   const collegeFieldsSchema = {
     "@context": "https://schema.org",
@@ -496,13 +492,15 @@ const CollegeFieldsNursingHome = () => {
           </div>
         </div>
 
-        <div className="hero-marquee-full-width">
-          <div className="hero-marquee-track">
-            {slides.concat(slides).map((slide, index) => (
-              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
-            ))}
+        {bannerImages.length > 0 && (
+          <div className="hero-marquee-full-width">
+            <div className="hero-marquee-track">
+              {bannerImages.concat(bannerImages).map((slide, index) => (
+                <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <section className="about-group-intro">
@@ -883,7 +881,7 @@ const CollegeFieldsNursingHome = () => {
         </div>
       </section>
 
-      {collegeNews.length > 0 && (
+      {collegeFieldsNews.length > 0 && (
         <section className="loc-section loc-section--light">
           <div className="container">
             <div className="section-header section-header--center">
@@ -891,7 +889,7 @@ const CollegeFieldsNursingHome = () => {
               <h2 className="section-header__title">Latest News</h2>
             </div>
             <div className="news-grid modern">
-              {collegeNews.map((news) => (
+              {collegeFieldsNews.map((news) => (
                 <div key={news.id} className="news-card modern">
                   <div className="news-card__image">
                     {news.image ? (

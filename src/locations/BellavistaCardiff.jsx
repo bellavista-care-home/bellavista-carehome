@@ -23,6 +23,7 @@ const BellavistaCardiff = () => {
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [cardiffNews, setCardiffNews] = useState([]);
   const [homeData, setHomeData] = useState(null);
+  const [bannerImages, setBannerImages] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
@@ -83,6 +84,9 @@ const BellavistaCardiff = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.bannerImages && Array.isArray(home.bannerImages)) {
+          setBannerImages(home.bannerImages.map(img => img.url));
         }
       }
 
@@ -518,13 +522,15 @@ const BellavistaCardiff = () => {
           </div>
         </div>
 
-        <div className="hero-marquee-full-width">
-          <div className="hero-marquee-track">
-            {slides.concat(slides).map((slide, index) => (
-              <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
-            ))}
+        {bannerImages.length > 0 && (
+          <div className="hero-marquee-full-width">
+            <div className="hero-marquee-track">
+              {bannerImages.concat(bannerImages).map((slide, index) => (
+                <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Intro & Location Section */}
