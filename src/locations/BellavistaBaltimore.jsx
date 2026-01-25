@@ -1006,30 +1006,20 @@ const BellavistaBaltimore = () => {
                 <p className="review-mini-text">
                   "A wonderful home with a true family feel. The staff are incredibly supportive and kind."
                 </p>
-                <a href="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn btn--outline" style={{width: '100%', display: 'inline-block', textDecoration: 'none'}}>
-                  Write a Review
+                <a 
+                  href="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry+Reviews" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn--outline" 
+                  style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
+                >
+                  <i className="fab fa-google"></i> Review on Google
                 </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowReviewModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm 
-              locationName="Bellavista Baltimore" 
-              googleReviewUrl="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

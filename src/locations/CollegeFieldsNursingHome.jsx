@@ -7,7 +7,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '../styles/CareHome.css';
-import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
@@ -17,7 +16,6 @@ import SEO from '../components/SEO';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
-  const [showReviewModal, setShowReviewModal] = useState(false);
   const [collegeNews, setCollegeNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
@@ -1003,30 +1001,20 @@ const CollegeFieldsNursingHome = () => {
                 <p className="review-mini-text">
                   "Residents enjoy home comforts in a warm, spacious, and delightful environment."
                 </p>
-                <button className="btn btn--outline" style={{width: '100%'}} onClick={() => setShowReviewModal(true)}>
-                  Write a Review
-                </button>
+                <a 
+                  href="https://www.google.com/search?q=College+Fields+Nursing+Home+Barry+Reviews" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn--outline" 
+                  style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
+                >
+                  <i className="fab fa-google"></i> Review on Google
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowReviewModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm 
-              locationName="College Fields Nursing Home" 
-              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=College+Fields+Nursing+Home+Barry"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

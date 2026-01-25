@@ -7,7 +7,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '../styles/CareHome.css';
-import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
@@ -16,7 +15,6 @@ import SEO from '../components/SEO';
 
 const WaverleyCareCentre = () => {
   const navigate = useNavigate();
-  const [showReviewModal, setShowReviewModal] = useState(false);
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
   const [teamExpanded, setTeamExpanded] = useState(false);
   const [waverleyNews, setWaverleyNews] = useState([]);
@@ -993,32 +991,22 @@ const WaverleyCareCentre = () => {
                   <i className="fas fa-star"></i>
                 </div>
                 <p className="review-mini-text">
-                  "The Waverley staff go the extra mile to ensure the comfort and happiness of our residents."
+                  "The staff at Waverley Care Centre are exceptional. They treat my mother with such dignity and kindness."
                 </p>
-                <button className="btn btn--outline" style={{width: '100%'}} onClick={() => setShowReviewModal(true)}>
-                  Write a Review
-                </button>
+                <a 
+                  href="https://www.google.com/search?q=Waverley+Care+Centre+Penarth+Reviews" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn--outline" 
+                  style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
+                >
+                  <i className="fab fa-google"></i> Review on Google
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowReviewModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm 
-              locationName="Waverley Care Centre" 
-              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

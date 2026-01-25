@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/Testimonials.css';
-import ReviewForm from '../components/ReviewForm';
 
 const Testimonials = () => {
   const reviews = [
@@ -68,11 +67,26 @@ const Testimonials = () => {
           </div>
         </div>
         
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <ReviewForm 
-            locationName="Bellavista Nursing Homes" 
-            googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Homes+South+Wales"
-          />
+        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', padding: '40px 0' }}>
+          <h3>Have an experience to share?</h3>
+          <p style={{ marginBottom: '24px' }}>We value your feedback. Please let us know about your experience with Bellavista Nursing Homes.</p>
+          <a 
+            href="https://www.google.com/search?q=Bellavista+Nursing+Homes+South+Wales+Reviews" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn btn--outline" 
+            style={{
+              textDecoration: 'none', 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: '8px',
+              padding: '12px 32px',
+              fontSize: '1.1rem'
+            }}
+          >
+            <i className="fab fa-google"></i> Review on Google
+          </a>
         </div>
       </div>
     </div>

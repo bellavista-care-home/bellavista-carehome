@@ -8,7 +8,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '../styles/CareHome.css';
-import ReviewForm from '../components/ReviewForm';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
@@ -19,7 +18,7 @@ import SEO from '../components/SEO';
 const BellavistaCardiff = () => {
   const navigate = useNavigate();
 
-  const [showReviewModal, setShowReviewModal] = useState(false);
+
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [cardiffNews, setCardiffNews] = useState([]);
@@ -975,30 +974,20 @@ const BellavistaCardiff = () => {
                 <p className="review-mini-text">
                   "The care and attention my father receives is outstanding. The staff are so friendly and the home is always clean."
                 </p>
-                <button className="btn btn--outline" style={{width: '100%'}} onClick={() => setShowReviewModal(true)}>
-                  Write a Review
-                </button>
+                <a 
+                  href="https://www.google.com/search?q=Bellavista+Nursing+Home+Cardiff+Reviews" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn--outline" 
+                  style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
+                >
+                  <i className="fab fa-google"></i> Review on Google
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Review Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setShowReviewModal(false)}>
-              <i className="fas fa-times"></i>
-            </button>
-            <h2 className="modal-title">Write a Review</h2>
-            <ReviewForm 
-              locationName="Bellavista Cardiff" 
-              googleReviewUrl="https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Cardiff"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
