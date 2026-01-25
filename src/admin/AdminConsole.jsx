@@ -54,6 +54,7 @@ const AdminConsole = () => {
   const [showImportGoogle, setShowImportGoogle] = useState(false);
   const [importPlaceId, setImportPlaceId] = useState('');
   const [importTargetLocation, setImportTargetLocation] = useState('Bellavista Barry');
+  const [importApiKey, setImportApiKey] = useState('');
 
   const loadHomes = async () => {
     const data = await fetchHomes();
