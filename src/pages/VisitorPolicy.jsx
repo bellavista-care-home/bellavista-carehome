@@ -122,7 +122,7 @@ const VisitorPolicy = () => {
             </p>
             
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '30px' }}>
-              <Link to="/contact" className="btn btn--primary" style={{ 
+              <Link to="/contact" className="btn btn-primary" style={{ 
                 padding: '15px 40px', 
                 fontSize: '1.1rem', 
                 borderRadius: '50px', 
@@ -135,7 +135,7 @@ const VisitorPolicy = () => {
               }}>
                 <i className="fas fa-phone-alt" style={{ marginRight: '10px' }}></i> Contact Us to Book
               </Link>
-              <Link to="/our-homes" className="btn btn--outline" style={{ 
+              <Link to="/our-homes" className="btn btn-outline" style={{ 
                 padding: '15px 40px', 
                 fontSize: '1.1rem', 
                 borderRadius: '50px', 

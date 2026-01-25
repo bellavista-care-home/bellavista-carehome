@@ -934,7 +934,7 @@ const WaverleyCareCentre = () => {
                   <i className="fas fa-envelope"></i>
                   <a href="mailto:reception@waverleycarecentre.com">reception@waverleycarecentre.com</a>
                 </div>
-                <button className="btn btn--primary" style={{width: '100%', marginTop: '24px'}} onClick={() => window.location.href='/schedule-tour'}>
+                <button className="btn btn-primary" style={{width: '100%', marginTop: '24px'}} onClick={() => window.location.href='/schedule-tour'}>
                   Book a Visit
                 </button>
               </div>
@@ -997,7 +997,7 @@ const WaverleyCareCentre = () => {
                   href="https://www.google.com/search?q=Waverley+Care+Centre+Penarth+Reviews" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="btn btn--outline" 
+                  className="btn btn-outline" 
                   style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
                 >
                   <i className="fab fa-google"></i> Review on Google

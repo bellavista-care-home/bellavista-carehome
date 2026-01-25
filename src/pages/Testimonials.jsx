@@ -74,7 +74,7 @@ const Testimonials = () => {
             href="https://www.google.com/search?q=Bellavista+Nursing+Homes+South+Wales+Reviews" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="btn btn--outline" 
+            className="btn btn-outline" 
             style={{
               textDecoration: 'none', 
               display: 'inline-flex', 

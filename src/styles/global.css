@@ -216,16 +216,6 @@ img {
   font-size: 18px;
 }
 
-.btn--primary {
-  background: var(--gradient);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
-}
-
-.btn--primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
-}
 
 @media (max-width: 768px) {
   .container {

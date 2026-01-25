@@ -161,6 +161,24 @@ const BellavistaBaltimore = () => {
     '/FrontPageBanner/banner-fifth.jpg'
   ];
 
+  const baltimoreSchema = {
+    "@context": "https://schema.org",
+    "@type": "NursingHome",
+    "name": "Baltimore House Care Home",
+    "image": "https://www.bellavistanursinghomes.com/home-images/baltimore.jpg",
+    "url": "https://www.bellavistanursinghomes.com/bellavista-baltimore",
+    "telephone": "01446 420 714",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "1 & 2 Park Road",
+      "addressLocality": "Barry",
+      "postalCode": "CF62 6NU",
+      "addressCountry": "UK"
+    },
+    "description": "Baltimore House Care Home is a well-established residential facility located in the scenic and tranquil surroundings of Barry.",
+    "priceRange": "££"
+  };
+
   return (
     <div className="location-page theme-baltimore">
       <style>{`
@@ -939,7 +957,7 @@ const BellavistaBaltimore = () => {
                   <i className="fas fa-envelope"></i>
                   <a href="mailto:manager@baltimorecarehome.com">manager@baltimorecarehome.com</a>
                 </div>
-                <button className="btn btn--primary" style={{width: '100%', marginTop: '24px'}} onClick={() => window.location.href='/schedule-tour'}>
+                <button className="btn btn-primary" style={{width: '100%', marginTop: '24px'}} onClick={() => window.location.href='/schedule-tour'}>
                   Book a Visit
                 </button>
               </div>
@@ -1010,7 +1028,7 @@ const BellavistaBaltimore = () => {
                   href="https://www.google.com/search?q=Baltimore+House+Care+Home+Barry+Reviews" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="btn btn--outline" 
+                  className="btn btn-outline" 
                   style={{width: '100%', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'}}
                 >
                   <i className="fab fa-google"></i> Review on Google
