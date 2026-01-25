@@ -39,7 +39,7 @@ export async function deleteReview(id) {
   return true;
 }
 
-export async function importGoogleReviews(placeId, locationName) {
+export async function importGoogleReviews(placeId, locationName, apiKey = '') {
   if (!API_BASE) return false;
   const res = await fetch(`${API_BASE}/reviews/import-google`, {
     method: 'POST',
@@ -47,7 +47,7 @@ export async function importGoogleReviews(placeId, locationName) {
       'Content-Type': 'application/json',
       ...authService.getAuthHeader()
     },
-    body: JSON.stringify({ place_id: placeId, location_name: locationName })
+    body: JSON.stringify({ place_id: placeId, location_name: locationName, api_key: apiKey })
   });
   
   if (!res.ok) {

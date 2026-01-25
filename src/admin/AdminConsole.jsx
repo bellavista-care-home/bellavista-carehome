@@ -459,11 +459,13 @@ const AdminConsole = () => {
       setIsBusy(true);
       // If user provided a place ID, use it. Otherwise pass null to let backend lookup by location name.
       const placeId = importPlaceId && importPlaceId.trim().length > 0 ? importPlaceId.trim() : null;
+      const apiKey = importApiKey && importApiKey.trim().length > 0 ? importApiKey.trim() : '';
       
-      const res = await importGoogleReviews(placeId, importTargetLocation);
+      const res = await importGoogleReviews(placeId, importTargetLocation, apiKey);
       notify(`Imported ${res.imported} reviews!`, 'success');
       setShowImportGoogle(false);
       setImportPlaceId('');
+      setImportApiKey('');
       loadReviews();
     } catch (e) {
       console.error(e);
