@@ -347,10 +347,12 @@ const Home = () => {
         </div>
 
         {slides.length > 0 && (
-          <div className="hero-marquee-full-width">
-            <div className="hero-marquee-track">
-              {slides.concat(slides).map((slide, index) => (
-                <img key={`${slide}-${index}`} src={slide} alt={`Bellavista highlight ${index + 1}`} />
+          <div className="hero-netflix-slider">
+            <div className="hero-netflix-track">
+              {slides.map((slide, index) => (
+                <div key={`${slide}-${index}`} className="hero-netflix-item">
+                  <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
+                </div>
               ))}
             </div>
           </div>

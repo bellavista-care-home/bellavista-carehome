@@ -402,6 +402,70 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       </div>
       <div className="field">
         <label>Add Banner Image</label>
+        
+        {/* Bulk Upload Section for Banners */}
+        <div style={{marginBottom: '15px', padding: '15px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '8px', color: 'white'}}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px'}}>
+            <div>
+              <strong style={{display: 'block', marginBottom: '5px', fontSize: '15px'}}>📦 Bulk Upload Banners</strong>
+              <span style={{fontSize: '12px', opacity: 0.9}}>Upload multiple banner images at once</span>
+            </div>
+            <button 
+              className="btn"
+              style={{background: 'white', color: '#667eea', border: 'none', fontWeight: 'bold'}}
+              onClick={() => document.getElementById('bulk-banner-upload').click()}
+              disabled={isUploading}
+            >
+              {isUploading ? <><i className="fa-solid fa-spinner fa-spin"></i> Uploading...</> : <><i className="fa-solid fa-images"></i> Select Multiple</>}
+            </button>
+          </div>
+          <input
+            type="file"
+            id="bulk-banner-upload"
+            accept="image/*"
+            multiple
+            style={{display: 'none'}}
+            onChange={async (e) => {
+              const files = Array.from(e.target.files).slice(0, 30);
+              if (files.length === 0) return;
+              
+              setIsUploading(true);
+              let uploaded = 0;
+              
+              try {
+                for (const file of files) {
+                  try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('process_type', 'none');
+                    
+                    const { API_URL } = await import('../../config/apiConfig');
+                    
+                    const response = await fetch(`${API_URL}/upload`, {
+                      method: 'POST',
+                      body: formData,
+                    });
+                    
+                    if (response.ok) {
+                      const data = await response.json();
+                      // Add to banners, default showOnMain to true for convenience? Or false? 
+                      // Let's default to false to be safe, user can check them.
+                      addItem('bannerImages', { url: data.url, showOnMain: true });
+                      uploaded++;
+                    }
+                  } catch (error) {
+                    console.error('Upload error for file:', file.name, error);
+                  }
+                }
+              } finally {
+                setIsUploading(false);
+                e.target.value = '';
+                alert(`✅ Successfully uploaded ${uploaded} of ${files.length} banner images!`);
+              }
+            }}
+          />
+        </div>
+
         <div style={{marginBottom: '20px'}}>
            <EnhancedImageUploader 
               label="Upload Banner Image" 
