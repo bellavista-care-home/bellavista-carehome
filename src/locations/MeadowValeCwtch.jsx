@@ -780,24 +780,48 @@ const MeadowValeCwtch = () => {
               The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Meadow Vale Cwtch.
             </p>
           </div>
-          <div className="testimonials-content-wrapper">
-            <div className="google-reviews-card">
-              <div className="google-header">
-                <i className="fab fa-google google-icon"></i>
-                <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>Google Reviews</span>
+          <div className="testimonials-layout">
+            <div className="rating-cards-container">
+              {/* Google Rating Card */}
+              <div className="google-rating-card">
+                <div className="google-logo">
+                  <img src="/google-logo.png" alt="Google" style={{ height: '30px' }} />
+                  <span>Reviews</span>
+                </div>
+                <div className="rating-number">
+                  {reviews.length > 0 ? (reviews.reduce((acc, r) => acc + (r.rating || 5), 0) / reviews.length).toFixed(1) : '4.9'}
+                </div>
+                <div className="stars">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <p className="review-count">Based on verified reviews</p>
+                <a href="https://www.google.com/search?q=Meadow+Vale+Cwtch+Sully" target="_blank" rel="noopener noreferrer" className="btn-google">
+                  See our reviews
+                </a>
               </div>
-              <div className="rating-display">4.9</div>
-              <div className="google-stars">
-                <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
-                <i className="fas fa-star"></i>
+
+              {/* Carehome.co.uk Rating Card */}
+              <div className="carehome-rating-card">
+                <div className="carehome-logo">
+                  <img src="/carehome-logo.png" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
+                </div>
+                <div className="carehome-rating-circle">
+                  <span className="carehome-score">
+                    {reviews.filter(r => r.source === 'carehome.co.uk').length > 0 
+                      ? (reviews.filter(r => r.source === 'carehome.co.uk').reduce((acc, r) => acc + r.rating, 0) / reviews.filter(r => r.source === 'carehome.co.uk').length).toFixed(1)
+                      : '9.8'}
+                  </span>
+                  <span className="carehome-max">/ 10</span>
+                </div>
+                <p className="carehome-text">Review Score on carehome.co.uk</p>
+                <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/20006005MEADF" target="_blank" rel="noopener noreferrer" className="btn-carehome">
+                  Read Reviews
+                </a>
               </div>
-              <p className="review-count">Based on verified reviews</p>
-              <a href="https://www.google.com/search?q=Meadow+Vale+Cwtch+Barry" target="_blank" rel="noopener noreferrer" className="btn-google">
-                See our reviews
-              </a>
             </div>
 
             <div className="vertical-testimonials-container">

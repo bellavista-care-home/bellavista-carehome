@@ -52,6 +52,7 @@ const AdminConsole = () => {
   const [reviewSearch, setReviewSearch] = useState('');
   const [reviewLocationFilter, setReviewLocationFilter] = useState('');
   const [showImportGoogle, setShowImportGoogle] = useState(false);
+  const [showImportCarehome, setShowImportCarehome] = useState(false);
   const [importPlaceId, setImportPlaceId] = useState('');
   const [importTargetLocation, setImportTargetLocation] = useState('Bellavista Barry');
   const [importApiKey, setImportApiKey] = useState('');
@@ -476,6 +477,22 @@ const AdminConsole = () => {
     }
   };
 
+  const handleImportCarehome = async () => {
+    try {
+      setIsBusy(true);
+      const { importCarehomeReviews } = await import('../services/reviewService');
+      const res = await importCarehomeReviews(importTargetLocation);
+      notify(`Imported ${res.imported} reviews from carehome.co.uk!`, 'success');
+      setShowImportCarehome(false);
+      loadReviews();
+    } catch (e) {
+      console.error(e);
+      notify(e.message || 'Failed to import carehome reviews', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
   const handleSaveVacancy = async (data) => {
     try {
       setIsBusy(true);
@@ -549,6 +566,23 @@ const AdminConsole = () => {
       setIsBusy(false);
     }
   };
+
+  // Derived state for filtered reviews
+  const filteredReviews = reviews.filter(r => {
+    // 1. Filter by Location Dropdown
+    const matchesLocation = !reviewLocationFilter || r.location === reviewLocationFilter;
+
+    // 2. Filter by Search Text
+    const q = reviewSearch.trim().toLowerCase();
+    const matchesSearch = !q || [
+      r.name,
+      r.location,
+      r.review,
+      r.source
+    ].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
+
+    return matchesLocation && matchesSearch;
+  });
 
   return (
     <div className="app">
@@ -842,9 +876,16 @@ const AdminConsole = () => {
               <button
                 className="btn primary small"
                 style={{ marginLeft: '8px' }}
-                onClick={() => setShowImportGoogle(!showImportGoogle)}
+                onClick={() => { setShowImportGoogle(!showImportGoogle); setShowImportCarehome(false); }}
               >
-                <i className="fab fa-google"></i>&nbsp;Import
+                <i className="fab fa-google"></i>&nbsp;Google Import
+              </button>
+              <button
+                className="btn primary small"
+                style={{ marginLeft: '8px', background: '#e6007e', borderColor: '#e6007e' }}
+                onClick={() => { setShowImportCarehome(!showImportCarehome); setShowImportGoogle(false); }}
+              >
+                <i className="fa-solid fa-heart"></i>&nbsp;Carehome Import
               </button>
             </div>
 
@@ -886,6 +927,43 @@ const AdminConsole = () => {
               </div>
             )}
 
+            {showImportCarehome && (
+              <div style={{ background: '#fce8f3', padding: '15px', marginTop: '15px', borderRadius: '8px', border: '1px solid #fad2e6' }}>
+                <h4 style={{ margin: '0 0 10px 0', color: '#e6007e' }}>Import from Carehome.co.uk</h4>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 1, minWidth: '200px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px', color: '#555' }}>Target Location</label>
+                    <select
+                      value={importTargetLocation}
+                      onChange={e => setImportTargetLocation(e.target.value)}
+                      style={{ width: '100%', padding: '8px' }}
+                    >
+                      <option value="Bellavista Barry">Bellavista Barry</option>
+                      <option value="Bellavista Cardiff">Bellavista Cardiff</option>
+                      <option value="Waverley Care Centre">Waverley Care Centre</option>
+                      <option value="College Fields Nursing Home">College Fields Nursing Home</option>
+                      <option value="Baltimore Care Home">Baltimore Care Home</option>
+                      <option value="Meadow Vale Cwtch">Meadow Vale Cwtch</option>
+                      <option value="Bellavista Nursing Homes">Bellavista Nursing Homes (Group)</option>
+                    </select>
+                  </div>
+                  <div style={{ flex: 2 }}>
+                    <p style={{ fontSize: '12px', color: '#666', margin: '0 0 4px 0', lineHeight: '1.4' }}>
+                      This will scrape the latest reviews directly from the carehome.co.uk page for the selected location.
+                    </p>
+                  </div>
+                  <button 
+                    className="btn primary" 
+                    style={{ background: '#e6007e', borderColor: '#e6007e' }} 
+                    onClick={handleImportCarehome} 
+                    disabled={isBusy}
+                  >
+                    {isBusy ? 'Scraping...' : 'Start Import'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div style={{ marginTop: '16px', overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
@@ -900,17 +978,7 @@ const AdminConsole = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {reviews
-                    .filter(r => {
-                      const q = reviewSearch.trim().toLowerCase();
-                      if (!q) return true;
-                      return [
-                        r.name,
-                        r.location,
-                        r.review,
-                        r.source
-                      ].filter(Boolean).some(v => String(v).toLowerCase().includes(q));
-                    })
+                  {filteredReviews
                     .map(r => (
                       <tr key={r.id}>
                         <td style={{ padding: '10px', borderBottom: '1px solid #f0f0f0' }}>{r.name}</td>
@@ -943,7 +1011,7 @@ const AdminConsole = () => {
                         </td>
                       </tr>
                     ))}
-                  {reviews.length === 0 && (
+                  {filteredReviews.length === 0 && (
                     <tr>
                       <td colSpan="7" style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
                         No reviews found

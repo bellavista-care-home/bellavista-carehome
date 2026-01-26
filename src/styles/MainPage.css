@@ -435,10 +435,11 @@
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE 10+ */
     
-    /* Auto-scroll Animation */
-    animation: scrollSlider 40s linear infinite;
+    /* Remove the auto-scroll animation that was causing issues */
+    /* animation: scrollSlider 40s linear infinite; */
 }
 
+/* 
 .home .hero-netflix-track:hover,
 .location-page .hero-netflix-track:hover {
     animation-play-state: paused;
@@ -447,7 +448,8 @@
 @keyframes scrollSlider {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
-}
+} 
+*/
 
 /* Ensure we have enough content to scroll seamlessly */
 /* Note: The JS should ideally duplicate the items once to create an infinite loop effect, 
@@ -905,47 +907,240 @@
         min-height: clamp(340px, 70vw, 460px);
         clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 22%);
     }
+} /* Close the @media (max-width: 768px) block */
 
-    .home .hero-marquee-track img {
-        width: 120px;
-        height: 72px;
-    }
-
-
-@media (min-width: 1024px) {
-    .home .hero-layout {
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    }
-
-    .home .hero-right {
-        order: 0;
-    }
-
-    .home .hero-description {
-        max-width: 560px;
-    }
-
-    .home .hero-actions {
-        justify-content: flex-start;
-    }
-
+/* Testimonials Layout - Side by Side on Desktop */
+.testimonials-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
 }
 
-    .news-layout {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+@media (min-width: 992px) {
+    .testimonials-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 50px;
     }
+}
 
-    .news-sidebar {
-        width: 100%;
-        margin-bottom: 20px;
-        order: -1;
+/* Rating Cards Container */
+.rating-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Google Rating Card Styling */
+.google-rating-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+
+.google-rating-card:hover {
+    transform: translateY(-5px);
+}
+
+.google-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.rating-number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.review-count {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.btn-google {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-google:hover {
+    background: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Carehome.co.uk Card Styling */
+.carehome-rating-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+
+.carehome-rating-card:hover {
+    transform: translateY(-5px);
+}
+
+.carehome-logo {
+    margin-bottom: 15px;
+}
+
+.carehome-rating-circle {
+    width: 80px;
+    height: 80px;
+    background: #e6007e; /* Carehome.co.uk brand pink */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+}
+
+.carehome-score {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.carehome-max {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.carehome-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.btn-carehome {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #e6007e;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-carehome:hover {
+    background: #c4006b;
+    color: white;
+    box-shadow: 0 4px 10px rgba(230, 0, 126, 0.3);
+}
+
+/* Vertical Testimonials Slider */
+.vertical-testimonials-container {
+    flex: 1;
+    height: 400px; /* Fixed height for scrolling area */
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.testimonial-slide {
+    position: absolute;
+    width: 100%;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-in-out;
+    text-align: center;
+    pointer-events: none;
+}
+
+.testimonial-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.testimonial-quote-icon {
+    font-size: 2rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.testimonial-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: #444;
+    margin-bottom: 25px;
+}
+
+.testimonial-author h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.testimonial-author span {
+    font-size: 0.9rem;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .rating-number {
+        font-size: 3rem;
     }
-
-    .news-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    
+    .vertical-testimonials-container {
+        height: auto;
+        min-height: 350px;
+        padding: 20px;
+    }
+    
+    .testimonial-text {
+        font-size: 1.1rem;
     }
 }
 

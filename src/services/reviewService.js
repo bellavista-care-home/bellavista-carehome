@@ -57,3 +57,22 @@ export async function importGoogleReviews(placeId, locationName, apiKey = '') {
   
   return res.json();
 }
+
+export async function importCarehomeReviews(locationName) {
+  if (!API_BASE) return false;
+  const res = await fetch(`${API_BASE}/reviews/import-carehome`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
+    body: JSON.stringify({ location_name: locationName })
+  });
+  
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to import Carehome.co.uk reviews');
+  }
+  
+  return res.json();
+}
