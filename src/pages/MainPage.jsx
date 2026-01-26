@@ -349,7 +349,8 @@ const Home = () => {
         {slides.length > 0 && (
           <div className="hero-netflix-slider">
             <div className="hero-netflix-track">
-              {slides.map((slide, index) => (
+              {/* Duplicate slides for infinite seamless scroll effect */}
+              {slides.concat(slides).map((slide, index) => (
                 <div key={`${slide}-${index}`} className="hero-netflix-item">
                   <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
                 </div>

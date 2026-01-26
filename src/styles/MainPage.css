@@ -434,7 +434,29 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE 10+ */
+    
+    /* Auto-scroll Animation */
+    animation: scrollSlider 40s linear infinite;
 }
+
+.home .hero-netflix-track:hover,
+.location-page .hero-netflix-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scrollSlider {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Ensure we have enough content to scroll seamlessly */
+/* Note: The JS should ideally duplicate the items once to create an infinite loop effect, 
+   similar to the previous marquee but better styled. 
+   If not duplicated, the animation will just scroll to the end and snap back.
+   For true infinite scroll, we need duplicated items in the track. 
+   The user previously had duplication logic (concat) which I removed. 
+   I should add it back BUT keep the Netflix styling.
+*/
 
 .home .hero-netflix-track::-webkit-scrollbar,
 .location-page .hero-netflix-track::-webkit-scrollbar {
@@ -468,28 +490,36 @@
     border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-/* On mobile, make items smaller */
+/* On mobile, make items smaller and move below actions */
 @media screen and (max-width: 768px) {
     .home .hero-netflix-slider,
     .location-page .hero-netflix-slider {
-        display: block !important; /* Ensure it shows on mobile if desired, though existing CSS hides marquee on mobile */
-        /* Existing CSS hides .hero-marquee-full-width on mobile. 
-           If we want to show this on mobile, we need to override the hide rule or ensure this class isn't hidden.
-           The user didn't specify, but usually carousels are good on mobile.
-           However, the previous design HID it. Let's keep it hidden on very small screens if it interferes, 
-           or check line 12 of MainPage.css which hides .hero-marquee-full-width.
-           Since I changed the class name, it WON'T be hidden by default unless I add a hide rule.
-           Let's assume the user wants it visible unless it breaks things.
-           But wait, line 12 hides it. I should check if I should hide this too.
-           Netflix carousel works well on mobile. Let's make it visible but smaller.
-        */
-        position: relative; /* Not absolute on mobile to avoid overlap */
-        margin-top: -50px;
+        display: block !important; 
+        position: relative; /* Relative flow */
+        margin-top: 20px;   /* Space below actions */
         margin-bottom: 20px;
         mask-image: none;
         -webkit-mask-image: none;
         padding: 10px 0;
+        bottom: auto; /* Unset absolute bottom */
+        left: auto;
+        right: auto;
+        width: 100%;
+        z-index: 60; /* Above background */
     }
+    
+    /* Ensure hero content container allows flow */
+    .home .hero-content-left,
+    .location-page .hero-content-left {
+        margin-bottom: 0 !important; /* Remove bottom margin to let slider flow naturally */
+        padding-bottom: 20px !important;
+    }
+
+    /* Move slider inside the flex container logically or just visually below */
+    /* Since the slider is a sibling of .container hero-container in DOM, 
+       and hero is flex-column on mobile, it will appear below container naturally 
+       if position is relative.
+    */
     
     .home .hero-netflix-item,
     .location-page .hero-netflix-item {
