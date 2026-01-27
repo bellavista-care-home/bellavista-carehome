@@ -823,40 +823,32 @@ const WaverleyCareCentre = () => {
               {/* Google Rating Card */}
               <div className="google-rating-card">
                 <div className="google-logo">
-                  <img src="/google-logo.png" alt="Google" style={{ height: '30px' }} />
-                  <span>Reviews</span>
+                  <img src="/google-logo.svg" alt="Google" style={{ height: '30px', maxWidth: '100%' }} />
                 </div>
-                <div className="rating-number">
-                  {reviews.length > 0 ? (reviews.reduce((acc, r) => acc + (r.rating || 5), 0) / reviews.length).toFixed(1) : '4.9'}
+                <div className="google-rating-circle">
+                  <span className="google-score">4.6</span>
+                  <span className="google-max">/ 5</span>
                 </div>
-                <div className="stars">
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
+                <div className="google-stars">
+                  ★★★★★
                 </div>
-                <p className="review-count">Based on verified reviews</p>
-                <a href="https://www.google.com/search?q=Waverley+Care+Centre+Penarth" target="_blank" rel="noopener noreferrer" className="btn-google">
-                  See our reviews
+                <p className="google-text">Based on 14 reviews</p>
+                <a href="https://www.google.com/search?q=Waverley+Care+Centre+Penarth#lrd=0x486e033990ab96b5:0x98e2601744a2d23b,1,,," target="_blank" rel="noopener noreferrer" className="btn-google">
+                  Read Reviews
                 </a>
               </div>
 
               {/* Carehome.co.uk Rating Card */}
               <div className="carehome-rating-card">
                 <div className="carehome-logo">
-                  <img src="/carehome-logo.png" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
+                  <img src="/carehome-logo.svg" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
                 </div>
                 <div className="carehome-rating-circle">
-                  <span className="carehome-score">
-                    {reviews.filter(r => r.source === 'carehome.co.uk').length > 0 
-                      ? (reviews.filter(r => r.source === 'carehome.co.uk').reduce((acc, r) => acc + r.rating, 0) / reviews.filter(r => r.source === 'carehome.co.uk').length).toFixed(1)
-                      : '9.5'}
-                  </span>
+                  <span className="carehome-score">9.0</span>
                   <span className="carehome-max">/ 10</span>
                 </div>
                 <p className="carehome-text">Review Score on carehome.co.uk</p>
-                <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/20006005WAVEA" target="_blank" rel="noopener noreferrer" className="btn-carehome">
+                <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/20005022WAVA" target="_blank" rel="noopener noreferrer" className="btn-carehome">
                   Read Reviews
                 </a>
               </div>

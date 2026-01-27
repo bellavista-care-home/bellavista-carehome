@@ -880,13 +880,6 @@ const AdminConsole = () => {
               >
                 <i className="fab fa-google"></i>&nbsp;Google Import
               </button>
-              <button
-                className="btn primary small"
-                style={{ marginLeft: '8px', background: '#e6007e', borderColor: '#e6007e' }}
-                onClick={() => { setShowImportCarehome(!showImportCarehome); setShowImportGoogle(false); }}
-              >
-                <i className="fa-solid fa-heart"></i>&nbsp;Carehome Import
-              </button>
             </div>
 
             {showImportGoogle && (

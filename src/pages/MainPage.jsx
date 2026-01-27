@@ -550,34 +550,32 @@ const Home = () => {
               {/* Google Rating Card */}
               <div className="google-rating-card">
                 <div className="google-logo">
-                  <img src="/google-logo.png" alt="Google" style={{ height: '30px' }} />
-                  <span>Reviews</span>
+                  <img src="/google-logo.svg" alt="Google" style={{ height: '30px', maxWidth: '100%' }} />
                 </div>
-                <div className="rating-number">4.9</div>
-                <div className="stars">
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
-                  <i className="fas fa-star"></i>
+                <div className="google-rating-circle">
+                  <span className="google-score">4.8</span>
+                  <span className="google-max">/ 5</span>
                 </div>
-                <p className="review-count">Based on verified reviews</p>
-                <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Barry" target="_blank" rel="noopener noreferrer" className="btn-google">
-                  See our reviews
+                <div className="google-stars">
+                  ★★★★★
+                </div>
+                <p className="google-text">Based on 50+ reviews</p>
+                <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Barry#lrd=0x486e09597f7e580b:0x22f8a99287879acd,1,,," target="_blank" rel="noopener noreferrer" className="btn-google">
+                  Read Reviews
                 </a>
               </div>
 
               {/* Carehome.co.uk Rating Card */}
               <div className="carehome-rating-card">
                 <div className="carehome-logo">
-                  <img src="/carehome-logo.png" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
+                  <img src="/carehome-logo.svg" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
                 </div>
                 <div className="carehome-rating-circle">
-                  <span className="carehome-score">9.8</span>
+                  <span className="carehome-score">9.2</span>
                   <span className="carehome-max">/ 10</span>
                 </div>
                 <p className="carehome-text">Review Score on carehome.co.uk</p>
-                <a href="https://www.carehome.co.uk/care_search_results.cfm/searchgroup/36152005BELLZ" target="_blank" rel="noopener noreferrer" className="btn-carehome">
+                <a href="https://www.carehome.co.uk/care_search_results.cfm/searchgroup/72849#reviews" target="_blank" rel="noopener noreferrer" className="btn-carehome">
                   Read Reviews
                 </a>
               </div>
