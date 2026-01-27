@@ -16,6 +16,17 @@ const EventsManager = ({ notify }) => {
     category: 'general'
   });
 
+  // Locations options
+  const locationOptions = [
+    "Bellavista Barry",
+    "Bellavista Cardiff",
+    "Waverley Care Centre",
+    "College Fields Nursing Home",
+    "Baltimore Care Home",
+    "Meadow Vale Cwtch",
+    "All Locations"
+  ];
+
   useEffect(() => {
     loadEvents();
   }, []);
@@ -28,6 +39,12 @@ const EventsManager = ({ notify }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCurrentEvent(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleLocationChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+    // Join multiple locations with a comma
+    setCurrentEvent(prev => ({ ...prev, location: selectedOptions.join(', ') }));
   };
 
   const handleImageChange = (url) => {
@@ -124,6 +141,8 @@ const EventsManager = ({ notify }) => {
                 required
               />
             </div>
+            {/* Time field removed as requested */}
+            {/* 
             <div className="field">
               <label>Time</label>
               <input
@@ -133,15 +152,20 @@ const EventsManager = ({ notify }) => {
                 onChange={handleInputChange}
               />
             </div>
+            */}
             <div className="field" style={{ gridColumn: '1 / -1' }}>
-              <label>Location</label>
-              <input
-                type="text"
-                name="location"
-                value={currentEvent.location}
-                onChange={handleInputChange}
-                placeholder="e.g. Main Lounge, Bellavista Barry"
-              />
+              <label>Location (Hold Ctrl/Cmd to select multiple)</label>
+              <select 
+                multiple 
+                name="location" 
+                value={currentEvent.location ? currentEvent.location.split(', ') : []} 
+                onChange={handleLocationChange}
+                style={{ height: '120px' }}
+              >
+                {locationOptions.map(loc => (
+                  <option key={loc} value={loc}>{loc}</option>
+                ))}
+              </select>
             </div>
             <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label>Description</label>

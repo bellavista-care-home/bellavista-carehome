@@ -26,8 +26,11 @@ aside {
   padding: 20px 14px;
   overflow-y: auto;
   height: 100vh;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 260px;
+  z-index: 100;
 }
 
 aside .search {

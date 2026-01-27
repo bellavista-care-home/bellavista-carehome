@@ -242,6 +242,8 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   transition: transform 0.3s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-card:hover {
@@ -257,7 +259,7 @@
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  z-index: 1;
+  z-index: 2;
 }
 
 .event-date-badge .day {
@@ -278,7 +280,9 @@
 
 .card-image {
   height: 200px;
+  width: 100%;
   overflow: hidden;
+  background-color: #ddd; /* Placeholder color */
 }
 
 .card-image img {
@@ -286,20 +290,22 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
-}
-
-.event-card:hover .card-image img {
-  transform: scale(1.05);
+  display: block;
 }
 
 .card-content {
   padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-content h3 {
   margin: 0 0 1rem 0;
   font-family: 'Playfair Display', serif;
   color: #11120D;
+  font-size: 1.4rem;
+  line-height: 1.2;
 }
 
 .card-content .meta {
@@ -308,6 +314,13 @@
   margin-bottom: 1rem;
   font-size: 0.9rem;
   color: #565449;
+  flex-wrap: wrap;
+}
+
+.card-content .meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .card-content p {

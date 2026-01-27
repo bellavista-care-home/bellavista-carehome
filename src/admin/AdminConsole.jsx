@@ -158,14 +158,20 @@ const AdminConsole = () => {
 
   const loadKioskCheckIns = async () => {
     try {
+      // Use config directly instead of dynamic import if possible, or ensure it resolves
       const { API_URL } = await import('../config/apiConfig');
       const { getAuthHeader } = await import('../services/authService');
+      
       const response = await fetch(`${API_URL}/kiosk/check-ins`, {
         headers: getAuthHeader()
       });
+      
       if (response.ok) {
         const data = await response.json();
         setKioskCheckIns(Array.isArray(data) ? data : []);
+      } else {
+        console.error('Failed to fetch kiosk check-ins:', response.status);
+        setKioskCheckIns([]);
       }
     } catch (error) {
       console.error('Failed to load kiosk check-ins:', error);

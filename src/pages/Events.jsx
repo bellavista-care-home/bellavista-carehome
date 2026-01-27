@@ -18,7 +18,12 @@ const Events = () => {
 
   useEffect(() => {
     // Filter events for the selected date
-    const dateStr = selectedDate.toISOString().split('T')[0];
+    // Use local date parts to construct YYYY-MM-DD string to match backend storage
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
     const daysEvents = events.filter(e => e.date === dateStr);
     setSelectedEvents(daysEvents);
   }, [selectedDate, events]);
@@ -122,8 +127,8 @@ const Events = () => {
         title="Calendar of Events | Bellavista Nursing Homes"
         description="View our upcoming events, activities, and celebrations at Bellavista Nursing Homes."
       />
-      <Header />
-      <main className="events-page">
+      {/* Header is already included in App.jsx */}
+      <div className="events-page">
         <section className="hero-section small-hero">
           <div className="hero-content">
             <h1>Calendar of Events</h1>
@@ -153,6 +158,9 @@ const Events = () => {
 
             <div className="events-list-section">
               <h3>Events for {selectedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</h3>
+              <h4 className="daily-subheading" style={{ color: '#565449', fontSize: '1rem', marginTop: '-1rem', marginBottom: '1.5rem', fontWeight: 'normal' }}>
+                Daily Schedule
+              </h4>
               
               {loading ? (
                 <div className="loading-spinner">Loading events...</div>
@@ -215,8 +223,8 @@ const Events = () => {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
+      </div>
+      {/* Footer is already included in App.jsx */}
     </>
   );
 };
