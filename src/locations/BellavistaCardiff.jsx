@@ -460,7 +460,18 @@ const BellavistaCardiff = () => {
           justify-content: flex-start;
         }
         
-        /* Hide scrollbar for cleaner look but keep functionality */
+        /* Fix button width and overflow */
+        .hero-buttons-row .btn {
+          min-width: 160px;
+          flex: 1;
+          white-space: normal !important; /* Allow wrapping */
+          text-align: center;
+          justify-content: center;
+          padding: 10px 15px;
+          height: auto;
+          min-height: 48px;
+          line-height: 1.2;
+        }
         .hero-buttons-row::-webkit-scrollbar {
           height: 0px;
           background: transparent;
