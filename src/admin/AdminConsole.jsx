@@ -13,6 +13,7 @@ import { fetchReviews, deleteReview, importGoogleReviews } from '../services/rev
 import { convertBase64ToURLs } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
+import EventsManager from './components/EventsManager';
 import './AdminConsole.css';
 
 const AdminConsole = () => {
@@ -650,6 +651,12 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
           </button>
+          <button 
+            className={activeView === 'manage-events' ? 'active' : ''}
+            onClick={() => setActiveView('manage-events')}
+          >
+            <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
+          </button>
           <button
             className={activeView === 'reviews' ? 'active' : ''}
             onClick={() => setActiveView('reviews')}
@@ -1121,6 +1128,10 @@ const AdminConsole = () => {
               </>
             )}
           </section>
+        )}
+
+        {activeView === 'manage-events' && (
+          <EventsManager notify={notify} />
         )}
 
         {activeView === 'kiosk-links' && (

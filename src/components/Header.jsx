@@ -55,6 +55,7 @@ const Header = () => {
                 <li><Link to="/" onClick={closeSideMenu}>Home</Link></li>
                 <li><Link to="/our-homes" onClick={closeSideMenu}>Our Homes</Link></li>
                 <div className="nav-category">Services</div>
+                <li><Link to="/events" onClick={closeSideMenu}>Calendar Events</Link></li>
                 <li><Link to="/activities" onClick={closeSideMenu}>Activities & Events</Link></li>
                 <li><Link to="/facilities" onClick={closeSideMenu}>Facilities</Link></li>
                 <li><Link to="/services" onClick={closeSideMenu}>Care Services</Link></li>
@@ -100,6 +101,7 @@ const Header = () => {
             <li className="has-dropdown">
               <Link>Services <i className="fas fa-chevron-down"></i></Link>
               <ul className="dropdown-menu">
+                <li><Link to="/events">Calendar Events</Link></li>
                 <li><Link to="/services">Care Services</Link></li>
                 <li><Link to="/dementia-friendly-environment">Dementia Environment</Link></li>
                 <li><Link to="/activities">Activities</Link></li>

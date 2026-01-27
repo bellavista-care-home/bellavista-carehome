@@ -13,6 +13,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
     heroSubtitle: '',
     heroBgImage: '',
     heroExpandedDesc: '',
+    ciwReportUrl: '',
+    newsletterUrl: '',
     bannerImages: [],
     statsBedrooms: '',
     statsPremier: '',
@@ -89,6 +91,43 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       currentImages.push({ type: 'image', url: url });
     }
     setFormData(prev => ({ ...prev, activityImages: currentImages }));
+  };
+
+  const [uploadingDoc, setUploadingDoc] = useState(null);
+
+  const handleDocUpload = async (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      alert('Only PDF files are allowed.');
+      return;
+    }
+
+    setUploadingDoc(field);
+    const formDataUpload = new FormData();
+    formDataUpload.append('file', file);
+
+    try {
+      const { API_URL } = await import('../../config/apiConfig');
+      const response = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: formDataUpload
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+
+      const data = await response.json();
+      setFormData(prev => ({ ...prev, [field]: data.url }));
+    } catch (error) {
+      console.error('Document upload error:', error);
+      alert('Failed to upload document.');
+    } finally {
+      setUploadingDoc(null);
+    }
   };
 
   const getSecondCardImage = () => {
@@ -395,6 +434,77 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
           </div>
         </div>
       )}
+
+      {/* 3. Documents & Links */}
+      <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
+        <i className="fa-solid fa-file-pdf"></i> Documents & Links
+      </div>
+      <div className="grid cols-2">
+        <div className="field">
+          <label>CIW Report (PDF)</label>
+          <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <input 
+              type="file" 
+              accept="application/pdf"
+              onChange={(e) => handleDocUpload(e, 'ciwReportUrl')}
+              disabled={uploadingDoc === 'ciwReportUrl'}
+              style={{display: 'none'}}
+              id="ciw-upload"
+            />
+            <button 
+              className="btn small ghost" 
+              onClick={() => document.getElementById('ciw-upload').click()}
+              disabled={uploadingDoc === 'ciwReportUrl'}
+            >
+              {uploadingDoc === 'ciwReportUrl' ? <><i className="fa-solid fa-spinner fa-spin"></i> Uploading...</> : <><i className="fa-solid fa-upload"></i> Upload PDF</>}
+            </button>
+            {formData.ciwReportUrl ? (
+              <a href={formData.ciwReportUrl} target="_blank" rel="noopener noreferrer" style={{fontSize: '13px', color: '#667eea', textDecoration: 'underline'}}>
+                View Report
+              </a>
+            ) : (
+              <span className="muted" style={{fontSize: '12px'}}>No file selected</span>
+            )}
+            {formData.ciwReportUrl && (
+               <button className="btn ghost small icon-only" style={{color: '#ff4757', marginLeft: 'auto'}} onClick={() => handleChange('ciwReportUrl', '')} title="Remove">
+                 <i className="fa-solid fa-trash"></i>
+               </button>
+            )}
+          </div>
+        </div>
+        <div className="field">
+          <label>Newsletter (PDF)</label>
+          <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+            <input 
+              type="file" 
+              accept="application/pdf"
+              onChange={(e) => handleDocUpload(e, 'newsletterUrl')}
+              disabled={uploadingDoc === 'newsletterUrl'}
+              style={{display: 'none'}}
+              id="newsletter-upload"
+            />
+            <button 
+              className="btn small ghost" 
+              onClick={() => document.getElementById('newsletter-upload').click()}
+              disabled={uploadingDoc === 'newsletterUrl'}
+            >
+              {uploadingDoc === 'newsletterUrl' ? <><i className="fa-solid fa-spinner fa-spin"></i> Uploading...</> : <><i className="fa-solid fa-upload"></i> Upload PDF</>}
+            </button>
+            {formData.newsletterUrl ? (
+              <a href={formData.newsletterUrl} target="_blank" rel="noopener noreferrer" style={{fontSize: '13px', color: '#667eea', textDecoration: 'underline'}}>
+                View Newsletter
+              </a>
+            ) : (
+              <span className="muted" style={{fontSize: '12px'}}>No file selected</span>
+            )}
+            {formData.newsletterUrl && (
+               <button className="btn ghost small icon-only" style={{color: '#ff4757', marginLeft: 'auto'}} onClick={() => handleChange('newsletterUrl', '')} title="Remove">
+                 <i className="fa-solid fa-trash"></i>
+               </button>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Scrolling Banner Images */}
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>

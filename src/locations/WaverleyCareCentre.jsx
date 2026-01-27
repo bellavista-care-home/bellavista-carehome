@@ -466,7 +466,7 @@ const WaverleyCareCentre = () => {
 
             <div className="hero-cta-buttons hero-buttons-row">
               <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-bed"></i> 129 Bedrooms
+                <i className="fas fa-bed"></i> {homeData?.statsBedrooms || "129 Bedrooms"}
               </div>
               <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
                 <i className="fas fa-map-marker-alt"></i> Penarth
@@ -477,6 +477,16 @@ const WaverleyCareCentre = () => {
               <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
                 <i className="fas fa-users"></i> Expert Team
               </div>
+              {homeData?.ciwReportUrl && (
+                <div className="btn btn-primary" onClick={() => window.open(homeData.ciwReportUrl, '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                  <i className="fas fa-file-pdf"></i> CIW Report
+                </div>
+              )}
+              {homeData?.newsletterUrl && (
+                <div className="btn btn-primary" onClick={() => window.open(homeData.newsletterUrl, '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+                  <i className="fas fa-newspaper"></i> Newsletter
+                </div>
+              )}
             </div>
           </div>
         </div>
