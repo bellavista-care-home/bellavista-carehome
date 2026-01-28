@@ -1,6 +1,9 @@
 /* FindNearestHome.css - Luxury Redesign */
 
 .find-nearest-section {
+  --color-primary: var(--olive-drab);
+  --color-primary-dark: var(--smoky-black);
+  
   padding: 100px 0;
   /* Softer, warmer background */
   background: linear-gradient(135deg, #FFFBF4 0%, #F5F5DC 100%);
