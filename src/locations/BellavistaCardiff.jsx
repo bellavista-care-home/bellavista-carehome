@@ -229,7 +229,10 @@ const BellavistaCardiff = () => {
     "sameAs": [
       "https://www.facebook.com/bellavistanursinghome/",
       "https://x.com/home_bellavista?lang=en"
-    ]
+    ],
+    "parentOrganization": {
+      "@id": "https://www.bellavistanursinghomes.com/#organization"
+    }
   };
 
   const slides = [

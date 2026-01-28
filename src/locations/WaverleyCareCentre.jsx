@@ -195,7 +195,10 @@ const WaverleyCareCentre = () => {
       { "@type": "LocationFeatureSpecification", "name": "24/7 Nursing Care", "value": "true" },
       { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
       { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" }
-    ]
+    ],
+    "parentOrganization": {
+      "@id": "https://www.bellavistanursinghomes.com/#organization"
+    }
   };
 
   return (

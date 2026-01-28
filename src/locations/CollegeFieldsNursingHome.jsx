@@ -205,7 +205,10 @@ const CollegeFieldsNursingHome = () => {
       { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
       { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" },
       { "@type": "LocationFeatureSpecification", "name": "Activities Coordinator", "value": "true" }
-    ]
+    ],
+    "parentOrganization": {
+      "@id": "https://www.bellavistanursinghomes.com/#organization"
+    }
   };
 
   return (

@@ -200,7 +200,10 @@ const MeadowValeCwtch = () => {
     "image": [
       "https://www.bellavistanursinghomes.com/home-images/meadow-vale-cwtch.jpg"
     ],
-    "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png"
+    "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
+    "parentOrganization": {
+      "@id": "https://www.bellavistanursinghomes.com/#organization"
+    }
   };
 
   const slides = [
