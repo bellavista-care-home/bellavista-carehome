@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchReviews } from '../services/reviewService';
 import { fetchHomes } from '../services/homeService';
+import FindNearestHome from '../components/FindNearestHome';
 import '../styles/MainPage.css';
 
 const Home = () => {
@@ -445,6 +446,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <FindNearestHome />
 
       <OurHomes isStandalone={false} />
 
