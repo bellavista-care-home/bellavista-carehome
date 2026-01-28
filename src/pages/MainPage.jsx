@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/autoplay';
+
 import OurHomes from './OurHomes';
 import SEO from '../components/SEO';
 import { fetchNewsItems } from '../services/newsService';
@@ -71,7 +77,12 @@ const Home = () => {
 
   const featuredNews = newsList.find(news => news.important) || newsList[0] || {};
 
-  const [slides, setSlides] = useState([]);
+  const [slides, setSlides] = useState([
+    '/theraphy-rooms.jpg',
+    '/home-images/barry.jpg',
+    '/gardens.jpg',
+    '/medical-suite.jpg'
+  ]);
 
   useEffect(() => {
     const loadBanners = async () => {
@@ -363,15 +374,47 @@ const Home = () => {
         </div>
 
         {slides.length > 0 && (
-          <div className="hero-netflix-slider">
-            <div className="hero-netflix-track">
-              {/* Duplicate slides for infinite seamless scroll effect */}
-              {slides.concat(slides).map((slide, index) => (
-                <div key={`${slide}-${index}`} className="hero-netflix-item">
-                  <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                </div>
+          <div className="hero-bottom-carousel">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1.2}
+              centeredSlides={false}
+              loop={slides.length > 3} /* Only loop if enough slides */
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              breakpoints={{
+                480: {
+                  slidesPerView: 2.2,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 3.2,
+                  spaceBetween: 25,
+                },
+                1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 30,
+                },
+                1400: {
+                  slidesPerView: 5,
+                  spaceBetween: 30,
+                }
+              }}
+              className="bottom-swiper"
+            >
+              {/* Duplicate slides to ensure we have enough content for the carousel loop if needed */}
+              {[...slides, ...slides, ...slides].slice(0, 12).map((slide, index) => (
+                <SwiperSlide key={`bottom-slide-${index}`}>
+                  <div className="carousel-item-card">
+                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
       </section>

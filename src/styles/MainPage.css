@@ -406,11 +406,36 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(160deg, rgba(17, 18, 13, 0.1), rgba(17, 18, 13, 0.4));
+    z-index: 10; /* Ensure overlay is above swiper slides */
+    pointer-events: none;
 }
 
-/* Netflix-style Horizontal Slider */
-.home .hero-netflix-slider,
-.location-page .hero-netflix-slider {
+/* Swiper Styles */
+.hero-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-swiper .swiper-slide {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-swiper .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hero-swiper .swiper-slide-active img {
+    transform: scale(1.1); /* Subtle zoom on active slide */
+}
+
+/* Bottom Carousel Styles */
+.hero-bottom-carousel {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -419,120 +444,62 @@
     padding: 20px 0 30px;
     z-index: 50;
     /* Gradient mask for smooth fade on edges */
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
-.home .hero-netflix-track,
-.location-page .hero-netflix-track {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 0 40px; /* Initial padding */
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-    
-    /* Remove the auto-scroll animation that was causing issues */
-    /* animation: scrollSlider 40s linear infinite; */
+.bottom-swiper {
+    width: 100%;
+    padding: 10px 40px !important; /* Padding for slide shadow visibility */
 }
 
-/* 
-.home .hero-netflix-track:hover,
-.location-page .hero-netflix-track:hover {
-    animation-play-state: paused;
-}
-
-@keyframes scrollSlider {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-} 
-*/
-
-/* Ensure we have enough content to scroll seamlessly */
-/* Note: The JS should ideally duplicate the items once to create an infinite loop effect, 
-   similar to the previous marquee but better styled. 
-   If not duplicated, the animation will just scroll to the end and snap back.
-   For true infinite scroll, we need duplicated items in the track. 
-   The user previously had duplication logic (concat) which I removed. 
-   I should add it back BUT keep the Netflix styling.
-*/
-
-.home .hero-netflix-track::-webkit-scrollbar,
-.location-page .hero-netflix-track::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
-}
-
-.home .hero-netflix-item,
-.location-page .hero-netflix-item {
-    flex: 0 0 auto;
-    width: 280px;
-    height: 160px;
-    border-radius: 8px;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0.3s;
+.carousel-item-card {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
     position: relative;
+    transition: all 0.4s ease;
     cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.home .hero-netflix-item:hover,
-.location-page .hero-netflix-item:hover {
-    transform: scale(1.1);
-    z-index: 60;
-}
-
-.home .hero-netflix-item img,
-.location-page .hero-netflix-item img {
+.carousel-item-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.6s ease;
 }
 
-/* On mobile, make items smaller and move below actions */
+.carousel-item-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-item-card:hover img {
+    transform: scale(1.1);
+}
+
+/* On mobile, adjust the carousel */
 @media screen and (max-width: 768px) {
-    .home .hero-netflix-slider,
-    .location-page .hero-netflix-slider {
-        display: block !important; 
-        position: relative; /* Relative flow */
-        margin-top: 20px;   /* Space below actions */
-        margin-bottom: 20px;
+    .hero-bottom-carousel {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+        padding: 10px 0;
         mask-image: none;
         -webkit-mask-image: none;
-        padding: 10px 0;
-        bottom: auto; /* Unset absolute bottom */
-        left: auto;
-        right: auto;
-        width: 100%;
-        z-index: 60; /* Above background */
-    }
-    
-    /* Ensure hero content container allows flow */
-    .home .hero-content-left,
-    .location-page .hero-content-left {
-        margin-bottom: 0 !important; /* Remove bottom margin to let slider flow naturally */
-        padding-bottom: 20px !important;
+        background: transparent;
     }
 
-    /* Move slider inside the flex container logically or just visually below */
-    /* Since the slider is a sibling of .container hero-container in DOM, 
-       and hero is flex-column on mobile, it will appear below container naturally 
-       if position is relative.
-    */
-    
-    .home .hero-netflix-item,
-    .location-page .hero-netflix-item {
-        width: 200px;
-        height: 120px;
+    .bottom-swiper {
+        padding: 10px 20px !important;
     }
-    
-    .home .hero-netflix-track,
-    .location-page .hero-netflix-track {
-        padding: 0 20px;
-        gap: 12px;
+
+    .carousel-item-card {
+        height: 140px;
     }
 }
 

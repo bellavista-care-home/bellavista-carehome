@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
 import { Helmet } from 'react-helmet-async';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
 import { fetchNewsItems } from '../services/newsService';
@@ -517,7 +518,29 @@ const MeadowValeCwtch = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/home-images/meadow-vale-cwtch.jpg" alt="Meadow Vale Cwtch" />
+            <Swiper
+              modules={[Autoplay, EffectFade]}
+              effect="fade"
+              autoplay={{
+                delay: 6000,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+              speed={1500}
+              className="hero-swiper"
+            >
+              {bannerImages.length > 0 ? (
+                bannerImages.map((slide, index) => (
+                  <SwiperSlide key={index}>
+                    <img src={slide} alt={`Meadow Vale Banner ${index + 1}`} />
+                  </SwiperSlide>
+                ))
+              ) : (
+                <SwiperSlide>
+                  <img src="/home-images/meadow-vale-cwtch.jpg" alt="Meadow Vale Cwtch" />
+                </SwiperSlide>
+              )}
+            </Swiper>
           </div>
         </div>
 
@@ -560,14 +583,33 @@ const MeadowValeCwtch = () => {
 
         {bannerImages.length > 0 && (
           <div className="hero-netflix-slider">
-            <div className="hero-netflix-track">
-              {/* Duplicate slides for infinite seamless scroll effect */}
-              {bannerImages.concat(bannerImages).map((slide, index) => (
-                <div key={`${slide}-${index}`} className="hero-netflix-item">
-                  <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                </div>
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1.2}
+              centeredSlides={false}
+              loop={bannerImages.length > 3}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              breakpoints={{
+                480: { slidesPerView: 2.2, spaceBetween: 20 },
+                768: { slidesPerView: 3.2, spaceBetween: 25 },
+                1024: { slidesPerView: 4, spaceBetween: 30 },
+                1400: { slidesPerView: 5, spaceBetween: 30 }
+              }}
+              className="bottom-swiper"
+            >
+              {[...bannerImages, ...bannerImages, ...bannerImages].slice(0, 12).map((slide, index) => (
+                <SwiperSlide key={`bottom-slide-${index}`}>
+                  <div className="carousel-item-card">
+                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
       </section>

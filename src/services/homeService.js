@@ -16,9 +16,20 @@ export async function fetchHomes() {
 
 export async function fetchHome(id) {
   try {
+    // Check session storage first
+    const cached = sessionStorage.getItem(`home_${id}`);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+
     const res = await fetch(`${API_URL}/homes/${id}`);
     if (!res.ok) throw new Error('Failed to fetch home');
-    return await res.json();
+    const data = await res.json();
+    
+    // Cache the result
+    sessionStorage.setItem(`home_${id}`, JSON.stringify(data));
+    
+    return data;
   } catch (error) {
     console.error('Error fetching home:', error);
     return null;

@@ -586,15 +586,34 @@ const BellavistaCardiff = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
-            <div className="hero-netflix-track">
-              {/* Duplicate slides for infinite seamless scroll effect */}
-              {bannerImages.concat(bannerImages).map((slide, index) => (
-                <div key={`${slide}-${index}`} className="hero-netflix-item">
-                  <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                </div>
+          <div className="hero-bottom-carousel">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1.2}
+              centeredSlides={false}
+              loop={bannerImages.length > 3}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              breakpoints={{
+                480: { slidesPerView: 2.2, spaceBetween: 20 },
+                768: { slidesPerView: 3.2, spaceBetween: 25 },
+                1024: { slidesPerView: 4, spaceBetween: 30 },
+                1400: { slidesPerView: 5, spaceBetween: 30 }
+              }}
+              className="bottom-swiper"
+            >
+              {[...bannerImages, ...bannerImages, ...bannerImages].slice(0, 12).map((slide, index) => (
+                <SwiperSlide key={`bottom-slide-${index}`}>
+                  <div className="carousel-item-card">
+                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
       </section>
