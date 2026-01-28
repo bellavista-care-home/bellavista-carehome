@@ -700,6 +700,9 @@ const CollegeFieldsNursingHome = () => {
                     Other communal areas include the quiet conservatory, the dining room, and a sensory 
                     room that provides a calming environment for residents.
                   </p>
+                  <Link to="/facilities/college-fields" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <i className="fas fa-eye"></i> View All Facilities
+                  </Link>
                 </div>
               </div>
             </div>
@@ -763,6 +766,9 @@ const CollegeFieldsNursingHome = () => {
                 Our home promotes companionship, social engagement, and a sense of community, 
                 ensuring that every resident feels connected and supported.
               </p>
+              <Link to="/activities/college-fields" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-calendar-alt"></i> View All Activities
+              </Link>
             </div>
           </div>
         </div>

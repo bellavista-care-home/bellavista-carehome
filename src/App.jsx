@@ -10,6 +10,7 @@ import BackToTop from './components/BackToTop';
 import ScrollToTop from './components/ScrollToTop';
 import ChatWidget from './components/ChatWidget';
 import ProtectedRoute from './components/ProtectedRoute';
+import SmoothScroll from './components/SmoothScroll';
 
 // =============================================================================
 // LAZY LOADED COMPONENTS FOR PERFORMANCE
@@ -166,8 +167,10 @@ const AppContent = () => {
             
             {/* Additional Pages */}
             <Route path="/activities" element={<Activities />} />
+            <Route path="/activities/:locationId" element={<Activities />} />
             <Route path="/events" element={<Events />} />
             <Route path="/facilities" element={<Facilities />} />
+            <Route path="/facilities/:locationId" element={<Facilities />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/testimonials" element={<Testimonials />} />
@@ -203,8 +206,10 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
-      <ScrollToTop />
-      <AppContent />
+      <SmoothScroll>
+        <ScrollToTop />
+        <AppContent />
+      </SmoothScroll>
     </Router>
   );
 }

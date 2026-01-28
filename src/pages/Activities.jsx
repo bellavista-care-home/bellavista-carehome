@@ -1,8 +1,25 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import '../styles/Activities.css';
+import SEO from '../components/SEO';
 
 const Activities = () => {
+  const { locationId } = useParams();
   const [selectedActivity, setSelectedActivity] = useState(null);
+
+  const locationNames = {
+    'bellavista-barry': 'Bellavista Barry',
+    'bellavista-cardiff': 'Bellavista Cardiff',
+    'waverley-care-center': 'Waverley Care Center',
+    'college-fields-nursing-home': 'College Fields Nursing Home',
+    'baltimore-care-home': 'Baltimore Care Home',
+    'meadow-vale-cwtch': 'Meadow Vale Cwtch',
+    'bellavista-pontypridd': 'Bellavista Pontypridd'
+  };
+
+  const locationName = locationId ? locationNames[locationId] : null;
+  const pageTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista – Engaging Activities for Every Interest';
+  const pageHeaderTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista';
 
   const activities = [
     { title: 'Community Events', description: 'We regularly host community events like our famous Bollywood Night and Family Fun Days.', image: '/activities/community-events.jpg', details: 'Our community events bring together residents, families, and the local community for days of fun, food, and entertainment.' },
@@ -23,9 +40,14 @@ const Activities = () => {
 
   return (
     <div className="activities-page">
+      <SEO 
+        title={pageTitle}
+        description={`Discover the engaging activities and social events at ${locationName || 'Bellavista Nursing Homes'}, designed to support wellbeing and happiness.`}
+        url={locationId ? `/activities/${locationId}` : "/activities"}
+      />
       <div className="page-header">
         <div className="container">
-          <h1>Life at Bellavista – Engaging Activities for Every Interest</h1>
+          <h1>{pageHeaderTitle}</h1>
           <p>Active, stimulating, and fulfilling lifestyles that support wellbeing every day.</p>
         </div>
       </div>
@@ -41,7 +63,7 @@ const Activities = () => {
               fontWeight: '300',
               marginBottom: '20px'
             }}>
-              “At Bellavista, we believe that an active, stimulating, and fulfilling lifestyle is central to wellbeing.”
+              “At {locationName || 'Bellavista'}, we believe that an active, stimulating, and fulfilling lifestyle is central to wellbeing.”
             </h2>
             <div style={{ width: '80px', height: '4px', background: 'var(--color-secondary)', margin: '0 auto', borderRadius: '2px' }}></div>
           </div>
@@ -98,59 +120,46 @@ const Activities = () => {
           </div>
 
           <div className="feature-banner" style={{ 
-            background: 'linear-gradient(to right, #f8f9fa, #e9ecef)', 
-            padding: '40px', 
-            borderRadius: '15px',
-            borderLeft: '5px solid var(--color-primary)',
-            marginBottom: '40px'
+            background: 'linear-gradient(135deg, var(--smoky-black), var(--olive-drab))',
+            borderRadius: '20px',
+            padding: '40px',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
           }}>
-            <h3 style={{ fontSize: '1.4rem', margin: '0 0 20px', color: '#333', textAlign: 'center' }}>
-              Why Our Activities Stand Out
-            </h3>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
-              gap: '20px'
-            }}>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Personalised programmes</strong> based on individual interests, skills, and wellbeing assessments.
-              </div>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Wide variety of activities</strong>, including arts, music, reminiscence therapy, gardening, and gentle exercise.
-              </div>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Seasonal and community events</strong> that foster social interaction and engagement within and beyond the home.
-              </div>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Skilled, compassionate coordinators</strong> who encourage participation, confidence, and a sense of purpose.
-              </div>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Flexible options</strong> for quiet reflection, group interaction, or hands-on projects.
-              </div>
-              <div style={{ fontSize: '0.98rem', lineHeight: '1.6', color: '#444' }}>
-                <strong>Therapeutic, meaningful experiences</strong> that enhance emotional, mental, and social wellbeing.
-              </div>
+            <div style={{ flex: '1', minWidth: '300px' }}>
+              <h3 style={{ fontSize: '1.8rem', marginBottom: '10px', color: 'var(--bone)' }}>Community & Connection</h3>
+              <p style={{ fontSize: '1.1rem', opacity: '0.9' }}>
+                We maintain strong links with the local community, welcoming schools, performers, and volunteers to our homes. These intergenerational connections bring joy and a sense of belonging to our residents.
+              </p>
+            </div>
+            <div style={{ fontSize: '3rem', opacity: '0.2' }}>
+              <i className="fas fa-users"></i>
             </div>
           </div>
-
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: '#444', margin: 0, textAlign: 'center' }}>
-              At Bellavista, every activity is designed with the resident in mind – to stimulate the mind, nurture the body, and enrich the spirit, creating a vibrant, supportive, and inspiring environment for all.
-            </p>
-          </div>
-
         </div>
       </section>
 
-      <section className="activities-list">
+      <section className="activities-gallery">
         <div className="container">
+          <div className="section-title">
+            <h2>Our Activities & Events</h2>
+            <p>A glimpse into the vibrant life at {locationName || 'our homes'}</p>
+          </div>
           <div className="activities-grid">
             {activities.map((activity, index) => (
               <div key={index} className="activity-card" onClick={() => handleCardClick(activity)}>
-                <div className="activity-image">
+                <div className="card-image">
                   <img src={activity.image} alt={activity.title} loading="lazy" />
+                  <div className="overlay">
+                    <i className="fas fa-plus"></i>
+                  </div>
                 </div>
-                <div className="activity-content">
+                <div className="card-content">
                   <h3>{activity.title}</h3>
                   <p>{activity.description}</p>
                 </div>
@@ -160,56 +169,24 @@ const Activities = () => {
         </div>
       </section>
 
+      {/* Modal for Activity Details */}
       {selectedActivity && (
-        <div className="modal-overlay" onClick={closeModal}>
+        <div className="activity-modal" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={closeModal}>&times;</button>
-            <img src={selectedActivity.image} alt={selectedActivity.title} />
-            <h2>{selectedActivity.title}</h2>
-            <p>{selectedActivity.details}</p>
+            <button className="close-btn" onClick={closeModal}>&times;</button>
+            <div className="modal-image">
+              <img src={selectedActivity.image} alt={selectedActivity.title} />
+            </div>
+            <div className="modal-text">
+              <h3>{selectedActivity.title}</h3>
+              <p className="modal-description">{selectedActivity.details}</p>
+              <div className="modal-footer">
+                <button className="btn btn-primary" onClick={closeModal}>Close</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .modal-content {
-          background: white;
-          padding: 30px;
-          border-radius: 10px;
-          max-width: 600px;
-          width: 90%;
-          position: relative;
-        }
-        .modal-content img {
-          width: 100%;
-          height: 300px;
-          object-fit: cover;
-          border-radius: 5px;
-          margin-bottom: 20px;
-        }
-        .close-modal {
-          position: absolute;
-          top: 10px;
-          right: 15px;
-          font-size: 30px;
-          border: none;
-          background: none;
-          cursor: pointer;
-          color: #333;
-        }
-      `}</style>
     </div>
   );
 };

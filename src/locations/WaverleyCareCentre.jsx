@@ -696,6 +696,9 @@ const WaverleyCareCentre = () => {
                 improved communal spaces, and additional beds, offering a comfortable, home-like 
                 environment in each unit.
               </p>
+              <Link to="/facilities/waverley-care-centre" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-eye"></i> View All Facilities
+              </Link>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -749,6 +752,9 @@ const WaverleyCareCentre = () => {
                 Our holistic approach ensures that every resident receives personalised, person-centred 
                 care tailored to their individual preferences, abilities, and wellbeing.
               </p>
+              <Link to="/activities/waverley-care-centre" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-calendar-alt"></i> View All Activities
+              </Link>
             </div>
           </div>
         </div>

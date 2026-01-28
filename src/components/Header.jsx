@@ -101,11 +101,44 @@ const Header = () => {
             <li className="has-dropdown">
               <Link>Services <i className="fas fa-chevron-down"></i></Link>
               <ul className="dropdown-menu">
+                
+                {/* Activities with Nested Dropdown */}
+                <li className="has-submenu">
+                  <Link to="/activities" className="submenu-trigger">
+                    Activities <i className="fas fa-chevron-right"></i>
+                  </Link>
+                  <ul className="submenu">
+                    <li><Link to="/activities/bellavista-barry">Bellavista Barry</Link></li>
+                    <li><Link to="/activities/bellavista-cardiff">Bellavista Cardiff</Link></li>
+                    <li><Link to="/activities/waverley-care-center">Waverley Care Center</Link></li>
+                    <li><Link to="/activities/college-fields-nursing-home">College Fields</Link></li>
+                    <li><Link to="/activities/baltimore-care-home">Baltimore Care Home</Link></li>
+                    <li><Link to="/activities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
+                    <li><Link to="/activities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
+                    <li><Link to="/activities">View All Activities</Link></li>
+                  </ul>
+                </li>
+
+                {/* Facilities with Nested Dropdown */}
+                <li className="has-submenu">
+                  <Link to="/facilities" className="submenu-trigger">
+                    Facilities <i className="fas fa-chevron-right"></i>
+                  </Link>
+                  <ul className="submenu">
+                    <li><Link to="/facilities/bellavista-barry">Bellavista Barry</Link></li>
+                    <li><Link to="/facilities/bellavista-cardiff">Bellavista Cardiff</Link></li>
+                    <li><Link to="/facilities/waverley-care-center">Waverley Care Center</Link></li>
+                    <li><Link to="/facilities/college-fields-nursing-home">College Fields</Link></li>
+                    <li><Link to="/facilities/baltimore-care-home">Baltimore Care Home</Link></li>
+                    <li><Link to="/facilities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
+                    <li><Link to="/facilities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
+                    <li><Link to="/facilities">View All Facilities</Link></li>
+                  </ul>
+                </li>
+
                 <li><Link to="/events">Calendar Events</Link></li>
                 <li><Link to="/services">Care Services</Link></li>
                 <li><Link to="/dementia-friendly-environment">Dementia Environment</Link></li>
-                <li><Link to="/activities">Activities</Link></li>
-                <li><Link to="/facilities">Facilities</Link></li>
                 <li><Link to="/dining-and-nutrition">Dining & Nutrition</Link></li>
                 <li><Link to="/visitor-policy">Visitor Policy</Link></li>
               </ul>

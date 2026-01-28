@@ -652,6 +652,9 @@ const BellavistaBaltimore = () => {
                 such as chiropodists are available, and families are encouraged to arrange personal 
                 therapists or hairdressing visits if desired.
               </p>
+              <Link to="/facilities/bellavista-baltimore" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-eye"></i> View All Facilities
+              </Link>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -757,6 +760,9 @@ const BellavistaBaltimore = () => {
               <p className="loc-text" style={{ marginTop: '15px' }}>
                 We believe that every resident matters and strive to make life fulfilling through personal interaction, meaningful engagement, and activities tailored to individual interests.
               </p>
+              <Link to="/activities/bellavista-baltimore" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-calendar-alt"></i> View All Activities
+              </Link>
             </div>
           </div>
         </div>

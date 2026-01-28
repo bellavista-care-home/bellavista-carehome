@@ -669,6 +669,9 @@ const MeadowValeCwtch = () => {
               <p className="loc-text">
                 We strive to create the ideal balance of peace, privacy, companionship, and high quality care, ensuring a safe and nurturing environment for all our residents.
               </p>
+              <Link to="/facilities/meadow-vale-cwtch" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-eye"></i> View All Facilities
+              </Link>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -712,6 +715,9 @@ const MeadowValeCwtch = () => {
               <p className="loc-text">
                 Our dedicated activities team designs and delivers tailored programmes to meet the individual interests and needs of our residents, encouraging engagement, independence, and quality of life.
               </p>
+              <Link to="/activities/meadow-vale-cwtch" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-calendar-alt"></i> View All Activities
+              </Link>
             </div>
           </div>
         </div>

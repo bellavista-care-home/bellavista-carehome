@@ -760,6 +760,9 @@ const BellavistaBarry = () => {
                 tranquillity, privacy, companionship, and safety, all within a secure and supportive 
                 environment.
               </p>
+              <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-eye"></i> View All Facilities
+              </Link>
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -807,6 +810,9 @@ const BellavistaBarry = () => {
                 to cognitive engagement, we encourage residents to remain active, independent, and 
                 fulfilled throughout their stay.
               </p>
+              <Link to="/activities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-calendar-alt"></i> View All Activities
+              </Link>
             </div>
           </div>
         </div>

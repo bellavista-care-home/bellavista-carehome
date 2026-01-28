@@ -1,8 +1,27 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import '../styles/Facilities.css';
 import SEO from '../components/SEO';
 
 const Facilities = () => {
+  const { locationId } = useParams();
+
+  const locationNames = {
+    'bellavista-barry': 'Bellavista Barry',
+    'bellavista-cardiff': 'Bellavista Cardiff',
+    'waverley-care-center': 'Waverley Care Center',
+    'college-fields-nursing-home': 'College Fields Nursing Home',
+    'baltimore-care-home': 'Baltimore Care Home',
+    'meadow-vale-cwtch': 'Meadow Vale Cwtch',
+    'bellavista-pontypridd': 'Bellavista Pontypridd'
+  };
+
+  const locationName = locationId ? locationNames[locationId] : null;
+  const pageTitle = locationName ? `Facilities at ${locationName}` : 'Our Facilities';
+  const pageDescription = locationName 
+    ? `Explore the modern facilities at ${locationName}, including comfortable lounges, private rooms, gardens, and therapy spaces.`
+    : "Explore the modern facilities at Bellavista Nursing Homes, including comfortable lounges, private rooms, gardens, cinema, therapy spaces and more.";
+
   const facilities = [
     { title: 'Reception', image: '/facilities/reception-facility.jpeg' },
     { title: 'Lounge Area', image: '/facilities/lounge-area.jpg' },
@@ -25,13 +44,13 @@ const Facilities = () => {
   return (
     <div className="facilities-page">
       <SEO 
-        title="Facilities at Bellavista Nursing Homes"
-        description="Explore the modern facilities at Bellavista Nursing Homes, including comfortable lounges, private rooms, gardens, cinema, therapy spaces and more."
-        url="/facilities"
+        title={pageTitle}
+        description={pageDescription}
+        url={locationId ? `/facilities/${locationId}` : "/facilities"}
       />
       <div className="page-header">
         <div className="container">
-          <h1>Our Facilities</h1>
+          <h1>{pageTitle}</h1>
           <p>Carefully designed spaces that promote comfort, wellbeing, and engagement.</p>
         </div>
       </div>
@@ -39,7 +58,7 @@ const Facilities = () => {
       <section className="facilities-intro">
         <div className="container">
           <p>
-            At Bellavista Nursing Homes, every detail of our facilities is carefully designed to promote comfort, wellbeing, and engagement. From spacious, private rooms to vibrant communal areas and dedicated activity zones, our homes create a safe, welcoming, and stimulating environment for all residents.
+            At {locationName || 'Bellavista Nursing Homes'}, every detail of our facilities is carefully designed to promote comfort, wellbeing, and engagement. From spacious, private rooms to vibrant communal areas and dedicated activity zones, our homes create a safe, welcoming, and stimulating environment for all residents.
           </p>
           <p>
             Modern dining spaces, therapeutic gardens, and purpose-built wellness areas complement our advanced care facilities, ensuring that every moment supports quality of life, connection, and independence.
