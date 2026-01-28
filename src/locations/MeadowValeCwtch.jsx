@@ -423,18 +423,23 @@ const MeadowValeCwtch = () => {
         .hero-buttons-row {
           margin-top: 30px;
           display: flex;
-          flex-wrap: nowrap; /* Force one line */
+          flex-wrap: wrap;
           gap: 15px;
-          overflow-x: auto; /* Allow scroll if screen is too narrow */
-          padding-bottom: 5px; /* Space for scrollbar if needed */
-          -webkit-overflow-scrolling: touch;
-          justify-content: flex-start;
+          width: 100%;
+          justify-content: center;
         }
         
-        /* Hide scrollbar for cleaner look but keep functionality */
-        .hero-buttons-row::-webkit-scrollbar {
-          height: 0px;
-          background: transparent;
+        /* Fix button width and overflow */
+        .hero-buttons-row .btn {
+          min-width: 160px;
+          flex: 1;
+          white-space: normal !important; /* Allow wrapping */
+          text-align: center;
+          justify-content: center;
+          padding: 10px 15px;
+          height: auto;
+          min-height: 48px;
+          line-height: 1.2;
         }
 
         /* Hide Hero Buttons on Mobile */

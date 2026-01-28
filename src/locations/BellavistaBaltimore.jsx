@@ -394,16 +394,23 @@ const BellavistaBaltimore = () => {
         .hero-buttons-row {
           margin-top: 30px;
           display: flex;
-          flex-wrap: nowrap;
+          flex-wrap: wrap;
           gap: 15px;
-          overflow-x: auto;
-          padding-bottom: 5px;
-          -webkit-overflow-scrolling: touch;
-          justify-content: flex-start;
+          width: 100%;
+          justify-content: center;
         }
-        .hero-buttons-row::-webkit-scrollbar {
-          height: 0px;
-          background: transparent;
+        
+        /* Fix button width and overflow */
+        .hero-buttons-row .btn {
+          min-width: 160px;
+          flex: 1;
+          white-space: normal !important; /* Allow wrapping */
+          text-align: center;
+          justify-content: center;
+          padding: 10px 15px;
+          height: auto;
+          min-height: 48px;
+          line-height: 1.2;
         }
         @media (max-width: 768px) {
           .hero-buttons-row {
