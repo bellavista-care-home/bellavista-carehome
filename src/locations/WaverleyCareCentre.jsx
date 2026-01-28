@@ -190,11 +190,35 @@ const WaverleyCareCentre = () => {
     },
     "priceRange": "$$$",
     "areaServed": ["Penarth", "Cardiff", "Vale of Glamorgan", "South Wales"],
-    "amenityFeature": [
-      { "@type": "LocationFeatureSpecification", "name": "Coastal Views", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "24/7 Nursing Care", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" }
+    "sameAs": [
+      "https://digital.careinspectorate.wales/backend/directory/service/SIN-00009857-GNWK/LatestInspectionReport",
+      "https://www.carehome.co.uk/carehome.cfm/searchazref/20001005WAVZ"
+    ],
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Family of Resident"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "The Waverley staff go the extra mile to ensure the comfort and happiness of our residents."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Visitor"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "A wonderful home with stunning views and a warm, friendly atmosphere."
+      }
     ],
     "parentOrganization": {
       "@id": "https://www.bellavistanursinghomes.com/#organization"
@@ -481,8 +505,8 @@ const WaverleyCareCentre = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Waverley Care Centre</span>
-              <span className="title-sub">Warm, Friendly, and Professional Care</span>
+              <span className="title-main">Nursing Home in Penarth</span>
+              <span className="title-sub">Waverley Care Centre - Warm, Friendly, and Professional Care</span>
             </h1>
             <p className="hero-description">
               At Waverley Care Centre, we believe that it’s the little things that make all the 

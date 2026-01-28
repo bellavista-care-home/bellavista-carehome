@@ -228,7 +228,35 @@ const BellavistaCardiff = () => {
     "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
     "sameAs": [
       "https://www.facebook.com/bellavistanursinghome/",
-      "https://x.com/home_bellavista?lang=en"
+      "https://x.com/home_bellavista?lang=en",
+      "https://careinspectorate.wales/bellavista-care-cardiff-limited",
+      "https://www.carehome.co.uk/carehome.cfm/searchazref/20001005BELA"
+    ],
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Family of Resident"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "The care and attention my father receives is outstanding. The staff are so friendly and the home is always clean."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Visitor"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "Bellavista Cardiff has a wonderful homely atmosphere. The view of the bay is beautiful and the staff go above and beyond."
+      }
     ],
     "parentOrganization": {
       "@id": "https://www.bellavistanursinghomes.com/#organization"
@@ -523,8 +551,8 @@ const BellavistaCardiff = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Welcome to Bellavista Nursing Home Cardiff</span>
-              <span className="title-sub">A secure, welcoming, and homely environment</span>
+              <span className="title-main">Nursing Home in Cardiff</span>
+              <span className="title-sub">Bellavista Nursing Home Cardiff - A secure, welcoming, and homely environment</span>
             </h1>
             <p className="hero-description">
               At Bellavista Nursing Home Cardiff, we provide a secure, welcoming, and homely environment where the care, well-being, and comfort of our residents are our highest priorities.

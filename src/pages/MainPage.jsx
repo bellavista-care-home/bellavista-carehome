@@ -298,16 +298,30 @@ const Home = () => {
       "addressRegion": "South Wales",
       "addressCountry": "UK"
     },
+    "image": [
+      "https://www.bellavistanursinghomes.com/theraphy-rooms.jpg",
+      "https://www.bellavistanursinghomes.com/home-images/barry.jpg"
+    ],
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+44-1446-748899",
       "contactType": "customer service",
-      "areaServed": "UK"
+      "areaServed": "UK",
+      "availableLanguage": "English"
     },
     "sameAs": [
       "https://www.facebook.com/bellavistanursinghome/",
-      "https://twitter.com/home_bellavista",
-      "https://www.youtube.com/@bellavistagroupofnursinghomes"
+      "https://x.com/home_bellavista?lang=en",
+      "https://www.youtube.com/@bellavistagroupofnursinghomes",
+      "https://www.instagram.com/bellavistanursinghome"
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
     ]
   };
 
@@ -317,6 +331,7 @@ const Home = () => {
         title="Bellavista Group | Best Nursing Homes in UK | Award-Winning Care"
         description="Bellavista Group is recognized as one of the best care home providers in the UK. Top-rated nursing, residential, and dementia care in Cardiff and Barry."
         keywords="Best care home UK, top nursing homes South Wales, award winning care, Bellavista Group, luxury care home Cardiff, dementia care specialists"
+        image="https://www.bellavistanursinghomes.com/theraphy-rooms.jpg"
         schema={mainPageSchema}
       />
       <section className="hero">

@@ -242,7 +242,35 @@ const BellavistaBarry = () => {
     "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
     "sameAs": [
       "https://www.facebook.com/bellavistanursinghome/",
-      "https://x.com/home_bellavista?lang=en"
+      "https://x.com/home_bellavista?lang=en",
+      "https://digital.careinspectorate.wales/backend/directory/service/SIN-00010669-KLMD/LatestInspectionReport",
+      "https://www.carehome.co.uk/carehome.cfm/searchazref/20001005BELA"
+    ],
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Family of Resident"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "Bellavista Barry provided exceptional care for my mother. The staff were always kind, attentive, and professional."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Visitor"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "The views over the Bristol Channel are stunning, and the home has such a warm, welcoming atmosphere."
+      }
     ],
     "parentOrganization": {
       "@id": "https://www.bellavistanursinghomes.com/#organization"
@@ -536,8 +564,8 @@ const BellavistaBarry = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Welcome to Bellavista Nursing Home Barry</span>
-              <span className="title-sub">stunning views over the Bristol Channel.</span>
+              <span className="title-main">Nursing Home in Barry</span>
+              <span className="title-sub">Bellavista Nursing Home Barry - stunning views over the Bristol Channel.</span>
             </h1>
             <p className="hero-description">
               Bellavista Barry is a long-established, high-quality nursing home located in the seaside 

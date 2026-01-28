@@ -200,7 +200,36 @@ const MeadowValeCwtch = () => {
     "image": [
       "https://www.bellavistanursinghomes.com/home-images/meadow-vale-cwtch.jpg"
     ],
-    "logo": "https://www.bellavistanursinghomes.com/bellalogo1.png",
+    "sameAs": [
+      "https://digital.careinspectorate.wales/backend/directory/service/SIN-00010669-KLMD/LatestInspectionReport",
+      "https://www.carehome.co.uk/carehome.cfm/searchazref/20001005BELA"
+    ],
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Family Member"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "A home from home style Young Onset Dementia Nursing Care provision."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Visitor"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "The environment is so peaceful and the staff are incredibly supportive."
+      }
+    ],
     "parentOrganization": {
       "@id": "https://www.bellavistanursinghomes.com/#organization"
     }
@@ -495,8 +524,8 @@ const MeadowValeCwtch = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Welcome to Meadow Vale Cwtch</span>
-              <span className="title-sub">Specialist Young Onset Dementia Nursing Care</span>
+              <span className="title-main">Nursing Home in Barry</span>
+              <span className="title-sub">Meadow Vale Cwtch - Specialist Young Onset Dementia Nursing Care</span>
             </h1>
             <p className="hero-description">
               Opening Soon. Meadow Vale Cwtch is a purpose-built specialist nursing home, proudly developed by the Bellavista Group, dedicated to providing exceptional care for individuals living with young onset dementia.

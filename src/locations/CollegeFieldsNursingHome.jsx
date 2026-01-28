@@ -200,11 +200,35 @@ const CollegeFieldsNursingHome = () => {
     },
     "priceRange": "$$$",
     "areaServed": ["Barry", "Vale of Glamorgan", "South Wales", "Cardiff"],
-    "amenityFeature": [
-      { "@type": "LocationFeatureSpecification", "name": "24/7 Nursing Care", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "Dementia Care", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "Home-Cooked Meals", "value": "true" },
-      { "@type": "LocationFeatureSpecification", "name": "Activities Coordinator", "value": "true" }
+    "sameAs": [
+      "https://www.careinspectorate.wales/college-fields-nursing-home",
+      "https://www.carehome.co.uk/carehome.cfm/searchazref/10006024COLZ"
+    ],
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Family of Resident"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "Residents enjoy home comforts in a warm, spacious, and delightful environment."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Visitor"
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5"
+        },
+        "reviewBody": "The staff go above and beyond to provide care that is both attentive and empathetic."
+      }
     ],
     "parentOrganization": {
       "@id": "https://www.bellavistanursinghomes.com/#organization"
@@ -491,8 +515,8 @@ const CollegeFieldsNursingHome = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Welcome to College Fields Nursing Home</span>
-              <span className="title-sub">Compassionate, Person-Centred Care</span>
+              <span className="title-main">Nursing Home in Barry</span>
+              <span className="title-sub">College Fields Nursing Home - Compassionate, Person-Centred Care</span>
             </h1>
             <p className="hero-description">
               At College Fields Nursing Home, we are dedicated to providing exceptional care in a 
