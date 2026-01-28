@@ -343,13 +343,13 @@ const Home = () => {
         title="Bellavista Group | Best Nursing Homes in UK | Award-Winning Care"
         description="Bellavista Group is recognized as one of the best care home providers in the UK. Top-rated nursing, residential, and dementia care in Cardiff and Barry."
         keywords="Best care home UK, top nursing homes South Wales, award winning care, Bellavista Group, luxury care home Cardiff, dementia care specialists"
-        image="https://www.bellavistanursinghomes.com/main-page-banner.jpeg"
+        image="https://www.bellavistanursinghomes.com/main-page-banner.jpg"
         schema={mainPageSchema}
       />
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/main-page-banner.jpeg" alt="Bellavista Nursing Home" />
+            <img src="/main-page-banner.jpg" alt="Bellavista Nursing Home" />
           </div>
         </div>
 
