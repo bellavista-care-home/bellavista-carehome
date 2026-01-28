@@ -155,6 +155,24 @@ const WaverleyCareCentre = () => {
     "url": "https://www.bellavistanursinghomes.com/waverley-care-center",
     "description": "Waverley Care Centre is a top-rated nursing home in Penarth, UK, offering exceptional care with stunning coastal views.",
     "slogan": "Warm, Friendly, and Professional Care",
+    "telephone": "+44 29 2070 5282",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Waverley+Care+Centre+Penarth",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "122-124 Plymouth Road",

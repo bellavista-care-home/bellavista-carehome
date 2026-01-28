@@ -165,6 +165,24 @@ const CollegeFieldsNursingHome = () => {
     "url": "https://www.bellavistanursinghomes.com/college-fields-nursing-home",
     "description": "College Fields Nursing Home is a top-rated care home in Barry, UK, offering exceptional nursing and dementia care in a warm, homely environment.",
     "slogan": "Compassionate, Person-Centred Care",
+    "telephone": "+44 1446 747778",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=College+Fields+Nursing+Home+Barry",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "College Fields, College Road",

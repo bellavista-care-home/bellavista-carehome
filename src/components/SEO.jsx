@@ -1,96 +1,67 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React from "react";
+import { Helmet } from "react-helmet-async";
 
-const SEO = ({ title, description, keywords, image, url, schema }) => {
-  const siteTitle = "Bellavista Group Of Nursing Homes | Award-Winning Care in UK";
-  const defaultDescription = "Bellavista Group Of Nursing Homes is recognized as one of the best care homes in the UK, providing exceptional residential, nursing, and dementia care in South Wales.";
-  const defaultKeywords = "Best care home UK, top nursing home South Wales, award winning care home, Bellavista Nursing Homes, dementia care Cardiff, luxury care home Barry";
-  const siteUrl = "https://www.bellavistanursinghomes.com";
-  const defaultImage = "https://www.bellavistanursinghomes.com/bellalogo1.png";
+const SITE_URL = "https://www.bellavistanursinghomes.com";
+const BRAND = "Bellavista Group Of Nursing Homes";
 
-  // If the provided title contains "Bellavista", use it as is, otherwise append the brand
-  const fullTitle = title && title.includes('Bellavista') ? title : (title ? `${title} | Bellavista Group Of Nursing Homes` : siteTitle);
-  const metaDescription = description || defaultDescription;
-  const metaKeywords = keywords || defaultKeywords;
-  const metaImage = image || defaultImage;
-  const metaUrl = url ? `${siteUrl}${url}` : siteUrl;
+const SEO = ({
+  title,
+  description,
+  image = `${SITE_URL}/bellalogo1.png`,
+  url = "/",
+  schema
+}) => {
+  const fullTitle = title
+    ? `${title} | ${BRAND}`
+    : "Award-Winning Nursing & Dementia Care in South Wales | Bellavista";
 
-  const schemaData = schema || {
+  const metaDescription =
+    description ||
+    "Bellavista Group Of Nursing Homes provides award-winning residential, nursing, and dementia care across South Wales including Cardiff, Barry, and Vale of Glamorgan.";
+
+  const canonicalUrl = url.startsWith("http")
+    ? url
+    : `${SITE_URL}${url}`;
+
+  const defaultSchema = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "NursingHome",
-        "@id": "https://www.bellavistanursinghomes.com/#organization",
-        "name": "Bellavista Group Of Nursing Homes",
-        "url": siteUrl,
-        "logo": defaultImage,
-        "image": metaImage,
-        "description": metaDescription,
-        "slogan": "A Home From Home - Rated One of the Best in UK",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "106-108 Tynewydd Road",
-          "addressLocality": "Barry",
-          "postalCode": "CF62 8BB",
-          "addressRegion": "South Wales",
-          "addressCountry": "UK"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": "51.405",
-          "longitude": "-3.270"
-        },
-        "telephone": "+44 1446 743983",
-        "priceRange": "£££",
-        "areaServed": ["UK", "South Wales", "Cardiff", "Barry", "Vale of Glamorgan"],
-        "sameAs": [
-          "https://www.facebook.com/bellavistanursinghome/",
-          "https://x.com/home_bellavista?lang=en",
-          "https://www.youtube.com/@bellavistagroupofnursinghomes"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://www.bellavistanursinghomes.com/#website",
-        "url": siteUrl,
-        "name": "Bellavista Nursing Homes",
-        "publisher": {
-          "@id": "https://www.bellavistanursinghomes.com/#organization"
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://www.bellavistanursinghomes.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    "name": BRAND,
+    "url": SITE_URL,
+    "logo": `${SITE_URL}/bellalogo1.png`,
+    "sameAs": [
+      "https://www.facebook.com/bellavistanursinghome/",
+      "https://x.com/home_bellavista?lang=en",
+      "https://www.youtube.com/@bellavistagroupofnursinghomes"
     ]
   };
 
   return (
     <Helmet>
+      {/* Core */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
-      <meta name="keywords" content={metaKeywords} />
-       <meta name="robots" content="index,follow" />
-      <link rel="canonical" href={metaUrl} />
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={canonicalUrl} />
 
+      {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Bellavista Nursing Homes" />
-      <meta property="og:url" content={metaUrl} />
+      <meta property="og:site_name" content={BRAND} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={metaImage} />
+      <meta property="og:image" content={image} />
 
       {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={metaUrl} />
-      <meta property="twitter:title" content={fullTitle} />
-      <meta property="twitter:description" content={metaDescription} />
-      <meta property="twitter:image" content={metaImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={image} />
 
       {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify(schemaData)}
+        {JSON.stringify(schema || defaultSchema)}
       </script>
     </Helmet>
   );

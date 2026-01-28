@@ -182,10 +182,27 @@ const BellavistaCardiff = () => {
     "@id": "https://www.bellavistanursinghomes.com/bellavista-cardiff#nursing-home",
     "name": "Bellavista Nursing Home Cardiff - Rated Best in Cardiff",
     "url": "https://www.bellavistanursinghomes.com/bellavista-cardiff",
-    "description": "Bellavista Cardiff is a top-rated, award-winning care home in Cardiff Bay. Offering exceptional dementia and nursing care in a modern, luxury environment with stunning views.",
+    "description": "Bellavista Cardiff is a top-rated, award-winning nursing home in Cardiff Bay. Offering exceptional dementia and nursing care in a modern, luxury environment with stunning views.",
     "slogan": "Luxury Care in the Heart of Cardiff Bay",
     "telephone": "+44 29 2070 5282",
     "priceRange": "£££",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Cardiff+Bay",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Near Techniquest, Cardiff Bay",

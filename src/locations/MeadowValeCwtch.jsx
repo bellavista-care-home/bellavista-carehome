@@ -168,6 +168,23 @@ const MeadowValeCwtch = () => {
     "slogan": "Setting a New Standard in Dementia Care",
     "telephone": "+44 29 2070 5282",
     "priceRange": "£££",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Meadow+Vale+Cwtch+Barry",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Barry",

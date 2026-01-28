@@ -160,19 +160,44 @@ const BellavistaBaltimore = () => {
   const baltimoreSchema = {
     "@context": "https://schema.org",
     "@type": "NursingHome",
+    "@id": "https://www.bellavistanursinghomes.com/baltimore-care-home#nursing-home",
     "name": "Baltimore House Care Home",
     "image": "https://www.bellavistanursinghomes.com/home-images/baltimore.jpg",
-    "url": "https://www.bellavistanursinghomes.com/bellavista-baltimore",
-    "telephone": "01446 420 714",
+    "url": "https://www.bellavistanursinghomes.com/baltimore-care-home",
+    "telephone": "+44 1446 420 714",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "1 & 2 Park Road",
       "addressLocality": "Barry",
       "postalCode": "CF62 6NU",
+      "addressRegion": "South Wales",
       "addressCountry": "UK"
     },
     "description": "Baltimore House Care Home is a well-established residential facility located in the scenic and tranquil surroundings of Barry.",
-    "priceRange": "££"
+    "priceRange": "££",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "6",
+      "bestRating": "5"
+    }
   };
 
   return (

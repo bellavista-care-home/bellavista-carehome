@@ -200,6 +200,23 @@ const BellavistaBarry = () => {
     "slogan": "Award-Winning Care by the Sea",
     "telephone": "+44 1446 743983",
     "priceRange": "£££",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Barry",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "106-108 Tynewydd Road",
