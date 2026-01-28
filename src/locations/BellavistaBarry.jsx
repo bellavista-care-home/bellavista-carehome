@@ -198,7 +198,7 @@ const BellavistaBarry = () => {
     "url": "https://www.bellavistanursinghomes.com/bellavista-barry",
     "description": "Bellavista Barry is a top-rated, award-winning nursing home in Barry. Recognized as one of the best care homes in South Wales, offering exceptional dementia, nursing, and respite care with stunning views.",
     "slogan": "Award-Winning Care by the Sea",
-    "telephone": "+44 1446 743983",
+    "telephone": "+44 1446 743893",
     "priceRange": "£££",
     "openingHoursSpecification": [
       {
