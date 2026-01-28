@@ -478,12 +478,8 @@ const MeadowValeCwtch = () => {
         title="Meadow Vale Cwtch"
         description="Meadow Vale Cwtch is a purpose-built specialist nursing home, proudly developed by the Bellavista Group, dedicated to providing exceptional care for individuals living with young onset dementia."
         url="/meadow-vale-cwtch"
+        schema={meadowSchema}
       />
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(meadowSchema)}
-        </script>
-      </Helmet>
       
       {/* 1. HERO SECTION */}
       <section className="hero">
