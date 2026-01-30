@@ -7,6 +7,7 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
+    location: 'General Enquiry',
     message: ''
   });
   const [status, setStatus] = useState({
@@ -50,6 +51,13 @@ const Contact = () => {
       phone: '01446 420714',
       email: 'manager@baltimorecarehome.com',
       mapLink: 'https://maps.google.com/?q=1-2+Park+Rd,+Barry,+CF62+6NU'
+    },
+    {
+      name: 'Meadow Vale Cwtch',
+      address: '27-29 Cog Road, Sully, Penarth, CF64 5TD',
+      phone: '029 2070 5282',
+      email: 'admin@bellavistacarehomes.com',
+      mapLink: 'https://maps.google.com/?q=27-29+Cog+Road,+Sully,+Penarth,+CF64+5TD'
     }
   ];
 
@@ -66,7 +74,7 @@ const Contact = () => {
     setStatus({ loading: true, success: false, error: null });
 
     try {
-      const response = await fetch('/api/care-enquiries', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/care-enquiries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +82,7 @@ const Contact = () => {
         body: JSON.stringify({
           ...formData,
           enquiryType: 'General Contact',
-          location: 'General'
+          // location is now part of formData
         }),
       });
 
@@ -83,7 +91,7 @@ const Contact = () => {
       }
 
       setStatus({ loading: false, success: true, error: null });
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', location: 'General Enquiry', message: '' });
       
       // Reset success message after 5 seconds
       setTimeout(() => {
