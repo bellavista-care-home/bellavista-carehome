@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Helmet } from 'react-helmet-async';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
 import { fetchNewsItems } from '../services/newsService';
@@ -560,8 +559,7 @@ const BellavistaBarry = () => {
           <div className="hero-image-wrap">
             {bannerImages.length > 0 ? (
               <Swiper
-                modules={[Autoplay, EffectFade]}
-                effect="fade"
+                modules={[Autoplay]}
                 autoplay={{
                   delay: 6000,
                   disableOnInteraction: false,
