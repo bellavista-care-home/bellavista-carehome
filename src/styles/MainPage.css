@@ -3042,11 +3042,35 @@
         gap: 32px;
         max-width: none;
         margin: 0;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding: 0 32px;
+        padding: 0 32px 20px 32px; /* Added bottom padding for scrollbar spacing */
         scroll-padding-inline: 32px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--olive-drab) var(--bone);
+    }
+
+    .activities .activity-grid::-webkit-scrollbar,
+    .care-promise .activity-grid::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .activities .activity-grid::-webkit-scrollbar-track,
+    .care-promise .activity-grid::-webkit-scrollbar-track {
+        background: var(--bone);
+        border-radius: 4px;
+    }
+    
+    .activities .activity-grid::-webkit-scrollbar-thumb,
+    .care-promise .activity-grid::-webkit-scrollbar-thumb {
+        background: var(--olive-drab);
+        border-radius: 4px;
+    }
+    
+    .activities .activity-grid::-webkit-scrollbar-thumb:hover,
+    .care-promise .activity-grid::-webkit-scrollbar-thumb:hover {
+        background: var(--smoky-black);
     }
 
     .activity-card {
