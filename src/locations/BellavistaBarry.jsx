@@ -295,14 +295,6 @@ const BellavistaBarry = () => {
     }
   };
 
-  const slides = [
-    '/FrontPageBanner/banner-first.jpg',
-    '/FrontPageBanner/banner-second.png',
-    '/FrontPageBanner/banner-third.png',
-    '/FrontPageBanner/banner-fourth.jpg',
-    '/FrontPageBanner/banner-fifth.jpg'
-  ];
-
   return (
     <div className="location-page theme-barry home">
       <style>{`

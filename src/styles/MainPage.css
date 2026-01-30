@@ -402,6 +402,7 @@
 }
 
 .home .hero-image-wrap::after {
+    display: none;
     content: '';
     position: absolute;
     inset: 0;
