@@ -557,26 +557,7 @@ const BellavistaBarry = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            {bannerImages.length > 0 ? (
-              <Swiper
-                modules={[Autoplay]}
-                autoplay={{
-                  delay: 6000,
-                  disableOnInteraction: false,
-                }}
-                loop={true}
-                speed={1500}
-                className="hero-swiper"
-              >
-                {bannerImages.map((slide, index) => (
-                  <SwiperSlide key={index}>
-                    <img src={slide} alt={`Bellavista Barry Banner ${index + 1}`} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              <img src="/home-images/barry.jpg" alt="Bellavista Nursing Home Barry" />
-            )}
+            <img src="/home-images/barry.jpg" alt="Bellavista Nursing Home Barry" />
           </div>
         </div>
 
