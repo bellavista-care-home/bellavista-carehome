@@ -174,6 +174,24 @@ const BellavistaBarry = () => {
     { icon: "fas fa-elevator", title: "Lift Access" }
   ];
 
+  const servicesList = [
+    "High-Level Dementia Nursing",
+    "Dementia Residential Care",
+    "General Nursing",
+    "Respite Care",
+    "CHC Nursing",
+    "End of Life Care"
+  ];
+
+  const whyChooseList = [
+    "Exceptional, person-centred care for older adults",
+    "Specialist nursing and dementia care, delivered by highly trained staff",
+    "Continuum of care supporting independence and evolving needs",
+    "Safe, secure, and welcoming environment with modern, dementia-friendly facilities",
+    "Tailored activities and social engagement promoting quality of life and wellbeing",
+    "Prime seaside location with stunning views over the Bristol Channel"
+  ];
+
   // Swiper settings
   const sliderSettings = {
     modules: [Navigation, Pagination, Autoplay],
@@ -603,15 +621,34 @@ const BellavistaBarry = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
-            <div className="hero-netflix-track">
-              {/* Duplicate slides for infinite seamless scroll effect */}
-              {bannerImages.concat(bannerImages).map((slide, index) => (
-                <div key={`${slide}-${index}`} className="hero-netflix-item">
-                  <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                </div>
+          <div className="hero-bottom-carousel">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={20}
+              slidesPerView={1.2}
+              centeredSlides={false}
+              loop={bannerImages.length > 3}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              breakpoints={{
+                480: { slidesPerView: 2.2, spaceBetween: 20 },
+                768: { slidesPerView: 3.2, spaceBetween: 25 },
+                1024: { slidesPerView: 4, spaceBetween: 30 },
+                1400: { slidesPerView: 5, spaceBetween: 30 }
+              }}
+              className="bottom-swiper"
+            >
+              {[...bannerImages, ...bannerImages, ...bannerImages].slice(0, 12).map((slide, index) => (
+                <SwiperSlide key={`bottom-slide-${index}`}>
+                  <div className="carousel-item-card">
+                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
+                  </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           </div>
         )}
       </section>
@@ -682,30 +719,12 @@ const BellavistaBarry = () => {
                 <h2 className="section-header__title">Why Choose Bellavista Barry</h2>
               </div>
               <div className="why-choose-grid">
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Exceptional, person-centred care for older adults</span>
-                </div>
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Specialist nursing and dementia care, delivered by highly trained staff</span>
-                </div>
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Continuum of care supporting independence and evolving needs</span>
-                </div>
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Safe, secure, and welcoming environment with modern, dementia-friendly facilities</span>
-                </div>
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Tailored activities and social engagement promoting quality of life and wellbeing</span>
-                </div>
-                <div className="why-choose-item">
-                  <i className="fas fa-check-circle"></i>
-                  <span>Prime seaside location with stunning views over the Bristol Channel</span>
-                </div>
+                {whyChooseList.map((item, index) => (
+                  <div key={index} className="why-choose-item">
+                    <i className="fas fa-check-circle"></i>
+                    <span>{item}</span>
+                  </div>
+                ))}
               </div>
               <p className="loc-text" style={{ textAlign: 'center', marginTop: '30px' }}>
                 At Bellavista Barry, we are committed to delivering the highest standards of nursing 
@@ -730,30 +749,12 @@ const BellavistaBarry = () => {
                 Our team delivers professional social care and nursing services for older adults, including:
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                {servicesList.map((service, index) => (
+                  <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
                     <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    High-Level Dementia Nursing
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    Dementia Residential Care
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    General Nursing
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    Respite Care
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    CHC Nursing
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    End of Life Care
-                </li>
+                    {service}
+                  </li>
+                ))}
               </ul>
               <p className="loc-text">
                 This comprehensive approach ensures residents enjoy the perfect balance of peace, 
