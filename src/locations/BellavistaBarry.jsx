@@ -287,7 +287,7 @@ const BellavistaBarry = () => {
   ];
 
   return (
-    <div className="location-page theme-barry">
+    <div className="location-page theme-barry home">
       <style>{`
         .theme-barry {
           /* Core Brand Colors - Main Page Palette */
