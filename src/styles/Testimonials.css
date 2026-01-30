@@ -167,3 +167,205 @@
         min-height: 350px; /* Taller on mobile if text wraps */
     }
 }
+
+/* =========================================
+   Testimonials Page Specific Styles
+   ========================================= */
+
+.testimonials-page {
+    padding-bottom: 80px;
+    background-color: var(--floral-white);
+}
+
+.testimonials-header {
+    background: var(--gradient-primary), url('/background-banner-image.png');
+    background-size: cover;
+    background-position: center;
+    color: var(--floral-white);
+    padding: 100px 0;
+    text-align: center;
+    margin-bottom: 60px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: var(--shadow-xl);
+}
+
+.testimonials-header h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--floral-white);
+}
+
+.testimonials-header p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    font-weight: 300;
+    color: var(--bone);
+}
+
+.testimonials-intro {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+
+.testimonials-intro p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.testimonial-card {
+    background: var(--floral-white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(17, 18, 13, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.testimonial-card .quote-icon {
+    font-size: 2rem;
+    color: var(--olive-drab);
+    opacity: 0.4;
+    margin-bottom: 20px;
+}
+
+.testimonial-card .review-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    font-style: italic;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.testimonial-card .review-author {
+    border-top: 1px solid var(--bone);
+    padding-top: 20px;
+}
+
+.testimonial-card .review-author h4 {
+    color: var(--olive-drab);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.testimonial-card .review-author span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.carehome-review-badge {
+    background: var(--floral-white);
+    max-width: 800px;
+    margin: 0 auto 60px;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(17, 18, 13, 0.05);
+}
+
+.carehome-review-badge h3 {
+    color: var(--olive-drab);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.carehome-review-badge p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.carehome-review-badge .stars {
+    color: #F4B400;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .testimonials-header {
+        padding: 60px 0;
+    }
+
+    .testimonials-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .testimonial-card {
+        padding: 30px;
+    }
+
+    .carehome-review-badge {
+        padding: 30px;
+    }
+}
+
+.testimonials-cta {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.testimonials-cta h3 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.testimonials-cta p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.btn-google-review {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 35px;
+    background-color: var(--floral-white);
+    color: var(--olive-drab);
+    border: 2px solid var(--olive-drab);
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-google-review:hover {
+    background-color: var(--olive-drab);
+    color: var(--floral-white);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-google-review i {
+    font-size: 1.2rem;
+}
