@@ -156,47 +156,55 @@ const Contact = () => {
             )}
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
+                <label htmlFor="name">Your Name</label>
                 <input 
                   type="text" 
+                  id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Your Name" 
+                  placeholder="Enter your full name" 
                   required 
                   disabled={status.loading}
                 />
               </div>
               <div className="form-group">
+                <label htmlFor="email">Email Address</label>
                 <input 
                   type="email" 
+                  id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Your Email" 
+                  placeholder="Enter your email address" 
                   required 
                   disabled={status.loading}
                 />
               </div>
               <div className="form-group">
+                <label htmlFor="phone">Phone Number</label>
                 <input 
                   type="tel" 
+                  id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Your Phone"
+                  placeholder="Enter your phone number"
                   required
                   disabled={status.loading}
                 />
               </div>
               <div className="form-group">
+                <label htmlFor="location">Select Home (Optional)</label>
                 <select
+                  id="location"
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
                   required
                   disabled={status.loading}
                 >
-                  <option value="General Enquiry">General Enquiry (Select a Home if specific)</option>
+                  <option value="General Enquiry">General Enquiry</option>
                   <option value="Bellavista Barry">Bellavista Nursing Home (Barry)</option>
                   <option value="Bellavista Cardiff">Bellavista Nursing Home (Cardiff)</option>
                   <option value="Meadow Vale Cwtch">Meadow Vale Cwtch (Cardiff)</option>
@@ -206,11 +214,13 @@ const Contact = () => {
                 </select>
               </div>
               <div className="form-group">
+                <label htmlFor="message">Message</label>
                 <textarea 
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Your Message" 
+                  placeholder="How can we help you?" 
                   rows="5" 
                   required
                   disabled={status.loading}

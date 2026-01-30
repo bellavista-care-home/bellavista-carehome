@@ -1,39 +1,40 @@
 .services-page {
     padding-bottom: 60px;
+    background-color: var(--floral-white);
 }
 
 .services-page .page-header {
-    background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 30, 60, 0.8)), url('/background-banner-image.png');
+    background: var(--gradient-primary), url('/background-banner-image.png');
     background-size: cover;
     background-position: center;
-    /* background-attachment: fixed; Parallax effect removed for consistency */
-    color: white;
-    padding: 120px 0; /* Standardized padding */
+    color: var(--floral-white);
+    padding: 120px 0;
     text-align: center;
     margin-bottom: 60px;
     position: relative;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 10px 30px rgba(0, 102, 204, 0.15);
+    box-shadow: var(--shadow-xl);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
 
 .dementia-header {
-    background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 30, 60, 0.8)), url('/background-banner-image.png') !important; /* Specific image for Dementia page */
+    background: var(--gradient-primary), url('/background-banner-image.png') !important;
 }
 
 .services-page .page-header h1 {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 15px;
-    color: white;
+    color: var(--floral-white);
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .services-page .page-header p {
     font-size: 1.5rem;
     font-style: italic;
+    color: var(--bone);
 }
 
 .services-intro {
@@ -44,13 +45,13 @@
 
 .intro-text {
     font-size: 1.2rem;
-    color: #555;
+    color: var(--text-muted);
     line-height: 1.8;
 }
 
 .service-item {
     padding: 60px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(17, 18, 13, 0.05);
 }
 
 .service-item:last-child {
@@ -86,7 +87,7 @@
 .service-image img {
     width: 100%;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s ease;
 }
 
@@ -96,6 +97,106 @@
 
 .service-text {
     text-align: left;
+}
+
+.service-text h2 {
+    color: var(--olive-drab);
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.service-text p {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    background-color: var(--floral-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--olive-drab);
+}
+
+.icon-box i {
+    font-size: 32px;
+    color: var(--olive-drab);
+}
+
+.care-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* Feature Box Styles from inline */
+.feature-box {
+    background: var(--floral-white);
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid var(--olive-drab);
+    box-shadow: var(--shadow-sm);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+}
+
+.feature-box h3 {
+    color: var(--olive-drab);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.feature-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-box li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    color: var(--text-dark);
+}
+
+.feature-box li i {
+    color: var(--olive-drab);
+    margin-right: 10px;
+}
+
+/* CTA Box Styles from inline */
+.cta-box {
+    background: var(--gradient-secondary);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    margin-top: 40px;
+}
+
+.cta-box p {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin: 0;
+    font-weight: 500;
+}
+
+.cta-box a {
+    color: var(--olive-drab);
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 @media (max-width: 992px) {
@@ -111,36 +212,6 @@
     .service-text {
         text-align: center;
     }
-}
-
-.icon-box {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    box-shadow: 0 5px 15px rgba(0,102,204,0.3);
-}
-
-.icon-box i {
-    font-size: 2.5rem;
-    color: white;
-}
-
-.service-content h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-blue);
-}
-
-.service-content p {
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.8;
 }
 
 @media (max-width: 768px) {

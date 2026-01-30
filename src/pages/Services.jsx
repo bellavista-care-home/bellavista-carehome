@@ -19,30 +19,24 @@ const Services = () => {
 
       <section className="services-intro">
         <div className="container">
-          <div className="intro-content" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-            <p className="intro-text" style={{ fontSize: '1.25rem', marginBottom: '30px', textAlign: 'center' }}>
+          <div className="intro-content">
+            <p className="intro-text">
               Our staff are dedicated to providing specialist care for people in need of long term Nursing, Dementia, and Palliative care, Learning disability, and respite care in a warm and friendly environment. We encourage families to become involved in everything we do from the care planning process.
             </p>
 
-            <div className="care-features" style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-              gap: '30px',
-              marginBottom: '40px',
-              textAlign: 'left'
-            }}>
-              <div className="feature-box" style={{ background: '#f8f9fa', padding: '25px', borderRadius: '10px', borderLeft: '4px solid var(--color-primary)' }}>
-                <h3 style={{ color: 'var(--color-primary)', marginBottom: '15px', fontSize: '1.2rem' }}>Comprehensive Support</h3>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle" style={{ color: '#28a745', marginRight: '10px' }}></i>Support for physical health needs</li>
-                  <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle" style={{ color: '#28a745', marginRight: '10px' }}></i>Comfortable accommodation</li>
-                  <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle" style={{ color: '#28a745', marginRight: '10px' }}></i>24-hour care support</li>
-                  <li style={{ marginBottom: '10px' }}><i className="fas fa-check-circle" style={{ color: '#28a745', marginRight: '10px' }}></i>Nutritious meals & day-to-day help</li>
+            <div className="care-features">
+              <div className="feature-box">
+                <h3>Comprehensive Support</h3>
+                <ul>
+                  <li><i className="fas fa-check-circle"></i>Support for physical health needs</li>
+                  <li><i className="fas fa-check-circle"></i>Comfortable accommodation</li>
+                  <li><i className="fas fa-check-circle"></i>24-hour care support</li>
+                  <li><i className="fas fa-check-circle"></i>Nutritious meals & day-to-day help</li>
                 </ul>
               </div>
 
-              <div className="feature-box" style={{ background: '#f8f9fa', padding: '25px', borderRadius: '10px', borderLeft: '4px solid var(--color-secondary)' }}>
-                <h3 style={{ color: 'var(--color-secondary)', marginBottom: '15px', fontSize: '1.2rem' }}>Specialist Nursing</h3>
+              <div className="feature-box">
+                <h3>Specialist Nursing</h3>
                 <p style={{ marginBottom: '15px' }}>
                   Our care homes provide additional care from registered nurses and specialist support for residents living with dementia and nursing needs.
                 </p>
@@ -52,15 +46,9 @@ const Services = () => {
               </div>
             </div>
 
-            <div className="cta-box" style={{ 
-              background: 'linear-gradient(to right, #e3f2fd, #bbdefb)', 
-              padding: '30px', 
-              borderRadius: '15px', 
-              textAlign: 'center',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.05)'
-            }}>
-              <p style={{ fontSize: '1.2rem', color: '#0056b3', margin: 0, fontWeight: '500' }}>
-                Please see the different elements of nursing care we provide in our nursing homes below, and <a href="/contact" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>contact us</a> for a more detailed quote based on your personal needs.
+            <div className="cta-box">
+              <p>
+                Please see the different elements of nursing care we provide in our nursing homes below, and <a href="/contact">contact us</a> for a more detailed quote based on your personal needs.
               </p>
             </div>
           </div>
@@ -78,7 +66,7 @@ const Services = () => {
                   <img src="/OurCare/dementia-care.jpg" alt="Dementia Care" loading="lazy" />
                 </div>
                 <div className="service-text">
-                  <div className="icon-box" style={{ margin: '0 0 20px 0' }}>
+                  <div className="icon-box">
                     <i className="fas fa-brain"></i>
                   </div>
                   <h2>Dementia Care</h2>
