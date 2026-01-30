@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /api
+Disallow: /private
 
+# Crawl delay to be respectful to server
+Crawl-delay: 1
+
+# Sitemaps
 Sitemap: https://www.bellavistanursinghomes.com/sitemap.xml
+Sitemap: https://www.bellavistanursinghomes.com/sitemap-news.xml
+
+# Allow Googlebot to index all images
+User-agent: Googlebot-Image
+Allow: /*
+
+# Allow social media crawlers
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit/1.1
+Allow: /

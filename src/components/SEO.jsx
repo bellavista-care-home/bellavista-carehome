@@ -2,22 +2,27 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://www.bellavistanursinghomes.com";
-const BRAND = "Bellavista Group Of Nursing Homes";
+const BRAND = "Bellavista Nursing Home | Award-Winning Care in South Wales";
 
 const SEO = ({
   title,
   description,
   image = `${SITE_URL}/bellalogo1.png`,
   url = "/",
-  schema
+  schema,
+  keywords = ""
 }) => {
   const fullTitle = title
-    ? `${title} | ${BRAND}`
-    : "Award-Winning Nursing & Dementia Care in South Wales | Bellavista";
+    ? `${title} | Bellavista Nursing Home`
+    : "Bellavista Nursing Home | Award-Winning Care Homes in South Wales & Cardiff";
 
   const metaDescription =
     description ||
-    "Bellavista Group Of Nursing Homes provides award-winning residential, nursing, and dementia care across South Wales including Cardiff, Barry, and Vale of Glamorgan.";
+    "Bellavista Nursing Home provides exceptional residential, nursing, and dementia care across South Wales. Rated best care homes in Cardiff, Barry, and Vale of Glamorgan.";
+
+  const metaKeywords =
+    keywords ||
+    "Bellavista Nursing Home, care homes South Wales, nursing home Cardiff, dementia care Barry, residential care Vale of Glamorgan, best nursing homes UK, elderly care, award-winning care homes";
 
   const canonicalUrl = url.startsWith("http")
     ? url
@@ -42,8 +47,22 @@ const SEO = ({
       {/* Core */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
-      <meta name="robots" content="index, follow" />
+      <meta name="keywords" content={metaKeywords} />
+      <meta name="robots" content="index, follow, max-image-preview:large" />
+      <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* Additional Meta Tags */}
+      <meta name="author" content="Bellavista Nursing Home" />
+      <meta name="publisher" content="Bellavista Group" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="theme-color" content="#2c5282" />
+      
+      {/* Geo and Location */}
+      <meta name="geo.region" content="GB-WLS" />
+      <meta name="geo.placename" content="South Wales" />
+      <meta name="geo.position" content="51.5074;-0.1278" />
+      <meta name="ICBM" content="51.5074, -0.1278" />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />

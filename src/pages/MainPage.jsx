@@ -340,9 +340,9 @@ const Home = () => {
   return (
     <div className="home">
       <SEO 
-        title="Bellavista Group | Best Nursing Homes in UK | Award-Winning Care"
-        description="Bellavista Group is recognized as one of the best care home providers in the UK. Top-rated nursing, residential, and dementia care in Cardiff and Barry."
-        keywords="Best care home UK, top nursing homes South Wales, award winning care, Bellavista Group, luxury care home Cardiff, dementia care specialists"
+        title="Bellavista Nursing Home | Award-Winning Care Homes in South Wales & Cardiff"
+        description="Bellavista Nursing Home provides exceptional residential, nursing, and dementia care across South Wales. Rated best care homes in Cardiff, Barry, and Vale of Glamorgan."
+        keywords="Bellavista Nursing Home, care homes South Wales, nursing home Cardiff, dementia care Barry, residential care Vale of Glamorgan, best nursing homes UK"
         image="https://www.bellavistanursinghomes.com/main-page-banner.jpg"
         schema={mainPageSchema}
       />
