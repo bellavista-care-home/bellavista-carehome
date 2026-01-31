@@ -1,0 +1,16 @@
+# AWS Amplify Redirects for Bellavista Nursing Homes
+# Forces HTTPS and WWW for optimal SEO ranking
+
+# Redirect non-WWW to WWW (HTTPS)
+https://bellavistanursinghomes.com/* https://www.bellavistanursinghomes.com/:splat 301
+
+# Redirect HTTP to HTTPS + WWW
+http://bellavistanursinghomes.com/* https://www.bellavistanursinghomes.com/:splat 301
+
+# Redirect HTTP WWW to HTTPS WWW
+http://www.bellavistanursinghomes.com/* https://www.bellavistanursinghomes.com/:splat 301
+
+# Redirect root paths
+https://bellavistanursinghomes.com/ https://www.bellavistanursinghomes.com/ 301
+http://bellavistanursinghomes.com/ https://www.bellavistanursinghomes.com/ 301
+http://www.bellavistanursinghomes.com/ https://www.bellavistanursinghomes.com/ 301

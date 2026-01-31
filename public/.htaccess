@@ -1,0 +1,26 @@
+# Bellavista Nursing Homes - Apache Redirect Configuration
+# Forces HTTPS and WWW for optimal SEO
+
+RewriteEngine On
+
+# Redirect HTTP to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect non-WWW to WWW
+RewriteCond %{HTTP_HOST} ^bellavistanursinghomes\.com [NC]
+RewriteRule ^(.*)$ https://www.bellavistanursinghomes.com/$1 [L,R=301]
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Cache Control for Static Assets
+<FilesMatch "\.(jpg|jpeg|png|gif|ico|css|js|pdf)$">
+    Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>
