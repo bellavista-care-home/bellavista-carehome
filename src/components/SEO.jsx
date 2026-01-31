@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import { generateOrganizationSchema } from "../utils/schemaUtils";
 
 const SITE_URL = "https://www.bellavistanursinghomes.com";
 const BRAND = "Bellavista Nursing Home | Award-Winning Care in South Wales";
@@ -28,19 +29,7 @@ const SEO = ({
     ? url
     : `${SITE_URL}${url}`;
 
-  const defaultSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${SITE_URL}/#organization`,
-    "name": BRAND,
-    "url": SITE_URL,
-    "logo": `${SITE_URL}/bellalogo1.png`,
-    "sameAs": [
-      "https://www.facebook.com/bellavistanursinghome/",
-      "https://x.com/home_bellavista?lang=en",
-      "https://www.youtube.com/@bellavistagroupofnursinghomes"
-    ]
-  };
+  const defaultSchema = generateOrganizationSchema();
 
   return (
     <Helmet>

@@ -48,6 +48,9 @@ const Testimonials = lazy(() => import('./pages/Testimonials'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const Career = lazy(() => import('./pages/Careers'));
 const Gallery = lazy(() => import('./pages/Gallery'));
+
+// SEO Content Pages
+const BellavistaNursingHome = lazy(() => import('./pages/BellavistaNursingHome'));
 const DiningNutrition = lazy(() => import('./pages/DiningNutrition'));
 const OurVision = lazy(() => import('./pages/OurVision'));
 const OurValues = lazy(() => import('./pages/OurValues'));
@@ -187,6 +190,9 @@ const AppContent = () => {
             <Route path="/staff-portal" element={<StaffPortal />} />
             <Route path="/visitor-policy" element={<VisitorPolicy />} />
             <Route path="/dementia-friendly-environment" element={<DementiaEnvironment />} />
+            
+            {/* SEO Content Pages */}
+            <Route path="/bellavista-nursing-home" element={<BellavistaNursingHome />} />
             
             {/* Admin & Auth Pages */}
             <Route path="/login" element={<Login />} />

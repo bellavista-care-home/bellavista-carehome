@@ -1,0 +1,416 @@
+/* Bellavista Nursing Home Page Styles */
+.bellavista-main {
+  padding-top: 80px;
+  --smoky-black: #11120D;
+  --olive-drab: #565449;
+  --bone: #D8CFBC;
+  --floral-white: #FFFBF4;
+  --primary-blue: var(--olive-drab);
+  --primary-teal: var(--bone);
+  --primary-purple: var(--olive-drab);
+  --primary-pink: var(--bone);
+  --primary-orange: var(--bone);
+  --primary-green: var(--olive-drab);
+  --primary-red: var(--smoky-black);
+  --text-dark: var(--smoky-black);
+  --text-light: #5a574d;
+  --text-muted: #8f8677;
+  --white: var(--floral-white);
+  --bg-light: var(--floral-white);
+  --bg-medium: var(--bone);
+  --bg-dark: var(--bone);
+  --bg-darker: var(--olive-drab);
+  --gradient-primary: linear-gradient(135deg, var(--olive-drab) 0%, var(--smoky-black) 100%);
+}
+
+/* Hero Section */
+.hero-section {
+  background: var(--gradient-primary);
+  color: var(--floral-white);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 2rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--bone);
+}
+
+.stat-label {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Sections */
+.intro-section,
+.services-section,
+.locations-section,
+.accreditations-section,
+.testimonials-section,
+.funding-section,
+.cta-section {
+  padding: 60px 0;
+}
+
+.intro-section {
+  background-color: var(--bg-light);
+}
+
+.intro-section h2 {
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.intro-section p {
+  color: var(--text-light);
+  font-size: 1.2rem;
+  line-height: 1.8;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.service-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-card h3 {
+  color: var(--olive-drab);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.service-card p {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Locations Grid */
+.locations-section h2 {
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.location-card {
+  background: var(--floral-white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+  border: 1px solid var(--bone);
+}
+
+.location-card:hover {
+  transform: translateY(-3px);
+}
+
+.location-card h3 {
+  color: var(--olive-drab);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.location-card p {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.location-link {
+  color: var(--olive-drab);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.location-card:hover .location-link {
+  color: var(--smoky-black);
+}
+
+.location-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.location-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Accreditations */
+.accreditations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.accreditation {
+  background: var(--floral-white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid var(--bone);
+}
+
+.accreditation h3 {
+  color: var(--olive-drab);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.accreditation p {
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Testimonials */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.testimonial {
+  background: var(--floral-white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--olive-drab);
+  border: 1px solid var(--bone);
+}
+
+.testimonial p {
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.testimonial span {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.stars {
+  color: var(--bone);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.loading-reviews {
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+  padding: 2rem;
+}
+
+.error-message {
+  text-align: center;
+  color: #e53e3e;
+  padding: 2rem;
+  background: rgba(229, 62, 62, 0.1);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.google-reviews-link {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.btn-google-review {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: var(--olive-drab);
+  color: var(--floral-white);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-google-review:hover {
+  background: var(--smoky-black);
+  transform: translateY(-2px);
+}
+
+/* Funding Section */
+.funding-section {
+  background: #f7fafc;
+}
+
+.funding-section h2 {
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.funding-section p {
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.funding-section ul {
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.funding-section li {
+  margin-bottom: 0.5rem;
+}
+
+/* CTA Section */
+.cta-section {
+  background: var(--gradient-primary);
+  color: var(--floral-white);
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--bone);
+  color: var(--smoky-black);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--floral-white);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--floral-white);
+  padding: 1rem 2rem;
+  border: 2px solid var(--floral-white);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .hero-stats {
+    gap: 2rem;
+    flex-direction: column;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
