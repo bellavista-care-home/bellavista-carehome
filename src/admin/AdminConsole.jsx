@@ -9,8 +9,9 @@ import { fetchCareEnquiries } from '../services/enquiryService';
 import { fetchHomes, updateHome } from '../services/homeService';
 import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
+import { fetchManagementTeam, createManagementMember, updateManagementMember, deleteManagementMember, seedManagementTeam } from '../services/managementService';
 import { fetchReviews, deleteReview, importGoogleReviews } from '../services/reviewService';
-import { convertBase64ToURLs } from '../utils/imageUploadHelper';
+import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
 import EventsManager from './components/EventsManager';
@@ -21,6 +22,12 @@ const AdminConsole = () => {
   const [activeView, setActiveView] = useState('update-home');
   const [newsFormKey, setNewsFormKey] = useState(0);
   const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
+
+  const notify = (message, type = 'success') => {
+    setToast({ message, type, visible: true });
+    setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 3000);
+  };
+
   const [isBusy, setIsBusy] = useState(false);
   const [globalSearch, setGlobalSearch] = useState('');
   const [selectedHome, setSelectedHome] = useState(null);
@@ -52,6 +59,9 @@ const AdminConsole = () => {
   const [reviews, setReviews] = useState([]);
   const [reviewSearch, setReviewSearch] = useState('');
   const [reviewLocationFilter, setReviewLocationFilter] = useState('');
+  const [mgmtMembers, setMgmtMembers] = useState([]);
+  const [isEditingMgmt, setIsEditingMgmt] = useState(false);
+  const [mgmtForm, setMgmtForm] = useState({ id: '', name: '', role: '', description: '', image: '', order: 0 });
   const [showImportGoogle, setShowImportGoogle] = useState(false);
   const [showImportCarehome, setShowImportCarehome] = useState(false);
   const [importPlaceId, setImportPlaceId] = useState('');
@@ -61,6 +71,73 @@ const AdminConsole = () => {
   const loadHomes = async () => {
     const data = await fetchHomes();
     setHomes(data);
+  };
+
+  const loadMgmtTeam = async () => {
+    try {
+      const data = await fetchManagementTeam();
+      setMgmtMembers(data);
+    } catch (e) {
+      console.error(e);
+      notify('Failed to load management team', 'error');
+    }
+  };
+
+  const handleSeedMgmt = async () => {
+    setIsBusy(true);
+    try {
+      await seedManagementTeam();
+      notify('Default members added!', 'success');
+      loadMgmtTeam();
+    } catch (e) {
+      notify('Failed to seed team', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleSaveMgmt = async () => {
+    if (!mgmtForm.name || !mgmtForm.role) {
+      notify('Name and Role are required', 'error');
+      return;
+    }
+    setIsBusy(true);
+    try {
+      let imageUrl = mgmtForm.image;
+      if (imageUrl && imageUrl.startsWith('data:')) {
+          imageUrl = await uploadImageToS3(imageUrl, 'none');
+      }
+      const payload = { ...mgmtForm, image: imageUrl };
+      
+      if (mgmtForm.id) {
+          await updateManagementMember(mgmtForm.id, payload);
+          notify('Member updated!', 'success');
+      } else {
+          await createManagementMember(payload);
+          notify('Member added!', 'success');
+      }
+      setIsEditingMgmt(false);
+      setMgmtForm({ id: '', name: '', role: '', description: '', image: '', order: 0 });
+      loadMgmtTeam();
+    } catch (e) {
+      notify('Error saving member', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleDeleteMgmt = async (id) => {
+    if (!window.confirm('Are you sure?')) return;
+    setIsBusy(true);
+    try {
+      await deleteManagementMember(id);
+      notify('Member deleted', 'success');
+      loadMgmtTeam();
+    } catch (e) {
+      notify('Error deleting member', 'error');
+    } finally {
+      setIsBusy(false);
+    }
   };
 
   const handleSaveHome = async (homeData) => {
@@ -258,6 +335,9 @@ const AdminConsole = () => {
     if (activeView === 'reviews') {
       loadReviews();
     }
+    if (activeView === 'manage-management-team') {
+      loadMgmtTeam();
+    }
   }, [activeView]);
 
   // Add news
@@ -381,11 +461,6 @@ const AdminConsole = () => {
   useEffect(() => {
     if (activeView === 'update-news') loadNews();
   }, []);
-
-  const notify = (message, type = 'success') => {
-    setToast({ message, type, visible: true });
-    setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 2500);
-  };
 
   const loadFaqs = async () => {
     try {
@@ -668,6 +743,12 @@ const AdminConsole = () => {
             onClick={() => setActiveView('reviews')}
           >
             <i className="fa-solid fa-star-half-stroke"></i><span>Reviews</span>
+          </button>
+          <button
+            className={activeView === 'manage-management-team' ? 'active' : ''}
+            onClick={() => setActiveView('manage-management-team')}
+          >
+            <i className="fa-solid fa-user-tie"></i><span>Management Team</span>
           </button>
           <div className="group-title">Users</div>
           <button 
@@ -1026,6 +1107,125 @@ const AdminConsole = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+          </section>
+        )}
+
+        {activeView === 'manage-management-team' && (
+          <section className="panel">
+            <h2>Management Team</h2>
+            
+            {isEditingMgmt ? (
+              <div className="field-group" style={{background:'#f8f9fa', padding:'20px', borderRadius:'10px', marginBottom:'20px'}}>
+                <h3 style={{marginBottom:'15px'}}>{mgmtForm.id ? 'Edit Member' : 'Add Member'}</h3>
+                <div className="grid cols-2">
+                  <div className="field">
+                    <label>Name</label>
+                    <input 
+                      value={mgmtForm.name} 
+                      onChange={e => setMgmtForm({...mgmtForm, name: e.target.value})}
+                      placeholder="e.g. Helen Randall"
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Role</label>
+                    <input 
+                      value={mgmtForm.role} 
+                      onChange={e => setMgmtForm({...mgmtForm, role: e.target.value})}
+                      placeholder="e.g. Home Manager"
+                    />
+                  </div>
+                  <div className="field" style={{gridColumn:'1/-1'}}>
+                    <label>Description</label>
+                    <textarea 
+                      value={mgmtForm.description} 
+                      onChange={e => setMgmtForm({...mgmtForm, description: e.target.value})}
+                      placeholder="Brief description of role and responsibilities..."
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Sort Order</label>
+                    <input 
+                      type="number"
+                      value={mgmtForm.order} 
+                      onChange={e => setMgmtForm({...mgmtForm, order: parseInt(e.target.value) || 0})}
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Photo</label>
+                    <ImageUploader 
+                      currentImage={mgmtForm.image}
+                      onImageSelect={(base64) => setMgmtForm({...mgmtForm, image: base64})}
+                    />
+                  </div>
+                </div>
+                <div className="toolbar" style={{marginTop:'20px'}}>
+                  <button className="btn" onClick={handleSaveMgmt}>Save Member</button>
+                  <button className="btn ghost" onClick={() => setIsEditingMgmt(false)}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div className="toolbar">
+                <div className="right"></div>
+                <button className="btn" onClick={() => {
+                  setMgmtForm({ id: '', name: '', role: '', description: '', image: '', order: 0 });
+                  setIsEditingMgmt(true);
+                }}>
+                  <i className="fa-solid fa-plus"></i>&nbsp;Add Member
+                </button>
+              </div>
+            )}
+
+            <div style={{marginTop:'10px'}}>
+              {mgmtMembers.length === 0 && !isEditingMgmt && (
+                <div style={{textAlign:'center', padding:'40px', background:'#f8f9fa', borderRadius:'10px'}}>
+                  <p className="muted" style={{marginBottom:'20px'}}>No management team members found.</p>
+                  <button className="btn" onClick={handleSeedMgmt}>
+                    <i className="fa-solid fa-seedling"></i>&nbsp;Load Default Team
+                  </button>
+                </div>
+              )}
+
+              {mgmtMembers.map((m) => (
+                <div key={m.id} style={{
+                  background:'#fff', 
+                  border:'1px solid #e6eef7',
+                  padding:'16px', 
+                  borderRadius:'12px', 
+                  marginBottom:'12px', 
+                  display:'flex', 
+                  gap:'16px',
+                  alignItems:'center'
+                }}>
+                  <div style={{width:'60px', height:'60px', borderRadius:'50%', overflow:'hidden', flexShrink:0, background:'#f0f4f8', display:'grid', placeItems:'center'}}>
+                    {m.image ? (
+                      <img src={m.image} style={{width:'100%', height:'100%', objectFit:'cover'}} />
+                    ) : (
+                      <i className="fa-solid fa-user" style={{color:'#cbd5e1'}}></i>
+                    )}
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{display:'flex', gap:'10px', alignItems:'baseline'}}>
+                      <h3 style={{margin:0, fontSize:'16px'}}>{m.name}</h3>
+                      <span className="muted" style={{fontSize:'13px'}}>{m.role}</span>
+                    </div>
+                    <p style={{margin:'4px 0 0', fontSize:'14px', color:'#64748b'}}>{m.description}</p>
+                  </div>
+                  <div style={{display:'flex', gap:'8px'}}>
+                    <button className="btn small ghost" onClick={() => {
+                      setMgmtForm(m);
+                      setIsEditingMgmt(true);
+                      window.scrollTo({top:0, behavior:'smooth'});
+                    }}>
+                      <i className="fa-solid fa-pen"></i>
+                    </button>
+                    <button className="btn small" style={{background:'#ff4d4f', color:'white', borderColor:'#ff4d4f'}} onClick={() => handleDeleteMgmt(m.id)}>
+                      <i className="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {/* Removed duplicate empty check */}
             </div>
           </section>
         )}

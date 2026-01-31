@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/ManagementTeam.css';
+import { fetchManagementTeam } from '../services/managementService';
 
 const ManagementTeam = () => {
-  const team = [
+  const [team, setTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const legacyTeam = [
     {
       name: "Helen Randall",
       role: "Home Manager",
@@ -20,6 +24,24 @@ const ManagementTeam = () => {
     }
   ];
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchManagementTeam();
+        setTeam(data);
+      } catch (err) {
+        console.error("Failed to load management team", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  // Use legacy team if DB is empty to prevent blank page on initial load
+  // Once user adds items to DB, team.length will be > 0
+  const displayTeam = (team && team.length > 0) ? team : legacyTeam;
+
   return (
     <div className="team-page">
       <div className="team-header">
@@ -36,18 +58,26 @@ const ManagementTeam = () => {
           </p>
         </div>
 
-        <div className="team-grid">
-          {team.map((member, index) => (
-            <div key={index} className="team-card">
-              <div className="member-avatar">
-                <i className="fas fa-user-circle"></i>
+        {loading ? (
+          <div style={{textAlign:'center', padding:'50px'}}>Loading...</div>
+        ) : (
+          <div className="team-grid">
+            {displayTeam.map((member, index) => (
+              <div key={index} className="team-card">
+                <div className="member-avatar">
+                  {member.image ? (
+                    <img src={member.image} alt={member.name} style={{width:'120px', height:'120px', borderRadius:'50%', objectFit:'cover'}} />
+                  ) : (
+                    <i className="fas fa-user-circle"></i>
+                  )}
+                </div>
+                <h3>{member.name}</h3>
+                <span className="member-role">{member.role}</span>
+                <p>{member.description}</p>
               </div>
-              <h3>{member.name}</h3>
-              <span className="member-role">{member.role}</span>
-              <p>{member.description}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
