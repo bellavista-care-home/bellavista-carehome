@@ -16,8 +16,10 @@ const Header = () => {
   useEffect(() => {
     if (sideMenuOpen) {
       document.body.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
     }
     const handleClickOutside = (event) => {
       if (sideMenuOpen && !event.target.closest('.left-menu-wrapper')) {
@@ -28,7 +30,8 @@ const Header = () => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
     };
   }, [sideMenuOpen]);
 
@@ -49,7 +52,7 @@ const Header = () => {
             <div className="close-menu" onClick={closeSideMenu}>
               <i className="fas fa-times"></i>
             </div>
-            <div className="nav-scrollable">
+            <div className="nav-scrollable" data-lenis-prevent="true">
               <ul>
                 <div className="nav-category">Main</div>
                 <li><Link to="/" onClick={closeSideMenu}>Home</Link></li>
