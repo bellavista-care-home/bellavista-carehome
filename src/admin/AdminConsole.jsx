@@ -681,7 +681,7 @@ const AdminConsole = () => {
         </div>
       </header>
 
-      <aside>
+      <aside data-lenis-prevent>
         <div className="search">
           <i className="fa-solid fa-magnifying-glass"></i>
           <input 
