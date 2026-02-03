@@ -2,43 +2,58 @@
 
 /* Global Styles & Reset */
 :root {
-  /* Core Brand Colors - User Defined Palette */
-  --smoky-black: #11120D;
-  --olive-drab: #565449;
-  --bone: #D8CFBC;
-  --floral-white: #FFFBF4;
+  /* Core Brand Colors - New Blue Luxury Palette */
+  --primary-blue: #1B3C78;    /* Primary Navy */
+  --secondary-blue: #315DA8;  /* Secondary Blue */
+  --soft-blue: #DBE6F5;       /* Soft Blue Background (Darker for contrast) */
+  --surface-blue: #F7FAFF;    /* Surface Blue */
+  
+  --white: #FFFFFF;
+  --text-primary: #1F2937;    /* Dark Grey Text */
+  --text-secondary: #6B7280;  /* Muted Text */
+  
+  --cta-default: #1FA4A9;     /* Teal CTA */
+  --cta-hover: #178C91;       /* Darker Teal CTA */
+  
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #DC2626;
+
+  /* Legacy Variable Mappings (for backward compatibility) */
+  --smoky-black: var(--text-primary);
+  --olive-drab: var(--primary-blue);
+  --bone: var(--soft-blue);
+  --floral-white: var(--surface-blue);
 
   /* Functional Color Mappings */
-  --primary-color: var(--olive-drab);
-  --secondary-color: var(--bone);
-  --accent-color: var(--smoky-black);
+  --primary-color: var(--primary-blue);
+  --secondary-color: var(--secondary-blue);
+  --accent-color: var(--cta-default);
   
   /* Overriding existing variables to enforce palette globally */
-  --primary-blue: var(--olive-drab);
-  --primary-teal: var(--bone);
-  --primary-purple: var(--olive-drab);
-  --primary-pink: var(--bone);
-  --primary-orange: var(--bone);
-  --primary-green: var(--olive-drab);
-  --primary-red: var(--smoky-black);
+  --primary-teal: var(--cta-default);
+  --primary-purple: var(--secondary-blue);
+  --primary-pink: var(--cta-hover);
+  --primary-orange: var(--warning);
+  --primary-green: var(--success);
+  --primary-red: var(--danger);
   
   /* Neutrals */
-  --text-dark: var(--smoky-black);
-  --text-light: var(--olive-drab);
-  --text-muted: var(--olive-drab); /* Using olive-drab as muted text */
-  --white: var(--floral-white);
+  --text-dark: var(--text-primary);
+  --text-light: var(--text-secondary);
+  --text-muted: var(--text-secondary);
   
   /* Backgrounds */
-  --bg-light: var(--floral-white);
-  --bg-medium: var(--bone); 
-  --bg-dark: var(--bone);
-  --bg-darker: var(--olive-drab);
+  --bg-light: var(--surface-blue);
+  --bg-medium: var(--soft-blue); 
+  --bg-dark: var(--secondary-blue);
+  --bg-darker: var(--primary-blue);
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--olive-drab) 0%, var(--smoky-black) 100%);
-  --gradient-secondary: linear-gradient(135deg, var(--bone) 0%, var(--olive-drab) 100%);
-  --gradient-accent: linear-gradient(135deg, var(--floral-white) 0%, var(--bone) 100%);
-  --gradient-dark: linear-gradient(135deg, var(--smoky-black) 0%, var(--olive-drab) 100%);
+  --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--soft-blue) 0%, var(--surface-blue) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--cta-default) 0%, var(--cta-hover) 100%);
+  --gradient-dark: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-blue) 100%);
   
   /* Shadows - Tinted with brand colors */
   --shadow-sm: 0 1px 2px 0 rgba(17, 18, 13, 0.05);

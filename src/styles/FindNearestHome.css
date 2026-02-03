@@ -1,14 +1,14 @@
 /* FindNearestHome.css - Luxury Redesign */
 
 .find-nearest-section {
-  --color-primary: var(--olive-drab);
-  --color-primary-dark: var(--smoky-black);
+  --color-primary: var(--primary-blue);
+  --color-primary-dark: var(--text-primary);
   
   padding: 100px 0;
-  /* Softer, warmer background */
-  background: linear-gradient(135deg, #FFFBF4 0%, #F5F5DC 100%);
-  border-top: 1px solid rgba(216, 207, 188, 0.5);
-  border-bottom: 1px solid rgba(216, 207, 188, 0.5);
+  /* Soft Blue background */
+  background: var(--surface-blue);
+  border-top: 1px solid rgba(49, 93, 168, 0.1);
+  border-bottom: 1px solid rgba(49, 93, 168, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -21,7 +21,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D8CFBC' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23315DA8' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   animation: rotateBackground 120s linear infinite;
   pointer-events: none;
 }
@@ -57,7 +57,7 @@
 }
 
 .find-nearest-content .section-subtitle {
-  color: #5a574d; /* Muted Olive */
+  color: var(--text-secondary);
   font-size: 1.2rem;
   margin-bottom: 40px;
   font-weight: 300;
@@ -97,7 +97,7 @@
   background: #fff;
   border-radius: 50px; /* Pill shape */
   border: 2px solid transparent; /* Prepare for gradient border */
-  background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, #D8CFBC, #C5A059);
+  background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, var(--secondary-blue), var(--cta-default));
   background-origin: border-box;
   background-clip: padding-box, border-box;
   box-shadow: 0 4px 15px rgba(0,0,0,0.03);

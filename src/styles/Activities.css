@@ -1,19 +1,19 @@
 .activities-page {
   padding-bottom: 80px;
-  background-color: var(--floral-white);
+  background-color: var(--surface-blue);
 }
 
 .activities-page .page-header {
-  background: linear-gradient(135deg, rgba(17, 18, 13, 0.9), rgba(86, 84, 73, 0.8)), url('/background-banner-image.png');
+  background: linear-gradient(135deg, rgba(27, 60, 120, 0.9), rgba(49, 93, 168, 0.8)), url('/background-banner-image.png');
   background-size: cover;
   background-position: center;
-  color: var(--floral-white);
+  color: var(--white);
   padding: 100px 0;
   text-align: center;
   margin-bottom: 60px;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 10px 30px rgba(17, 18, 13, 0.15);
+  box-shadow: 0 10px 30px rgba(27, 60, 120, 0.15);
   border-bottom-left-radius: 40px;
   border-bottom-right-radius: 40px;
 }
@@ -22,7 +22,7 @@
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: var(--floral-white);
+  color: var(--white);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   font-family: var(--font-display);
 }
@@ -30,7 +30,7 @@
 .activities-page .page-header p {
   font-size: 1.4rem;
   font-style: italic;
-  color: var(--bone);
+  color: var(--soft-blue);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -44,7 +44,7 @@
 
 .activities-intro p {
   font-size: 1.2rem;
-  color: var(--olive-drab);
+  color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 20px;
 }
@@ -58,23 +58,23 @@
 }
 
 .activity-card {
-  background: white;
+  background: var(--white);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px -5px rgba(17, 18, 13, 0.05);
+  box-shadow: 0 10px 30px -5px rgba(27, 60, 120, 0.05);
   display: flex;
   flex-direction: row; /* Horizontal layout */
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  border: 1px solid rgba(216, 207, 188, 0.3);
+  border: 1px solid rgba(49, 93, 168, 0.3);
   height: 280px; /* Fixed height for consistency */
   position: relative;
 }
 
 .activity-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px -5px rgba(17, 18, 13, 0.15);
-  border-color: var(--bone);
+  box-shadow: 0 20px 40px -5px rgba(27, 60, 120, 0.15);
+  border-color: var(--secondary-blue);
 }
 
 .card-image {
@@ -102,7 +102,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(17, 18, 13, 0.3);
+  background: rgba(27, 60, 120, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +115,7 @@
 }
 
 .overlay i {
-  color: var(--floral-white);
+  color: var(--white);
   font-size: 24px;
   background: rgba(255,255,255,0.2);
   width: 56px;
@@ -134,12 +134,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(to right, white, var(--floral-white));
+  background: linear-gradient(to right, var(--white), var(--surface-blue));
 }
 
 .card-content h3 {
   margin-bottom: 15px;
-  color: var(--smoky-black);
+  color: var(--text-primary);
   font-size: 1.6rem;
   font-family: var(--font-display);
   font-weight: 700;
@@ -147,7 +147,7 @@
 }
 
 .card-content p {
-  color: var(--olive-drab);
+  color: var(--text-secondary);
   line-height: 1.6;
   font-size: 1.05rem;
   display: -webkit-box;

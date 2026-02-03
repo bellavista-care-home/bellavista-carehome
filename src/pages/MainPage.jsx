@@ -653,11 +653,13 @@ const Home = () => {
                  
                  return (
                     <div key={index} className={className}>
-                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
-                      <p className="testimonial-text">"{review.text}"</p>
-                      <div className="testimonial-author">
-                        <h4>{review.author}</h4>
-                        <span>{review.role}</span>
+                      <div className="testimonial-inner-content">
+                        <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                        <p className="testimonial-text">"{review.text}"</p>
+                        <div className="testimonial-author">
+                          <h4>{review.author}</h4>
+                          <span>{review.role}</span>
+                        </div>
                       </div>
                     </div>
                  );

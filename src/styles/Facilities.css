@@ -1,18 +1,19 @@
 .facilities-page {
     padding-bottom: 60px;
+    background-color: var(--surface-blue);
 }
 
 .facilities-page .page-header {
-    background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 30, 60, 0.8)), url('/background-banner-image.png');
+    background: linear-gradient(135deg, rgba(27, 60, 120, 0.9), rgba(49, 93, 168, 0.8)), url('/background-banner-image.png');
     background-size: cover;
     background-position: center;
-    color: white;
+    color: var(--white);
     padding: 120px 0;
     text-align: center;
     margin-bottom: 60px;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    box-shadow: 0 10px 30px rgba(0, 102, 204, 0.15);
+    box-shadow: 0 10px 30px rgba(27, 60, 120, 0.15);
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
@@ -20,12 +21,13 @@
 .facilities-page .page-header h1 {
     font-size: 3rem;
     margin-bottom: 10px;
-    color: white;
+    color: var(--white);
 }
 
 .facilities-page .page-header p {
     font-size: 1.5rem;
     font-style: italic;
+    color: var(--soft-blue);
 }
 
 .facilities-intro {
@@ -36,7 +38,7 @@
 
 .facilities-intro p {
     font-size: 1.2rem;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.8;
 }
 
@@ -47,15 +49,17 @@
 }
 
 .gallery-item {
-    background: white;
+    background: var(--white);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s ease;
+    border: 1px solid rgba(49, 93, 168, 0.1);
 }
 
 .gallery-item:hover {
     transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
 }
 
 .image-wrapper {
@@ -78,5 +82,5 @@
     padding: 20px;
     text-align: center;
     font-size: 1.2rem;
-    color: var(--text-dark);
+    color: var(--text-primary);
 }

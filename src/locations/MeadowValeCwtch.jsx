@@ -245,21 +245,21 @@ const MeadowValeCwtch = () => {
   ];
 
   return (
-    <div className="location-page theme-meadow-vale">
+    <div className="location-page theme-meadow-vale home">
       <style>{`
         .theme-meadow-vale {
-          /* Core Brand Colors - Based on Nature/Tranquillity */
-          --color-primary: #6B8E23;       /* Olive Drab / Green for Nature */
-          --color-primary-dark: #3A5F0B;  /* Darker Green */
-          --color-accent: #8FBC8F;        /* Dark Sea Green */
-          --color-secondary: #F5F5DC;     /* Beige */
-          --color-text-main: #2F4F4F;     /* Dark Slate Gray */
-          --color-bg-light: #F0FFF0;      /* Honeydew */
-          --color-bg-white: #FFFFFF;
+          /* Core Brand Colors - Blue Palette */
+          --color-primary: var(--primary-blue);
+          --color-primary-dark: #0d2650; /* Darker Navy */
+          --color-accent: var(--cta-default);
+          --color-secondary: var(--secondary-blue);
+          --color-text-main: #333333;
+          --color-bg-light: var(--soft-blue);
+          --color-bg-white: var(--surface-blue);
           
-          /* Gradients */
-          --hero-gradient-start: rgba(47, 79, 79, 0.9);
-          --hero-gradient-end: rgba(107, 142, 35, 0.8);
+          /* Gradients matching MainPage */
+          --hero-gradient-start: rgba(27, 60, 120, 0.95);
+          --hero-gradient-end: rgba(49, 93, 168, 0.85);
           
           /* Typography */
           --font-heading: 'Playfair Display', serif;
@@ -267,10 +267,10 @@ const MeadowValeCwtch = () => {
           
           /* Mappings for consistency */
           --white: var(--color-bg-white);
-          --smoky-black: var(--color-text-main);
-          --text-light: #556B2F; 
+          --smoky-black: var(--color-primary-dark);
+          --text-light: #555555;
           --olive-drab: var(--color-primary);
-          --bone: var(--color-secondary);
+          --bone: var(--soft-blue);
           --floral-white: var(--color-bg-light);
           
           --font-display: var(--font-heading);
@@ -287,7 +287,7 @@ const MeadowValeCwtch = () => {
           font-family: var(--font-heading);
         }
         .theme-meadow-vale .hero-title .title-sub {
-          color: var(--color-secondary);
+          color: var(--soft-blue);
           font-style: italic;
           opacity: 0.95;
           margin-top: 16px;

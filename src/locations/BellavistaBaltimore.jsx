@@ -202,21 +202,21 @@ const BellavistaBaltimore = () => {
   };
 
   return (
-    <div className="location-page theme-baltimore">
+    <div className="location-page theme-baltimore home">
       <style>{`
         .theme-baltimore {
-          /* Core Brand Colors - Standard Bellavista Palette */
-          --color-primary: #565449;       /* Olive Drab */
-          --color-primary-dark: #11120D;  /* Smoky Black */
-          --color-accent: #565449;        /* Olive Drab */
-          --color-secondary: #D8CFBC;     /* Bone */
-          --color-text-main: #11120D;     /* Smoky Black */
-          --color-bg-light: #FFFBF4;      /* Floral White */
-          --color-bg-white: #FFFFFF;
+          /* Core Brand Colors - Blue Palette */
+          --color-primary: var(--primary-blue);
+          --color-primary-dark: #0d2650; /* Darker Navy */
+          --color-accent: var(--cta-default);
+          --color-secondary: var(--secondary-blue);
+          --color-text-main: #333333;
+          --color-bg-light: var(--soft-blue);
+          --color-bg-white: var(--surface-blue);
           
           /* Gradients matching MainPage */
-          --hero-gradient-start: rgba(17, 18, 13, 0.9);
-          --hero-gradient-end: rgba(86, 84, 73, 0.8);
+          --hero-gradient-start: rgba(27, 60, 120, 0.95);
+          --hero-gradient-end: rgba(49, 93, 168, 0.85);
           
           /* Typography */
           --font-heading: 'Playfair Display', serif;
@@ -225,9 +225,9 @@ const BellavistaBaltimore = () => {
           /* Mappings for consistency */
           --white: var(--color-bg-white);
           --smoky-black: var(--color-primary-dark);
-          --text-light: #5a574d; /* Muted Olive Drab */
+          --text-light: #555555;
           --olive-drab: var(--color-primary);
-          --bone: var(--color-secondary);
+          --bone: var(--soft-blue);
           --floral-white: var(--color-bg-light);
           
           --font-display: var(--font-heading);
@@ -244,7 +244,7 @@ const BellavistaBaltimore = () => {
           font-family: var(--font-heading);
         }
         .theme-baltimore .hero-title .title-sub {
-          color: var(--color-secondary);
+          color: var(--soft-blue);
           font-style: italic;
           opacity: 0.95;
           margin-top: 16px;

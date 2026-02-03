@@ -1,26 +1,6 @@
 /* Bellavista Nursing Home Page Styles */
 .bellavista-main {
   padding-top: 80px;
-  --smoky-black: #11120D;
-  --olive-drab: #565449;
-  --bone: #D8CFBC;
-  --floral-white: #FFFBF4;
-  --primary-blue: var(--olive-drab);
-  --primary-teal: var(--bone);
-  --primary-purple: var(--olive-drab);
-  --primary-pink: var(--bone);
-  --primary-orange: var(--bone);
-  --primary-green: var(--olive-drab);
-  --primary-red: var(--smoky-black);
-  --text-dark: var(--smoky-black);
-  --text-light: #5a574d;
-  --text-muted: #8f8677;
-  --white: var(--floral-white);
-  --bg-light: var(--floral-white);
-  --bg-medium: var(--bone);
-  --bg-dark: var(--bone);
-  --bg-darker: var(--olive-drab);
-  --gradient-primary: linear-gradient(135deg, var(--olive-drab) 0%, var(--smoky-black) 100%);
 }
 
 /* Hero Section */
@@ -78,7 +58,7 @@
 }
 
 .intro-section {
-  background-color: var(--bg-light);
+  background-color: var(--soft-blue);
 }
 
 .intro-section h2 {
@@ -88,7 +68,7 @@
 }
 
 .intro-section p {
-  color: var(--text-light);
+  color: var(--text-primary);
   font-size: 1.2rem;
   line-height: 1.8;
   text-align: center;
@@ -97,6 +77,10 @@
 }
 
 /* Services Grid */
+.services-section {
+  background-color: var(--surface-blue);
+}
+
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -105,30 +89,36 @@
 }
 
 .service-card {
-  background: white;
+  background: var(--white);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s ease;
+  border: 1px solid var(--soft-blue);
 }
 
 .service-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .service-card h3 {
-  color: var(--olive-drab);
+  color: var(--primary-blue);
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
 .service-card p {
-  color: var(--text-light);
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
 /* Locations Grid */
+.locations-section {
+  background-color: var(--soft-blue);
+}
+
 .locations-section h2 {
   color: var(--text-dark);
   text-align: center;
@@ -143,13 +133,13 @@
 }
 
 .location-card {
-  background: var(--floral-white);
+  background: var(--surface-blue);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.3s ease;
-  border: 1px solid var(--bone);
+  border: 1px solid var(--white);
 }
 
 .location-card:hover {
@@ -157,26 +147,26 @@
 }
 
 .location-card h3 {
-  color: var(--olive-drab);
+  color: var(--primary-blue);
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
 
 .location-card p {
-  color: var(--text-light);
+  color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 .location-link {
-  color: var(--olive-drab);
+  color: var(--cta-default);
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .location-card:hover .location-link {
-  color: var(--smoky-black);
+  color: var(--cta-hover);
 }
 
 .location-card {
@@ -191,6 +181,10 @@
 }
 
 /* Accreditations */
+.accreditations-section {
+  background-color: var(--surface-blue);
+}
+
 .accreditations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -199,26 +193,30 @@
 }
 
 .accreditation {
-  background: var(--floral-white);
+  background: var(--white);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 1px solid var(--bone);
+  border: 1px solid var(--soft-blue);
 }
 
 .accreditation h3 {
-  color: var(--olive-drab);
+  color: var(--primary-blue);
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
 
 .accreditation p {
-  color: var(--text-light);
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
 /* Testimonials */
+.testimonials-section {
+  background-color: var(--soft-blue);
+}
+
 .testimonials-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -227,35 +225,35 @@
 }
 
 .testimonial {
-  background: var(--floral-white);
+  background: var(--surface-blue);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid var(--olive-drab);
-  border: 1px solid var(--bone);
+  border-left: 4px solid var(--primary-blue);
+  border: 1px solid var(--white);
 }
 
 .testimonial p {
-  color: var(--text-light);
+  color: var(--text-primary);
   font-style: italic;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 .testimonial span {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
 .stars {
-  color: var(--bone);
+  color: #F59E0B;
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
 .loading-reviews {
   text-align: center;
-  color: var(--text-light);
+  color: var(--text-secondary);
   font-style: italic;
   padding: 2rem;
 }
@@ -277,8 +275,8 @@
 .btn-google-review {
   display: inline-block;
   padding: 1rem 2rem;
-  background: var(--olive-drab);
-  color: var(--floral-white);
+  background: var(--primary-blue);
+  color: var(--white);
   text-decoration: none;
   border-radius: 8px;
   font-weight: 600;
@@ -286,13 +284,13 @@
 }
 
 .btn-google-review:hover {
-  background: var(--smoky-black);
+  background: var(--secondary-blue);
   transform: translateY(-2px);
 }
 
 /* Funding Section */
 .funding-section {
-  background: #f7fafc;
+  background: var(--surface-blue);
 }
 
 .funding-section h2 {
@@ -302,14 +300,14 @@
 }
 
 .funding-section p {
-  color: var(--text-light);
+  color: var(--text-secondary);
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.1rem;
 }
 
 .funding-section ul {
-  color: var(--text-light);
+  color: var(--text-secondary);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;

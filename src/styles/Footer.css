@@ -1,11 +1,11 @@
 /* Footer Styles */
 footer {
-  background: linear-gradient(to right, var(--olive-drab), var(--smoky-black));
-  color: var(--floral-white);
+  background: linear-gradient(to right, var(--primary-blue), #111827);
+  color: var(--white);
   padding: 60px 0 20px;
   position: relative;
   overflow: hidden;
-  border-top: 1px solid var(--bone);
+  border-top: 1px solid var(--secondary-blue);
 }
 
 footer::before {
@@ -29,7 +29,7 @@ footer::before {
   margin-bottom: 25px;
   position: relative;
   padding-bottom: 15px;
-  color: var(--bone);
+  color: var(--soft-blue);
   letter-spacing: 0.5px;
 }
 
@@ -38,13 +38,13 @@ footer::before {
   position: absolute;
   width: 60px;
   height: 2px;
-  background: var(--bone);
+  background: var(--cta-default);
   bottom: 0;
   left: 0;
 }
 
 .footer-col p {
-  color: rgba(255, 251, 244, 0.8);
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 15px;
   line-height: 1.8;
   font-size: 15px;
@@ -59,7 +59,7 @@ footer::before {
 }
 
 .footer-links a {
-  color: rgba(255, 251, 244, 0.8);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
@@ -75,12 +75,12 @@ footer::before {
   left: 0;
   top: 1px;
   font-size: 12px;
-  color: var(--bone);
+  color: var(--cta-default);
   opacity: 0.7;
 }
 
 .footer-links a:hover {
-  color: var(--bone);
+  color: var(--cta-default);
   padding-left: 25px;
 }
 
@@ -97,7 +97,7 @@ footer::before {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(216, 207, 188, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--floral-white);
   transition: all 0.3s ease;
   border: 1px solid rgba(216, 207, 188, 0.2);

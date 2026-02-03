@@ -9,22 +9,22 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Brand Colors - Default (Blue/Navy Theme) */
-  --color-primary: #1e5ba8;       /* Primary Blue */
-  --color-primary-dark: #1e3a8a;  /* Navy for Text */
-  --color-accent: #ea580c;        /* Orange Accent */
-  --color-accent-dark: #c2410c;
+  --color-primary: #1B3C78;       /* Primary Blue */
+  --color-primary-dark: #1F2937;  /* Navy for Text */
+  --color-accent: #1FA4A9;        /* Teal Accent */
+  --color-accent-dark: #178C91;   /* Teal Hover */
   
   /* Location Specific Hero Theme (Default) */
-  --hero-gradient-start: rgba(0, 51, 102, 0.9);
-  --hero-gradient-end: rgba(0, 30, 60, 0.8);
+  --hero-gradient-start: rgba(27, 60, 120, 0.9);
+  --hero-gradient-end: rgba(20, 45, 90, 0.8);
   --hero-bg-image: url('/care-home-banner-image.png');
 
   /* Neutral Colors */
-  --color-text-main: #4b5563;     /* Gray 600 */
-  --color-text-dark: #1f2937;     /* Gray 900 */
+  --color-text-main: #6B7280;     /* Gray 600 */
+  --color-text-dark: #1F2937;     /* Gray 900 */
   --color-text-light: #ffffff;
-  --color-bg-light: #f0f9ff;      /* Light Blue Tint */
-  --color-bg-white: #ffffff;
+  --color-bg-light: #DBE6F5;      /* Soft Blue (Darker) */
+  --color-bg-white: #F7FAFF;      /* Surface Blue (Lighter) */
   --color-border: #e5e7eb;
 
   /* Spacing */
@@ -1113,7 +1113,7 @@
 .title-main {
     font-size: clamp(36px, 5.5vw, 72px);
     font-family: var(--font-heading);
-    color: #D8CFBC; /* Bone */
+    color: var(--soft-blue); /* Soft Blue */
     line-height: 1.05;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -1124,7 +1124,7 @@
 .title-sub {
     font-family: var(--font-heading);
     font-size: clamp(24px, 3.5vw, 42px);
-    color: #D8CFBC; /* Bone */
+    color: var(--soft-blue); /* Soft Blue */
     display: block;
     margin-top: 10px;
     font-style: italic;
@@ -1135,7 +1135,7 @@
 
 .hero-description {
     font-size: clamp(15px, 2vw, 19px);
-    color: rgba(216, 207, 188, 0.9);
+    color: var(--soft-blue);
     line-height: 1.75;
     max-width: 500px;
 }
@@ -1177,7 +1177,7 @@
 /* About Group Intro */
 .about-group-intro {
     padding: 100px 0;
-    background-color: #FFFBF4; /* Floral White */
+    background-color: var(--surface-blue); /* Surface Blue */
     position: relative;
 }
 
@@ -1197,7 +1197,7 @@
 
 .group-intro-title .group-name {
     font-size: clamp(28px, 4vw, 42px);
-    color: #11120D;
+    color: var(--text-primary);
     font-family: var(--font-heading);
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -1219,14 +1219,14 @@
 .group-intro-text p {
     font-size: 19px;
     line-height: 1.8;
-    color: #5a574d;
+    color: var(--text-secondary);
     text-align: justify;
     text-justify: inter-word;
 }
 
 .group-intro-text p:last-child {
     font-weight: 600;
-    color: #11120D;
+    color: var(--text-primary);
     font-size: 21px;
     margin-top: 10px;
     text-align: center;
@@ -1234,9 +1234,9 @@
 
 /* Buttons */
 .btn-primary {
-    background: #565449; /* Olive Drab */
-    color: #FFFBF4;
-    border: 1px solid #565449;
+    background: var(--cta-default); /* Teal CTA */
+    color: var(--white);
+    border: 1px solid var(--cta-default);
     padding: 12px 24px;
     border-radius: 8px;
     text-decoration: none;
@@ -1249,16 +1249,16 @@
 }
 
 .btn-primary:hover {
-    background: #464439;
-    color: #FFFBF4;
+    background: var(--cta-hover);
+    color: var(--white);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .btn-outline {
     background: transparent;
-    color: #565449;
-    border: 1px solid #565449;
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
     padding: 12px 24px;
     border-radius: 8px;
     text-decoration: none;
@@ -1271,8 +1271,8 @@
 }
 
 .btn-outline:hover {
-    background: #565449;
-    color: #FFFBF4;
+    background: var(--primary-blue);
+    color: var(--white);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }

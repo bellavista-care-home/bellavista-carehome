@@ -1,13 +1,13 @@
 .services-page {
     padding-bottom: 60px;
-    background-color: var(--floral-white);
+    background-color: var(--surface-blue);
 }
 
 .services-page .page-header {
     background: var(--gradient-primary), url('/background-banner-image.png');
     background-size: cover;
     background-position: center;
-    color: var(--floral-white);
+    color: var(--white);
     padding: 120px 0;
     text-align: center;
     margin-bottom: 60px;
@@ -27,14 +27,14 @@
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 15px;
-    color: var(--floral-white);
+    color: var(--white);
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .services-page .page-header p {
     font-size: 1.5rem;
     font-style: italic;
-    color: var(--bone);
+    color: var(--soft-blue);
 }
 
 .services-intro {
@@ -45,7 +45,7 @@
 
 .intro-text {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     line-height: 1.8;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .service-item.alt-bg {
-    background-color: var(--bg-light);
+    background-color: var(--soft-blue);
     border-radius: 10px;
 }
 
@@ -100,13 +100,13 @@
 }
 
 .service-text h2 {
-    color: var(--olive-drab);
+    color: var(--text-primary);
     font-size: 2.2rem;
     margin-bottom: 20px;
 }
 
 .service-text p {
-    color: var(--text-dark);
+    color: var(--text-secondary);
     font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 20px;
@@ -115,19 +115,19 @@
 .icon-box {
     width: 70px;
     height: 70px;
-    background-color: var(--floral-white);
+    background-color: var(--white);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     box-shadow: var(--shadow-md);
-    border: 2px solid var(--olive-drab);
+    border: 2px solid var(--secondary-blue);
 }
 
 .icon-box i {
     font-size: 32px;
-    color: var(--olive-drab);
+    color: var(--secondary-blue);
 }
 
 .care-features {
@@ -140,10 +140,10 @@
 
 /* Feature Box Styles from inline */
 .feature-box {
-    background: var(--floral-white);
+    background: var(--white);
     padding: 25px;
     border-radius: 10px;
-    border-left: 4px solid var(--olive-drab);
+    border-left: 4px solid var(--secondary-blue);
     box-shadow: var(--shadow-sm);
     text-align: left;
     transition: transform 0.3s ease;
@@ -154,7 +154,7 @@
 }
 
 .feature-box h3 {
-    color: var(--olive-drab);
+    color: var(--text-primary);
     margin-bottom: 15px;
     font-size: 1.2rem;
 }
@@ -168,11 +168,11 @@
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    color: var(--text-dark);
+    color: var(--text-secondary);
 }
 
 .feature-box li i {
-    color: var(--olive-drab);
+    color: var(--secondary-blue);
     margin-right: 10px;
 }
 
@@ -188,13 +188,13 @@
 
 .cta-box p {
     font-size: 1.2rem;
-    color: var(--text-dark);
+    color: var(--text-primary);
     margin: 0;
     font-weight: 500;
 }
 
 .cta-box a {
-    color: var(--olive-drab);
+    color: var(--cta-default);
     text-decoration: underline;
     font-weight: bold;
 }
