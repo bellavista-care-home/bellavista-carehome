@@ -865,7 +865,7 @@
 @media (min-width: 992px) {
     .testimonials-layout {
         flex-direction: row;
-        align-items: flex-start;
+        align-items: stretch;
         justify-content: space-between;
         gap: 50px;
     }
@@ -1068,7 +1068,6 @@
 /* Vertical Testimonials Slider */
 .vertical-testimonials-container {
     flex: 1;
-    height: 600px; /* Increased height for full reviews */
     position: relative;
     overflow: hidden;
     background: #fff;
