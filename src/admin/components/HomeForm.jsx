@@ -72,6 +72,16 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
     setFormData(prev => ({ ...prev, [field]: newArray }));
   };
 
+  const updateItem = (field, index, updates) => {
+    const newArray = [...formData[field]];
+    // If item is string, convert to object first
+    if (typeof newArray[index] !== 'object') {
+       newArray[index] = { type: 'image', url: newArray[index] };
+    }
+    newArray[index] = { ...newArray[index], ...updates };
+    setFormData(prev => ({ ...prev, [field]: newArray }));
+  };
+
   // Local state for list inputs
   const [teamInput, setTeamInput] = useState({ name: '', role: '', image: '' });
   const [teamGalleryInput, setTeamGalleryInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
@@ -207,6 +217,14 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
     const type = isObj ? item.type : 'image';
     const cropMode = isObj ? item.cropMode : 'uncropped';
 
+    // New fields
+    const title = isObj ? item.title || '' : '';
+    const shortDesc = isObj ? item.shortDescription || '' : '';
+    const fullDesc = isObj ? item.fullDescription || '' : '';
+    const showOnPage = isObj ? item.showOnPage || false : false;
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
     return (
       <div style={{
         border: '1px solid #ddd',
@@ -215,7 +233,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
         background: 'white',
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+        gridColumn: isExpanded ? '1 / -1' : 'auto'
       }}>
         <div style={{
           height: '140px',
@@ -239,6 +258,11 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
               {label}
             </div>
           )}
+          {showOnPage && (
+            <div style={{position: 'absolute', top: 0, right: 0, padding: '4px 8px', background: '#28a745', color: 'white', fontSize: '10px', fontWeight: 'bold', borderBottomLeftRadius: '4px'}}>
+              Page Visible
+            </div>
+          )}
         </div>
         <div style={{
           padding: '10px',
@@ -255,11 +279,42 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
               <button className="btn ghost small icon-only" disabled={index === total - 1} onClick={() => moveItem(field, index, 'down')} title="Move Right/Down">
                  <i className="fa-solid fa-chevron-right"></i>
               </button>
+              <button className="btn ghost small" onClick={() => setIsExpanded(!isExpanded)} title="Edit Details" style={{marginLeft: '4px', fontSize: '12px'}}>
+                 {isExpanded ? 'Hide' : 'Edit'}
+              </button>
            </div>
            <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => removeItem(field, index)} title="Remove">
               <i className="fa-solid fa-trash"></i>
            </button>
         </div>
+        
+        {/* Expanded Details Form */}
+        {isExpanded && (
+           <div style={{ padding: '15px', background: '#f9f9f9', borderTop: '1px solid #eee' }}>
+              <div className="field">
+                 <label>Title</label>
+                 <input type="text" value={title} onChange={(e) => updateItem(field, index, { title: e.target.value })} placeholder="Activity/Facility Title" />
+              </div>
+              <div className="field">
+                 <label>Short Description (Card)</label>
+                 <textarea value={shortDesc} onChange={(e) => updateItem(field, index, { shortDescription: e.target.value })} rows={2} placeholder="Shown on the card..." />
+              </div>
+               <div className="field">
+                 <label>Full Description (Modal)</label>
+                 <textarea value={fullDesc} onChange={(e) => updateItem(field, index, { fullDescription: e.target.value })} rows={4} placeholder="Shown in the popup modal..." />
+              </div>
+              <div className="field" style={{marginBottom: 0}}>
+                 <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
+                    <input type="checkbox" checked={showOnPage} onChange={(e) => updateItem(field, index, { showOnPage: e.target.checked })} style={{marginRight: '8px', width: 'auto'}} />
+                    Show on {field === 'activityImages' ? 'Activities' : 'Facilities'} Page
+                 </label>
+                 <small className="muted" style={{display: 'block', marginTop: '5px'}}>
+                   Checked: Shows as a card on the page AND in the gallery.<br/>
+                   Unchecked: Shows ONLY in the gallery slider.
+                 </small>
+              </div>
+           </div>
+        )}
       </div>
     );
   };

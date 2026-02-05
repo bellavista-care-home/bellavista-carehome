@@ -57,7 +57,7 @@
   padding: 20px;
 }
 
-.activity-card {
+.activities-page-card {
   background: var(--white);
   border-radius: 20px;
   overflow: hidden;
@@ -67,20 +67,20 @@
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid rgba(49, 93, 168, 0.3);
-  height: 280px; /* Fixed height for consistency */
+  height: 250px; /* Reduced fixed height */
   position: relative;
 }
 
-.activity-card:hover {
+.activities-page-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px -5px rgba(27, 60, 120, 0.15);
   border-color: var(--secondary-blue);
 }
 
 .card-image {
-  width: 45%; /* Image takes 45% width */
-  min-width: 45%;
-  height: 100%;
+  width: 40%; /* Image takes 40% width */
+  min-width: 40%;
+  height: 100%; /* Full height of card */
   position: relative;
   overflow: hidden;
 }
@@ -92,7 +92,7 @@
   transition: transform 0.6s ease;
 }
 
-.activity-card:hover .card-image img {
+.activities-page-card:hover .card-image img {
   transform: scale(1.08);
 }
 
@@ -110,7 +110,7 @@
   transition: opacity 0.3s ease;
 }
 
-.activity-card:hover .overlay {
+.activities-page-card:hover .overlay {
   opacity: 1;
 }
 
@@ -129,11 +129,11 @@
 }
 
 .card-content {
-  padding: 30px;
+  padding: 24px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* Center content vertically */
   background: linear-gradient(to right, var(--white), var(--surface-blue));
 }
 
@@ -151,17 +151,12 @@
   line-height: 1.6;
   font-size: 1.05rem;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 /* Responsive Adjustments */
-@media (max-width: 992px) {
-  .activities-grid {
-    grid-template-columns: 1fr; /* Single column on tablets/smaller laptops */
-  }
-}
 
 @media (max-width: 768px) {
   .activities-page .page-header {
@@ -173,7 +168,7 @@
     font-size: 2.5rem;
   }
 
-  .activity-card {
+  .activities-page-card {
     flex-direction: column; /* Stack vertically on mobile */
     height: auto;
     max-width: 500px;
@@ -268,7 +263,8 @@
 .modal-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: rgba(0,0,0,0.05); /* Slight background to define area if image is small */
 }
 
 .modal-text {

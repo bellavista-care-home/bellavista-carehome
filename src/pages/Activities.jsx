@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchHome } from '../services/homeService';
 import '../styles/Activities.css';
 import SEO from '../components/SEO';
 
 const Activities = () => {
   const { locationId } = useParams();
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [dynamicActivities, setDynamicActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const locationNames = {
     'bellavista-barry': 'Bellavista Barry',
@@ -21,7 +24,7 @@ const Activities = () => {
   const pageTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista – Engaging Activities for Every Interest';
   const pageHeaderTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista';
 
-  const activities = [
+  const defaultActivities = [
     { title: 'Community Events', description: 'We regularly host community events like our famous Bollywood Night and Family Fun Days.', image: '/activities/community-events.jpg', details: 'Our community events bring together residents, families, and the local community for days of fun, food, and entertainment.' },
     { title: 'Holiday Celebrations', description: 'Every holiday is special at Bellavista, from Christmas to Remembrance Day, we celebrate together.', image: '/activities/holiday-celebrations.jpg', details: 'We celebrate all major holidays with special meals, decorations, and themed activities to ensure everyone feels the festive spirit.' },
     { title: 'Trips & Outings', description: 'Residents enjoy trips to local attractions like St Fagans and the seaside.', image: '/activities/trips-and-outings.jpg', details: 'Regular outings are organized to local places of interest, museums, parks, and the seaside, providing stimulation and enjoyment.' },
@@ -29,6 +32,31 @@ const Activities = () => {
     { title: 'Social Gatherings', description: 'Regular coffee mornings, tea parties, and social gatherings to keep spirits high.', image: '/communal-longues.jpg', details: 'Social interaction is key. We host coffee mornings, tea parties, and other social events to foster friendships.' },
     { title: 'Themed Days', description: 'We love dressing up and enjoying themed days with food, music, and decorations.', image: '/activities/themed-days.jpg', details: 'From Hawaiian days to 1950s parties, our themed days are a hit with residents and staff alike.' }
   ];
+
+  useEffect(() => {
+    if (locationId) {
+      setLoading(true);
+      fetchHome(locationId).then(data => {
+        if (data && data.activityImages) {
+          // Filter images that have showOnPage set to true
+          const visibleActivities = data.activityImages
+            .filter(img => typeof img === 'object' && img.showOnPage)
+            .map(img => ({
+              title: img.title || 'Activity',
+              description: img.shortDescription || '',
+              image: img.url,
+              details: img.fullDescription || img.shortDescription || ''
+            }));
+          setDynamicActivities(visibleActivities);
+        }
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+  }, [locationId]);
+
+  const activities = (locationId && dynamicActivities.length > 0) ? dynamicActivities : defaultActivities;
 
   const handleCardClick = (activity) => {
     setSelectedActivity(activity);
@@ -152,7 +180,7 @@ const Activities = () => {
           </div>
           <div className="activities-grid">
             {activities.map((activity, index) => (
-              <div key={index} className="activity-card" onClick={() => handleCardClick(activity)}>
+              <div key={index} className="activities-page-card" onClick={() => handleCardClick(activity)}>
                 <div className="card-image">
                   <img src={activity.image} alt={activity.title} loading="lazy" />
                   <div className="overlay">
