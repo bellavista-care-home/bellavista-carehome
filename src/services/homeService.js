@@ -16,11 +16,11 @@ export async function fetchHomes() {
 
 export async function fetchHome(id) {
   try {
-    // Check session storage first
-    const cached = sessionStorage.getItem(`home_${id}`);
-    if (cached) {
-      return JSON.parse(cached);
-    }
+    // Check session storage first - DISABLED for now to ensure fresh data during updates
+    // const cached = sessionStorage.getItem(`home_${id}`);
+    // if (cached) {
+    //   return JSON.parse(cached);
+    // }
 
     const res = await fetch(`${API_URL}/homes/${id}`);
     if (!res.ok) throw new Error('Failed to fetch home');
