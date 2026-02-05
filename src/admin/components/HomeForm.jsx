@@ -1,6 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 
+// Helper to render a Gallery Grid Item
+const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpdate }) => {
+  const isObj = typeof item === 'object';
+  const url = isObj ? item.url : item;
+  const type = isObj ? item.type : 'image';
+  const cropMode = isObj ? item.cropMode : 'uncropped';
+
+  // New fields
+  const title = isObj ? item.title || '' : '';
+  const shortDesc = isObj ? item.shortDescription || '' : '';
+  const fullDesc = isObj ? item.fullDescription || '' : '';
+  const showOnPage = isObj ? item.showOnPage || false : false;
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div style={{
+      border: '1px solid #ddd',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      background: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+      gridColumn: isExpanded ? '1 / -1' : 'auto'
+    }}>
+      <div style={{
+        height: '140px',
+        background: '#f0f0f0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        {type === 'video' ? (
+           <div style={{textAlign: 'center'}}>
+             <i className="fa-solid fa-video" style={{fontSize: '32px', color: '#666', marginBottom: '5px'}}></i>
+             <div style={{fontSize: '10px', color: '#666', maxWidth: '90%', overflow: 'hidden', textOverflow: 'ellipsis', margin: '0 auto'}}>{url}</div>
+           </div>
+        ) : (
+           <img src={url} style={{width: '100%', height: '100%', objectFit: cropMode === 'cropped' ? 'cover' : 'contain', backgroundColor: '#333'}} alt="" />
+        )}
+        {label && (
+          <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
+            {label}
+          </div>
+        )}
+        {showOnPage && (
+          <div style={{position: 'absolute', top: 0, right: 0, padding: '4px 8px', background: '#28a745', color: 'white', fontSize: '10px', fontWeight: 'bold', borderBottomLeftRadius: '4px'}}>
+            Page Visible
+          </div>
+        )}
+      </div>
+      <div style={{
+        padding: '10px',
+        borderTop: '1px solid #eee',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: 'white'
+      }}>
+         <div style={{display: 'flex', gap: '4px'}}>
+            <button className="btn ghost small icon-only" disabled={index === 0} onClick={() => onMove(field, index, 'up')} title="Move Left/Up">
+               <i className="fa-solid fa-chevron-left"></i>
+            </button>
+            <button className="btn ghost small icon-only" disabled={index === total - 1} onClick={() => onMove(field, index, 'down')} title="Move Right/Down">
+               <i className="fa-solid fa-chevron-right"></i>
+            </button>
+            <button className="btn ghost small" onClick={() => setIsExpanded(!isExpanded)} title="Edit Details" style={{marginLeft: '4px', fontSize: '12px'}}>
+               {isExpanded ? 'Hide' : 'Edit'}
+            </button>
+         </div>
+         <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => onRemove(field, index)} title="Remove">
+            <i className="fa-solid fa-trash"></i>
+         </button>
+      </div>
+      
+      {/* Expanded Details Form */}
+      {isExpanded && (
+         <div style={{ padding: '15px', background: '#f9f9f9', borderTop: '1px solid #eee' }}>
+            <div className="field">
+               <label>Title</label>
+               <input type="text" value={title} onChange={(e) => onUpdate(field, index, { title: e.target.value })} placeholder="Activity/Facility Title" />
+            </div>
+            <div className="field">
+               <label>Short Description (Card)</label>
+               <textarea value={shortDesc} onChange={(e) => onUpdate(field, index, { shortDescription: e.target.value })} rows={2} placeholder="Shown on the card..." />
+            </div>
+             <div className="field">
+               <label>Full Description (Modal)</label>
+               <textarea value={fullDesc} onChange={(e) => onUpdate(field, index, { fullDescription: e.target.value })} rows={4} placeholder="Shown in the popup modal..." />
+            </div>
+            <div className="field" style={{marginBottom: 0}}>
+               <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
+                  <input type="checkbox" checked={showOnPage} onChange={(e) => onUpdate(field, index, { showOnPage: e.target.checked })} style={{marginRight: '8px', width: 'auto'}} />
+                  Show on {field === 'activityImages' ? 'Activities' : 'Facilities'} Page
+               </label>
+               <small className="muted" style={{display: 'block', marginTop: '5px'}}>
+                 Checked: Shows as a card on the page AND in the gallery.<br/>
+                 Unchecked: Shows ONLY in the gallery slider.
+               </small>
+            </div>
+         </div>
+      )}
+    </div>
+  );
+};
+
 const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
   const [formData, setFormData] = useState({
     homeName: '',
@@ -210,114 +319,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
     }
   };
 
-  // Helper to render a Gallery Grid Item
-  const GalleryItem = ({ item, index, total, field, label }) => {
-    const isObj = typeof item === 'object';
-    const url = isObj ? item.url : item;
-    const type = isObj ? item.type : 'image';
-    const cropMode = isObj ? item.cropMode : 'uncropped';
-
-    // New fields
-    const title = isObj ? item.title || '' : '';
-    const shortDesc = isObj ? item.shortDescription || '' : '';
-    const fullDesc = isObj ? item.fullDescription || '' : '';
-    const showOnPage = isObj ? item.showOnPage || false : false;
-
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    return (
-      <div style={{
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        background: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-        gridColumn: isExpanded ? '1 / -1' : 'auto'
-      }}>
-        <div style={{
-          height: '140px',
-          background: '#f0f0f0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          position: 'relative'
-        }}>
-          {type === 'video' ? (
-             <div style={{textAlign: 'center'}}>
-               <i className="fa-solid fa-video" style={{fontSize: '32px', color: '#666', marginBottom: '5px'}}></i>
-               <div style={{fontSize: '10px', color: '#666', maxWidth: '90%', overflow: 'hidden', textOverflow: 'ellipsis', margin: '0 auto'}}>{url}</div>
-             </div>
-          ) : (
-             <img src={url} style={{width: '100%', height: '100%', objectFit: cropMode === 'cropped' ? 'cover' : 'contain', backgroundColor: '#333'}} alt="" />
-          )}
-          {label && (
-            <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
-              {label}
-            </div>
-          )}
-          {showOnPage && (
-            <div style={{position: 'absolute', top: 0, right: 0, padding: '4px 8px', background: '#28a745', color: 'white', fontSize: '10px', fontWeight: 'bold', borderBottomLeftRadius: '4px'}}>
-              Page Visible
-            </div>
-          )}
-        </div>
-        <div style={{
-          padding: '10px',
-          borderTop: '1px solid #eee',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          background: 'white'
-        }}>
-           <div style={{display: 'flex', gap: '4px'}}>
-              <button className="btn ghost small icon-only" disabled={index === 0} onClick={() => moveItem(field, index, 'up')} title="Move Left/Up">
-                 <i className="fa-solid fa-chevron-left"></i>
-              </button>
-              <button className="btn ghost small icon-only" disabled={index === total - 1} onClick={() => moveItem(field, index, 'down')} title="Move Right/Down">
-                 <i className="fa-solid fa-chevron-right"></i>
-              </button>
-              <button className="btn ghost small" onClick={() => setIsExpanded(!isExpanded)} title="Edit Details" style={{marginLeft: '4px', fontSize: '12px'}}>
-                 {isExpanded ? 'Hide' : 'Edit'}
-              </button>
-           </div>
-           <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => removeItem(field, index)} title="Remove">
-              <i className="fa-solid fa-trash"></i>
-           </button>
-        </div>
-        
-        {/* Expanded Details Form */}
-        {isExpanded && (
-           <div style={{ padding: '15px', background: '#f9f9f9', borderTop: '1px solid #eee' }}>
-              <div className="field">
-                 <label>Title</label>
-                 <input type="text" value={title} onChange={(e) => updateItem(field, index, { title: e.target.value })} placeholder="Activity/Facility Title" />
-              </div>
-              <div className="field">
-                 <label>Short Description (Card)</label>
-                 <textarea value={shortDesc} onChange={(e) => updateItem(field, index, { shortDescription: e.target.value })} rows={2} placeholder="Shown on the card..." />
-              </div>
-               <div className="field">
-                 <label>Full Description (Modal)</label>
-                 <textarea value={fullDesc} onChange={(e) => updateItem(field, index, { fullDescription: e.target.value })} rows={4} placeholder="Shown in the popup modal..." />
-              </div>
-              <div className="field" style={{marginBottom: 0}}>
-                 <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
-                    <input type="checkbox" checked={showOnPage} onChange={(e) => updateItem(field, index, { showOnPage: e.target.checked })} style={{marginRight: '8px', width: 'auto'}} />
-                    Show on {field === 'activityImages' ? 'Activities' : 'Facilities'} Page
-                 </label>
-                 <small className="muted" style={{display: 'block', marginTop: '5px'}}>
-                   Checked: Shows as a card on the page AND in the gallery.<br/>
-                   Unchecked: Shows ONLY in the gallery slider.
-                 </small>
-              </div>
-           </div>
-        )}
-      </div>
-    );
-  };
+  // GalleryItem moved outside
 
   return (
     <section className="panel">
@@ -944,6 +946,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
                   index={i} 
                   total={formData.facilitiesGalleryImages.length} 
                   field="facilitiesGalleryImages" 
+                  onMove={moveItem}
+                  onRemove={removeItem}
+                  onUpdate={updateItem}
                 />
               ))}
             </div>
@@ -1141,6 +1146,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
                   total={formData.activityImages.length} 
                   field="activityImages"
                   label={i === 0 ? 'Main Card' : null}
+                  onMove={moveItem}
+                  onRemove={removeItem}
+                  onUpdate={updateItem}
                 />
               ))}
             </div>
@@ -1385,6 +1393,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
                   index={i} 
                   total={formData.teamGalleryImages.length} 
                   field="teamGalleryImages"
+                  onMove={moveItem}
+                  onRemove={removeItem}
+                  onUpdate={updateItem}
                 />
               ))}
             </div>
