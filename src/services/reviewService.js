@@ -10,10 +10,15 @@ export async function fetchReviews(params = {}) {
     query.set('location', params.location);
   }
   const url = query.toString() ? `${API_BASE}/reviews?${query.toString()}` : `${API_BASE}/reviews`;
+  
+  // Include auth header if available to allow backend to filter for home admins
+  const headers = {
+    'Content-Type': 'application/json',
+    ...authService.getAuthHeader()
+  };
+
   const res = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers
   });
   
   if (res.status === 401 || res.status === 403) {

@@ -19,7 +19,18 @@ import './AdminConsole.css';
 
 const AdminConsole = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [activeView, setActiveView] = useState('update-home');
+  
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, []);
+
+  const isHomeAdmin = user?.role === 'home_admin';
+
   const [newsFormKey, setNewsFormKey] = useState(0);
   const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
 
@@ -649,6 +660,15 @@ const AdminConsole = () => {
     }
   };
 
+  useEffect(() => {
+    if (isHomeAdmin && user?.homeId && homes.length > 0) {
+      const myHome = homes.find(h => h.id === user.homeId);
+      if (myHome) {
+        setReviewLocationFilter(myHome.homeName);
+      }
+    }
+  }, [isHomeAdmin, user, homes]);
+
   // Derived state for filtered reviews
   const filteredReviews = reviews.filter(r => {
     // 1. Filter by Location Dropdown
@@ -803,19 +823,24 @@ const AdminConsole = () => {
               initialData={selectedHome} 
               onCancel={() => setSelectedHome(null)}
               onSave={handleSaveHome}
+              isHomeAdmin={isHomeAdmin}
             />
           ) : (
             <section className="panel">
               <h2>Update Home</h2>
               <div className="toolbar">
                 <input id="homeSearch" placeholder="Search homes…" style={{flex:1}} />
-                <button className="btn ghost small" style={{opacity: 0.5, cursor: 'not-allowed'}} title="Disabled">
-                  <i className="fa-solid fa-plus"></i>&nbsp;New
-                </button>
+                {!isHomeAdmin && (
+                  <button className="btn ghost small" style={{opacity: 0.5, cursor: 'not-allowed'}} title="Disabled">
+                    <i className="fa-solid fa-plus"></i>&nbsp;New
+                  </button>
+                )}
               </div>
               <div style={{marginTop:'20px'}}>
                 <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(250px, 1fr))', gap:'20px'}}>
-                  {homes.map(home => (
+                  {homes
+                    .filter(h => !isHomeAdmin || (user && user.homeId && h.id === user.homeId))
+                    .map(home => (
                     <div key={home.id} style={{border:'1px solid #e0e0e0', borderRadius:'10px', overflow:'hidden', background:'white'}}>
                       <div style={{height:'140px', background:`url(${home.homeImage}) center/cover`}}></div>
                       <div style={{padding:'15px'}}>
@@ -950,6 +975,7 @@ const AdminConsole = () => {
                 value={reviewLocationFilter}
                 onChange={e => setReviewLocationFilter(e.target.value)}
                 style={{ marginLeft: '8px', minWidth: '200px' }}
+                disabled={isHomeAdmin}
               >
                 <option value="">All Locations</option>
                 <option value="Bellavista Barry">Bellavista Barry</option>

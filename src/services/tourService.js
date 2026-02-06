@@ -1,4 +1,5 @@
 import { API_URL } from '../config/apiConfig';
+import * as authService from './authService';
 
 const VITE = import.meta.env.VITE_API_BASE_URL;
 const API_BASE = API_URL;
@@ -24,7 +25,9 @@ export async function saveBookingToAPI(booking) {
 export async function fetchScheduledTours() {
   if (!API_BASE) return [];
   try {
-    const res = await fetch(`${API_BASE}/scheduled-tours`);
+    const res = await fetch(`${API_BASE}/scheduled-tours`, {
+      headers: authService.getAuthHeader()
+    });
     if (!res.ok) throw new Error('Failed to fetch tours');
     return await res.json();
   } catch (err) {
@@ -37,7 +40,10 @@ export async function updateBookingInAPI(id, data) {
   if (!API_BASE) return null;
   const res = await fetch(`${API_BASE}/scheduled-tours/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...authService.getAuthHeader()
+    },
     body: JSON.stringify(data)
   });
   if (!res.ok) throw new Error('API error');

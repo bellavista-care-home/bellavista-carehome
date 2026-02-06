@@ -215,6 +215,7 @@ export const getCurrentUser = () => {
     id: decoded.user_id,
     username: decoded.username,
     role: decoded.role,
+    homeId: decoded.home_id,
     expiresAt: new Date(decoded.exp * 1000),
   };
 };

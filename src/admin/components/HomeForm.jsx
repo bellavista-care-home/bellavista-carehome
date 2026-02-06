@@ -110,7 +110,7 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
   );
 };
 
-const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
+const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAdmin = false }) => {
   const [formData, setFormData] = useState({
     homeName: '',
     homeLocation: '',
@@ -336,6 +336,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       </div>
       
       {/* 1. Basic Information (Read Only) */}
+      {!isHomeAdmin && (
+      <>
       <div className="group-title" style={{marginTop:'20px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-info-circle"></i> Basic Information
       </div>
@@ -370,6 +372,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
           />
         </div>
       </div>
+      </>
+      )}
 
       {/* 2. Card Images */}
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
@@ -493,6 +497,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       )}
 
       {/* 3. Documents & Links */}
+      {!isHomeAdmin && (
+      <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-file-pdf"></i> Documents & Links
       </div>
@@ -562,8 +568,12 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
           </div>
         </div>
       </div>
+      </>
+      )}
 
       {/* Scrolling Banner Images */}
+      {!isHomeAdmin && (
+      <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-panorama"></i> Scrolling Banner Images
       </div>
@@ -708,6 +718,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
           </div>
         )}
       </div>
+      </>
+      )}
 
       {/* 3. Facilities */}
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
@@ -957,6 +969,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
       </div>
 
       {/* 4. Activities */}
+      {!isHomeAdmin && (
+      <>
       <div className="group-title" style={{marginTop:'40px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-person-running"></i> Activities Gallery
       </div>
@@ -1487,6 +1501,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave }) => {
             ))}
           </div>
         </div>
+      )}
+      </>
       )}
 
       <div className="toolbar" style={{marginTop:'40px', paddingTop: '20px', borderTop: '1px solid #eee'}}>
