@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCurrentUser } from '../services/authService';
 import * as XLSX from 'xlsx';
 import ImageUploader from '../components/ImageUploader';
 import NewsForm from './components/NewsForm';
