@@ -12,6 +12,7 @@ import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
 import { fetchManagementTeam, createManagementMember, updateManagementMember, deleteManagementMember, seedManagementTeam } from '../services/managementService';
 import { fetchReviews, deleteReview, importGoogleReviews } from '../services/reviewService';
+import { fetchUsers, createUser, deleteUser } from '../services/userService';
 import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
@@ -79,6 +80,64 @@ const AdminConsole = () => {
   const [importPlaceId, setImportPlaceId] = useState('');
   const [importTargetLocation, setImportTargetLocation] = useState('Bellavista Barry');
   const [importApiKey, setImportApiKey] = useState('');
+
+  const [users, setUsers] = useState([]);
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [userForm, setUserForm] = useState({ username: '', password: '', role: 'home_admin', home_id: '' });
+
+  const loadUsers = async () => {
+    try {
+      const data = await fetchUsers();
+      setUsers(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error(e);
+      notify('Failed to load users', 'error');
+    }
+  };
+
+  const handleCreateUser = async () => {
+    if (!userForm.username || !userForm.password) {
+      notify('Username and Password are required', 'error');
+      return;
+    }
+    if (userForm.role === 'home_admin' && !userForm.home_id) {
+      notify('Please select a home for Home Admin', 'error');
+      return;
+    }
+
+    try {
+      setIsBusy(true);
+      const payload = {
+        ...userForm,
+        home_id: userForm.role === 'superadmin' ? null : (userForm.home_id || null)
+      };
+      await createUser(payload);
+      notify('User created successfully!', 'success');
+      setIsAddingUser(false);
+      setUserForm({ username: '', password: '', role: 'home_admin', home_id: '' });
+      loadUsers();
+    } catch (e) {
+      console.error(e);
+      notify(e.message || 'Failed to create user', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    try {
+      setIsBusy(true);
+      await deleteUser(id);
+      notify('User deleted successfully', 'success');
+      loadUsers();
+    } catch (e) {
+      console.error(e);
+      notify('Failed to delete user', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
 
   const loadHomes = async () => {
     const data = await fetchHomes();
@@ -342,7 +401,8 @@ const AdminConsole = () => {
       loadFaqs();
     }
     if (activeView === 'manage-users') {
-      loadHomes(); // Reuse homes for "Home Admins"
+      loadHomes(); // For dropdown
+      loadUsers();
     }
     if (activeView === 'reviews') {
       loadReviews();
@@ -771,13 +831,17 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-user-tie"></i><span>Management Team</span>
           </button>
-          <div className="group-title">Users</div>
-          <button 
-            className={activeView === 'manage-users' ? 'active' : ''}
-            onClick={() => setActiveView('manage-users')}
-          >
-            <i className="fa-solid fa-users-gear"></i><span>Home Admins</span>
-          </button>
+          {!isHomeAdmin && (
+            <>
+              <div className="group-title">Users</div>
+              <button 
+                className={activeView === 'manage-users' ? 'active' : ''}
+                onClick={() => setActiveView('manage-users')}
+              >
+                <i className="fa-solid fa-users-gear"></i><span>User Management</span>
+              </button>
+            </>
+          )}
           <div className="group-title">Enquiries</div>
           <button 
             className={activeView === 'kiosk-links' ? 'active' : ''}
@@ -1673,9 +1737,121 @@ const AdminConsole = () => {
 
         {activeView === 'manage-users' && (
           <section className="panel">
-            <h2>Home Admins</h2>
-            <p className="muted">Configure email recipients for tour bookings at each location.</p>
-            <div style={{marginTop:'20px', overflowX:'auto'}}>
+            <h2>User Management</h2>
+            
+            <div className="group-title" style={{marginTop:'0', marginBottom:'15px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
+              <i className="fa-solid fa-users-gear"></i> System Users (Login Accounts)
+            </div>
+            
+            {isAddingUser ? (
+              <div className="field-group" style={{background:'#f8f9fa', padding:'20px', borderRadius:'10px', marginBottom:'20px'}}>
+                <h3 style={{marginBottom:'15px'}}>Create New User</h3>
+                <div className="grid cols-2">
+                  <div className="field">
+                    <label>Username</label>
+                    <input 
+                      value={userForm.username} 
+                      onChange={e => setUserForm({...userForm, username: e.target.value})}
+                      placeholder="e.g. barry_admin"
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Password</label>
+                    <input 
+                      type="password"
+                      value={userForm.password} 
+                      onChange={e => setUserForm({...userForm, password: e.target.value})}
+                      placeholder="Initial password"
+                    />
+                  </div>
+                  <div className="field">
+                    <label>Role</label>
+                    <select 
+                      value={userForm.role} 
+                      onChange={e => setUserForm({...userForm, role: e.target.value})}
+                    >
+                      <option value="home_admin">Home Admin</option>
+                      <option value="superadmin">Superadmin</option>
+                    </select>
+                  </div>
+                  {userForm.role === 'home_admin' && (
+                    <div className="field">
+                      <label>Assign to Home</label>
+                      <select 
+                        value={userForm.home_id} 
+                        onChange={e => setUserForm({...userForm, home_id: e.target.value})}
+                      >
+                        <option value="">Select a Home...</option>
+                        {homes.map(h => (
+                          <option key={h.id} value={h.id}>{h.homeName}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+                <div className="toolbar" style={{marginTop:'20px'}}>
+                  <button className="btn" onClick={handleCreateUser}>Create User</button>
+                  <button className="btn ghost" onClick={() => setIsAddingUser(false)}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div className="toolbar">
+                 <p className="muted" style={{flex:1}}>Manage login accounts for Home Admins.</p>
+                 <button className="btn" onClick={() => setIsAddingUser(true)}>
+                   <i className="fa-solid fa-plus"></i>&nbsp;Add User
+                 </button>
+              </div>
+            )}
+
+            <div style={{marginTop:'20px', overflowX:'auto', marginBottom: '40px'}}>
+              <table style={{width:'100%', borderCollapse:'collapse'}}>
+                <thead>
+                  <tr style={{background:'#f7f9fc'}}>
+                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Username</th>
+                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Role</th>
+                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Assigned Home</th>
+                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Created</th>
+                    <th style={{textAlign:'right', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map(u => (
+                    <tr key={u.id}>
+                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}><strong>{u.username}</strong></td>
+                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}>
+                        <span style={{
+                          background: u.role === 'superadmin' ? '#e6f7ff' : '#f6ffed',
+                          color: u.role === 'superadmin' ? '#1890ff' : '#52c41a',
+                          padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold'
+                        }}>
+                          {u.role === 'superadmin' ? 'Superadmin' : 'Home Admin'}
+                        </span>
+                      </td>
+                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}>
+                         {u.home_name || (u.role === 'superadmin' ? 'All Homes' : <span className="muted">None</span>)}
+                      </td>
+                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0', fontSize:'13px'}}>
+                        {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-'}
+                      </td>
+                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0', textAlign:'right'}}>
+                        <button className="btn small" style={{background:'#ff4d4f', color:'white', borderColor:'#ff4d4f'}} onClick={() => handleDeleteUser(u.id)}>
+                           <i className="fa-solid fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {users.length === 0 && (
+                    <tr><td colSpan="5" style={{padding:'20px', textAlign:'center', color:'#666'}}>No users found</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="group-title" style={{marginTop:'30px', marginBottom:'15px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
+              <i className="fa-solid fa-envelope"></i> Notification Emails
+            </div>
+            <p className="muted" style={{marginBottom:'15px'}}>Configure which email addresses receive tour booking notifications for each location.</p>
+            <div style={{marginTop:'10px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>

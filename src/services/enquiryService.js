@@ -20,10 +20,14 @@ export async function saveEnquiryToAPI(enquiry) {
   return await res.json();
 }
 
+import * as authService from './authService';
+
 export async function fetchCareEnquiries() {
   if (!API_BASE) return [];
   try {
-    const res = await fetch(`${API_BASE}/care-enquiries`);
+    const res = await fetch(`${API_BASE}/care-enquiries`, {
+      headers: authService.getAuthHeader()
+    });
     if (!res.ok) throw new Error('Failed to fetch enquiries');
     return await res.json();
   } catch (err) {

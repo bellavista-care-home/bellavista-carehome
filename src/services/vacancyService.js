@@ -51,7 +51,9 @@ export async function deleteVacancy(id) {
 export async function fetchApplications() {
   if (!API_BASE) return [];
   try {
-    const res = await fetch(`${API_BASE}/applications`);
+    const res = await fetch(`${API_BASE}/applications`, {
+      headers: authService.getAuthHeader()
+    });
     if (!res.ok) throw new Error('Failed to fetch applications');
     return await res.json();
   } catch (err) {
