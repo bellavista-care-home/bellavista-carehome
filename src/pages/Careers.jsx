@@ -149,7 +149,7 @@ const Careers = () => {
                     {job.type && <span><i className="fas fa-clock"></i> {job.type}</span>}
                     {job.salary && <span><i className="fas fa-pound-sign"></i> {job.salary}</span>}
                     </div>
-                    <p className="job-description">{job.shortDescription}</p>
+                    <div className="job-description" dangerouslySetInnerHTML={{ __html: job.shortDescription }} />
                     <div className="vacancy-actions">
                         <button className="read-more-btn" onClick={() => handleReadMore(job)}>Read More</button>
                         <button className="apply-btn" onClick={() => handleApply(job)}>Apply Now</button>

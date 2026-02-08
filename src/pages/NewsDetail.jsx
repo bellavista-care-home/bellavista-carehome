@@ -168,9 +168,7 @@ const NewsDetail = () => {
               )}
               <div className="article-content">
                 <div className="article-description">
-                  <div style={{ whiteSpace: 'pre-line' }}>
-                    {displayText}
-                  </div>
+                  <div className="article-body-content" dangerouslySetInnerHTML={{ __html: displayText }} />
                   {!expanded && description.length > 500 && (
                     <button 
                       className="read-more-btn" 

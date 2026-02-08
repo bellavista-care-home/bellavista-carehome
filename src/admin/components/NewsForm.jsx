@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import EnhancedImageUploader, { ImageCropper } from '../../components/EnhancedImageUploader';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete, onNotify = null }) => {
   const [formData, setFormData] = useState({
@@ -228,8 +230,8 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         )}
       </div>
 
-      <div style={{display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:'24px', height: 'calc(100vh - 200px)'}}>
-        <div style={{overflowY: 'auto', paddingRight: '10px'}}>
+      <div style={{height: 'calc(100vh - 200px)', overflowY: 'auto'}}>
+        <div>
           {/* Section 1: Main Card */}
           <div className="group-title" style={{ marginTop: '20px', marginBottom: '15px', color: '#2c5aa0', fontSize: '18px' }}>
             <i className="fa-solid fa-newspaper"></i> Main Card Section
@@ -310,16 +312,16 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
           </div>
 
           <div className="field">
-            <label>Short Description * (Max 180 characters)</label>
-            <textarea 
+            <label>Short Description * (Recommended: Max 180 characters)</label>
+            <ReactQuill 
+              theme="snow"
               value={formData.shortDescription}
-              onChange={(e) => handleChange('shortDescription', e.target.value.slice(0, 180))}
+              onChange={(val) => handleChange('shortDescription', val)}
               placeholder="Brief description for the main card..."
-              rows={3}
-              style={{ resize: 'vertical' }}
+              style={{ height: '100px', marginBottom: '50px' }}
             />
             <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-              {formData.shortDescription.length}/180 characters
+              Note: Character count is approximate due to formatting.
             </div>
           </div>
 
@@ -340,12 +342,12 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
 
           <div className="field">
             <label>Full Description</label>
-            <textarea 
+            <ReactQuill 
+              theme="snow"
               value={formData.fullDescription}
-              onChange={(e) => handleChange('fullDescription', e.target.value)}
+              onChange={(val) => handleChange('fullDescription', val)}
               placeholder="Detailed article content..."
-              rows={8}
-              style={{ resize: 'vertical', fontFamily: 'inherit' }}
+              style={{ height: '300px', marginBottom: '50px' }}
             />
           </div>
 
@@ -607,12 +609,13 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
               
               <div className="field" style={{marginTop:'15px'}}>
                 <label>Video Description</label>
-                <textarea 
+                <ReactQuill
+                  theme="snow"
                   value={formData.videoDescription} 
-                  onChange={e => handleChange('videoDescription', e.target.value)}
+                  onChange={val => handleChange('videoDescription', val)}
                   placeholder="Short description about the video..."
-                  rows={2}
-                ></textarea>
+                  style={{ height: '100px', marginBottom: '50px' }}
+                />
               </div>
             </div>
           </div>
@@ -634,45 +637,6 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
               <i className={mode === 'add' ? "fa-solid fa-plus" : "fa-solid fa-save"}></i>
               {mode === 'add' ? ' Publish News' : ' Update News'}
             </button>
-          </div>
-        </div>
-        
-        <div style={{position:'sticky', top:'20px', alignSelf:'start', height: '100%', overflowY: 'auto'}}>
-          <div style={{border:'1px solid #e0e0e0', borderRadius:'10px', overflow:'hidden', background:'white'}}>
-            <div style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}>
-              <h3 style={{margin:0, fontSize:'16px'}}>Live Preview</h3>
-              <div className="muted" style={{fontSize:'12px'}}>Shows how this article will appear</div>
-            </div>
-            <div style={{padding:'12px', maxHeight: 'calc(100vh - 280px)', overflowY: 'auto'}}>
-              {formData.mainImage && (
-                <div style={{width:'100%', aspectRatio:'16/9', background:`url(${formData.mainImage}) center/contain no-repeat`, backgroundColor: '#333', borderRadius:'8px', position:'relative'}}>
-                  <div style={{position:'absolute', bottom:'4px', right:'4px', background:'rgba(0,0,0,0.7)', color:'white', fontSize:'10px', padding:'2px 6px', borderRadius:'3px'}}>800×450</div>
-                </div>
-              )}
-              <h4 style={{margin:'12px 0 6px 0'}}>{formData.title || 'Title will appear here'}</h4>
-              <div className="muted" style={{fontSize:'12px'}}>{formData.date || 'YYYY-MM-DD'} • {formData.location}</div>
-              <div style={{marginTop:'10px', fontSize:'13px'}}>{formData.shortDescription || 'Short description preview...'}</div>
-              {formData.galleryImages.length > 0 && (
-                <div style={{marginTop:'12px'}}>
-                  <div style={{display:'flex', gap:'8px', overflowX:'auto', padding:'6px', borderRadius:'8px', border:'1px solid #eee', background:'#fafafa'}}>
-                    {formData.galleryImages.map((img, i) => (
-                      <div key={i} style={{flex:'0 0 120px', height:'70px', borderRadius:'6px', overflow:'hidden', border:'1px solid #ddd', background:'#fff'}}>
-                        <img src={img} alt={`Preview ${i+1}`} style={{width:'100%', height:'100%', objectFit:'contain'}} />
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{fontSize:'10px', color:'#666', marginTop:'4px'}}>{formData.galleryImages.length} gallery image{formData.galleryImages.length !== 1 ? 's' : ''} in preview</div>
-                </div>
-              )}
-              {formData.videos.length > 0 && (
-                <div style={{marginTop:'12px', fontSize:'12px'}}>
-                  <i className="fa-solid fa-video"></i> Video attached
-                  {formData.videoDescription && (
-                    <div style={{marginTop:'6px', fontStyle:'italic', color:'#666'}}>{formData.videoDescription}</div>
-                  )}
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>

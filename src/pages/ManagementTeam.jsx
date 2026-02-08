@@ -73,7 +73,7 @@ const ManagementTeam = () => {
                 </div>
                 <h3>{member.name}</h3>
                 <span className="member-role">{member.role}</span>
-                <p>{member.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: member.description }} />
               </div>
             ))}
           </div>

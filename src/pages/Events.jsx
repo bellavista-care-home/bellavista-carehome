@@ -212,11 +212,13 @@ const Events = () => {
                     )}
                     <div className="card-content">
                       <h3>{event.title}</h3>
-                      <div className="meta">
-                        <span><i className="far fa-clock"></i> {event.time}</span>
-                        <span><i className="fas fa-map-marker-alt"></i> {event.location}</span>
+                      <div className="event-details">
+                        <span><i className="fas fa-clock"></i> {event.time || 'All Day'}</span>
+                        <span><i className="fas fa-map-marker-alt"></i> {event.location || 'All Locations'}</span>
                       </div>
-                      <p>{event.description}</p>
+                      <div className="event-description">
+                        {event.description && <div className="event-desc" dangerouslySetInnerHTML={{ __html: event.description }} />}
+                      </div>
                     </div>
                   </div>
                 ))}

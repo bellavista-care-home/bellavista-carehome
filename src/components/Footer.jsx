@@ -27,22 +27,28 @@ const Footer = () => {
             </ul>
           </div>
           <div className="footer-col">
-            <h3>Our Services</h3>
+            <h3>Our Homes</h3>
             <ul className="footer-links">
-              <li><Link to="/services">Residential Care</Link></li>
-              <li><Link to="/services">Nursing Care</Link></li>
-              <li><Link to="/services">Dementia Care</Link></li>
-              <li><Link to="/services">Respite Care</Link></li>
-              <li><Link to="/activities">Activities & Wellness</Link></li>
+              <li><Link to="/bellavista-barry">Bellavista Barry</Link></li>
+              <li><Link to="/bellavista-cardiff">Bellavista Cardiff</Link></li>
+              <li><Link to="/waverley-care-center">Waverley Care Centre</Link></li>
+              <li><Link to="/college-fields-nursing-home">College Fields</Link></li>
+              <li><Link to="/baltimore-care-home">Baltimore Care Home</Link></li>
+              <li><Link to="/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h3>Contact Info</h3>
+            <h3>Contact Us</h3>
             <ul className="footer-links">
-              <li><i className="fas fa-map-marker-alt"></i> South Wales, UK</li>
-              <li><i className="fas fa-phone"></i> (555) 123-4567</li>
-              <li><i className="fas fa-envelope"></i> info@bellavista.com</li>
+              <li><Link to="/contact"><i className="fas fa-envelope-open-text"></i> General Enquiries</Link></li>
+              <li><Link to="/contact"><i className="fas fa-map-marked-alt"></i> Find a Home</Link></li>
+              <li><Link to="/career"><i className="fas fa-user-nurse"></i> Careers</Link></li>
             </ul>
+            <div style={{marginTop: '15px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '15px'}}>
+               <p style={{fontSize: '13px', margin: 0, color: 'rgba(255,255,255,0.6)'}}>
+                 Looking for a specific home's contact info? Select a home from the list.
+               </p>
+            </div>
           </div>
         </div>
         <div className="copyright">

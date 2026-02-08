@@ -207,7 +207,7 @@ const Activities = () => {
             </div>
             <div className="modal-text">
               <h3>{selectedActivity.title}</h3>
-              <p className="modal-description">{selectedActivity.details}</p>
+              <div className="modal-description" dangerouslySetInnerHTML={{ __html: selectedActivity.details }} />
               <div className="modal-footer">
                 <button className="btn btn-primary" onClick={closeModal}>Close</button>
               </div>

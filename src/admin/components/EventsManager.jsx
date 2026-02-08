@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../../services/eventService';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const EventsManager = ({ notify }) => {
   const [events, setEvents] = useState([]);
@@ -169,13 +171,13 @@ const EventsManager = ({ notify }) => {
             </div>
             <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label>Description</label>
-              <textarea
-                name="description"
+              <ReactQuill
+                theme="snow"
                 value={currentEvent.description}
-                onChange={handleInputChange}
-                rows="4"
+                onChange={(val) => setCurrentEvent(prev => ({ ...prev, description: val }))}
                 placeholder="Event details..."
-              ></textarea>
+                style={{ height: '200px', marginBottom: '50px' }}
+              />
             </div>
             <div className="field" style={{ gridColumn: '1 / -1' }}>
               <EnhancedImageUploader

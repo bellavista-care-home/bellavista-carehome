@@ -17,6 +17,8 @@ import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
 import EventsManager from './components/EventsManager';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 import './AdminConsole.css';
 
 const AdminConsole = () => {
@@ -28,6 +30,10 @@ const AdminConsole = () => {
     const currentUser = getCurrentUser();
     if (currentUser) {
       setUser(currentUser);
+      // Redirect home_admin to a safe default view if they land on the restricted update-home view
+      if (currentUser.role === 'home_admin' && activeView === 'update-home') {
+        setActiveView('home-section-card-images');
+      }
     }
   }, []);
 
@@ -394,7 +400,7 @@ const AdminConsole = () => {
     if (activeView === 'update-news') {
       loadNews();
     }
-    if (activeView === 'update-home') {
+    if (activeView === 'update-home' || activeView.startsWith('home-section-')) {
       loadHomes();
     }
     if (activeView === 'manage-faqs') {
@@ -773,6 +779,8 @@ const AdminConsole = () => {
           />
         </div>
         <div className="nav">
+          {!isHomeAdmin ? (
+          <>
           <div className="group-title">Homes</div>
           <button 
             className="disabled"
@@ -873,6 +881,70 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-briefcase"></i><span>Career Applications</span>
           </button>
+          </>
+          ) : (
+          <>
+            <div className="group-title">Home Content</div>
+            <button className={activeView === 'home-section-card-images' ? 'active' : ''} onClick={() => setActiveView('home-section-card-images')}>
+              <i className="fa-solid fa-image"></i><span>Card Images</span>
+            </button>
+            <button className={activeView === 'home-section-ciw-report' ? 'active' : ''} onClick={() => setActiveView('home-section-ciw-report')}>
+              <i className="fa-solid fa-file-pdf"></i><span>CIW Report</span>
+            </button>
+            <button className={activeView === 'home-section-newsletter' ? 'active' : ''} onClick={() => setActiveView('home-section-newsletter')}>
+              <i className="fa-solid fa-newspaper"></i><span>Newsletter</span>
+            </button>
+            <button className={activeView === 'home-section-banner-images' ? 'active' : ''} onClick={() => setActiveView('home-section-banner-images')}>
+              <i className="fa-solid fa-panorama"></i><span>Scrolling Banner Images</span>
+            </button>
+            <button className={activeView === 'home-section-facilities-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-facilities-gallery')}>
+              <i className="fa-solid fa-building"></i><span>Facilities Gallery</span>
+            </button>
+            <button className={activeView === 'home-section-activities-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-activities-gallery')}>
+              <i className="fa-solid fa-person-running"></i><span>Activities Gallery</span>
+            </button>
+            <button className={activeView === 'home-section-team-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-team-gallery')}>
+              <i className="fa-solid fa-users"></i><span>My Team Gallery</span>
+            </button>
+            <button className={activeView === 'home-section-team-positions' ? 'active' : ''} onClick={() => setActiveView('home-section-team-positions')}>
+              <i className="fa-solid fa-user-doctor"></i><span>My Team Positions</span>
+            </button>
+
+            <div className="group-title">News & Events</div>
+            <button className={activeView === 'add-news' ? 'active' : ''} onClick={() => setActiveView('add-news')}>
+              <i className="fa-solid fa-plus"></i><span>Add News</span>
+            </button>
+            <button className={activeView === 'update-news' ? 'active' : ''} onClick={() => setActiveView('update-news')}>
+              <i className="fa-solid fa-pen-to-square"></i><span>Update News</span>
+            </button>
+            <button className={activeView === 'manage-events' ? 'active' : ''} onClick={() => setActiveView('manage-events')}>
+              <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
+            </button>
+
+            <div className="group-title">Management</div>
+            <button className={activeView === 'reviews' ? 'active' : ''} onClick={() => setActiveView('reviews')}>
+              <i className="fa-solid fa-star"></i><span>Reviews</span>
+            </button>
+            <button className={activeView === 'manage-vacancies' ? 'active' : ''} onClick={() => setActiveView('manage-vacancies')}>
+              <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
+            </button>
+            <button className={activeView === 'kiosk-link' ? 'active' : ''} onClick={() => setActiveView('kiosk-link')}>
+              <i className="fa-solid fa-tablet-screen-button"></i><span>Reception Kiosk</span>
+            </button>
+            <button className={activeView === 'scheduled-tours' ? 'active' : ''} onClick={() => setActiveView('scheduled-tours')}>
+              <i className="fa-solid fa-calendar-check"></i><span>Scheduled Tours</span>
+            </button>
+            <button className={activeView === 'kiosk-checkins' ? 'active' : ''} onClick={() => { setActiveView('kiosk-checkins'); loadKioskCheckIns(); }}>
+              <i className="fa-solid fa-clipboard-list"></i><span>Kiosk Check-ins</span>
+            </button>
+            <button className={activeView === 'care-enquiries' ? 'active' : ''} onClick={() => setActiveView('care-enquiries')}>
+              <i className="fa-solid fa-heart"></i><span>Care Enquiries</span>
+            </button>
+            <button className={activeView === 'career-applications' ? 'active' : ''} onClick={() => setActiveView('career-applications')}>
+              <i className="fa-solid fa-user-nurse"></i><span>Career Applications</span>
+            </button>
+          </>
+          )}
         </div>
       </aside>
 
@@ -881,16 +953,20 @@ const AdminConsole = () => {
           <HomeForm mode="add" />
         )}
 
-        {activeView === 'update-home' && (
-          selectedHome ? (
+        {(activeView === 'update-home' || activeView.startsWith('home-section-')) && (
+          (selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId))) ? (
             <HomeForm 
               mode="edit" 
-              initialData={selectedHome} 
+              initialData={selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId))} 
               onCancel={() => setSelectedHome(null)}
               onSave={handleSaveHome}
               isHomeAdmin={isHomeAdmin}
+              activeSection={activeView.startsWith('home-section-') ? activeView.replace('home-section-', '') : 'all'}
             />
           ) : (
+            isHomeAdmin ? (
+              <div style={{padding:'20px'}}>Loading home data...</div>
+            ) : (
             <section className="panel">
               <h2>Update Home</h2>
               <div className="toolbar">
@@ -920,6 +996,7 @@ const AdminConsole = () => {
                 </div>
               </div>
             </section>
+            )
           )
         )}
 
@@ -1228,10 +1305,12 @@ const AdminConsole = () => {
                   </div>
                   <div className="field" style={{gridColumn:'1/-1'}}>
                     <label>Description</label>
-                    <textarea 
+                    <ReactQuill 
+                      theme="snow"
                       value={mgmtForm.description} 
-                      onChange={e => setMgmtForm({...mgmtForm, description: e.target.value})}
+                      onChange={value => setMgmtForm({...mgmtForm, description: value})}
                       placeholder="Brief description of role and responsibilities..."
+                      style={{height: '150px', marginBottom: '50px'}}
                     />
                   </div>
                   <div className="field">
@@ -1328,7 +1407,13 @@ const AdminConsole = () => {
               <div className="field"><label>Question</label><input value={faqQuestion} onChange={e=>setFaqQuestion(e.target.value)} type="text" placeholder="What types of care do you provide?"/></div>
               <div className="field" style={{gridColumn:'1/-1'}}>
                 <label>Answer</label>
-                <textarea value={faqAnswer} onChange={e=>setFaqAnswer(e.target.value)} placeholder="We provide residential, nursing, dementia, respite, and palliative care…"></textarea>
+                <ReactQuill 
+                  theme="snow"
+                  value={faqAnswer} 
+                  onChange={setFaqAnswer}
+                  placeholder="We provide residential, nursing, dementia, respite, and palliative care…"
+                  style={{height: '150px', marginBottom: '50px'}}
+                />
               </div>
             </div>
             <div className="toolbar">
@@ -1342,7 +1427,7 @@ const AdminConsole = () => {
                 <div key={f.id || Math.random()} style={{background:'#f0f4f8', padding:'12px', borderRadius:'8px', marginBottom:'8px', display:'flex', justifyContent:'space-between', alignItems:'start'}}>
                   <div>
                     <strong>{f.question}</strong>
-                    <div className="muted" style={{fontSize:'13px', marginTop:'4px'}}>{f.answer}</div>
+                    <div className="muted" style={{fontSize:'13px', marginTop:'4px'}} dangerouslySetInnerHTML={{ __html: f.answer }} />
                   </div>
                   {f.id && (
                     <button className="btn small" style={{background:'#ff4d4f', color:'white', marginLeft:'10px'}} onClick={()=>removeFaq(f.id)}>
@@ -1460,6 +1545,28 @@ const AdminConsole = () => {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {activeView === 'kiosk-link' && (
+          <section className="panel">
+             <h2>Reception Kiosk</h2>
+             {isHomeAdmin && user.homeId ? (
+                <div style={{marginTop:'20px'}}>
+                  <p>Open this link on the tablet/device at the reception desk.</p>
+                  <a 
+                    href={`/kiosk/${user.homeId}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="btn"
+                    style={{display:'inline-block', textDecoration:'none', marginTop:'10px', background:'#28a745', color:'white'}}
+                  >
+                    <i className="fa-solid fa-external-link-alt"></i> Open Kiosk for My Home
+                  </a>
+                </div>
+             ) : (
+                <p>No home assigned or available.</p>
+             )}
           </section>
         )}
 

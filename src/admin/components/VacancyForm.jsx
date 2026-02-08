@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const VacancyForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete }) => {
   const [formData, setFormData] = useState({
@@ -103,25 +105,23 @@ const VacancyForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDel
 
         <div className="form-group">
           <label>Short Description (For Card)</label>
-          <textarea
-            name="shortDescription"
+          <ReactQuill
+            theme="snow"
             value={formData.shortDescription}
-            onChange={handleChange}
-            required
+            onChange={(val) => setFormData(prev => ({ ...prev, shortDescription: val }))}
             placeholder="Brief overview of the role..."
-            rows={3}
+            style={{ height: '100px', marginBottom: '50px' }}
           />
         </div>
 
         <div className="form-group">
           <label>Detailed Description (For Modal)</label>
-          <textarea
-            name="detailedDescription"
+          <ReactQuill
+            theme="snow"
             value={formData.detailedDescription}
-            onChange={handleChange}
-            required
+            onChange={(val) => setFormData(prev => ({ ...prev, detailedDescription: val }))}
             placeholder="Full details of the role, responsibilities, etc..."
-            rows={8}
+            style={{ height: '200px', marginBottom: '50px' }}
           />
         </div>
 

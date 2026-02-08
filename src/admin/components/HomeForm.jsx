@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 // Helper to render a Gallery Grid Item
 const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpdate }) => {
@@ -88,11 +90,11 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
             </div>
             <div className="field">
                <label>Short Description (Card)</label>
-               <textarea value={shortDesc} onChange={(e) => onUpdate(field, index, { shortDescription: e.target.value })} rows={2} placeholder="Shown on the card..." />
+               <ReactQuill theme="snow" value={shortDesc} onChange={(val) => onUpdate(field, index, { shortDescription: val })} style={{height: '100px', marginBottom: '50px'}} />
             </div>
              <div className="field">
                <label>Full Description (Modal)</label>
-               <textarea value={fullDesc} onChange={(e) => onUpdate(field, index, { fullDescription: e.target.value })} rows={4} placeholder="Shown in the popup modal..." />
+               <ReactQuill theme="snow" value={fullDesc} onChange={(val) => onUpdate(field, index, { fullDescription: val })} style={{height: '150px', marginBottom: '50px'}} />
             </div>
             <div className="field" style={{marginBottom: 0}}>
                <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
@@ -110,12 +112,28 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
   );
 };
 
-const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAdmin = false }) => {
+const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAdmin = false, activeSection = 'all' }) => {
+  // Helper to get section title
+  const getSectionTitle = () => {
+    switch(activeSection) {
+      case 'card-images': return 'Card Images';
+      case 'ciw-report': return 'CIW Report';
+      case 'newsletter': return 'Newsletter';
+      case 'banner-images': return 'Scrolling Banner Images';
+      case 'facilities-gallery': return 'Facilities Gallery';
+      case 'activities-gallery': return 'Activities Gallery';
+      case 'team-gallery': return 'My Team Gallery';
+      case 'team-positions': return 'My Team Positions';
+      default: return mode === 'add' ? 'Add Home' : 'Update Home';
+    }
+  };
+
   const [formData, setFormData] = useState({
     homeName: '',
     homeLocation: '',
     adminEmail: '',
     homeImage: '',
+    cardImage2: '',
     homeBadge: '',
     homeDesc: '',
     heroTitle: '',
@@ -147,6 +165,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
       setFormData({
         ...formData,
         ...initialData,
+        cardImage2: initialData.cardImage2 || '',
         // Ensure arrays are properly loaded
         teamMembers: initialData.teamMembers || [],
         teamGalleryImages: initialData.teamGalleryImages || [],
@@ -197,21 +216,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   const [activityMediaInput, setActivityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
   const [facilityMediaInput, setFacilityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
 
-  // Special handler for "Second Card Image" (which maps to activityImages[0])
-  const handleSecondCardImageChange = (url) => {
-    const currentImages = [...formData.activityImages];
-    if (currentImages.length > 0) {
-      if (typeof currentImages[0] === 'object') {
-        currentImages[0] = { ...currentImages[0], url: url };
-      } else {
-        currentImages[0] = url;
-      }
-    } else {
-      currentImages.push({ type: 'image', url: url });
-    }
-    setFormData(prev => ({ ...prev, activityImages: currentImages }));
-  };
-
   const [uploadingDoc, setUploadingDoc] = useState(null);
 
   const handleDocUpload = async (e, field) => {
@@ -250,11 +254,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   };
 
   const getSecondCardImage = () => {
-    if (formData.activityImages.length > 0) {
-      const item = formData.activityImages[0];
-      return typeof item === 'object' ? item.url : item;
-    }
-    return '';
+    return formData.cardImage2 || '';
   };
 
   const copyListingJson = async () => {
@@ -262,7 +262,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
     const name = formData.homeName || '';
     const location = formData.homeLocation || '';
     const description = formData.homeDesc || '';
-    const images = [formData.homeImage, ...formData.activityImages].filter(Boolean).slice(0, 2);
+    // Use homeImage and cardImage2 explicitly
+    const images = [formData.homeImage, formData.cardImage2].filter(Boolean);
     const features = [];
     if (formData.statsBedrooms) features.push(`${formData.statsBedrooms} Bedrooms`);
     if (formData.statsPremier) features.push(`${formData.statsPremier} Premier Rooms`);
@@ -322,10 +323,10 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   // GalleryItem moved outside
 
   return (
-    <section className="panel">
-      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
+    <section className="panel" style={{display:'flex', flexDirection:'column', height:'100%', overflow:'hidden', padding: 0}}>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px', borderBottom:'1px solid #f0f0f0'}}>
         <div>
-          <h2>{mode === 'add' ? 'Add Home' : 'Update Home'}</h2>
+          <h2>{getSectionTitle()}</h2>
           <p className="muted">{mode === 'add' ? 'Create a new Nursing Home card.' : `Editing ${initialData?.homeName || 'Home'}`}</p>
         </div>
         {mode === 'edit' && (
@@ -335,8 +336,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
         )}
       </div>
       
+      <div style={{flex: 1, overflowY: 'auto', padding: '20px'}}>
       {/* 1. Basic Information (Read Only) */}
-      {!isHomeAdmin && (
+      {(activeSection === 'all' && !isHomeAdmin) && (
       <>
       <div className="group-title" style={{marginTop:'20px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-info-circle"></i> Basic Information
@@ -363,6 +365,15 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
           />
         </div>
         <div className="field" style={{gridColumn: '1 / -1'}}>
+          <label>Description (About)</label>
+          <ReactQuill 
+            theme="snow"
+            value={formData.homeDesc} 
+            onChange={(val) => handleChange('homeDesc', val)}
+            style={{height: '150px', marginBottom: '50px'}}
+          />
+        </div>
+        <div className="field" style={{gridColumn: '1 / -1'}}>
           <label>Admin Email (Receives Tour Booking Notifications)</label>
           <input 
             value={formData.adminEmail} 
@@ -376,13 +387,15 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
       )}
 
       {/* 2. Card Images */}
+      {(activeSection === 'all' || activeSection === 'card-images') && (
+      <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-image"></i> Card Images (Max 2)
       </div>
       <div className="grid cols-2">
         <div className="field">
           <EnhancedImageUploader 
-            label="Card Image 1 (Main)" 
+            label="Card Image 1" 
             aspectRatio={4/3}
             initialValue={formData.homeImage}
             onImageSelected={(url) => handleChange('homeImage', url)}
@@ -394,22 +407,22 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
           <EnhancedImageUploader 
             label="Card Image 2" 
             aspectRatio={4/3}
-            initialValue={getSecondCardImage()}
-            onImageSelected={(url) => handleSecondCardImageChange(url)}
+            initialValue={formData.cardImage2}
+            onImageSelected={(url) => handleChange('cardImage2', url)}
             showCrop={true}
             allowSkipOnUpload={true}
           />
           <small className="muted" style={{display:'block', marginTop:'5px'}}>
-            *This image is also the first item in the Activities Gallery.
+            *This image is used for the second card on the main page.
           </small>
         </div>
       </div>
 
       {/* Card Images Preview Gallery */}
-      {(formData.homeImage || getSecondCardImage()) && (
+      {(formData.homeImage || formData.cardImage2) && (
         <div className="field" style={{marginTop: '20px'}}>
           <label style={{marginBottom: '10px', display: 'block', fontWeight: 'bold'}}>
-            {[formData.homeImage, getSecondCardImage()].filter(Boolean).length} Card {[formData.homeImage, getSecondCardImage()].filter(Boolean).length === 1 ? 'Image' : 'Images'} Preview
+            {[formData.homeImage, formData.cardImage2].filter(Boolean).length} Card {[formData.homeImage, formData.cardImage2].filter(Boolean).length === 1 ? 'Image' : 'Images'} Preview
           </label>
           <div style={{
             display: 'grid',
@@ -437,7 +450,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                 }}>
                   <img src={formData.homeImage} style={{width: '100%', height: '100%', objectFit: 'cover', backgroundColor: '#333'}} alt="Card 1" />
                   <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
-                    Main Card
+                    Card 1
                   </div>
                 </div>
                 <div style={{
@@ -454,7 +467,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                 </div>
               </div>
             )}
-            {getSecondCardImage() && (
+            {formData.cardImage2 && (
               <div style={{
                 border: '1px solid #ddd',
                 borderRadius: '8px',
@@ -473,9 +486,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                   overflow: 'hidden',
                   position: 'relative'
                 }}>
-                  <img src={getSecondCardImage()} style={{width: '100%', height: '100%', objectFit: 'cover', backgroundColor: '#333'}} alt="Card 2" />
+                  <img src={formData.cardImage2} style={{width: '100%', height: '100%', objectFit: 'cover', backgroundColor: '#333'}} alt="Card 2" />
                   <div style={{position: 'absolute', top: 0, left: 0, right: 0, padding: '4px 8px', background: 'rgba(44, 90, 160, 0.9)', color: 'white', fontSize: '10px', fontWeight: 'bold'}}>
-                    Second Card
+                    Card 2
                   </div>
                 </div>
                 <div style={{
@@ -486,7 +499,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                   alignItems: 'center',
                   background: 'white'
                 }}>
-                  <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => handleSecondCardImageChange('')} title="Remove">
+                  <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => handleChange('cardImage2', '')} title="Remove">
                     <i className="fa-solid fa-trash"></i>
                   </button>
                 </div>
@@ -495,14 +508,17 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
           </div>
         </div>
       )}
+      </>
+      )}
 
       {/* 3. Documents & Links */}
-      {!isHomeAdmin && (
+      {((activeSection === 'all' && !isHomeAdmin) || activeSection === 'ciw-report' || activeSection === 'newsletter') && (
       <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-file-pdf"></i> Documents & Links
       </div>
       <div className="grid cols-2">
+        {(activeSection === 'all' || activeSection === 'ciw-report') && (
         <div className="field">
           <label>CIW Report (PDF)</label>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
@@ -535,6 +551,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             )}
           </div>
         </div>
+        )}
+        {(activeSection === 'all' || activeSection === 'newsletter') && (
         <div className="field">
           <label>Newsletter (PDF)</label>
           <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
@@ -567,12 +585,13 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             )}
           </div>
         </div>
+        )}
       </div>
       </>
       )}
 
       {/* Scrolling Banner Images */}
-      {!isHomeAdmin && (
+      {((activeSection === 'all' && !isHomeAdmin) || activeSection === 'banner-images') && (
       <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-panorama"></i> Scrolling Banner Images
@@ -722,6 +741,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
       )}
 
       {/* 3. Facilities */}
+      {(activeSection === 'all' || activeSection === 'facilities-gallery') && (
+      <>
       <div className="group-title" style={{marginTop:'30px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-building"></i> Facilities Gallery
       </div>
@@ -844,53 +865,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             </div>
           </div>
           
-          {facilityMediaInput.type === 'image' && (
-            <div style={{marginBottom:'15px'}}>
-              <label style={{fontWeight: 'bold', fontSize: '14px', marginBottom: '8px', display: 'block'}}>Display Mode</label>
-              <div style={{display: 'flex', gap: '15px'}}>
-                <label style={{
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '8px', 
-                  cursor: 'pointer',
-                  padding: '8px 16px',
-                  background: facilityMediaInput.cropMode === 'uncropped' ? '#e6f7ff' : 'white',
-                  border: `1px solid ${facilityMediaInput.cropMode === 'uncropped' ? '#1890ff' : '#d9d9d9'}`,
-                  borderRadius: '4px'
-                }}>
-                  <input 
-                    type="radio" 
-                    name="facilityDisplayMode" 
-                    value="uncropped"
-                    checked={facilityMediaInput.cropMode === 'uncropped'}
-                    onChange={() => setFacilityMediaInput({...facilityMediaInput, cropMode: 'uncropped'})}
-                    style={{cursor: 'pointer'}}
-                  />
-                  <span>Uncropped (Fit)</span>
-                </label>
-                <label style={{
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '8px', 
-                  cursor: 'pointer',
-                  padding: '8px 16px',
-                  background: facilityMediaInput.cropMode === 'cropped' ? '#e6f7ff' : 'white',
-                  border: `1px solid ${facilityMediaInput.cropMode === 'cropped' ? '#1890ff' : '#d9d9d9'}`,
-                  borderRadius: '4px'
-                }}>
-                  <input 
-                    type="radio" 
-                    name="facilityDisplayMode" 
-                    value="cropped"
-                    checked={facilityMediaInput.cropMode === 'cropped'}
-                    onChange={() => setFacilityMediaInput({...facilityMediaInput, cropMode: 'cropped'})}
-                    style={{cursor: 'pointer'}}
-                  />
-                  <span>Cropped (Fill)</span>
-                </label>
-              </div>
-            </div>
-          )}
+
 
           {facilityMediaInput.type === 'video' ? (
              <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
@@ -967,9 +942,11 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
            </>
          )}
       </div>
+      </>
+      )}
 
       {/* 4. Activities */}
-      {!isHomeAdmin && (
+      {((activeSection === 'all' && !isHomeAdmin) || activeSection === 'activities-gallery') && (
       <>
       <div className="group-title" style={{marginTop:'40px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-person-running"></i> Activities Gallery
@@ -1169,8 +1146,12 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
            </>
          )}
       </div>
+      </>
+      )}
 
       {/* 5. Meet My Team (Gallery) */}
+      {(activeSection === 'all' || activeSection === 'team-gallery') && (
+      <>
       <div className="group-title" style={{marginTop:'40px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-users"></i> Meet My Team (Gallery)
       </div>
@@ -1293,53 +1274,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             </div>
           </div>
           
-          {teamGalleryInput.type === 'image' && (
-            <div style={{marginBottom:'15px'}}>
-              <label style={{fontWeight: 'bold', fontSize: '14px', marginBottom: '8px', display: 'block'}}>Display Mode</label>
-              <div style={{display: 'flex', gap: '15px'}}>
-                <label style={{
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '8px', 
-                  cursor: 'pointer',
-                  padding: '8px 16px',
-                  background: teamGalleryInput.cropMode === 'uncropped' ? '#e6f7ff' : 'white',
-                  border: `1px solid ${teamGalleryInput.cropMode === 'uncropped' ? '#1890ff' : '#d9d9d9'}`,
-                  borderRadius: '4px'
-                }}>
-                  <input 
-                    type="radio" 
-                    name="teamDisplayMode" 
-                    value="uncropped"
-                    checked={teamGalleryInput.cropMode === 'uncropped'}
-                    onChange={() => setTeamGalleryInput({...teamGalleryInput, cropMode: 'uncropped'})}
-                    style={{cursor: 'pointer'}}
-                  />
-                  <span>Uncropped (Fit)</span>
-                </label>
-                <label style={{
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '8px', 
-                  cursor: 'pointer',
-                  padding: '8px 16px',
-                  background: teamGalleryInput.cropMode === 'cropped' ? '#e6f7ff' : 'white',
-                  border: `1px solid ${teamGalleryInput.cropMode === 'cropped' ? '#1890ff' : '#d9d9d9'}`,
-                  borderRadius: '4px'
-                }}>
-                  <input 
-                    type="radio" 
-                    name="teamDisplayMode" 
-                    value="cropped"
-                    checked={teamGalleryInput.cropMode === 'cropped'}
-                    onChange={() => setTeamGalleryInput({...teamGalleryInput, cropMode: 'cropped'})}
-                    style={{cursor: 'pointer'}}
-                  />
-                  <span>Cropped (Fill)</span>
-                </label>
-              </div>
-            </div>
-          )}
+
           
           {teamGalleryInput.type === 'video' ? (
             <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
@@ -1416,8 +1351,12 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
            </>
          )}
       </div>
+      </>
+      )}
 
       {/* 6. My Team (Position) */}
+      {(activeSection === 'all' || activeSection === 'team-positions') && (
+      <>
       <div className="group-title" style={{marginTop:'40px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
         <i className="fa-solid fa-user-doctor"></i> My Team Position
       </div>
@@ -1504,6 +1443,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
       )}
       </>
       )}
+      </div>
 
       <div className="toolbar" style={{marginTop:'40px', paddingTop: '20px', borderTop: '1px solid #eee'}}>
         <div className="right"></div>

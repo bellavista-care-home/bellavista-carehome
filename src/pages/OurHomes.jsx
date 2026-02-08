@@ -41,8 +41,14 @@ const OurHomes = ({ isStandalone = false }) => {
              const activityImgs = (h.activityImages || []).map(img => 
                typeof img === 'object' ? img.url : img
              );
-             // Use main image + first activity image (as second card image)
-             const cardImages = [h.homeImage, activityImgs[0]].filter(Boolean);
+             
+             // Use main image + cardImage2 (or fallback to first activity image for backward compatibility)
+             let secondCardImage = h.cardImage2;
+             if (!secondCardImage && activityImgs.length > 0) {
+                secondCardImage = activityImgs[0];
+             }
+
+             const cardImages = [h.homeImage, secondCardImage].filter(Boolean);
              
              return {
                id: h.id,
