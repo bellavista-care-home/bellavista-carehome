@@ -27,21 +27,9 @@ const BellavistaBarry = () => {
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   // Default Static Data (Fallbacks)
-  const defaultActivitiesImages = [
-    "arts-and-musical-gatherings.jpg",
-    "community-events.jpg",
-    "holiday-celebrations.jpg",
-    "themed-days.jpg",
-    "trips-and-outings.jpg"
-  ];
+  const defaultActivitiesImages = [];
 
-  const defaultFacilitiesImages = [
-    "activity-room.jpg",
-    "dining-room.jpg",
-    "lounge-area.jpg",
-    "garden-facility.jpeg",
-    "reception-facility.jpeg"
-  ];
+  const defaultFacilitiesImages = [];
 
   const defaultTeamImages = [];
 

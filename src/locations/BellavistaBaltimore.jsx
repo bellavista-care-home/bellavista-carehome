@@ -25,21 +25,9 @@ const BellavistaBaltimore = () => {
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   // Using Barry's images as placeholders where specific Baltimore images might be missing
-  const defaultActivitiesImages = [
-    "arts-and-musical-gatherings.jpg",
-    "community-events.jpg",
-    "holiday-celebrations.jpg",
-    "themed-days.jpg",
-    "trips-and-outings.jpg"
-  ];
+  const defaultActivitiesImages = [];
 
-  const defaultFacilitiesImages = [
-    "activity-room.jpg",
-    "dining-room.jpg",
-    "lounge-area.jpg",
-    "garden-facility.jpeg",
-    "reception-facility.jpeg"
-  ];
+  const defaultFacilitiesImages = [];
 
   const defaultTeamImages = [];
 
