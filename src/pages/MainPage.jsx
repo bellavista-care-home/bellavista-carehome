@@ -367,7 +367,6 @@ const Home = () => {
         </div>
 
         {slides.length > 0 && (
-          {slides.length > 0 && (
           <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
