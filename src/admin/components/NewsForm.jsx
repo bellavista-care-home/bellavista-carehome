@@ -230,7 +230,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         )}
       </div>
 
-      <div style={{height: 'calc(100vh - 200px)', overflowY: 'auto'}}>
+      <div>
         <div>
           {/* Section 1: Main Card */}
           <div className="group-title" style={{ marginTop: '20px', marginBottom: '15px', color: '#2c5aa0', fontSize: '18px' }}>

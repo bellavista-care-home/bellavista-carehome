@@ -43,6 +43,14 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
     }
   }, [imageLoaded, imageDims, aspectRatio]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleImageLoad = (e) => {
     const img = e.target;
     const rect = img.getBoundingClientRect();
@@ -56,6 +64,7 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
   };
 
   const getMousePosition = (e) => {
+    // containerRef should now wrap the image tightly
     const rect = containerRef.current.getBoundingClientRect();
     return {
       x: e.clientX - rect.left,
@@ -289,124 +298,140 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
     }}>
       <div style={{
         backgroundColor: 'white',
-        padding: '20px',
+        padding: '15px',
         borderRadius: '10px',
-        maxWidth: '90vw',
-        maxHeight: '90vh',
-        overflow: 'auto',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.3)'
+        width: '90vw',
+        maxWidth: '800px',
+        maxHeight: '95vh',
+        overflow: 'hidden', // Prevent container scroll
+        boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+        display: 'flex',
+        flexDirection: 'column'
       }}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'15px'}}>
-          <h3 style={{margin:0}}>Crop Image</h3>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px', flexShrink: 0}}>
+          <h3 style={{margin:0, fontSize: '18px'}}>Crop Image</h3>
           <button 
             onClick={onCancel}
             style={{
               background:'none', border:'none', fontSize:'20px', 
-              cursor:'pointer', color:'#666', padding:'5px'
+              cursor:'pointer', color:'#666', padding:'0 5px'
             }}
           >
             ✕
           </button>
         </div>
         
-        <p className="muted" style={{marginBottom:'10px'}}>
-          Click and drag to select area. Drag selection to move. Drag corners to resize.
+        <p className="muted" style={{marginBottom:'5px', fontSize: '13px', flexShrink: 0}}>
+          Drag to crop. Resize corners.
         </p>
         
         {selection.width > 0 && selection.height > 0 && (
-          <div style={{fontSize:'12px', color:'#666', marginBottom:'10px'}}>
-            Selection: {Math.round(selection.width)}×{Math.round(selection.height)}px | 
-            Final: {Math.round(selection.width * imageDims.naturalWidth / imageDims.clientWidth)}×{Math.round(selection.height * imageDims.naturalHeight / imageDims.clientHeight)}px
+          <div style={{fontSize:'11px', color:'#666', marginBottom:'5px', flexShrink: 0}}>
+            Selection: {Math.round(selection.width)}×{Math.round(selection.height)}px
           </div>
         )}
         
-        <div 
-          ref={containerRef}
-          style={{
-            position: 'relative',
-            margin: '20px 0',
-            textAlign: 'center',
-            cursor: getCursorStyle(),
-            userSelect: 'none'
-          }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-        >
-          <img 
-            ref={imgRef}
-            src={imageUrl} 
-            alt="Crop preview" 
-            style={{ 
-              maxWidth: '100%', 
-              maxHeight: '60vh',
-              border: '2px solid #ddd',
-              borderRadius: '5px',
-              display: 'block'
+        <div style={{
+          flex: 1,
+          minHeight: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          backgroundColor: '#f5f5f5',
+          borderRadius: '4px',
+          margin: '5px 0',
+          padding: '10px'
+        }}>
+          <div 
+            ref={containerRef}
+            style={{
+              position: 'relative',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              lineHeight: 0,
+              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+              cursor: getCursorStyle(),
+              userSelect: 'none'
             }}
-            onLoad={handleImageLoad}
-          />
-          
-          {selection.width > 0 && selection.height > 0 && (
-            <>
-              {/* Selection overlay */}
-              <div style={{
-                position: 'absolute',
-                border: '2px solid #007bff',
-                backgroundColor: 'rgba(0,123,255,0.1)',
-                left: selection.x,
-                top: selection.y,
-                width: selection.width,
-                height: selection.height,
-                pointerEvents: 'none'
-              }} />
-              
-              {/* Resize handles */}
-              <div
-                style={{
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <img 
+              ref={imgRef}
+              src={imageUrl} 
+              alt="Crop preview" 
+              style={{ 
+                maxWidth: '100%', 
+                maxHeight: '65vh', 
+                display: 'block'
+              }}
+              onLoad={handleImageLoad}
+            />
+            
+            {selection.width > 0 && selection.height > 0 && (
+              <>
+                {/* Selection overlay */}
+                <div style={{
                   position: 'absolute',
-                  left: selection.x + selection.width - 8,
-                  top: selection.y + selection.height - 8,
-                  width: '16px',
-                  height: '16px',
-                  background: '#007bff',
-                  border: '2px solid white',
-                  borderRadius: '50%',
-                  cursor: 'nwse-resize',
-                  boxShadow: '0 0 0 2px #007bff'
-                }}
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  setCropMode('resize');
-                  setStartPoint(getMousePosition(e));
-                }}
-              />
-            </>
-          )}
+                  border: '2px solid #007bff',
+                  backgroundColor: 'rgba(0,123,255,0.1)',
+                  left: selection.x,
+                  top: selection.y,
+                  width: selection.width,
+                  height: selection.height,
+                  pointerEvents: 'none'
+                }} />
+                
+                {/* Resize handles */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: selection.x + selection.width - 8,
+                    top: selection.y + selection.height - 8,
+                    width: '16px',
+                    height: '16px',
+                    background: '#007bff',
+                    border: '2px solid white',
+                    borderRadius: '50%',
+                    cursor: 'nwse-resize',
+                    boxShadow: '0 0 0 2px #007bff'
+                  }}
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    setCropMode('resize');
+                    setStartPoint(getMousePosition(e));
+                  }}
+                />
+              </>
+            )}
+          </div>
         </div>
         
-        <div className="toolbar" style={{justifyContent:'space-between'}}>
-          <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
-            <button className="btn ghost" onClick={onCancel}>
+        <div className="toolbar" style={{justifyContent:'space-between', marginTop: '5px', flexShrink: 0}}>
+          <div style={{display:'flex', alignItems:'center', gap:'8px', flexWrap: 'wrap'}}>
+            <button className="btn ghost small" onClick={onCancel} style={{padding: '5px 10px', height: '32px'}}>
               Cancel
             </button>
-            <button className="btn ghost" onClick={resetSelection}>
+            <button className="btn ghost small" onClick={resetSelection} style={{padding: '5px 10px', height: '32px'}}>
               Reset
             </button>
             {allowSkip && (
               <button
-                className="btn ghost"
+                className="btn ghost small"
                 onClick={() => {
                   if (onSkip) onSkip(imageUrl);
                 }}
                 title="Use the full image without cropping"
+                style={{padding: '5px 10px', height: '32px'}}
               >
                 Use Full Image
               </button>
             )}
           </div>
-          <button className="btn" onClick={handleCrop} disabled={selection.width < 50 || selection.height < 50}>
+          <button className="btn small" onClick={handleCrop} disabled={selection.width < 50 || selection.height < 50} style={{height: '32px'}}>
             Apply Crop
           </button>
         </div>

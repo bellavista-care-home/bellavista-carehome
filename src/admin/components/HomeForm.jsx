@@ -671,7 +671,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                     addItem('bannerImages', { url: url, showOnMain: false });
                  }
               }}
-              showCrop={false}
+              showCrop={true}
+              autoReset={true}
               allowSkipOnUpload={true}
             />
         </div>
