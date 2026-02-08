@@ -282,8 +282,8 @@
 }
 
 .read-more-btn {
-  background: var(--primary-navy, #1B3C78);
-  border: 2px solid var(--primary-navy, #1B3C78);
+  background: linear-gradient(135deg, var(--cta-default, #1FA4A9), var(--cta-hover, #178C91));
+  border: 2px solid var(--cta-default, #1FA4A9);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -293,27 +293,67 @@
   align-items: center;
   gap: 8px;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 20px;
-  box-shadow: 0 4px 6px rgba(27, 60, 120, 0.2);
+  box-shadow: 0 4px 15px rgba(31, 164, 169, 0.3);
   min-height: 44px; /* Better touch target */
   font-family: inherit;
   text-decoration: none;
   line-height: 1.2;
+  position: relative;
+  overflow: hidden;
 }
 
 .read-more-btn:hover {
-  background: var(--secondary-blue, #315DA8);
-  border-color: var(--secondary-blue, #315DA8);
+  background: linear-gradient(135deg, var(--cta-hover, #178C91), var(--cta-default, #1FA4A9));
+  border-color: var(--cta-hover, #178C91);
   color: white;
   text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(27, 60, 120, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(31, 164, 169, 0.4);
+}
+
+.read-more-btn:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 4px 15px rgba(31, 164, 169, 0.3);
 }
 
 .read-more-btn:focus {
   outline: 2px solid var(--cta-default, #1FA4A9);
   outline-offset: 2px;
+}
+
+/* Button icon animations */
+.read-more-btn i {
+  transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover i {
+  transform: translateY(2px);
+}
+
+.article-navigation .btn i {
+  transition: transform 0.3s ease;
+}
+
+.article-navigation .share-btn:hover i {
+  transform: scale(1.2) rotate(15deg);
+}
+
+/* Glow effect for buttons */
+.read-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.read-more-btn:hover::before {
+  left: 100%;
 }
 
 /* Article Navigation */
@@ -329,22 +369,62 @@
 }
 
 .article-navigation .btn {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .article-navigation .btn:focus {
   outline: 2px solid var(--cta-default, #1FA4A9);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(31, 164, 169, 0.2);
 }
 
 .article-navigation .btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Specific styling for Back to News button */
+.article-navigation .btn:first-child {
+  background: linear-gradient(135deg, var(--soft-blue, #E9F0FB), var(--surface-blue, #F7FAFF));
+  border: 2px solid var(--soft-blue, #E9F0FB);
+  color: var(--primary-navy, #1B3C78);
+  box-shadow: 0 4px 15px rgba(233, 240, 251, 0.4);
+}
+
+.article-navigation .btn:first-child:hover {
+  background: linear-gradient(135deg, var(--primary-navy, #1B3C78), var(--secondary-blue, #315DA8));
+  border-color: var(--primary-navy, #1B3C78);
+  color: white;
+  box-shadow: 0 8px 25px rgba(27, 60, 120, 0.4);
+}
+
+/* Specific styling for Share Article button */
+.article-navigation .share-btn {
+  background: linear-gradient(135deg, var(--primary-navy, #1B3C78), var(--secondary-blue, #315DA8));
+  border: 2px solid var(--primary-navy, #1B3C78);
+  color: white;
+  box-shadow: 0 4px 15px rgba(27, 60, 120, 0.3);
+}
+
+.article-navigation .share-btn:hover {
+  background: linear-gradient(135deg, var(--secondary-blue, #315DA8), var(--primary-navy, #1B3C78));
+  border-color: var(--secondary-blue, #315DA8);
+  box-shadow: 0 8px 25px rgba(27, 60, 120, 0.4);
+}
+
+.article-navigation .share-btn:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 4px 15px rgba(27, 60, 120, 0.3);
 }
 
 /* Sidebar */
@@ -714,8 +794,10 @@
   }
   
   .read-more-btn {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 0.95rem;
+    width: 100%;
+    justify-content: center;
   }
   
   .sidebar-widget {
