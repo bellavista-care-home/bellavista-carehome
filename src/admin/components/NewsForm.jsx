@@ -283,23 +283,6 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
           {/* Main Image with Standard Size */}
           <div className="field" style={{ marginTop: '15px' }}>
             <label>Main Card Image * (800×450px, 16:9 ratio)</label>
-            <div style={{ 
-              border: '2px dashed #ccc', 
-              borderRadius: '8px', 
-              padding: '20px', 
-              textAlign: 'center',
-              backgroundColor: '#f9f9f9',
-              marginBottom: '10px'
-            }}>
-              <div style={{ marginBottom: '15px' }}>
-                <p style={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>
-                  <i className="fa-solid fa-info-circle"></i> Standard size: 800×450px (16:9) - automatically resized
-                </p>
-                <p style={{ fontSize: '12px', color: '#999' }}>
-                  Accepted formats: JPG, PNG, WebP. Max size: 5MB
-                </p>
-              </div>
-              
               <EnhancedImageUploader 
                 label="Upload Main Image"
                 aspectRatio={16/9}
@@ -308,7 +291,6 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
                 showCrop={true}
                 allowSkipOnUpload={true}
               />
-            </div>
           </div>
 
           <div className="field">

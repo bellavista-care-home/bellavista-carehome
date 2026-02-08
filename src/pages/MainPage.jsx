@@ -546,7 +546,7 @@ const Home = () => {
                   <span className="news-date-large">{featuredNews.date}</span>
                 </div>
                 <h3>{featuredNews.title}</h3>
-                <p>{featuredNews.excerpt}</p>
+                <div dangerouslySetInnerHTML={{ __html: featuredNews.excerpt }} />
                 <Link to={`/news/${featuredNews.id}`} className="btn btn-primary">Read Full Update</Link>
               </div>
             </div>

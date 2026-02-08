@@ -462,6 +462,10 @@ const ImageUploader = ({
   const [uploadStatus, setUploadStatus] = useState(''); // NEW: For showing upload status
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    setImageUrl(initialValue);
+  }, [initialValue]);
+
   const validateFile = (file) => {
     if (!allowedFormats.includes(file.type)) {
       alert(`Invalid format. Allowed: ${allowedFormats.map(f => f.split('/')[1]).join(', ')}`);

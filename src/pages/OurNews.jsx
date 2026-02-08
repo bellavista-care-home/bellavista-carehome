@@ -38,6 +38,13 @@ const OurNews = () => {
 
   const categories = ['all', 'health-updates', 'events', 'awards', 'innovation', 'community'];
 
+  const stripHtml = (html) => {
+    if (!html) return '';
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   const categoryDisplayNames = {
     'all': 'All News',
     'health-updates': 'Health Updates',
@@ -141,8 +148,8 @@ const OurNews = () => {
                       </h3>
                       <p className="article-excerpt">
                           {highlightedArticleId === news.id && news.fullDescription
-                            ? news.fullDescription.split('\n').map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)
-                            : (news.excerpt || '').slice(0, MAX_EXCERPT)}
+                            ? <span dangerouslySetInnerHTML={{ __html: news.fullDescription }} />
+                            : stripHtml(news.excerpt || '').slice(0, MAX_EXCERPT) + (stripHtml(news.excerpt || '').length > MAX_EXCERPT ? '...' : '')}
                       </p>
                       <div className="article-meta">
                         <span className="meta-date">
