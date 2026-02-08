@@ -56,8 +56,7 @@ const NewsDetail = () => {
   }
 
   const description = news.fullDescription || news.excerpt;
-  const truncatedText = description.length > 500 ? description.substring(0, 500) + '...' : description;
-  const displayText = expanded ? description : truncatedText;
+  const isLongContent = description.length > 500;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -169,8 +168,8 @@ const NewsDetail = () => {
               )}
               <div className="article-content">
                 <div className="article-description">
-                  <div className="article-body-content" dangerouslySetInnerHTML={{ __html: displayText }} />
-                  {!expanded && description.length > 500 && (
+                  <div className={`article-body-content ${expanded || !isLongContent ? 'expanded' : 'collapsed'}`} dangerouslySetInnerHTML={{ __html: description }} />
+                  {!expanded && isLongContent && (
                     <button 
                       className="read-more-btn" 
                       onClick={() => setExpanded(true)}
