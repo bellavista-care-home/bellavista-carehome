@@ -77,12 +77,7 @@ const Home = () => {
 
   const featuredNews = newsList.find(news => news.important) || newsList[0] || {};
 
-  const [slides, setSlides] = useState([
-    '/theraphy-rooms.jpg',
-    '/home-images/barry.jpg',
-    '/gardens.jpg',
-    '/medical-suite.jpg'
-  ]);
+  const [slides, setSlides] = useState([]);
 
   useEffect(() => {
     const loadBanners = async () => {
@@ -360,20 +355,19 @@ const Home = () => {
               <span className="title-sub">A Home from Home</span>
             </h1>
             <p className="hero-description">
-              Experience exceptional residential and nursing care in a warm, modern, and welcoming environment. Our compassionate, highly trained team provides personalized support designed to enhance dignity, comfort, and wellbeing. At Bellavista, every resident is treated with respect, care, and a true sense of home.
+              Award-winning residential, nursing, and dementia care in South Wales. 
+              We provide a warm, safe, and enriching environment where every resident 
+              is treated with dignity and compassion.
             </p>
             <div className="hero-actions">
-              <Link className="btn btn-primary" to="/schedule-tour">
-                <i className="fas fa-calendar-check"></i> Book a Tour
-              </Link>
-              <Link className="btn btn-outline" to="/enquiry">
-                <i className="fas fa-heart"></i> Care Enquiry
-              </Link>
+              <Link to="/our-homes" className="btn btn-primary">Explore Our Homes</Link>
+              <Link to="/contact" className="btn btn-outline">Book a Visit</Link>
             </div>
           </div>
         </div>
 
         {slides.length > 0 && (
+          {slides.length > 0 && (
           <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
