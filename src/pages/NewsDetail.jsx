@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../styles/Careers.css';
 import '../styles/MainPage.css';
+import '../styles/NewsDetail.css';
 
 const NewsDetail = () => {
   const { id } = useParams();
