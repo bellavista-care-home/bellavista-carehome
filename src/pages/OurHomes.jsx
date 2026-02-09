@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchHomes } from '../services/homeService';
+import { decodeHtmlEntities } from '../utils/htmlUtils';
 import '../styles/OurHomes.css';
 import SEO from '../components/SEO';
 
@@ -175,7 +176,7 @@ const OurHomes = ({ isStandalone = false }) => {
               
               <div className="home-content">
                 <h3>{home.name}</h3>
-                <p className="home-description">{home.description}</p>
+                <p className="home-description" dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(home.description) }} />
 
                 <button className="view-home-btn">
                   View Home <i className="fas fa-arrow-right"></i>
