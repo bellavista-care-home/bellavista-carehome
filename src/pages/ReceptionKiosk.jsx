@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { saveBookingToAPI } from '../services/tourService';
+import { saveKioskCheckIn } from '../services/tourService';
 
 const ReceptionKiosk = () => {
   const { locationId } = useParams();
@@ -35,21 +35,17 @@ const ReceptionKiosk = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const booking = {
-      id: `${Date.now()}`,
+    const checkInData = {
       name: formData.name,
       email: formData.email || 'walk-in@example.com', // Default if skipped
       phone: formData.phone,
-      preferredDate: new Date().toISOString().split('T')[0],
-      preferredTime: new Date().toLocaleTimeString(),
       location: homeName,
-      message: formData.message || 'Walk-in Visit',
-      createdAt: new Date().toISOString(),
-      status: 'walk-in' // Special status for admin to see
+      visitPurpose: formData.message || 'Walk-in Visit',
+      personVisiting: 'Reception' // Default for walk-in visitors
     };
 
     try {
-      await saveBookingToAPI(booking);
+      await saveKioskCheckIn(checkInData);
       setSubmitted(true);
       // Reset form after 5 seconds for next visitor
       setTimeout(() => {
@@ -57,6 +53,7 @@ const ReceptionKiosk = () => {
         setFormData({ name: '', email: '', phone: '', message: '' });
       }, 2000);
     } catch (error) {
+      console.error('Kiosk check-in error:', error);
       alert('Error registering visit. Please try again.');
     }
   };

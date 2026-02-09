@@ -49,3 +49,14 @@ export async function updateBookingInAPI(id, data) {
   if (!res.ok) throw new Error('API error');
   return await res.json();
 }
+
+export async function saveKioskCheckIn(checkInData) {
+  if (!API_BASE) return null;
+  const res = await fetch(`${API_BASE}/kiosk/check-in`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(checkInData)
+  });
+  if (!res.ok) throw new Error('API error');
+  return await res.json();
+}
