@@ -49,6 +49,24 @@ const EventsManager = ({ notify }) => {
     setCurrentEvent(prev => ({ ...prev, location: selectedOptions.join(', ') }));
   };
 
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    // Split and clean existing locations
+    let currentLocations = currentEvent.location 
+      ? currentEvent.location.split(', ').filter(l => l && l.trim() !== '') 
+      : [];
+    
+    if (checked) {
+      if (!currentLocations.includes(value)) {
+        currentLocations.push(value);
+      }
+    } else {
+      currentLocations = currentLocations.filter(loc => loc !== value);
+    }
+    
+    setCurrentEvent(prev => ({ ...prev, location: currentLocations.join(', ') }));
+  };
+
   const handleImageChange = (url) => {
     setCurrentEvent(prev => ({ ...prev, image: url }));
   };
@@ -156,18 +174,21 @@ const EventsManager = ({ notify }) => {
             </div>
             */}
             <div className="field" style={{ gridColumn: '1 / -1' }}>
-              <label>Location (Hold Ctrl/Cmd to select multiple)</label>
-              <select 
-                multiple 
-                name="location" 
-                value={currentEvent.location ? currentEvent.location.split(', ') : []} 
-                onChange={handleLocationChange}
-                style={{ height: '120px' }}
-              >
+              <label>Location (Select all that apply)</label>
+              <div className="checkbox-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', marginTop: '10px', padding: '10px', background: '#f9f9f9', borderRadius: '4px', border: '1px solid #eee' }}>
                 {locationOptions.map(loc => (
-                  <option key={loc} value={loc}>{loc}</option>
+                  <label key={loc} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px' }}>
+                    <input 
+                      type="checkbox" 
+                      value={loc}
+                      checked={currentEvent.location ? currentEvent.location.split(', ').includes(loc) : false}
+                      onChange={handleCheckboxChange}
+                      style={{ width: 'auto', margin: 0 }}
+                    />
+                    {loc}
+                  </label>
                 ))}
-              </select>
+              </div>
             </div>
             <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label>Description</label>

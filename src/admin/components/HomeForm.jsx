@@ -257,28 +257,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
     return formData.cardImage2 || '';
   };
 
-  const copyListingJson = async () => {
-    const id = (formData.homeName || 'home').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const name = formData.homeName || '';
-    const location = formData.homeLocation || '';
-    const description = formData.homeDesc || '';
-    // Use homeImage and cardImage2 explicitly
-    const images = [formData.homeImage, formData.cardImage2].filter(Boolean);
-    const features = [];
-    if (formData.statsBedrooms) features.push(`${formData.statsBedrooms} Bedrooms`);
-    if (formData.statsPremier) features.push(`${formData.statsPremier} Premier Rooms`);
-    features.push(...(formData.facilitiesList || []).map(f => f.title).filter(Boolean));
-    const link = `/${id}`;
-    const payload = { id, name, location, description, features, images, link };
-    const json = JSON.stringify(payload, null, 2);
-    try {
-      await navigator.clipboard.writeText(json);
-      alert('Home listing JSON copied to clipboard');
-    } catch {
-      alert(json);
-    }
-  };
-
   const [isUploading, setIsUploading] = useState(false);
 
   const handleVideoUpload = async (file, field) => {
@@ -1448,9 +1426,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
 
       <div className="toolbar" style={{marginTop:'40px', paddingTop: '20px', borderTop: '1px solid #eee'}}>
         <div className="right"></div>
-        <button className="btn ghost" onClick={copyListingJson} style={{marginRight:'10px'}}>
-          <i className="fa-solid fa-copy"></i>&nbsp;Copy Listing JSON
-        </button>
         <button className="btn" onClick={() => {
           if (onSave) {
             onSave(formData);
