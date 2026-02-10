@@ -11,6 +11,9 @@ import ScrollToTop from './components/ScrollToTop';
 import ChatWidget from './components/ChatWidget';
 import ProtectedRoute from './components/ProtectedRoute';
 import SmoothScroll from './components/SmoothScroll';
+import SessionExpiredModal from './components/SessionExpiredModal';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 // =============================================================================
 // LAZY LOADED COMPONENTS FOR PERFORMANCE
@@ -98,6 +101,39 @@ const NotFound = () => (
 
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isSessionExpired, setIsSessionExpired] = useState(false);
+
+  // Global fetch interceptor for 401 handling
+  useEffect(() => {
+    const originalFetch = window.fetch;
+    window.fetch = async (...args) => {
+      try {
+        const response = await originalFetch(...args);
+        if (response.status === 401) {
+          // Check if we are already on the login page to avoid loop
+          if (!window.location.pathname.includes('/login')) {
+            setIsSessionExpired(true);
+          }
+        }
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    return () => {
+      window.fetch = originalFetch;
+    };
+  }, []);
+
+  const handleSessionExpiredClose = () => {
+    setIsSessionExpired(false);
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/admin-console';
   const isKioskRoute = location.pathname.startsWith('/kiosk');
 
@@ -117,6 +153,7 @@ const AppContent = () => {
   if (isAdminRoute || isKioskRoute) {
     return (
       <div className="App">
+        <SessionExpiredModal isOpen={isSessionExpired} onClose={handleSessionExpiredClose} />
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/admin" element={
@@ -144,6 +181,7 @@ const AppContent = () => {
 
   return (
     <div className="App">
+      <SessionExpiredModal isOpen={isSessionExpired} onClose={handleSessionExpiredClose} />
       <Header />
       <main>
         <Suspense fallback={<LoadingSpinner />}>
