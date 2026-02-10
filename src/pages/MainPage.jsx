@@ -360,8 +360,8 @@ const Home = () => {
               is treated with dignity and compassion.
             </p>
             <div className="hero-actions">
-              <Link to="/schedule-tour" className="btn btn-primary">Book a Tour</Link>
-              <Link to="/enquiry" className="btn btn-outline">Care Enquiry</Link>
+              <Link to="/schedule-tour" className="btn btn-primary"><i className="fa-solid fa-calendar-check" style={{marginRight: '8px'}}></i>Book a Tour</Link>
+              <Link to="/enquiry" className="btn btn-outline"><i className="fa-solid fa-heart" style={{marginRight: '8px'}}></i>Care Enquiry</Link>
             </div>
           </div>
         </div>
