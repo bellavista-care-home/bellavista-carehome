@@ -158,6 +158,7 @@ nav a {
   font-family: var(--font-primary);
   letter-spacing: 0.5px;
   padding: 8px 12px; /* Increased padding for better touch target */
+  white-space: nowrap;
 }
 
 nav a:hover,
