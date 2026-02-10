@@ -32,7 +32,7 @@ const AdminConsole = () => {
       setUser(currentUser);
       // Redirect home_admin to a safe default view if they land on the restricted update-home view
       if (currentUser.role === 'home_admin' && activeView === 'update-home') {
-        setActiveView('home-section-card-images');
+        setActiveView('home-section-ciw-report');
       }
     }
   }, []);
@@ -885,7 +885,7 @@ const AdminConsole = () => {
           ) : (
           <>
             <div className="group-title">Home Content</div>
-            <button className={activeView === 'home-section-card-images' ? 'active' : ''} onClick={() => setActiveView('home-section-card-images')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-image"></i><span>Card Images</span>
             </button>
             <button className={activeView === 'home-section-ciw-report' ? 'active' : ''} onClick={() => setActiveView('home-section-ciw-report')}>
@@ -903,10 +903,10 @@ const AdminConsole = () => {
             <button className={activeView === 'home-section-activities-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-activities-gallery')}>
               <i className="fa-solid fa-person-running"></i><span>Activities Gallery</span>
             </button>
-            <button className={activeView === 'home-section-team-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-team-gallery')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-users"></i><span>My Team Gallery</span>
             </button>
-            <button className={activeView === 'home-section-team-positions' ? 'active' : ''} onClick={() => setActiveView('home-section-team-positions')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-user-doctor"></i><span>My Team Positions</span>
             </button>
 
@@ -922,25 +922,25 @@ const AdminConsole = () => {
             </button>
 
             <div className="group-title">Management</div>
-            <button className={activeView === 'reviews' ? 'active' : ''} onClick={() => setActiveView('reviews')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-star"></i><span>Reviews</span>
             </button>
-            <button className={activeView === 'manage-vacancies' ? 'active' : ''} onClick={() => setActiveView('manage-vacancies')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
             </button>
-            <button className={activeView === 'kiosk-link' ? 'active' : ''} onClick={() => setActiveView('kiosk-link')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-tablet-screen-button"></i><span>Reception Kiosk</span>
             </button>
-            <button className={activeView === 'scheduled-tours' ? 'active' : ''} onClick={() => setActiveView('scheduled-tours')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-calendar-check"></i><span>Scheduled Tours</span>
             </button>
-            <button className={activeView === 'kiosk-checkins' ? 'active' : ''} onClick={() => { setActiveView('kiosk-checkins'); loadKioskCheckIns(); }}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-clipboard-list"></i><span>Kiosk Check-ins</span>
             </button>
-            <button className={activeView === 'care-enquiries' ? 'active' : ''} onClick={() => setActiveView('care-enquiries')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-heart"></i><span>Care Enquiries</span>
             </button>
-            <button className={activeView === 'career-applications' ? 'active' : ''} onClick={() => setActiveView('career-applications')}>
+            <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-user-nurse"></i><span>Career Applications</span>
             </button>
           </>
