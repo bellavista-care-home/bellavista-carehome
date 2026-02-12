@@ -156,6 +156,81 @@
   overflow: hidden;
 }
 
+/* Care Sections - Alternating Layout */
+.care-sections {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.care-section {
+  display: flex;
+  align-items: center; /* Center image if description is large */
+  gap: 60px;
+}
+
+.care-section.image-right {
+  flex-direction: row-reverse;
+}
+
+.care-section-image {
+  flex: 1;
+  min-width: 400px;
+  width: 50%; /* Force 50% width */
+}
+
+.care-section-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px -10px rgba(27, 60, 120, 0.2);
+  display: block;
+}
+
+.care-section-content {
+  flex: 1;
+  width: 50%; /* Force 50% width */
+  overflow-wrap: break-word; /* Ensure long words break */
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.care-section-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.care-section-content h3 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.care-section-content .description {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.care-section-content .description p {
+  margin-bottom: 1em;
+}
+
+.image-placeholder {
+  background: var(--soft-blue);
+  height: 400px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-blue);
+  font-size: 3rem;
+}
+
 /* Responsive Adjustments */
 
 @media (max-width: 768px) {
@@ -186,6 +261,19 @@
 
   .card-content h3 {
     font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .care-section, 
+  .care-section.image-right {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .care-section-image {
+    width: 100%;
+    min-width: 0;
   }
 }
 
@@ -320,13 +408,10 @@
   margin-bottom: 40px;
   overflow-wrap: break-word; /* Prevent overflow from long words */
   word-wrap: break-word;
+  word-break: break-word; /* Handle non-breaking spaces and long words */
 }
 
-/* Fix for Quill Editor formatting */
-.modal-description p {
-  margin-bottom: 1em;
-}
-
+/* Quill Editor Styles Support */
 .modal-description .ql-align-center {
   text-align: center;
 }
@@ -339,11 +424,34 @@
   text-align: justify;
 }
 
+.modal-description .ql-indent-1 {
+  padding-left: 3em;
+}
+
+.modal-description .ql-indent-2 {
+  padding-left: 6em;
+}
+
+/* Fix for Quill Editor formatting */
+.modal-description p {
+  margin-bottom: 1em;
+}
+
+.modal-description ul, .modal-description ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.modal-description li {
+  margin-bottom: 0.5em;
+}
+
 /* Ensure images within description are responsive */
 .modal-description img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+  margin: 10px 0;
 }
 
 .modal-footer {

@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
+import '../styles/MainPage.css';
 import SlideMedia from '../components/SlideMedia';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
@@ -276,6 +277,11 @@ const CollegeFieldsNursingHome = () => {
         .theme-college-fields .hero-description {
           color: rgba(255, 251, 244, 0.9);
           font-family: var(--font-body);
+        }
+        
+        /* Fix brown/black background on refresh */
+        .home .hero-image-wrap {
+          background-color: var(--color-primary) !important;
         }
         
         /* 2. ABOUT / INTRO SECTION */
@@ -978,7 +984,7 @@ const CollegeFieldsNursingHome = () => {
             College Fields is committed to delivering the highest standards of care within 
             a compassionate, professional, and inspiring environment.
           </p>
-          <Link to="/our-care" className="btn btn-primary btn-lg">
+          <Link to="/care/college-fields-nursing-home" className="btn btn-primary btn-lg">
             Click here to explore OUR CARE
           </Link>
         </div>
@@ -1068,7 +1074,7 @@ const CollegeFieldsNursingHome = () => {
                 <div className="fact-row">
                   <span className="fact-label">Our Care:</span>
                   <Link 
-                    to="/our-care" 
+                    to="/care/college-fields-nursing-home" 
                     className="fact-value" 
                     style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                   >

@@ -17,6 +17,7 @@ import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
 import EventsManager from './components/EventsManager';
+import CareServiceManager from './components/CareServiceManager';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import './AdminConsole.css';
@@ -845,6 +846,12 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
           </button>
+          <button 
+            className={activeView === 'manage-care-services' ? 'active' : ''}
+            onClick={() => setActiveView('manage-care-services')}
+          >
+            <i className="fa-solid fa-hand-holding-heart"></i><span>Global Care Services</span>
+          </button>
           <button
             className={activeView === 'reviews' ? 'active' : ''}
             onClick={() => setActiveView('reviews')}
@@ -920,6 +927,9 @@ const AdminConsole = () => {
             </button>
             <button className={activeView === 'home-section-activities-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-activities-gallery')}>
               <i className="fa-solid fa-person-running"></i><span>Activities Gallery</span>
+            </button>
+            <button className={activeView === 'home-section-care-gallery' ? 'active' : ''} onClick={() => setActiveView('home-section-care-gallery')}>
+              <i className="fa-solid fa-hand-holding-heart"></i><span>Care Gallery</span>
             </button>
             <button className="disabled" style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Temporarily Disabled">
               <i className="fa-solid fa-users"></i><span>My Team Gallery</span>
@@ -1120,6 +1130,10 @@ const AdminConsole = () => {
             )}
           </section>
         )}
+
+        {activeView === 'manage-events' && <EventsManager notify={notify} />}
+        
+        {activeView === 'manage-care-services' && <CareServiceManager notify={notify} />}
 
         {activeView === 'reviews' && (
           <section className="panel">

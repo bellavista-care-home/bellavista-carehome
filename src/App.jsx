@@ -43,6 +43,7 @@ const MeadowVale = lazy(() => import('./locations/MeadowValeCwtch'));
 
 // Additional Pages
 const Activities = lazy(() => import('./pages/Activities'));
+const Care = lazy(() => import('./pages/Care'));
 const Events = lazy(() => import('./pages/Events'));
 const Facilities = lazy(() => import('./pages/Facilities'));
 const News = lazy(() => import('./pages/OurNews'));
@@ -209,6 +210,7 @@ const AppContent = () => {
             {/* Additional Pages */}
             {/* <Route path="/activities" element={<Activities />} /> Global activities page removed */}
             <Route path="/activities/:locationId" element={<Activities />} />
+            <Route path="/care/:locationId" element={<Care />} />
             <Route path="/events" element={<Events />} />
             <Route path="/facilities" element={<Facilities />} />
             <Route path="/facilities/:locationId" element={<Facilities />} />

@@ -196,6 +196,8 @@
   color: #444;
   margin: 0;
   line-height: 1.4;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .event-image img {

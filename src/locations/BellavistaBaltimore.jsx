@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
+import '../styles/MainPage.css';
 import '../styles/Testimonials.css';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
@@ -462,6 +463,11 @@ const BellavistaBaltimore = () => {
             flex-direction: column-reverse !important;
             display: flex;
           }
+        }
+
+        /* Fix brown/black background on refresh */
+        .home .hero-image-wrap {
+          background-color: var(--color-primary) !important;
         }
       `}</style>
       <SEO 
@@ -1026,7 +1032,7 @@ const BellavistaBaltimore = () => {
             Baltimore House is committed to delivering the highest standards of care within 
             a compassionate, professional, and inspiring environment.
           </p>
-          <Link to="/our-care" className="btn btn-primary btn-lg">
+          <Link to="/care/baltimore-care-home" className="btn btn-primary btn-lg">
             Click here to explore OUR CARE
           </Link>
         </div>

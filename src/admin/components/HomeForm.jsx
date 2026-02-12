@@ -3,6 +3,88 @@ import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+// Simplified Care Section Item
+const CareSectionItem = ({ item, index, total, field, onMove, onRemove, onUpdate }) => {
+  const title = item.title || '';
+  const description = item.description || '';
+  const image = item.image || ''; // Single image URL
+  const showOnPage = item.showOnPage || false;
+  
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleImageUpload = (url) => {
+      onUpdate(field, index, { image: url });
+  };
+
+  return (
+    <div style={{
+      border: '1px solid #ddd',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      background: 'white',
+      marginBottom: '20px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+    }}>
+      <div style={{
+        padding: '15px',
+        background: '#f8f9fa',
+        borderBottom: '1px solid #eee',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <div style={{fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px'}}>
+           <span style={{background: '#667eea', color: 'white', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px'}}>{index + 1}</span>
+           {title || 'Untitled Care Item'}
+           {showOnPage && <span style={{fontSize: '10px', background: '#28a745', color: 'white', padding: '2px 6px', borderRadius: '4px'}}>Visible</span>}
+        </div>
+        <div style={{display: 'flex', gap: '4px'}}>
+          <button className="btn ghost small icon-only" disabled={index === 0} onClick={() => onMove(field, index, 'up')}><i className="fa-solid fa-chevron-up"></i></button>
+          <button className="btn ghost small icon-only" disabled={index === total - 1} onClick={() => onMove(field, index, 'down')}><i className="fa-solid fa-chevron-down"></i></button>
+          <button className="btn ghost small icon-only" onClick={() => setIsExpanded(!isExpanded)}><i className="fa-solid fa-pencil"></i></button>
+          <button className="btn ghost small icon-only" style={{color: '#ff4757', borderColor: '#ff4757'}} onClick={() => onRemove(field, index)}><i className="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div style={{padding: '20px'}}>
+           <div className="field">
+              <label>Title</label>
+              <input type="text" value={title} onChange={(e) => onUpdate(field, index, { title: e.target.value })} placeholder="e.g. Dementia Care" />
+           </div>
+           
+           <div className="field">
+              <label>Image (Standard size: 16:9)</label>
+              <EnhancedImageUploader 
+                label="Click to upload or drag and drop"
+                aspectRatio={16/9}
+                initialValue={image}
+                onImageSelected={handleImageUpload}
+                showCrop={true}
+                allowSkipOnUpload={true}
+              />
+           </div>
+
+           <div className="field">
+              <label>Full Description (Modal)</label>
+              <ReactQuill theme="snow" value={description} onChange={(val) => onUpdate(field, index, { description: val })} style={{height: '200px', marginBottom: '50px'}} />
+           </div>
+
+           <div className="field">
+               <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
+                  <input type="checkbox" checked={showOnPage} onChange={(e) => onUpdate(field, index, { showOnPage: e.target.checked })} style={{marginRight: '8px', width: 'auto'}} />
+                  Show on Care Page
+               </label>
+               <small className="muted" style={{display: 'block', marginTop: '5px'}}>
+                 If checked, this item will appear in the alternating layout section on the Care page.
+               </small>
+           </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Helper to render a Gallery Grid Item
 const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpdate }) => {
   const isObj = typeof item === 'object';
@@ -99,7 +181,7 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
             <div className="field" style={{marginBottom: 0}}>
                <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', color: '#28a745'}}>
                   <input type="checkbox" checked={showOnPage} onChange={(e) => onUpdate(field, index, { showOnPage: e.target.checked })} style={{marginRight: '8px', width: 'auto'}} />
-                  Show on {field === 'activityImages' ? 'Activities' : 'Facilities'} Page
+                  Show on {field === 'activityImages' ? 'Activities' : field === 'careGalleryImages' ? 'Care' : 'Facilities'} Page
                </label>
                <small className="muted" style={{display: 'block', marginTop: '5px'}}>
                  Checked: Shows as a card on the page AND in the gallery.<br/>
@@ -122,6 +204,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
       case 'banner-images': return 'Scrolling Banner Images';
       case 'facilities-gallery': return 'Facilities Gallery';
       case 'activities-gallery': return 'Activities Gallery';
+      case 'care-gallery': return 'Care Gallery';
       case 'team-gallery': return 'My Team Gallery';
       case 'team-positions': return 'My Team Positions';
       default: return mode === 'add' ? 'Add Home' : 'Update Home';
@@ -147,6 +230,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
     statsPremier: '',
     teamMembers: [],
     teamGalleryImages: [],
+    careIntro: '',
+    careSectionsJson: [],
+    careGalleryImages: [],
     activitiesIntro: '',
     activities: [],
     activityImages: [],
@@ -169,6 +255,9 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
         // Ensure arrays are properly loaded
         teamMembers: initialData.teamMembers || [],
         teamGalleryImages: initialData.teamGalleryImages || [],
+        careIntro: initialData.careIntro || '',
+        careSectionsJson: initialData.careSectionsJson || [],
+        careGalleryImages: initialData.careGalleryImages || [],
         activities: initialData.activities || [],
         activityImages: initialData.activityImages || [],
         facilitiesList: initialData.facilitiesList || [],
@@ -214,6 +303,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   const [teamInput, setTeamInput] = useState({ name: '', role: '', image: '' });
   const [teamGalleryInput, setTeamGalleryInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
   const [activityMediaInput, setActivityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
+  const [careGalleryInput, setCareGalleryInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
   const [facilityMediaInput, setFacilityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
 
   const [uploadingDoc, setUploadingDoc] = useState(null);
@@ -1124,6 +1214,48 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             </div>
            </>
          )}
+      </div>
+      </>
+      )}
+
+      {/* 4.5. Care Gallery */}
+      {((activeSection === 'all' && !isHomeAdmin) || activeSection === 'care-gallery') && (
+      <>
+      <div className="group-title" style={{marginTop:'40px', marginBottom:'10px', borderBottom: '1px solid #eee', paddingBottom: '5px'}}>
+        <i className="fa-solid fa-hand-holding-heart"></i> Care Gallery
+      </div>
+      
+      <div className="field" style={{marginTop: '20px'}}>
+        <label style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+           <span>Care Items</span>
+           <button className="btn btn-primary small" onClick={() => addItem('careSectionsJson', { title: '', description: '', image: '', showOnPage: false })}>
+             <i className="fa-solid fa-plus"></i> Add Care
+           </button>
+        </label>
+        
+        {formData.careSectionsJson && formData.careSectionsJson.length > 0 ? (
+           <div style={{marginTop: '15px'}}>
+             {formData.careSectionsJson.map((item, i) => (
+               <CareSectionItem 
+                 key={i} 
+                 item={item} 
+                 index={i} 
+                 total={formData.careSectionsJson.length} 
+                 field="careSectionsJson" 
+                 onMove={moveItem}
+                 onRemove={removeItem}
+                 onUpdate={updateItem}
+               />
+             ))}
+           </div>
+        ) : (
+           <div style={{padding: '30px', textAlign: 'center', background: '#f9f9f9', borderRadius: '8px', border: '1px dashed #ccc'}}>
+              <p>No care items added yet.</p>
+              <button className="btn ghost" onClick={() => addItem('careSectionsJson', { title: '', description: '', image: '', showOnPage: false })}>
+                Add Care
+              </button>
+           </div>
+        )}
       </div>
       </>
       )}

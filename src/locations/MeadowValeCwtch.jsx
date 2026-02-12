@@ -9,6 +9,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
+import '../styles/MainPage.css';
+import '../styles/Testimonials.css';
 import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
 import { fetchReviews } from '../services/reviewService';
@@ -494,6 +496,11 @@ const MeadowValeCwtch = () => {
             display: flex;
           }
         }
+
+        /* Fix brown/black background on refresh */
+        .home .hero-image-wrap {
+          background-color: var(--color-primary) !important;
+        }
       `}</style>
       <SEO 
         title="Meadow Vale Cwtch"
@@ -945,7 +952,7 @@ const MeadowValeCwtch = () => {
             We invite you to explore our approach to care, learn about our dedicated staff, and see 
             how we create a home where residents can live safely, happily, and with dignity.
           </p>
-          <Link to="/our-care" className="btn btn-primary btn-lg">
+          <Link to="/care/meadow-vale-cwtch" className="btn btn-primary btn-lg">
             Find out more about OUR CARE
           </Link>
         </div>

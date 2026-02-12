@@ -17,7 +17,7 @@
   /* Location Specific Hero Theme (Default) */
   --hero-gradient-start: rgba(27, 60, 120, 0.9);
   --hero-gradient-end: rgba(20, 45, 90, 0.8);
-  --hero-bg-image: url('/care-home-banner-image.png');
+  /* --hero-bg-image: url('/care-home-banner-image.png'); Removed default to prevent fallback conflict */
 
   /* Neutral Colors */
   --color-text-main: #6B7280;     /* Gray 600 */
@@ -198,9 +198,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end)),
-              var(--hero-bg-image) center/cover no-repeat;
-  /* background-attachment: fixed; Removed to fix "stuck" image issue */
+  background-color: var(--color-primary); /* Fallback color */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end)),
+              var(--hero-bg-image) center/cover no-repeat; Removed to allow inline style override */
   color: var(--color-text-light);
   padding: var(--space-xl) var(--space-sm);
   text-align: center;

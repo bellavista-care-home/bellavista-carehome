@@ -1033,7 +1033,7 @@ const BellavistaBarry = () => {
             approach to care, see how our team supports residents, and experience the warmth 
             and professionalism that define Bellavista Barry.
           </p>
-          <Link to="/our-care" className="btn btn-primary btn-lg">
+          <Link to="/care/bellavista-barry" className="btn btn-primary btn-lg">
             Find out more about OUR CARE
           </Link>
         </div>
