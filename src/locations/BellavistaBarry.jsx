@@ -16,6 +16,8 @@ import '../styles/MainPage.css';
 import '../styles/Testimonials.css';
 import SEO from '../components/SEO';
 
+import DynamicContentSection from '../components/DynamicContentSection';
+
 const BellavistaBarry = () => {
   const navigate = useNavigate();
   const [facilitiesExpanded, setFacilitiesExpanded] = useState(false);
@@ -26,11 +28,13 @@ const BellavistaBarry = () => {
   const [reviews, setReviews] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
+  // Dynamic Data for Cards
+  const [activitiesCards, setActivitiesCards] = useState([]);
+  const [facilitiesCards, setFacilitiesCards] = useState([]);
+
   // Default Static Data (Fallbacks)
   const defaultActivitiesImages = [];
-
   const defaultFacilitiesImages = [];
-
   const defaultTeamImages = [];
 
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
@@ -56,9 +60,31 @@ const BellavistaBarry = () => {
         }
         if (home.activityImages && home.activityImages.length > 0) {
           setActivitiesGalleryImages(home.activityImages);
+          // Process Activities for Cards
+          const visibleActivities = home.activityImages
+            .filter(img => typeof img === 'object' && img.showOnPage)
+            .map(img => ({
+              title: img.title || 'Activity',
+              description: img.shortDescription || '',
+              image: img.url,
+              details: img.fullDescription || img.shortDescription || '',
+              type: 'activity'
+            }));
+          setActivitiesCards(visibleActivities);
         }
         if (home.facilitiesGalleryImages && home.facilitiesGalleryImages.length > 0) {
           setFacilitiesGalleryImages(home.facilitiesGalleryImages);
+          // Process Facilities for Cards
+          const visibleFacilities = home.facilitiesGalleryImages
+            .filter(img => typeof img === 'object' && img.showOnPage)
+            .map(img => ({
+              title: img.title || 'Facility',
+              description: img.shortDescription || '',
+              image: img.url,
+              details: img.fullDescription || img.shortDescription || '',
+              type: 'facility'
+            }));
+          setFacilitiesCards(visibleFacilities);
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
@@ -741,22 +767,22 @@ const BellavistaBarry = () => {
                 tranquillity, privacy, companionship, and safety, all within a secure and supportive 
                 environment.
               </p>
-              <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-eye"></i> View All Facilities
-              </Link>
+          <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+             <i className="fas fa-eye"></i> View All Facilities
+          </Link>
             </div>
-            <div className="loc-grid__media">
-              <div className="loc-slider">
-                <Swiper {...sliderSettings} className="custom-swiper">
-                  {facilitiesGalleryImages.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="loc-slider__item">
-                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                        <SlideMedia item={img} folder="facilities" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+          <div className="loc-grid__media">
+            <div className="loc-slider">
+              <Swiper {...sliderSettings} className="custom-swiper">
+                {facilitiesGalleryImages.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="loc-slider__item">
+                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                      <SlideMedia item={img} folder="facilities" />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
               </div>
             </div>
           </div>

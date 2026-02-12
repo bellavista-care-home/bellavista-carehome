@@ -6,8 +6,9 @@ import SEO from '../components/SEO';
 
 const Activities = () => {
   const { locationId } = useParams();
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [dynamicActivities, setDynamicActivities] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [facilities, setFacilities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const locationNames = {
@@ -21,57 +22,84 @@ const Activities = () => {
   };
 
   const locationName = locationId ? locationNames[locationId] : null;
-  const pageTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista – Engaging Activities for Every Interest';
+  const pageTitle = locationName ? `Activities at ${locationName}` : 'Activities';
   const pageHeaderTitle = locationName ? `Activities at ${locationName}` : 'Life at Bellavista';
 
-  const defaultActivities = [
-    { title: 'Community Events', description: 'We regularly host community events like our famous Bollywood Night and Family Fun Days.', image: '/activities/community-events.jpg', details: 'Our community events bring together residents, families, and the local community for days of fun, food, and entertainment.' },
-    { title: 'Holiday Celebrations', description: 'Every holiday is special at Bellavista, from Christmas to Remembrance Day, we celebrate together.', image: '/activities/holiday-celebrations.jpg', details: 'We celebrate all major holidays with special meals, decorations, and themed activities to ensure everyone feels the festive spirit.' },
-    { title: 'Trips & Outings', description: 'Residents enjoy trips to local attractions like St Fagans and the seaside.', image: '/activities/trips-and-outings.jpg', details: 'Regular outings are organized to local places of interest, museums, parks, and the seaside, providing stimulation and enjoyment.' },
-    { title: 'Arts & Music', description: 'Creative sessions and music therapy are a core part of our wellness program.', image: '/activities/arts-and-musical-gatherings.jpg', details: 'Music and arts therapy sessions are held weekly, encouraging self-expression and providing therapeutic benefits.' },
-    { title: 'Social Gatherings', description: 'Regular coffee mornings, tea parties, and social gatherings to keep spirits high.', image: '/communal-longues.jpg', details: 'Social interaction is key. We host coffee mornings, tea parties, and other social events to foster friendships.' },
-    { title: 'Themed Days', description: 'We love dressing up and enjoying themed days with food, music, and decorations.', image: '/activities/themed-days.jpg', details: 'From Hawaiian days to 1950s parties, our themed days are a hit with residents and staff alike.' }
-  ];
+  // Map frontend URL slugs to backend IDs
+  const backendIdMap = {
+    'college-fields-nursing-home': 'college-fields',
+    'waverley-care-center': 'waverley-care-centre',
+    'meadow-vale-cwtch': 'meadow-vale-cwtch',
+    'baltimore-care-home': 'bellavista-baltimore',
+  };
+
+  const backendId = backendIdMap[locationId] || locationId;
 
   useEffect(() => {
-    if (locationId) {
+    if (backendId) {
       setLoading(true);
-      fetchHome(locationId).then(data => {
-        if (data && data.activityImages) {
-          // Filter images that have showOnPage set to true
-          const visibleActivities = data.activityImages
-            .filter(img => typeof img === 'object' && img.showOnPage)
-            .map(img => ({
-              title: img.title || 'Activity',
-              description: img.shortDescription || '',
-              image: img.url,
-              details: img.fullDescription || img.shortDescription || ''
-            }));
-          setDynamicActivities(visibleActivities);
+      fetchHome(backendId).then(data => {
+        if (data) {
+          // Process Activities
+          if (data.activityImages) {
+            const visibleActivities = data.activityImages
+              .filter(img => typeof img === 'object' && img.showOnPage)
+              .map(img => ({
+                title: img.title || 'Activity',
+                // Strip HTML tags and replace &nbsp; for the card preview
+                description: (img.shortDescription || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' '),
+                image: img.url,
+                // Keep HTML for modal but replace &nbsp; to fix wrapping issues
+                details: (img.fullDescription || img.shortDescription || '').replace(/&nbsp;/g, ' '),
+                type: 'activity'
+              }));
+            setActivities(visibleActivities);
+          }
+          
+          // Process Facilities - REMOVED for Activities Page
+          // Facilities are now handled exclusively in the Facilities page
+          setFacilities([]);
         }
         setLoading(false);
       });
     } else {
-      setLoading(false);
+        setLoading(false);
     }
   }, [locationId]);
 
-  const activities = (locationId && dynamicActivities.length > 0) ? dynamicActivities : defaultActivities;
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
+  }, [selectedItem]);
 
-  const handleCardClick = (activity) => {
-    setSelectedActivity(activity);
+  const handleCardClick = (item) => {
+    setSelectedItem(item);
   };
 
   const closeModal = () => {
-    setSelectedActivity(null);
+    setSelectedItem(null);
   };
+
+  if (!locationId) return null;
 
   return (
     <div className="activities-page">
       <SEO 
         title={pageTitle}
-        description={`Discover the engaging activities and social events at ${locationName || 'Bellavista Nursing Homes'}, designed to support wellbeing and happiness.`}
-        url={locationId ? `/activities/${locationId}` : "/activities"}
+        description={`Discover the engaging activities and facilities at ${locationName || 'Bellavista Nursing Homes'}.`}
+        url={`/activities/${locationId}`}
       />
       <div className="page-header">
         <div className="container">
@@ -102,7 +130,6 @@ const Activities = () => {
             gap: '50px',
             marginBottom: '60px'
           }}>
-            
             {/* Left Column */}
             <div className="text-col">
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
@@ -141,9 +168,6 @@ const Activities = () => {
               <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555' }}>
                 From the moment residents join us, they are invited to explore a wide variety of activities that suit different interests, abilities, and energy levels. Whether it is creative arts, music, reminiscence therapy, gardening, or gentle exercise, there is always an opportunity to participate, relax, or simply enjoy the company of others.
               </p>
-              <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#555', marginTop: '20px' }}>
-                Our friendly and highly skilled activity team works closely with residents to identify hobbies and interests that are meaningful to them. Residents can choose quiet one-to-one support, small group sessions, or hands-on experiences such as potting plants in our gardens or cooking projects in our communal areas.
-              </p>
             </div>
           </div>
 
@@ -172,42 +196,45 @@ const Activities = () => {
         </div>
       </section>
 
+      {/* Activities Section */}
+      {activities.length > 0 && (
       <section className="activities-gallery">
         <div className="container">
           <div className="section-title">
-            <h2>Our Activities & Events</h2>
-            <p>A glimpse into the vibrant life at {locationName || 'our homes'}</p>
+            <h2>Our Activities</h2>
+            <p>A glimpse into the vibrant life at {locationName}</p>
           </div>
           <div className="activities-grid">
-            {activities.map((activity, index) => (
-              <div key={index} className="activities-page-card" onClick={() => handleCardClick(activity)}>
+            {activities.map((item, index) => (
+              <div key={`act-${index}`} className="activities-page-card" onClick={() => handleCardClick(item)}>
                 <div className="card-image">
-                  <img src={activity.image} alt={activity.title} loading="lazy" />
+                  <img src={item.image} alt={item.title} loading="lazy" />
                   <div className="overlay">
                     <i className="fas fa-plus"></i>
                   </div>
                 </div>
                 <div className="card-content">
-                  <h3>{activity.title}</h3>
-                  <p>{activity.description}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+      )}
 
-      {/* Modal for Activity Details */}
-      {selectedActivity && (
+      {/* Modal for Details */}
+      {selectedItem && (
         <div className="activity-modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
             <button className="close-btn" onClick={closeModal}>&times;</button>
             <div className="modal-image">
-              <img src={selectedActivity.image} alt={selectedActivity.title} />
+              <img src={selectedItem.image} alt={selectedItem.title} />
             </div>
-            <div className="modal-text">
-              <h3>{selectedActivity.title}</h3>
-              <div className="modal-description" dangerouslySetInnerHTML={{ __html: selectedActivity.details }} />
+            <div className="modal-text" data-lenis-prevent>
+              <h3>{selectedItem.title}</h3>
+              <div className="modal-description" dangerouslySetInnerHTML={{ __html: selectedItem.details }} />
               <div className="modal-footer">
                 <button className="btn btn-primary" onClick={closeModal}>Close</button>
               </div>

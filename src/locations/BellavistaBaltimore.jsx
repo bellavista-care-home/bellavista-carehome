@@ -15,6 +15,8 @@ import { fetchReviews } from '../services/reviewService';
 import SlideMedia from '../components/SlideMedia';
 import SEO from '../components/SEO';
 
+import DynamicContentSection from '../components/DynamicContentSection';
+
 const BellavistaBaltimore = () => {
   const navigate = useNavigate();
   const [baltimoreNews, setBaltimoreNews] = useState([]);
@@ -24,11 +26,13 @@ const BellavistaBaltimore = () => {
   const [reviews, setReviews] = useState([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
+  // Dynamic Data for Cards
+  const [activitiesCards, setActivitiesCards] = useState([]);
+  const [facilitiesCards, setFacilitiesCards] = useState([]);
+
   // Using Barry's images as placeholders where specific Baltimore images might be missing
   const defaultActivitiesImages = [];
-
   const defaultFacilitiesImages = [];
-
   const defaultTeamImages = [];
 
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
@@ -54,9 +58,31 @@ const BellavistaBaltimore = () => {
         }
         if (home.activityImages && home.activityImages.length > 0) {
           setActivitiesGalleryImages(home.activityImages);
+          // Process Activities for Cards
+          const visibleActivities = home.activityImages
+            .filter(img => typeof img === 'object' && img.showOnPage)
+            .map(img => ({
+              title: img.title || 'Activity',
+              description: img.shortDescription || '',
+              image: img.url,
+              details: img.fullDescription || img.shortDescription || '',
+              type: 'activity'
+            }));
+          setActivitiesCards(visibleActivities);
         }
         if (home.facilitiesGalleryImages && home.facilitiesGalleryImages.length > 0) {
           setFacilitiesGalleryImages(home.facilitiesGalleryImages);
+          // Process Facilities for Cards
+          const visibleFacilities = home.facilitiesGalleryImages
+            .filter(img => typeof img === 'object' && img.showOnPage)
+            .map(img => ({
+              title: img.title || 'Facility',
+              description: img.shortDescription || '',
+              image: img.url,
+              details: img.fullDescription || img.shortDescription || '',
+              type: 'facility'
+            }));
+          setFacilitiesCards(visibleFacilities);
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
@@ -748,17 +774,26 @@ const BellavistaBaltimore = () => {
             </div>
           </div>
           
-          {/* Facilities Cards */}
-          <div className="facilities-grid">
-            {facilitiesList.map((item, index) => (
-              <div className="facility-card" key={index}>
-                <div className="facility-card__icon">
-                  <i className={item.icon}></i>
+          {/* Facilities Cards Dynamic */}
+            <div style={{ marginTop: '40px' }}>
+              <Link to="/facilities/baltimore-care-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                 <i className="fas fa-eye"></i> View All Facilities
+              </Link>
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {facilitiesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                          <SlideMedia item={img} folder="facilities" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </div>
-                <h4 className="facility-card__title">{item.title}</h4>
               </div>
-            ))}
-          </div>
+            </div>
         </div>
       </section>
 

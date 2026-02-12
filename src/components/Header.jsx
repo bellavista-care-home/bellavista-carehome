@@ -107,9 +107,9 @@ const Header = () => {
                 
                 {/* Activities with Nested Dropdown */}
                 <li className="has-submenu">
-                  <Link to="/activities" className="submenu-trigger">
+                  <span className="submenu-trigger" style={{ cursor: 'pointer' }}>
                     Activities <i className="fas fa-chevron-right"></i>
-                  </Link>
+                  </span>
                   <ul className="submenu">
                     <li><Link to="/activities/bellavista-barry">Bellavista Barry</Link></li>
                     <li><Link to="/activities/bellavista-cardiff">Bellavista Cardiff</Link></li>
@@ -118,15 +118,14 @@ const Header = () => {
                     <li><Link to="/activities/baltimore-care-home">Baltimore Care Home</Link></li>
                     <li><Link to="/activities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
                     <li><Link to="/activities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
-                    <li><Link to="/activities">View All Activities</Link></li>
                   </ul>
                 </li>
 
                 {/* Facilities with Nested Dropdown */}
                 <li className="has-submenu">
-                  <Link to="/facilities" className="submenu-trigger">
+                  <span className="submenu-trigger" style={{ cursor: 'pointer' }}>
                     Facilities <i className="fas fa-chevron-right"></i>
-                  </Link>
+                  </span>
                   <ul className="submenu">
                     <li><Link to="/facilities/bellavista-barry">Bellavista Barry</Link></li>
                     <li><Link to="/facilities/bellavista-cardiff">Bellavista Cardiff</Link></li>
@@ -135,7 +134,6 @@ const Header = () => {
                     <li><Link to="/facilities/baltimore-care-home">Baltimore Care Home</Link></li>
                     <li><Link to="/facilities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
                     <li><Link to="/facilities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
-                    <li><Link to="/facilities">View All Facilities</Link></li>
                   </ul>
                 </li>
 

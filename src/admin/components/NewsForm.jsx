@@ -322,7 +322,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
             <i className="fa-solid fa-align-left"></i> Detailed Content Section
           </div>
 
-          <div className="field">
+          <div className="field" data-lenis-prevent>
             <label>Full Description</label>
             <ReactQuill 
               theme="snow"
@@ -363,7 +363,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
               
               {/* Gallery Grid */}
               {formData.galleryImages.length > 0 && (
-                <div style={{ 
+                <div data-lenis-prevent style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
                   gap: '15px', 
@@ -589,7 +589,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
                 </div>
               )}
               
-              <div className="field" style={{marginTop:'15px'}}>
+              <div className="field" style={{marginTop:'15px'}} data-lenis-prevent>
                 <label>Video Description</label>
                 <ReactQuill
                   theme="snow"

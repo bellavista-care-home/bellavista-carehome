@@ -253,6 +253,7 @@
   max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   position: relative;
   animation: slideUp 0.3s ease;
   display: flex;

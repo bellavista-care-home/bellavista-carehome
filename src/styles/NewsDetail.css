@@ -587,6 +587,7 @@
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
+  overscroll-behavior: contain;
 }
 
 .modal-header {

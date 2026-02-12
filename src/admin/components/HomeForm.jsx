@@ -314,7 +314,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
         )}
       </div>
       
-      <div style={{flex: 1, overflowY: 'auto', padding: '20px'}}>
+      <div style={{flex: 1, overflowY: 'auto', padding: '20px'}} data-lenis-prevent>
       {/* 1. Basic Information (Read Only) */}
       {(activeSection === 'all' && !isHomeAdmin) && (
       <>
@@ -342,7 +342,7 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
             style={{background: '#f5f5f5', color: '#666'}}
           />
         </div>
-        <div className="field" style={{gridColumn: '1 / -1'}}>
+        <div className="field" style={{gridColumn: '1 / -1'}} data-lenis-prevent>
           <label>Description (About)</label>
           <ReactQuill 
             theme="snow"

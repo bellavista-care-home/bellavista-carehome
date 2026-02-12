@@ -18,6 +18,9 @@ const SmoothScroll = ({ children }) => {
       touchMultiplier: 2,
     });
 
+    // Expose lenis instance to window for global control (e.g., stopping scroll in modals)
+    window.lenis = lenis;
+
     // Synchronize Lenis scroll with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -35,6 +38,7 @@ const SmoothScroll = ({ children }) => {
     return () => {
       gsap.ticker.remove(raf);
       lenis.destroy();
+      window.lenis = null;
     };
   }, []);
 

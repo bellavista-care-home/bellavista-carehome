@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const SessionExpiredModal = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -23,8 +40,9 @@ const SessionExpiredModal = ({ isOpen, onClose }) => {
         maxWidth: '400px',
         width: '90%',
         textAlign: 'center',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-      }}>
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        overscrollBehavior: 'contain'
+      }} data-lenis-prevent>
         <div style={{ marginBottom: '20px', color: '#ff4757', fontSize: '48px' }}>
           <i className="fa-solid fa-circle-exclamation"></i>
         </div>

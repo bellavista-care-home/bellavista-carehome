@@ -35,7 +35,7 @@ const ChatWidget = () => {
         <i className="fas fa-comments"></i>
         <div className="chat-tooltip">Ask a Question</div>
       </div>
-      <div className={`chat-popup ${isOpen ? 'active' : ''}`}>
+      <div className={`chat-popup ${isOpen ? 'active' : ''}`} data-lenis-prevent>
         <div className="chat-header">
           <h4>How can we help you?</h4>
           <button className="chat-close" onClick={toggleChat}>

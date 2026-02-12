@@ -25,6 +25,24 @@ const Careers = () => {
     loadVacancies();
   }, []);
 
+  useEffect(() => {
+    const isModalOpen = selectedVacancy || applyingVacancy;
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
+  }, [selectedVacancy, applyingVacancy]);
+
   const loadVacancies = async () => {
     try {
       const data = await fetchVacancies();
@@ -164,7 +182,7 @@ const Careers = () => {
       {/* Read More Modal */}
       {selectedVacancy && (
         <div className="modal-overlay" onClick={() => setSelectedVacancy(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} data-lenis-prevent>
             <div className="modal-header">
               <h3>{selectedVacancy.title}</h3>
               <button className="modal-close" onClick={() => setSelectedVacancy(null)}>&times;</button>
@@ -190,7 +208,7 @@ const Careers = () => {
       {/* Apply Modal */}
       {applyingVacancy && (
         <div className="modal-overlay" onClick={() => !formLoading && setApplyingVacancy(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} data-lenis-prevent>
             <div className="modal-header">
               <h3>Job Vacancy Application</h3>
               <button className="modal-close" onClick={() => !formLoading && setApplyingVacancy(null)} disabled={formLoading}>&times;</button>

@@ -207,7 +207,7 @@ const AppContent = () => {
             <Route path="/bellavista-pontypridd" element={<ComingSoon />} />
             
             {/* Additional Pages */}
-            <Route path="/activities" element={<Activities />} />
+            {/* <Route path="/activities" element={<Activities />} /> Global activities page removed */}
             <Route path="/activities/:locationId" element={<Activities />} />
             <Route path="/events" element={<Events />} />
             <Route path="/facilities" element={<Facilities />} />

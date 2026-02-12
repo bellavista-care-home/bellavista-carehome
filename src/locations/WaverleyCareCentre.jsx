@@ -782,7 +782,7 @@ const WaverleyCareCentre = () => {
                 Our holistic approach ensures that every resident receives personalised, person-centred 
                 care tailored to their individual preferences, abilities, and wellbeing.
               </p>
-              <Link to="/activities/waverley-care-centre" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <Link to="/activities/waverley-care-center" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-calendar-alt"></i> View All Activities
               </Link>
             </div>

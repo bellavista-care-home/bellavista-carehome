@@ -190,7 +190,7 @@ const EventsManager = ({ notify }) => {
                 ))}
               </div>
             </div>
-            <div className="field" style={{ gridColumn: '1 / -1' }}>
+            <div className="field" style={{ gridColumn: '1 / -1' }} data-lenis-prevent>
               <label>Description</label>
               <ReactQuill
                 theme="snow"

@@ -227,6 +227,35 @@
     overflow: hidden;
     height: 600px; /* Fixed height for desktop modal */
   }
+
+  .modal-text {
+    padding: 80px 50px 50px; /* Increased top padding to clear close button */
+    overflow-y: auto;
+    overscroll-behavior: contain; /* Prevent scroll chaining to parent */
+    height: 100%;
+    max-height: 100%;
+  }
+
+  /* width */
+  .modal-text::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  .modal-text::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .modal-text::-webkit-scrollbar-thumb {
+    background: #ccc; 
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  .modal-text::-webkit-scrollbar-thumb:hover {
+    background: #888; 
+  }
 }
 
 .close-btn {
@@ -269,10 +298,10 @@
 
 .modal-text {
   flex: 1;
-  padding: 50px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   background: var(--floral-white);
 }
 
@@ -289,6 +318,32 @@
   line-height: 1.8;
   color: var(--olive-drab);
   margin-bottom: 40px;
+  overflow-wrap: break-word; /* Prevent overflow from long words */
+  word-wrap: break-word;
+}
+
+/* Fix for Quill Editor formatting */
+.modal-description p {
+  margin-bottom: 1em;
+}
+
+.modal-description .ql-align-center {
+  text-align: center;
+}
+
+.modal-description .ql-align-right {
+  text-align: right;
+}
+
+.modal-description .ql-align-justify {
+  text-align: justify;
+}
+
+/* Ensure images within description are responsive */
+.modal-description img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .modal-footer {

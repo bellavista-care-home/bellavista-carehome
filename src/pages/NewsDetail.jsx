@@ -37,6 +37,23 @@ const NewsDetail = () => {
     loadData();
   }, [id]);
 
+  useEffect(() => {
+    if (showImageModal) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
+  }, [showImageModal]);
+
   if (loading) {
      return <div className="news-page"><div className="container" style={{padding: '100px 20px', textAlign: 'center'}}>Loading...</div></div>;
   }
@@ -155,7 +172,7 @@ const NewsDetail = () => {
               </div>
               {showImageModal && (
                 <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
-                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
                     <div className="modal-header">
                       <h3>Image</h3>
                       <button className="modal-close" onClick={() => setShowImageModal(false)}>&times;</button>

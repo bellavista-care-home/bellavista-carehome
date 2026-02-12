@@ -750,18 +750,6 @@ const CollegeFieldsNursingHome = () => {
               </div>
             </div>
           </div>
-          
-          {/* Facilities Cards */}
-          <div className="facilities-grid">
-            {facilitiesList.map((item, index) => (
-              <div className="facility-card" key={index}>
-                <div className="facility-card__icon">
-                  <i className={item.icon}></i>
-                </div>
-                <h4 className="facility-card__title">{item.title}</h4>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -796,7 +784,7 @@ const CollegeFieldsNursingHome = () => {
                 Our home promotes companionship, social engagement, and a sense of community, 
                 ensuring that every resident feels connected and supported.
               </p>
-              <Link to="/activities/college-fields" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <Link to="/activities/college-fields-nursing-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-calendar-alt"></i> View All Activities
               </Link>
             </div>

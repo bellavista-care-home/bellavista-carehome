@@ -116,6 +116,24 @@ const Home = () => {
     loadNews();
   }, []);
 
+  // Handle modal body lock and Lenis
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    };
+  }, [modalOpen]);
+
   const filterNews = (filter) => {
     setActiveFilter(filter);
     const newsCards = document.querySelectorAll('.news-card[data-category]');
@@ -820,11 +838,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="activities-cta">
-            <Link to="/activities" className="btn btn-primary">
-              <i className="fas fa-calendar-alt"></i> View All Activities
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -973,7 +986,7 @@ const Home = () => {
 
       {modalOpen && modalContent && (
         <div className="service-modal-overlay" onClick={closeModal}>
-          <div className="service-modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="service-modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent style={{overscrollBehavior: 'contain'}}>
             <button className="service-modal-close" onClick={closeModal}>&times;</button>
             <div className="service-modal-header">
               <h3>{modalContent.title}</h3>

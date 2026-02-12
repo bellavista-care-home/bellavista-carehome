@@ -114,7 +114,7 @@ const VacancyForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDel
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group" data-lenis-prevent>
           <label>Detailed Description (For Modal)</label>
           <ReactQuill
             theme="snow"
