@@ -72,6 +72,16 @@ const Events = () => {
     setSelectedDate(newDate);
   };
 
+  const formatTime = (timeStr) => {
+    if (!timeStr) return '';
+    const [h, m] = timeStr.split(':');
+    let hour = parseInt(h, 10);
+    const period = hour >= 12 ? 'PM' : 'AM';
+    if (hour > 12) hour -= 12;
+    if (hour === 0) hour = 12;
+    return `${hour}:${m} ${period}`;
+  };
+
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
@@ -165,7 +175,7 @@ const Events = () => {
               {loading ? (
                 <div className="loading-spinner">Loading events...</div>
               ) : selectedEvents.length > 0 ? (
-                <div className="daily-events-list">
+                <div className="daily-events-list" data-lenis-prevent>
                   {selectedEvents.map(event => (
                     <div key={event.id} className="event-card-small">
                       {event.image && (
@@ -174,10 +184,19 @@ const Events = () => {
                         </div>
                       )}
                       <div className="event-details">
-                        <span className="event-time">{event.time}</span>
+                        <span className="event-time">
+                          <i className="fas fa-clock" style={{ marginRight: '5px' }}></i>
+                          {event.startTime ? (
+                             <>
+                               {event.startTime} {event.endTime && ` - ${event.endTime}`}
+                             </>
+                          ) : (
+                             event.time || 'All Day'
+                          )}
+                        </span>
                         <h4>{event.title}</h4>
                         <p className="event-location"><i className="fas fa-map-marker-alt"></i> {event.location}</p>
-                        {event.description && <p className="event-desc">{event.description}</p>}
+                        {event.description && <div className="event-desc" dangerouslySetInnerHTML={{ __html: event.description }} />}
                       </div>
                     </div>
                   ))}
@@ -212,8 +231,15 @@ const Events = () => {
                     )}
                     <div className="card-content">
                       <h3>{event.title}</h3>
-                      <div className="event-details">
-                        <span><i className="fas fa-clock"></i> {event.time || 'All Day'}</span>
+                      <div className="meta">
+                        <span>
+                          <i className="fas fa-clock"></i> 
+                          {event.startTime ? (
+                             <> {formatTime(event.startTime)} {event.endTime && ` - ${formatTime(event.endTime)}`}</>
+                          ) : (
+                             <> {event.time || 'All Day'}</>
+                          )}
+                        </span>
                         <span><i className="fas fa-map-marker-alt"></i> {event.location || 'All Locations'}</span>
                       </div>
                       <div className="event-description">

@@ -1188,7 +1188,7 @@ const AdminConsole = () => {
                       style={{ width: '100%', padding: '8px' }}
                     >
                       <option value="Bellavista Barry">Bellavista Barry</option>
-                      <option value="Bellavista Cardiff">Bellavista Cardiff</option>
+                <option value="Bellavista Cardiff">Bellavista Cardiff</option>
                       <option value="Waverley Care Centre">Waverley Care Centre</option>
                       <option value="College Fields Nursing Home">College Fields Nursing Home</option>
                       <option value="Baltimore Care Home">Baltimore Care Home</option>
@@ -1542,10 +1542,6 @@ const AdminConsole = () => {
               </>
             )}
           </section>
-        )}
-
-        {activeView === 'manage-events' && (
-          <EventsManager notify={notify} />
         )}
 
         {activeView === 'kiosk-links' && (

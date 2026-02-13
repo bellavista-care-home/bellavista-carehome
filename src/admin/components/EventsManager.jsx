@@ -2,17 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../../services/eventService';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
+import SimpleTimePicker from '../../components/SimpleTimePicker';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
 const EventsManager = ({ notify }) => {
   const [events, setEvents] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [isAllDay, setIsAllDay] = useState(true);
   const [currentEvent, setCurrentEvent] = useState({
     title: '',
     description: '',
     date: '',
     time: '',
+    startTime: '',
+    endTime: '',
     location: '',
     image: '',
     category: 'general'
@@ -91,6 +95,7 @@ const EventsManager = ({ notify }) => {
 
   const handleEdit = (event) => {
     setCurrentEvent(event);
+    setIsAllDay(!event.startTime);
     setIsEditing(true);
   };
 
@@ -112,10 +117,13 @@ const EventsManager = ({ notify }) => {
       description: '',
       date: '',
       time: '',
+      startTime: '',
+      endTime: '',
       location: '',
       image: '',
       category: 'general'
     });
+    setIsAllDay(true);
     setIsEditing(false);
   };
 
@@ -161,18 +169,48 @@ const EventsManager = ({ notify }) => {
                 required
               />
             </div>
-            {/* Time field removed as requested */}
-            {/* 
-            <div className="field">
-              <label>Time</label>
-              <input
-                type="time"
-                name="time"
-                value={currentEvent.time}
-                onChange={handleInputChange}
-              />
+            
+            <div className="field" style={{ gridColumn: '1 / -1' }}>
+              <label style={{display:'flex', alignItems:'center', gap:'10px', cursor:'pointer', fontWeight:'bold', marginBottom:'10px'}}>
+                <input 
+                  type="checkbox" 
+                  checked={isAllDay} 
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setIsAllDay(checked);
+                    if (checked) {
+                      setCurrentEvent(prev => ({ ...prev, startTime: '', endTime: '' }));
+                    } else {
+                      // Default to 9 AM - 5 PM if switching to timed event
+                      if (!currentEvent.startTime) {
+                        setCurrentEvent(prev => ({ ...prev, startTime: '09:00', endTime: '17:00' }));
+                      }
+                    }
+                  }} 
+                  style={{width:'auto', margin:0}}
+                />
+                All Day Event
+              </label>
             </div>
-            */}
+
+            {!isAllDay && (
+              <>
+                <div className="field">
+                  <SimpleTimePicker
+                    label="Start Time"
+                    value={currentEvent.startTime}
+                    onChange={(val) => setCurrentEvent(prev => ({ ...prev, startTime: val }))}
+                  />
+                </div>
+                <div className="field">
+                  <SimpleTimePicker
+                    label="End Time"
+                    value={currentEvent.endTime}
+                    onChange={(val) => setCurrentEvent(prev => ({ ...prev, endTime: val }))}
+                  />
+                </div>
+              </>
+            )}
             <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label>Location (Select all that apply)</label>
               <div className="checkbox-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', marginTop: '10px', padding: '10px', background: '#f9f9f9', borderRadius: '4px', border: '1px solid #eee' }}>
@@ -190,7 +228,7 @@ const EventsManager = ({ notify }) => {
                 ))}
               </div>
             </div>
-            <div className="field" style={{ gridColumn: '1 / -1' }} data-lenis-prevent>
+            <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label>Description</label>
               <ReactQuill
                 theme="snow"
@@ -243,7 +281,10 @@ const EventsManager = ({ notify }) => {
               ) : (
                 events.map(event => (
                   <tr key={event.id}>
-                    <td>{event.date} {event.time}</td>
+                    <td>
+                      {event.date}
+                      {event.startTime && <div className="text-sm text-muted">{event.startTime} {event.endTime ? `- ${event.endTime}` : ''}</div>}
+                    </td>
                     <td>{event.title}</td>
                     <td>{event.location}</td>
                     <td>

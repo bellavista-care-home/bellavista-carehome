@@ -423,7 +423,7 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
               <button
                 className="btn ghost small"
                 onClick={() => {
-                  if (onSkip) onSkip(imageUrl);
+                  if (onSkip) onSkip();
                 }}
                 title="Use the full image without cropping"
                 style={{padding: '5px 10px', height: '32px'}}
@@ -452,7 +452,7 @@ const ImageUploader = ({
   maxFileSize = 5 * 1024 * 1024, // 5MB
   allowedFormats = ['image/jpeg', 'image/png', 'image/webp'],
   autoReset = false,
-  allowSkipOnUpload = false,
+  allowSkipOnUpload = true,
   autoUploadToS3 = true // NEW: Automatically upload to S3 after crop
 }) => {
   const [imageUrl, setImageUrl] = useState(initialValue);
@@ -627,18 +627,7 @@ const ImageUploader = ({
           }}
           allowSkip={allowSkipOnUpload}
           onSkip={() => {
-            setImageUrl(tempImageUrl);
-            setShowCropModal(false);
-            if (onImageSelected) {
-              onImageSelected(tempImageUrl);
-            }
-            if (autoReset) {
-              setImageUrl('');
-              setTempImageUrl('');
-              if (fileInputRef.current) {
-                fileInputRef.current.value = '';
-              }
-            }
+            handleCropComplete(tempImageUrl);
           }}
         />
       )}
@@ -676,6 +665,7 @@ const ImageUploader = ({
           
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button 
+              type="button"
               className="btn small"
               onClick={(e) => {
                 e.stopPropagation();
@@ -740,10 +730,12 @@ const ImageUploader = ({
           </div>
           <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
             <button 
+              type="button"
               className="btn small"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => handleRemoveImage()}
+              style={{background:'#ff4d4f', color:'white', borderColor:'#ff4d4f'}}
             >
-              <i className="fa-solid fa-plus"></i> Add New Image
+              <i className="fa-solid fa-trash"></i> Remove
             </button>
           </div>
         </div>
