@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Gallery.css';
+import SEO from '../components/SEO';
 
 const Gallery = () => {
   const images = [
@@ -19,7 +20,28 @@ const Gallery = () => {
 
   const categories = ['All', 'Homes', 'Locations', 'Events', 'Staff'];
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Photo Gallery | Bellavista Nursing Homes",
+    "description": "Browse photos of Bellavista Nursing Homes, residents, staff and events across South Wales.",
+    "mainEntity": images.map((img, index) => ({
+      "@type": "ImageObject",
+      "position": index + 1,
+      "contentUrl": `https://www.bellavistanursinghomes.com${img.src}`,
+      "description": "Life at Bellavista Nursing Homes"
+    }))
+  };
+
   return (
+    <>
+      <SEO 
+        title="Photo Gallery | Bellavista Nursing Homes"
+        description="A visual look inside Bellavista Nursing Homes – our homes, facilities, residents, staff and events."
+        url="/gallery"
+        image="https://www.bellavistanursinghomes.com/HomeImages/barry-location.jpg"
+        schema={schema}
+      />
     <div className="gallery-page">
       <div className="gallery-header">
         <div className="container">
@@ -50,6 +72,7 @@ const Gallery = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

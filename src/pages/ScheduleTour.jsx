@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { saveBookingLocal, saveBookingToAPI } from '../services/tourService';
 import '../styles/ScheduleTour.css';
+import SEO from '../components/SEO';
 
 const ScheduleTour = () => {
   const [formData, setFormData] = useState({
@@ -49,7 +50,9 @@ const ScheduleTour = () => {
     // 2. Save locally as backup
     try {
       saveBookingLocal(booking);
-    } catch {}
+    } catch (err) {
+      console.error("Local booking save error", err);
+    }
 
     setLoading(false);
     setSuccess(true);
@@ -65,8 +68,26 @@ const ScheduleTour = () => {
     });
   };
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Schedule a Tour | Bellavista Nursing Homes",
+    "description": "Book a guided tour of Bellavista Nursing Homes in Barry, Cardiff, Penarth and the Vale of Glamorgan.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   if (success) {
     return (
+      <>
+        <SEO 
+          title="Schedule a Tour | Bellavista Nursing Homes"
+          description="Thank you for scheduling a tour at Bellavista Nursing Homes. Our team will confirm your visit shortly."
+          url="/schedule-tour"
+          schema={schema}
+        />
       <div className="tour-page">
         <div className="tour-header">
           <div className="container">
@@ -109,10 +130,18 @@ const ScheduleTour = () => {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+      <SEO 
+        title="Schedule a Tour | Bellavista Nursing Homes"
+        description="Arrange a visit to Bellavista Nursing Homes to see our care, facilities and meet the team."
+        url="/schedule-tour"
+        schema={schema}
+      />
     <div className="tour-page">
       <div className="tour-header">
         <div className="container">
@@ -239,6 +268,7 @@ const ScheduleTour = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

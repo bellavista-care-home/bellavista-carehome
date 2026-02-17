@@ -11,7 +11,8 @@ const SEO = ({
   image = `${SITE_URL}/bellalogo1.png`,
   url = "/",
   schema,
-  keywords = ""
+  keywords = "",
+  canonical
 }) => {
   const fullTitle = title
     ? `${title} | Bellavista Nursing Home`
@@ -25,51 +26,44 @@ const SEO = ({
     keywords ||
     "Bellavista Nursing Home, care homes South Wales, nursing home Cardiff, dementia care Barry, residential care Vale of Glamorgan, best nursing homes UK, elderly care, award-winning care homes";
 
-  const canonicalUrl = url.startsWith("http")
-    ? url
-    : `${SITE_URL}${url}`;
+  const resolvedCanonical = canonical || url;
+
+  const canonicalUrl = resolvedCanonical.startsWith("http")
+    ? resolvedCanonical
+    : `${SITE_URL}${resolvedCanonical}`;
 
   const defaultSchema = generateOrganizationSchema();
 
+  const schemaToRender = schema || defaultSchema;
+
   return (
     <Helmet>
-      {/* Core */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={metaKeywords} />
       <meta name="robots" content="index, follow, max-image-preview:large" />
       <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <link rel="canonical" href={canonicalUrl} />
-      
-      {/* Additional Meta Tags */}
       <meta name="author" content="Bellavista Nursing Home" />
       <meta name="publisher" content="Bellavista Group" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="theme-color" content="#2c5282" />
-      
-      {/* Geo and Location */}
       <meta name="geo.region" content="GB-WLS" />
       <meta name="geo.placename" content="South Wales" />
       <meta name="geo.position" content="51.5074;-0.1278" />
       <meta name="ICBM" content="51.5074, -0.1278" />
-
-      {/* Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={BRAND} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image" content={image} />
-
-      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="twitter:image" content={image} />
-
-      {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify(schema || defaultSchema)}
+        {JSON.stringify(schemaToRender)}
       </script>
     </Helmet>
   );

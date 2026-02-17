@@ -1,8 +1,27 @@
 import React from 'react';
 import '../styles/DiningNutrition.css';
+import SEO from '../components/SEO';
 
 const DiningNutrition = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Dining & Nutrition | Bellavista Nursing Homes",
+    "description": "Discover how Bellavista Nursing Homes approach dining and nutrition with fresh, seasonal menus and personalised support.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   return (
+    <>
+      <SEO 
+        title="Dining & Nutrition | Bellavista Nursing Homes"
+        description="Explore dining and nutrition at Bellavista Nursing Homes, with fresh seasonal menus, specialist diets and a focus on wellbeing."
+        url="/dining-and-nutrition"
+        schema={schema}
+      />
     <div className="dining-page">
       <div className="dining-header">
         <div className="container">
@@ -279,6 +298,7 @@ const DiningNutrition = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

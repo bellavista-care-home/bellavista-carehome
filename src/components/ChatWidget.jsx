@@ -31,15 +31,34 @@ const ChatWidget = () => {
 
   return (
     <div className="chat-widget" ref={widgetRef}>
-      <div className="chat-button" onClick={toggleChat}>
-        <i className="fas fa-comments"></i>
+      <button
+        type="button"
+        className="chat-button"
+        onClick={toggleChat}
+        aria-label={isOpen ? "Close quick links panel" : "Open quick links panel"}
+        aria-expanded={isOpen}
+        aria-controls="chat-widget-panel"
+      >
+        <i className="fas fa-comments" aria-hidden="true"></i>
         <div className="chat-tooltip">Ask a Question</div>
-      </div>
-      <div className={`chat-popup ${isOpen ? 'active' : ''}`} data-lenis-prevent>
+      </button>
+      <div
+        id="chat-widget-panel"
+        className={`chat-popup ${isOpen ? 'active' : ''}`}
+        data-lenis-prevent
+        role="dialog"
+        aria-modal="false"
+        aria-label="Quick links for enquiries and contact"
+      >
         <div className="chat-header">
           <h4>How can we help you?</h4>
-          <button className="chat-close" onClick={toggleChat}>
-            <i className="fas fa-times"></i>
+          <button
+            type="button"
+            className="chat-close"
+            onClick={toggleChat}
+            aria-label="Close quick links panel"
+          >
+            <i className="fas fa-times" aria-hidden="true"></i>
           </button>
         </div>
         <div className="chat-options">

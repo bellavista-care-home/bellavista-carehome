@@ -7,7 +7,7 @@ body{font-family:'Inter','Open Sans',system-ui,-apple-system,BlinkMacSystemFont,
 .app{display:grid;grid-template-columns:260px 1fr;grid-template-rows:64px 1fr;grid-template-areas:"sidebar header" "sidebar main";min-height:100dvh}
 header{grid-area:header;background:linear-gradient(90deg,var(--white),#f0f8ff);box-shadow:0 2px 15px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:10}
 .brand{display:flex;gap:10px;align-items:center}
-.brand i{font-size:26px;background:linear-gradient(45deg,var(--primary-blue),var(--primary-teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.brand i{font-size:26px;background:linear-gradient(45deg,var(--primary-blue),var(--primary-teal));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .brand h1{font-family:'Inter','Open Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:20px}
 .admin-badge{font-size:12px;color:var(--white);background:var(--primary-purple);padding:4px 10px;border-radius:999px}
 .header-actions{display:flex;gap:8px;align-items:center}
@@ -118,7 +118,7 @@ aside button.disabled {
 
 main{grid-area:main;padding:22px;}
 .panel{background:#fff;border:1px solid #e8eef5;border-radius:16px;box-shadow:var(--shadow);padding:18px;}
-.panel h2{font-family:'Inter','Open Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+.panel h2{font-family:'Inter','Open Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:22px;background:var(--grad);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
 .muted{color:var(--muted);font-size:14px}
 
 .grid{display:grid;gap:14px}
@@ -151,4 +151,17 @@ input:focus, textarea:focus, select:focus{box-shadow:0 0 0 4px rgba(0,102,204,.1
 @media (max-width:900px){
   .app{grid-template-columns:1fr;grid-template-rows:64px auto 1fr;grid-template-areas:"header" "sidebar" "main"}
   aside{position:static;height:auto}
+}
+
+/* React Quill Editor Fixes */
+.ql-editor {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  overflow-x: hidden !important;
+}
+
+.ql-container {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
 }

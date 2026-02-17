@@ -4,25 +4,44 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
 const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete, onNotify = null }) => {
-  const [formData, setFormData] = useState({
-    // Main Card Section
-    title: '',
-    mainImage: '',
-    shortDescription: '',
-    date: '',
-    location: 'All Locations',
-    category: 'events',
-    important: false,
-    badge: '',
-    
-    // Detailed Content Section
-    fullDescription: '',
-    galleryImages: [],
-    videos: [],
-    videoDescription: '',
-    author: 'Bellavista Team'
-  });
+  const createInitialFormData = () => {
+    if (mode === 'edit' && initialData) {
+      return {
+        id: initialData.id || '',
+        title: initialData.title || '',
+        mainImage: initialData.image || '',
+        shortDescription: initialData.excerpt || '',
+        date: initialData.date || '',
+        location: initialData.location || 'All Locations',
+        category: initialData.category || 'events',
+        important: initialData.important || false,
+        badge: initialData.badge || '',
+        fullDescription: initialData.fullDescription || '',
+        galleryImages: initialData.gallery || [],
+        videos: initialData.videoUrl ? [{ url: initialData.videoUrl, type: 'external' }] : [],
+        videoDescription: initialData.videoDescription || '',
+        author: initialData.author || 'Bellavista Team'
+      };
+    }
+    return {
+      id: '',
+      title: '',
+      mainImage: '',
+      shortDescription: '',
+      date: '',
+      location: 'All Locations',
+      category: 'events',
+      important: false,
+      badge: '',
+      fullDescription: '',
+      galleryImages: [],
+      videos: [],
+      videoDescription: '',
+      author: 'Bellavista Team'
+    };
+  };
 
+  const [formData, setFormData] = useState(createInitialFormData);
   const [uploadProgress, setUploadProgress] = useState({});
   const [editingImageIndex, setEditingImageIndex] = useState(null);
   const [croppingImageIndex, setCroppingImageIndex] = useState(null);
@@ -35,21 +54,6 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
     };
     loadApiConfig();
   }, []);
-
-  // Load initial data if in edit mode
-  React.useEffect(() => {
-    if (mode === 'edit' && initialData) {
-      setFormData({
-        ...formData,
-        ...initialData,
-        mainImage: initialData.image || '',
-        shortDescription: initialData.excerpt || '',
-        galleryImages: initialData.gallery || [],
-        videos: initialData.videoUrl ? [{ url: initialData.videoUrl, type: 'external' }] : [],
-        videoDescription: initialData.videoDescription || ''
-      });
-    }
-  }, [mode, initialData]);
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -184,6 +188,14 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
         videoDescription: formData.videoDescription
       };
       
+      console.log('NewsForm: Submitting data:', {
+        title: payload.title,
+        excerptLength: payload.excerpt?.length || 0,
+        excerptPreview: payload.excerpt?.substring(0, 100) + '...',
+        hasImage: !!payload.image,
+        galleryCount: payload.gallery?.length || 0
+      });
+      
       if (onSave) {
         onSave(payload);
       }
@@ -294,7 +306,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
           </div>
 
           <div className="field">
-            <label>Short Description * (Recommended: Max 180 characters)</label>
+            <label>Short Description * (Recommended: Max 400 characters)</label>
             <ReactQuill 
               theme="snow"
               value={formData.shortDescription}
@@ -304,6 +316,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
             />
             <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
               Note: Character count is approximate due to formatting.
+              Current length: {formData.shortDescription?.replace(/<[^>]*>/g, '').length || 0} characters
             </div>
           </div>
 
@@ -547,6 +560,11 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
                 >
                   <i className="fa-solid fa-upload"></i> Upload Video File
                 </button>
+                {Object.keys(uploadProgress).length > 0 && (
+                  <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+                    Uploading video... {Math.max(...Object.values(uploadProgress))}%
+                  </div>
+                )}
               </div>
 
               {formData.videos.length > 0 && (

@@ -14,10 +14,7 @@ const Care = () => {
   const { locationId } = useParams();
   const [selectedItem, setSelectedItem] = useState(null);
   const [careServices, setCareServices] = useState([]);
-  const [careGallery, setCareGallery] = useState([]);
   const [careSections, setCareSections] = useState([]);
-  const [careIntro, setCareIntro] = useState('');
-  const [loading, setLoading] = useState(true);
 
   const locationNames = {
     'bellavista-barry': 'Bellavista Barry',
@@ -59,19 +56,12 @@ const Care = () => {
 
   useEffect(() => {
     if (backendId) {
-      setLoading(true);
-      
       // Fetch both specific home data and global care services
       Promise.all([
         fetchHome(backendId),
         fetchCareServices()
       ]).then(([homeData, globalServices]) => {
         if (homeData) {
-          // Process Care Intro
-          if (homeData.careIntro) {
-            setCareIntro(homeData.careIntro);
-          }
-
           // Process Care Sections (Alternating Layout)
           if (homeData.careSectionsJson) {
              try {
@@ -97,34 +87,10 @@ const Care = () => {
              })));
           }
 
-          // Process Care Gallery (Home Specific - e.g. photos of the facility)
-          let gallery = [];
-          if (homeData.careGalleryImages) {
-             gallery = homeData.careGalleryImages;
-          } else if (homeData.careGalleryJson) {
-             try {
-                gallery = typeof homeData.careGalleryJson === 'string' ? JSON.parse(homeData.careGalleryJson) : homeData.careGalleryJson;
-             } catch (e) {
-                console.error("Error parsing careGalleryJson", e);
-             }
-          }
-
-          if (gallery && Array.isArray(gallery)) {
-            setCareGallery(gallery.map(img => ({
-                title: img.title || 'Gallery Image',
-                description: img.shortDescription || '',
-                image: img.url,
-                details: img.fullDescription || img.shortDescription || '',
-                type: 'gallery'
-            })));
-          }
         }
-        setLoading(false);
       });
-    } else {
-        setLoading(false);
     }
-  }, [locationId]);
+  }, [backendId]);
 
   useEffect(() => {
     if (selectedItem) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Services.css';
+import SEO from '../components/SEO';
 
 const DementiaEnvironment = () => {
   const galleryImages = [
@@ -11,7 +12,25 @@ const DementiaEnvironment = () => {
     { src: "/DementiaFriendlyEnvironment/wallposters.jpg", alt: "Themed Wall Posters" }
   ];
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Living Well – Dementia Care at Bellavista",
+    "description": "Discover how Bellavista Nursing Homes designs dementia friendly environments to support independence, comfort and wellbeing.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   return (
+    <>
+      <SEO 
+        title="Dementia Friendly Environment | Bellavista Nursing Homes"
+        description="Learn how Bellavista Nursing Homes creates dementia friendly environments with specialist design, therapies and community support."
+        url="/dementia-friendly-environment"
+        schema={schema}
+      />
     <div className="services-page">
       <div className="page-header dementia-header">
         <div className="container">
@@ -173,6 +192,7 @@ const DementiaEnvironment = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
 const VacancyForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete }) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    shortDescription: '',
-    detailedDescription: '',
-    location: '',
-    salary: '',
-    type: '',
-    image: null
-  });
-  const [previewImage, setPreviewImage] = useState(null);
-
-  useEffect(() => {
+  const createInitialFormData = () => {
     if (mode === 'edit' && initialData) {
-      setFormData({
+      return {
         title: initialData.title || '',
         shortDescription: initialData.shortDescription || '',
         detailedDescription: initialData.detailedDescription || '',
@@ -24,10 +13,24 @@ const VacancyForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDel
         salary: initialData.salary || '',
         type: initialData.type || '',
         image: initialData.image || null
-      });
-      if (initialData.image && typeof initialData.image === 'string') {
-        setPreviewImage(initialData.image);
-      }
+      };
+    }
+    return {
+      title: '',
+      shortDescription: '',
+      detailedDescription: '',
+      location: '',
+      salary: '',
+      type: '',
+      image: null
+    };
+  };
+
+  const [formData, setFormData] = useState(createInitialFormData);
+  const [previewImage, setPreviewImage] = useState(null);
+  React.useEffect(() => {
+    if (mode === 'edit' && initialData && initialData.image && typeof initialData.image === 'string') {
+      setPreviewImage(initialData.image);
     }
   }, [mode, initialData]);
 

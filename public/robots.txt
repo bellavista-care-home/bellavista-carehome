@@ -1,9 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /admin-console
 Disallow: /login
 Disallow: /api
 Disallow: /private
+Disallow: /kiosk
 
 # Crawl delay to be respectful to server
 Crawl-delay: 1

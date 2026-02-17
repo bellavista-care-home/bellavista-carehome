@@ -3,15 +3,18 @@
 
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import './styles/global.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import ScrollToTop from './components/ScrollToTop';
 import ChatWidget from './components/ChatWidget';
+import CookieBanner from './components/CookieBanner';
 import ProtectedRoute from './components/ProtectedRoute';
 import SmoothScroll from './components/SmoothScroll';
 import SessionExpiredModal from './components/SessionExpiredModal';
+import DesktopExperienceNotice from './components/DesktopExperienceNotice';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -58,6 +61,8 @@ const BellavistaNursingHome = lazy(() => import('./pages/BellavistaNursingHome')
 const DiningNutrition = lazy(() => import('./pages/DiningNutrition'));
 const OurVision = lazy(() => import('./pages/OurVision'));
 const OurValues = lazy(() => import('./pages/OurValues'));
+const CareHomesCardiff = lazy(() => import('./pages/CareHomesCardiff'));
+const DementiaCareGuide = lazy(() => import('./pages/DementiaCareGuide'));
 const OurCare = lazy(() => import('./pages/Services')); // Redirect to Services
 const ManagementTeam = lazy(() => import('./pages/ManagementTeam'));
 const CurrentJobs = lazy(() => import('./pages/Careers')); // Redirect to Careers
@@ -65,6 +70,8 @@ const TrainingDevelopment = lazy(() => import('./pages/TrainingDevelopment'));
 const StaffPortal = lazy(() => import('./pages/StaffPortal'));
 const VisitorPolicy = lazy(() => import('./pages/VisitorPolicy'));
 const DementiaEnvironment = lazy(() => import('./pages/DementiaEnvironment'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
 // Admin Pages
 const AdminConsole = lazy(() => import('./admin/AdminConsole'));
@@ -109,18 +116,14 @@ const AppContent = () => {
   useEffect(() => {
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
-      try {
-        const response = await originalFetch(...args);
-        if (response.status === 401) {
-          // Check if we are already on the login page to avoid loop
-          if (!window.location.pathname.includes('/login')) {
-            setIsSessionExpired(true);
-          }
+      const response = await originalFetch(...args);
+      if (response.status === 401) {
+        // Check if we are already on the login page to avoid loop
+        if (!window.location.pathname.includes('/login')) {
+          setIsSessionExpired(true);
         }
-        return response;
-      } catch (error) {
-        throw error;
       }
+      return response;
     };
 
     return () => {
@@ -154,6 +157,10 @@ const AppContent = () => {
   if (isAdminRoute || isKioskRoute) {
     return (
       <div className="App">
+        <Helmet>
+          <meta name="robots" content="noindex, nofollow" />
+          <meta name="googlebot" content="noindex, nofollow" />
+        </Helmet>
         <SessionExpiredModal isOpen={isSessionExpired} onClose={handleSessionExpiredClose} />
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
@@ -230,9 +237,13 @@ const AppContent = () => {
             <Route path="/staff-portal" element={<StaffPortal />} />
             <Route path="/visitor-policy" element={<VisitorPolicy />} />
             <Route path="/dementia-friendly-environment" element={<DementiaEnvironment />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
             
             {/* SEO Content Pages */}
             <Route path="/bellavista-nursing-home" element={<BellavistaNursingHome />} />
+            <Route path="/care-homes-cardiff" element={<CareHomesCardiff />} />
+            <Route path="/dementia-care-guide" element={<DementiaCareGuide />} />
             
             {/* Admin & Auth Pages */}
             <Route path="/login" element={<Login />} />
@@ -245,6 +256,8 @@ const AppContent = () => {
       <Footer />
       <BackToTop />
       {showChatWidget && <ChatWidget />}
+      <CookieBanner />
+      <DesktopExperienceNotice />
     </div>
   );
 };

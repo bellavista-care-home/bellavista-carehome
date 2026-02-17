@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -100,6 +100,14 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
 
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Strip HTML from short description for preview, preserving line breaks if needed or just simple text
+  const stripHtml = (html) => {
+    if (!html) return '';
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  };
+
   return (
     <div style={{
       border: '1px solid #ddd',
@@ -171,8 +179,23 @@ const GalleryItem = ({ item, index, total, field, label, onMove, onRemove, onUpd
                <input type="text" value={title} onChange={(e) => onUpdate(field, index, { title: e.target.value })} placeholder="Activity/Facility Title" />
             </div>
             <div className="field">
-               <label>Short Description (Card)</label>
-               <ReactQuill theme="snow" value={shortDesc} onChange={(val) => onUpdate(field, index, { shortDescription: val })} style={{height: '100px', marginBottom: '50px'}} />
+               <label>Short Description (Card) <span style={{fontSize: '0.8em', color: '#666', fontWeight: 'normal'}}> - Plain text recommended for best layout</span></label>
+               <textarea 
+                 value={stripHtml(shortDesc)} 
+                 onChange={(e) => onUpdate(field, index, { shortDescription: e.target.value })} 
+                 placeholder="Brief description for the card..."
+                 style={{
+                   width: '100%',
+                   height: '80px',
+                   padding: '10px',
+                   borderRadius: '4px',
+                   border: '1px solid #ccc',
+                   fontFamily: 'inherit',
+                   fontSize: '14px',
+                   resize: 'vertical'
+                 }}
+               />
+               {/* Hidden Quill to maintain compatibility if needed, or just switch to textarea entirely for Short Desc */}
             </div>
              <div className="field">
                <label>Full Description (Modal)</label>
@@ -211,61 +234,88 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
     }
   };
 
-  const [formData, setFormData] = useState({
-    homeName: '',
-    homeLocation: '',
-    adminEmail: '',
-    homeImage: '',
-    cardImage2: '',
-    homeBadge: '',
-    homeDesc: '',
-    heroTitle: '',
-    heroSubtitle: '',
-    heroBgImage: '',
-    heroExpandedDesc: '',
-    ciwReportUrl: '',
-    newsletterUrl: '',
-    bannerImages: [],
-    statsBedrooms: '',
-    statsPremier: '',
-    teamMembers: [],
-    teamGalleryImages: [],
-    careIntro: '',
-    careSectionsJson: [],
-    careGalleryImages: [],
-    activitiesIntro: '',
-    activities: [],
-    activityImages: [],
-    activitiesModalDesc: '',
-    facilitiesIntro: '',
-    facilitiesList: [],
-    detailedFacilities: [],
-    facilitiesGalleryImages: [],
-    homeFeatured: false
-  });
-
-  // Load initial data if in edit mode
-  useEffect(() => {
+  const createInitialFormData = () => {
     if (mode === 'edit' && initialData) {
-      console.log('Loading home data:', initialData); // Debug log
-      setFormData({
-        ...formData,
-        ...initialData,
+      return {
+        homeName: initialData.homeName || '',
+        homeLocation: initialData.homeLocation || '',
+        adminEmail: initialData.adminEmail || '',
+        homeImage: initialData.homeImage || '',
         cardImage2: initialData.cardImage2 || '',
-        // Ensure arrays are properly loaded
+        homeBadge: initialData.homeBadge || '',
+        homeDesc: initialData.homeDesc || '',
+        heroTitle: initialData.heroTitle || '',
+        heroSubtitle: initialData.heroSubtitle || '',
+        heroBgImage: initialData.heroBgImage || '',
+        heroExpandedDesc: initialData.heroExpandedDesc || '',
+        ciwReportUrl: initialData.ciwReportUrl || '',
+        newsletterUrl: initialData.newsletterUrl || '',
+        bannerImages: initialData.bannerImages || [],
+        statsBedrooms: initialData.statsBedrooms || '',
+        statsPremier: initialData.statsPremier || '',
         teamMembers: initialData.teamMembers || [],
         teamGalleryImages: initialData.teamGalleryImages || [],
         careIntro: initialData.careIntro || '',
         careSectionsJson: initialData.careSectionsJson || [],
         careGalleryImages: initialData.careGalleryImages || [],
+        activitiesIntro: initialData.activitiesIntro || '',
         activities: initialData.activities || [],
         activityImages: initialData.activityImages || [],
+        activitiesModalDesc: initialData.activitiesModalDesc || '',
+        facilitiesIntro: initialData.facilitiesIntro || '',
         facilitiesList: initialData.facilitiesList || [],
         detailedFacilities: initialData.detailedFacilities || [],
-        facilitiesGalleryImages: initialData.facilitiesGalleryImages || []
-      });
+        facilitiesGalleryImages: initialData.facilitiesGalleryImages || [],
+        homeFeatured: initialData.homeFeatured || false
+      };
     }
-  }, [mode, initialData]);
+    return {
+      id: '',
+      homeName: '',
+      homeLocation: '',
+      adminEmail: '',
+      homeImage: '',
+      cardImage2: '',
+      homeBadge: '',
+      homeDesc: '',
+      heroTitle: '',
+      heroSubtitle: '',
+      heroBgImage: '',
+      heroExpandedDesc: '',
+      ciwReportUrl: '',
+      newsletterUrl: '',
+      bannerImages: [],
+      statsBedrooms: '',
+      statsPremier: '',
+      teamMembers: [],
+      teamGalleryImages: [],
+      careIntro: '',
+      careSectionsJson: [],
+      careGalleryImages: [],
+      activitiesIntro: '',
+      activities: [],
+      activityImages: [],
+      activitiesModalDesc: '',
+      facilitiesIntro: '',
+      facilitiesList: [],
+      detailedFacilities: [],
+      facilitiesGalleryImages: [],
+      homeFeatured: false
+    };
+  };
+
+  const [formData, setFormData] = useState(createInitialFormData);
+
+  // Sync formData with initialData when it changes
+  React.useEffect(() => {
+    if (mode === 'edit' && initialData) {
+      setFormData(prev => ({
+        ...prev,
+        ...createInitialFormData(),
+        id: initialData.id // Ensure ID is always set
+      }));
+    }
+  }, [initialData, mode]);
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -303,7 +353,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   const [teamInput, setTeamInput] = useState({ name: '', role: '', image: '' });
   const [teamGalleryInput, setTeamGalleryInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
   const [activityMediaInput, setActivityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
-  const [careGalleryInput, setCareGalleryInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
   const [facilityMediaInput, setFacilityMediaInput] = useState({ type: 'image', url: '', cropMode: 'uncropped' });
 
   const [uploadingDoc, setUploadingDoc] = useState(null);
@@ -341,10 +390,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
     } finally {
       setUploadingDoc(null);
     }
-  };
-
-  const getSecondCardImage = () => {
-    return formData.cardImage2 || '';
   };
 
   const [isUploading, setIsUploading] = useState(false);

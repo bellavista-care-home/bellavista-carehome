@@ -48,6 +48,10 @@ export async function fetchNewsItems() {
     const res = await fetch(`${API_BASE}/news`);
     if (!res.ok) throw new Error('Failed to fetch news');
     const items = await res.json();
+    console.log('fetchNewsItems: Retrieved items count:', items.length);
+    items.forEach((item, index) => {
+      console.log(`fetchNewsItems: Item ${index} - Title: "${item.title}", Excerpt length: ${item.excerpt?.length || 0}, Preview: "${item.excerpt?.substring(0, 50)}..."`);
+    });
     return items.map(item => ({
       ...item,
       image: resolveImageUrl(item.image),
@@ -157,10 +161,20 @@ export async function deleteNewsItem(id) {
 export async function updateNewsItem(item) {
   if (!API_BASE) return null;
   
+  console.log('updateNewsItem: Starting update...', {
+    id: item.id,
+    title: item.title,
+    excerptLength: item.excerpt?.length || 0,
+    excerptPreview: item.excerpt?.substring(0, 100) + '...',
+    hasImage: !!item.image,
+    galleryCount: item.gallery?.length || 0
+  });
+  
   const formData = new FormData();
   Object.keys(item).forEach(key => {
     if (key === 'image' || key === 'gallery') return;
     formData.append(key, item[key]);
+    console.log(`FormData: Adding ${key}`, key === 'excerpt' ? item[key]?.substring(0, 100) + '...' : item[key]);
   });
   
   const mainImageBlob = dataURItoBlob(item.image);
@@ -182,16 +196,26 @@ export async function updateNewsItem(item) {
     formData.append('gallery', JSON.stringify(existingUrls));
   }
 
+  console.log('updateNewsItem: Sending PUT request to:', `${API_BASE}/news/${item.id}`);
+  
   const res = await fetch(`${API_BASE}/news/${item.id}`, {
     method: 'PUT',
     headers: authService.getAuthHeader(),
     body: formData
   });
   
-  if (!res.ok) throw new Error('Failed to update news');
-  return await res.json();
+  console.log('updateNewsItem: Response status:', res.status);
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('updateNewsItem: Failed to update news', res.status, res.statusText, errorText);
+    throw new Error(`Failed to update news: ${res.status} ${res.statusText}. ${errorText}`);
+  }
+  const result = await res.json();
+  console.log('updateNewsItem: Success!', result);
+  return result;
 }
 
 // Deprecated sync functions for backward compatibility until refactor is complete
 export function loadNewsItems() { return []; } 
-export function saveNewsItem(item) { return []; } 
+export function saveNewsItem() { return []; } 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import '../styles/FAQ.css';
+import SEO from '../components/SEO';
 
 const FAQ = () => {
   const faqs = [
@@ -50,13 +50,14 @@ const FAQ = () => {
   };
 
   return (
+    <>
+      <SEO
+        title="Frequently Asked Questions | Bellavista Nursing Homes"
+        description="Find answers to common questions about life, care, and visiting at Bellavista Nursing Homes."
+        url="/faq"
+        schema={faqSchema}
+      />
     <div className="faq-page">
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
-        </script>
-      </Helmet>
-
       <div className="faq-header">
         <div className="container">
           <h1>Frequently Asked Questions</h1>
@@ -92,6 +93,7 @@ const FAQ = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

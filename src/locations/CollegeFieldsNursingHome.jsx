@@ -278,11 +278,7 @@ const CollegeFieldsNursingHome = () => {
           color: rgba(255, 251, 244, 0.9);
           font-family: var(--font-body);
         }
-        
-        /* Fix brown/black background on refresh */
-        .home .hero-image-wrap {
-          background-color: var(--color-primary) !important;
-        }
+
         
         /* 2. ABOUT / INTRO SECTION */
         .theme-college-fields .group-intro-title .group-name {
@@ -503,29 +499,7 @@ const CollegeFieldsNursingHome = () => {
       <section className="hero">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <Swiper
-              modules={[Autoplay, EffectFade]}
-              effect="fade"
-              autoplay={{
-                delay: 6000,
-                disableOnInteraction: false,
-              }}
-              loop={true}
-              speed={1500}
-              className="hero-swiper"
-            >
-              {bannerImages.length > 0 ? (
-                bannerImages.map((slide, index) => (
-                  <SwiperSlide key={index}>
-                    <img src={slide} alt={`College Fields Banner ${index + 1}`} />
-                  </SwiperSlide>
-                ))
-              ) : (
-                <SwiperSlide>
-                  <img src="/home-images/college-fields.jpg" alt="College Fields Nursing Home" />
-                </SwiperSlide>
-              )}
-            </Swiper>
+            <img src="/home-images/college-fields.jpg" alt="College Fields Nursing Home" />
           </div>
         </div>
 
@@ -536,7 +510,7 @@ const CollegeFieldsNursingHome = () => {
               <span className="title-sub">College Fields Nursing Home - Compassionate, Person-Centred Care</span>
             </h1>
             <p className="hero-description">
-              At College Fields Nursing Home, we are dedicated to providing exceptional care in a 
+                            At College Fields Nursing Home, we are dedicated to providing exceptional care in a 
               warm, welcoming, and homely environment. Our team takes pride not only in delivering 
               technically excellent nursing care but also in creating a space where residents feel 
               valued, respected, and truly at home.
@@ -570,7 +544,7 @@ const CollegeFieldsNursingHome = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
+          <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
               spaceBetween={20}

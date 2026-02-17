@@ -8,7 +8,6 @@ const Facilities = () => {
   const { locationId } = useParams();
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [dynamicFacilities, setDynamicFacilities] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const locationNames = {
     'bellavista-barry': 'Bellavista Barry',
@@ -36,11 +35,8 @@ const Facilities = () => {
 
   const backendId = backendIdMap[locationId] || locationId;
 
-  const defaultFacilities = [];
-
   useEffect(() => {
     if (backendId) {
-      setLoading(true);
       fetchHome(backendId).then(data => {
         if (data && data.facilitiesGalleryImages) {
           // Filter images that have showOnPage set to true
@@ -56,12 +52,9 @@ const Facilities = () => {
             }));
           setDynamicFacilities(visibleFacilities);
         }
-        setLoading(false);
       });
-    } else {
-      setLoading(false);
     }
-  }, [locationId]);
+  }, [backendId]);
 
   const facilities = dynamicFacilities;
 

@@ -39,20 +39,36 @@ const Header = () => {
     <header>
       <div className="header-container">
         <div className="left-menu-wrapper">
-          <div className="left-menu-toggle" onClick={toggleSideMenu}>
-            <i className="fas fa-bars"></i>
-          </div>
+          <button
+            type="button"
+            className="left-menu-toggle"
+            onClick={toggleSideMenu}
+            aria-label={sideMenuOpen ? "Close main navigation" : "Open main navigation"}
+            aria-expanded={sideMenuOpen}
+            aria-controls="mobile-main-navigation"
+          >
+            <i className="fas fa-bars" aria-hidden="true"></i>
+          </button>
           <div className={`side-dropdown-menu ${sideMenuOpen ? 'active' : ''}`}>
             <div className="nav-header">
               <div className="nav-logo">
-                <i className="fas fa-home"></i>
+                <i className="fas fa-home" aria-hidden="true"></i>
                 <span>Bellavista</span>
               </div>
             </div>
-            <div className="close-menu" onClick={closeSideMenu}>
-              <i className="fas fa-times"></i>
-            </div>
-            <div className="nav-scrollable" data-lenis-prevent="true">
+            <button
+              type="button"
+              className="close-menu"
+              onClick={closeSideMenu}
+              aria-label="Close main navigation"
+            >
+              <i className="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div
+              id="mobile-main-navigation"
+              className="nav-scrollable"
+              data-lenis-prevent="true"
+            >
               <ul>
                 <div className="nav-category">Main</div>
                 <li><Link to="/" onClick={closeSideMenu}>Home</Link></li>

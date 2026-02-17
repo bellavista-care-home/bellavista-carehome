@@ -1434,8 +1434,8 @@
     }
     
     /* Activities section responsive fixes */
-    .activities {
-        padding: 20px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
     
     .activities-showcase {
@@ -1483,9 +1483,9 @@
         font-size: 10px;
     }
     
-    .activities {
-    background-color: var(--surface-blue);
-    padding: 80px 0;
+    .activities-section {
+    background-color: var(--soft-blue);
+    padding: 4px 12px;
 }
 
 .activities-cta {
@@ -1635,7 +1635,7 @@
     left: 0;
     width: 100%;
     height: 5px;
-    background: var(--gradient);
+    background: var(--gradient-primary);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -1733,7 +1733,7 @@
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
-    background: var(--gradient) !important;
+    background: var(--gradient-primary) !important;
     background-color: var(--primary-blue) !important; /* Fallback color */
     color: var(--white) !important;
     padding: 10px 20px !important;
@@ -1759,7 +1759,7 @@
 .homes-scroll-container .read-more-btn:hover {
     transform: translateX(5px) !important;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-    background: var(--gradient) !important;
+    background: var(--gradient-primary) !important;
     color: var(--white) !important;
 }
 
@@ -1893,6 +1893,10 @@
     color: var(--smoky-black);
 }
 
+.news-category.activities {
+    background: linear-gradient(45deg, var(--bone), var(--floral-white));
+    color: var(--smoky-black);
+}
 .news-date-large {
     color: var(--text-light);
     font-size: 14px;
@@ -2029,7 +2033,7 @@
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 560px;
     background: var(--white);
 }
 
@@ -2040,20 +2044,30 @@
 }
 
 .news-image {
-    height: auto !important;
-    overflow: visible !important;
     position: relative;
+    overflow: hidden;
     background: var(--bone);
+    height: clamp(140px, 18vw, 180px);
 }
 
 .news-image img {
-    width: 100% !important;
-    height: auto !important;
-    object-fit: contain !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     image-rendering: -webkit-optimize-contrast;
     border-top: 2px solid var(--bone);
     border-bottom: 2px solid var(--bone);
+}
+
+.news-placeholder-image-small {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--secondary-blue);
 }
 
 .news-card:hover .news-image img {
@@ -2065,6 +2079,8 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    min-height: calc(100% - 220px); /* Minimum height for content area */
+    justify-content: space-between;
 }
 
 .news-content h4 {
@@ -2073,6 +2089,12 @@
     color: var(--text-dark);
     font-weight: 600;
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em; /* Ensure consistent height for 2 lines */
+    line-clamp: 2; /* Standard property for future compatibility */
 }
 
 .news-content p {
@@ -2080,12 +2102,17 @@
     line-height: 1.6;
     color: var(--text-light);
     font-size: 0.95rem;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    flex-grow: 1; /* Allow paragraph to grow and fill available space */
+    display: block;
+    overflow: visible;
+    min-height: 8.0em; /* Ensure consistent height for 5 lines */
+    white-space: normal;
+    position: relative;
+}
+
+/* Enhanced ellipsis for better visual indication */
+.news-content p::after {
+    display: none; /* Hide gradient overlay since we're not truncating */
 }
 
 .news-category {
@@ -2104,6 +2131,8 @@
 .news-category.awards { background: linear-gradient(45deg, #6bcf7f, #4ecdc4); color: white; }
 .news-category.innovation { background: linear-gradient(45deg, #a8e6cf, #52c234); color: white; }
 .news-category.community { background: linear-gradient(45deg, #ffecd2, #fcb69f); color: white; }
+.news-category.activities { background: linear-gradient(45deg, #e0d9ba, #ff8a00); color: white; }
+.news-category.health-updates { background: linear-gradient(45deg, #ff6b6b, #315DA8); color: white; }
 
 .news-engagement {
     display: flex;
@@ -2112,6 +2141,7 @@
     font-size: 0.85rem;
     color: var(--text-light);
     flex-wrap: wrap;
+    margin-top: auto; /* Push to bottom */
 }
 
 .news-engagement span {
@@ -2139,6 +2169,7 @@
     font-size: 0.85rem;
     box-shadow: 0 4px 15px rgba(17, 18, 13, 0.2);
     width: fit-content;
+    margin-top: auto; /* Push to bottom */
 }
 
 .news-link:hover {
@@ -2325,8 +2356,8 @@
 }
 
 /* Activities Section */
-.activities {
-    padding: 80px 0 100px;
+.activities-section {
+    padding: 4px 12px;
     background: var(--bone);
     position: relative;
 }
@@ -2357,20 +2388,20 @@
 /* Removed legacy care-promise specific layout overrides to use activities styles */
 
 @media (max-width: 1024px) {
-    .activities {
-        padding: 50px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
 }
 
 @media (max-width: 768px) {
-    .activities {
-        padding: 40px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
 }
 
 @media (max-width: 576px) {
-    .activities {
-        padding: 30px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
 }
 
@@ -2775,8 +2806,8 @@
     }
     
     /* ACTIVITY CARDS - BIG SCREEN ENHANCEMENTS */
-    .activities .activity-grid,
-    .care-promise .activity-grid {
+    .activities-section .activity-grid,
+.care-promise .activity-grid {
         display: flex;
         flex-direction: row;
         gap: 60px;
@@ -3000,14 +3031,14 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-    .activities .activity-grid,
+    .activities-section .activity-grid,
     .care-promise .activity-grid {
         overflow-x: auto;
         flex-wrap: nowrap;
         align-items: stretch;
     }
 
-    .activities .activity-card,
+    .activities-section .activity-card,
     .care-promise .activity-card {
         width: 320px;
         max-width: 320px;
@@ -3016,7 +3047,7 @@
 }
 
 @media (min-width: 1024px) {
-    .activities .activity-grid,
+    .activities-section .activity-grid,
     .care-promise .activity-grid {
         display: flex !important;
         flex-direction: row !important;
@@ -3028,7 +3059,7 @@
 
 /* Desktop: Horizontal flex layout */
 @media (min-width: 1366px) {
-    .activities .activity-grid,
+    .activities-section .activity-grid,
     .care-promise .activity-grid {
         display: flex;
         flex-direction: row;
@@ -3047,7 +3078,7 @@
         gap: 30px;
     }
     
-    .activities .activity-grid,
+    .activities-section .activity-grid,
     .care-promise .activity-grid {
         display: flex;
         flex-direction: row;
@@ -3063,24 +3094,24 @@
         scrollbar-color: var(--olive-drab) var(--bone);
     }
 
-    .activities .activity-grid::-webkit-scrollbar,
+    .activities-section .activity-grid::-webkit-scrollbar,
     .care-promise .activity-grid::-webkit-scrollbar {
         height: 8px;
     }
     
-    .activities .activity-grid::-webkit-scrollbar-track,
+    .activities-section .activity-grid::-webkit-scrollbar-track,
     .care-promise .activity-grid::-webkit-scrollbar-track {
         background: var(--bone);
         border-radius: 4px;
     }
     
-    .activities .activity-grid::-webkit-scrollbar-thumb,
+    .activities-section .activity-grid::-webkit-scrollbar-thumb,
     .care-promise .activity-grid::-webkit-scrollbar-thumb {
         background: var(--olive-drab);
         border-radius: 4px;
     }
     
-    .activities .activity-grid::-webkit-scrollbar-thumb:hover,
+    .activities-section .activity-grid::-webkit-scrollbar-thumb:hover,
     .care-promise .activity-grid::-webkit-scrollbar-thumb:hover {
         background: var(--smoky-black);
     }
@@ -3147,7 +3178,7 @@
         box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
     }
 
-    .activities .activity-grid,
+    .activities-section .activity-grid,
     .care-promise .activity-grid {
         gap: 32px;
     }
@@ -3187,7 +3218,7 @@
         gap: 32px;
     }
 
-    .activities .activity-card {
+    .activities-section .activity-card {
         padding: 16px 12px;
         min-height: 110px;
         display: flex;
@@ -3201,24 +3232,24 @@
         margin: 0;
     }
 
-    .activities .activity-icon {
+    .activities-section .activity-icon {
         width: 36px;
         height: 36px;
         font-size: 16px;
         margin: 0 auto 6px;
     }
 
-    .activities .activity-card h4 {
+    .activities-section .activity-card h4 {
         font-size: 14px;
         margin-bottom: 4px;
     }
 
-    .activities .activity-card p {
+    .activities-section .activity-card p {
         font-size: 11px;
         line-height: 1.35;
     }
 
-    .activities .activity-grid {
+    .activities-section .activity-grid {
         gap: 10px;
     }
 
@@ -3271,7 +3302,7 @@
     right: 0;
     width: 100%;
     height: 5px;
-    background: var(--gradient);
+    background: var(--gradient-primary);
     transform: scaleX(0);
     transition: transform 0.3s ease;
     border-radius: 20px 20px 0 0;
@@ -3382,9 +3413,9 @@
     font-size: 0.9rem;
 }
 
-.activities {
+.activities-section {
     background-color: var(--soft-blue);
-    padding: 80px 0;
+    padding: 4px 12px;
 }
 
 .activities-cta {
@@ -3509,9 +3540,7 @@
         flex-wrap: wrap !important;
     }
     
-    .activity-card:active {
-        /* Removed scale transform */
-    }
+    /* .activity-card:active rule removed - no styles needed */
 
     .activity-card:hover {
         box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
@@ -3801,7 +3830,7 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: var(--gradient);
+    background: var(--gradient-primary);
 }
 
 .tab-btn:hover {
@@ -3915,19 +3944,21 @@
     
     .news-card.modern { 
         flex: 0 0 300px !important;
-        height: auto !important;
+        height: 380px !important;
         margin-bottom: 0 !important;
         scroll-snap-align: start !important;
     }
     
     .news-card.modern .news-image { 
-        height: auto !important; 
+        height: 200px !important; 
+        min-height: 140px !important;
     }
     
     .news-card.modern .news-content { 
         padding: 0.8rem !important; 
-        height: auto !important; 
+        height: calc(100% - 140px) !important; /* Fill remaining height after image */
         overflow: visible !important; 
+        justify-content: space-between !important;
     }
     
     .news-card.modern .news-content h4 { 
@@ -3941,6 +3972,7 @@
         line-height: 1.3 !important; 
         margin-bottom: 0.6rem !important; 
         display: -webkit-box !important;
+        line-clamp: 3 !important;
         -webkit-line-clamp: 3 !important;
         -webkit-box-orient: vertical !important; 
         overflow: hidden !important; 
@@ -3954,6 +3986,7 @@
     .news-link.modern { 
         font-size: 0.65rem !important; 
         padding: 2px 4px !important; 
+        margin-top: auto !important; /* Push to bottom */
     }
     
     .news-category { 
@@ -4168,6 +4201,7 @@
 
     .news-card.modern {
         flex: 0 0 280px;
+        height: 360px !important;
     }
 
     .facility-tabs {
@@ -4297,8 +4331,8 @@
 }
 /* Mobile Activities & Promise Scroll Containers */
 @media (max-width: 768px) {
-    .activities {
-        padding: 30px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
 
     .section-title {
@@ -4416,8 +4450,8 @@
 }
 
 @media (max-width: 576px) {
-    .activities {
-        padding: 20px 0;
+    .activities-section {
+        padding: 4px 12px;
     }
 
     .section-title {
@@ -4642,6 +4676,7 @@
 .category-tag.awards { background: linear-gradient(45deg, var(--olive-drab), var(--bone)); }
 .category-tag.innovation { background: linear-gradient(45deg, var(--smoky-black), var(--olive-drab)); }
 .category-tag.community { background: linear-gradient(45deg, var(--bone), var(--floral-white)); color: var(--smoky-black); }
+.category-tag.activities { background: linear-gradient(45deg, var(--bone), var(--olive-drab)); color: var(--smoky-black); }
 
 .meta-item {
     display: flex;
@@ -5039,6 +5074,7 @@
     line-height: 1.6;
     margin-bottom: 15px;
     display: -webkit-box;
+    line-clamp: 3;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -5305,7 +5341,7 @@
 }
 
 .share-btn {
-    background: var(--gradient);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -5316,8 +5352,9 @@
 }
 
 .read-more-btn {
-    background: var(--gradient);
+    background: var(--gradient-primary);
     color: white;
+    text-decoration: none;
     border: none;
     padding: 10px 20px;
     border-radius: 25px;
@@ -5450,6 +5487,8 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: high-quality;
+    backface-visibility: hidden;
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -ms-transform: translateZ(0);
     -webkit-transform: translateZ(0);
@@ -5484,6 +5523,7 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: high-quality;
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     -ms-transform: translateZ(0);
     -webkit-transform: translateZ(0);
@@ -5989,6 +6029,7 @@
     font-size: 32px;
     /* Google 'G' colors gradient text or simple color */
     background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

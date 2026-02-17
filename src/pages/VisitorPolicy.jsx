@@ -1,9 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/About.css';
+import SEO from '../components/SEO';
 
 const VisitorPolicy = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Visitor Policy | Bellavista Nursing Homes",
+    "description": "Visitor policy and guidelines for seeing loved ones at Bellavista Nursing Homes.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   return (
+    <>
+      <SEO 
+        title="Visitor Policy | Bellavista Nursing Homes"
+        description="Read Bellavista Nursing Homes' visitor policy, including appointment system, visiting hours and safety guidance."
+        url="/visitor-policy"
+        schema={schema}
+      />
     <div className="visitor-policy-page">
       <div className="page-header">
         <div className="container">
@@ -109,6 +128,7 @@ const VisitorPolicy = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

@@ -94,7 +94,6 @@ const Events = () => {
 
     // Days of the month
     for (let i = 1; i <= daysInMonth; i++) {
-      const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toISOString().split('T')[0];
       // Check if there are events on this day (ignoring time)
       // Note: This simple ISOString split might be off by one day depending on timezone vs UTC.
       // Better approach:

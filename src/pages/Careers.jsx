@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchVacancies, applyForJob } from '../services/vacancyService';
 import '../styles/Careers.css';
+import SEO from '../components/SEO';
 
 const Careers = () => {
   const [vacancies, setVacancies] = useState([]);
@@ -129,7 +130,46 @@ const Careers = () => {
     }
   };
 
+  const jobList = vacancies.length > 0 ? {
+    "@type": "ItemList",
+    "itemListElement": vacancies.map((job, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "JobPosting",
+        "title": job.title,
+        "description": job.shortDescription,
+        "employmentType": job.type || "Full-time",
+        "jobLocation": job.location || "South Wales",
+        "hiringOrganization": {
+          "@type": "Organization",
+          "name": "Bellavista Nursing Homes"
+        }
+      }
+    }))
+  } : null;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Careers at Bellavista Nursing Homes",
+    "description": "Explore current vacancies and nursing home careers at Bellavista across South Wales.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    },
+    ...(jobList ? { mainEntity: jobList } : {})
+  };
+
   return (
+    <>
+      <SEO 
+        title="Careers & Current Vacancies | Bellavista Nursing Homes"
+        description="Discover care, nursing and support roles at Bellavista Nursing Homes in South Wales. Apply online for our latest vacancies."
+        url="/careers"
+        image="https://www.bellavistanursinghomes.com/images/hero-care-staff.jpg"
+        schema={schema}
+      />
     <div className="careers-page">
       <div className="careers-header">
         <div className="container">
@@ -179,7 +219,6 @@ const Careers = () => {
         )}
       </div>
 
-      {/* Read More Modal */}
       {selectedVacancy && (
         <div className="modal-overlay" onClick={() => setSelectedVacancy(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} data-lenis-prevent>
@@ -205,7 +244,6 @@ const Careers = () => {
         </div>
       )}
 
-      {/* Apply Modal */}
       {applyingVacancy && (
         <div className="modal-overlay" onClick={() => !formLoading && setApplyingVacancy(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()} data-lenis-prevent>
@@ -263,6 +301,7 @@ const Careers = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

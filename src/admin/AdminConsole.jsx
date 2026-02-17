@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../services/authService';
 import * as XLSX from 'xlsx';
@@ -31,28 +31,27 @@ const AdminConsole = () => {
     const currentUser = getCurrentUser();
     if (currentUser) {
       setUser(currentUser);
-      // Redirect home_admin to a safe default view if they land on the restricted update-home view
       if (currentUser.role === 'home_admin' && activeView === 'update-home') {
         setActiveView('home-section-ciw-report');
       }
     }
-  }, []);
+  }, [activeView]);
 
   const isHomeAdmin = user?.role === 'home_admin';
 
   const [newsFormKey, setNewsFormKey] = useState(0);
   const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
-
-  const notify = (message, type = 'success') => {
+ 
+  const notify = useCallback((message, type = 'success') => {
     setToast({ message, type, visible: true });
     setTimeout(() => setToast(prev => ({ ...prev, visible: false })), 3000);
-  };
+  }, []);
 
   const [isBusy, setIsBusy] = useState(false);
   const [globalSearch, setGlobalSearch] = useState('');
   const [selectedHome, setSelectedHome] = useState(null);
   const [homes, setHomes] = useState([]);
-  const [newsForm, setNewsForm] = useState({
+  const [, setNewsForm] = useState({
     id: '',
     title: '',
     excerpt: '',
@@ -67,7 +66,7 @@ const AdminConsole = () => {
     gallery: [],
     videoUrl: ''
   });
-  const MAX_EXCERPT = 180;
+  const MAX_EXCERPT = 400; // Increased from 180 to allow more content
   const [newsList, setNewsList] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
   const [faqQuestion, setFaqQuestion] = useState('');
@@ -92,7 +91,7 @@ const AdminConsole = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [userForm, setUserForm] = useState({ username: '', password: '', role: 'home_admin', home_id: '' });
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
       const data = await fetchUsers();
       setUsers(Array.isArray(data) ? data : []);
@@ -100,7 +99,7 @@ const AdminConsole = () => {
       console.error(e);
       notify('Failed to load users', 'error');
     }
-  };
+  }, [notify]);
 
   const handleCreateUser = async () => {
     if (!userForm.username || !userForm.password) {
@@ -146,12 +145,12 @@ const AdminConsole = () => {
     }
   };
 
-  const loadHomes = async () => {
+  const loadHomes = useCallback(async () => {
     const data = await fetchHomes();
     setHomes(data);
-  };
+  }, []);
 
-  const loadMgmtTeam = async () => {
+  const loadMgmtTeam = useCallback(async () => {
     try {
       const data = await fetchManagementTeam();
       setMgmtMembers(data);
@@ -159,7 +158,7 @@ const AdminConsole = () => {
       console.error(e);
       notify('Failed to load management team', 'error');
     }
-  };
+  }, [notify]);
 
   const handleSeedMgmt = async () => {
     setIsBusy(true);
@@ -167,7 +166,7 @@ const AdminConsole = () => {
       await seedManagementTeam();
       notify('Default members added!', 'success');
       loadMgmtTeam();
-    } catch (e) {
+    } catch {
       notify('Failed to seed team', 'error');
     } finally {
       setIsBusy(false);
@@ -197,7 +196,7 @@ const AdminConsole = () => {
       setIsEditingMgmt(false);
       setMgmtForm({ id: '', name: '', role: '', description: '', image: '', order: 0 });
       loadMgmtTeam();
-    } catch (e) {
+    } catch {
       notify('Error saving member', 'error');
     } finally {
       setIsBusy(false);
@@ -211,7 +210,7 @@ const AdminConsole = () => {
       await deleteManagementMember(id);
       notify('Member deleted', 'success');
       loadMgmtTeam();
-    } catch (e) {
+    } catch {
       notify('Error deleting member', 'error');
     } finally {
       setIsBusy(false);
@@ -320,14 +319,14 @@ const AdminConsole = () => {
     setShowDownloadModal(false);
   };
   
-  const loadBookings = async () => {
+  const loadBookings = useCallback(async () => {
     try {
       const data = await fetchScheduledTours();
       setBookings(Array.isArray(data) ? data : []);
     } catch {
       setBookings([]);
     }
-  };
+  }, []);
 
   const loadKioskCheckIns = async () => {
     try {
@@ -366,19 +365,19 @@ const AdminConsole = () => {
   const [enquiries, setEnquiries] = useState([]);
   const [enquirySearch, setEnquirySearch] = useState('');
   
-  const loadEnquiries = async () => {
+  const loadEnquiries = useCallback(async () => {
     try {
       const data = await fetchCareEnquiries();
       setEnquiries(Array.isArray(data) ? data : []);
     } catch {
       setEnquiries([]);
     }
-  };
+  }, []);
 
   const [applications, setApplications] = useState([]);
   const [applicationSearch, setApplicationSearch] = useState('');
   
-  const loadApplications = () => {
+  const loadApplications = useCallback(() => {
     try {
       const key = 'career_applications';
       const data = JSON.parse(localStorage.getItem(key) || '[]');
@@ -386,153 +385,12 @@ const AdminConsole = () => {
     } catch {
       setApplications([]);
     }
-  };
+  }, []);
 
-  const loadNews = async () => {
+  const loadNews = useCallback(async () => {
     const items = await fetchNewsItems();
     setNewsList(items);
-  };
-
-  useEffect(() => {
-    if (activeView === 'scheduled-tours') {
-      loadBookings();
-      const interval = setInterval(loadBookings, 10000);
-      return () => clearInterval(interval);
-    }
-    if (activeView === 'care-enquiries') {
-      loadEnquiries();
-      const interval = setInterval(loadEnquiries, 10000);
-      return () => clearInterval(interval);
-    }
-    if (activeView === 'career-applications') {
-      loadApplications();
-      const interval = setInterval(loadApplications, 5000);
-      const onStorage = (e) => {
-        if (e.key === 'career_applications') loadApplications();
-      };
-      window.addEventListener('storage', onStorage);
-      return () => {
-        clearInterval(interval);
-        window.removeEventListener('storage', onStorage);
-      };
-    }
-    if (activeView === 'update-news') {
-      loadNews();
-    }
-    if (activeView === 'update-home' || activeView.startsWith('home-section-')) {
-      loadHomes();
-    }
-    if (activeView === 'manage-faqs') {
-      loadFaqs();
-    }
-    if (activeView === 'manage-users') {
-      loadHomes(); // For dropdown
-      loadUsers();
-    }
-    if (activeView === 'reviews') {
-      loadReviews();
-    }
-    if (activeView === 'manage-management-team') {
-      loadMgmtTeam();
-    }
-  }, [activeView]);
-
-  // Add news
-  const addNews = async () => {
-    if (!newsForm.title || !newsForm.date || !newsForm.excerpt) {
-      notify('Please fill in at least title, date, and summary', 'error');
-      return;
-    }
-    
-    // Auto-generate ID if empty (though backend handles it usually)
-    const id = (newsForm.id || newsForm.title).toLowerCase().replace(/[^a-z0-9]/g, '-').substring(0, 50);
-    
-    const payload = {
-      ...newsForm,
-      id
-    };
-
-    try {
-      setIsBusy(true);
-      await createNewsItem(payload);
-      notify('News saved successfully!', 'success');
-      
-      // Reset form
-      setNewsForm({
-        id: '',
-        title: '',
-        excerpt: '',
-        fullDescription: '',
-        image: '',
-        category: 'events',
-        date: '',
-        location: 'All Locations',
-        author: 'Bellavista Team',
-        badge: '',
-        important: false,
-        gallery: [],
-        videoUrl: ''
-      });
-      
-      // If we were viewing list, refresh it
-      if (activeView === 'update-news') {
-        loadNews();
-      }
-    } catch (e) {
-      console.error(e);
-      notify('Failed to save news. See console.', 'error');
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const updateNews = async () => {
-    if (!selectedNews) return;
-    if (!newsForm.title || !newsForm.date || !newsForm.excerpt) {
-      notify('Please fill in at least title, date, and summary', 'error');
-      return;
-    }
-    
-    const payload = {
-      ...newsForm,
-      id: selectedNews.id // Ensure we keep the original ID
-    };
-
-    try {
-      setIsBusy(true);
-      await updateNewsItem(payload);
-      notify('News updated successfully!', 'success');
-      
-      // Refresh list
-      loadNews();
-      
-      setSelectedNews(null);
-      setNewsForm({
-        id: '',
-        title: '',
-        excerpt: '',
-        fullDescription: '',
-        image: '',
-        category: 'events',
-        date: '',
-        location: 'All Locations',
-        author: 'Bellavista Team',
-        badge: '',
-        important: false,
-        gallery: [],
-        videoUrl: ''
-      });
-    } catch (e) {
-      console.error(e);
-      notify('Failed to update news. See console.', 'error');
-    } finally {
-      setIsBusy(false);
-    }
-  };
-
-  const handleNewsChange = (field, value) => {
-    setNewsForm(prev => ({ ...prev, [field]: value }));
-  };
+  }, []);
 
   const startEditNews = (news) => {
     setSelectedNews(news);
@@ -554,12 +412,7 @@ const AdminConsole = () => {
     });
   };
   
-  // Initial load if we start on update-news
-  useEffect(() => {
-    if (activeView === 'update-news') loadNews();
-  }, []);
-
-  const loadFaqs = async () => {
+  const loadFaqs = useCallback(async () => {
     try {
       const data = await fetchFaqs();
       setFaqs(Array.isArray(data) ? data : []);
@@ -567,7 +420,7 @@ const AdminConsole = () => {
       console.error(e);
       setFaqs([]);
     }
-  };
+  }, []);
 
   const addFaqHandler = async () => {
     if (!faqQuestion || !faqAnswer) {
@@ -598,7 +451,7 @@ const AdminConsole = () => {
     }
   };
 
-  const loadVacancies = async () => {
+  const loadVacancies = useCallback(async () => {
     try {
       const data = await fetchVacancies();
       setVacancies(Array.isArray(data) ? data : []);
@@ -606,13 +459,13 @@ const AdminConsole = () => {
       console.error(e);
       setVacancies([]);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (activeView === 'manage-vacancies') loadVacancies();
-  }, [activeView]);
+  }, [activeView, loadVacancies]);
 
-  const loadReviews = async () => {
+  const loadReviews = useCallback(async () => {
     try {
       const data = await fetchReviews(reviewLocationFilter ? { location: reviewLocationFilter } : {});
       setReviews(Array.isArray(data) ? data : []);
@@ -621,7 +474,7 @@ const AdminConsole = () => {
       setReviews([]);
       notify('Failed to load reviews', 'error');
     }
-  };
+  }, [reviewLocationFilter, notify]);
 
   const handleDeleteReview = async (id) => {
     if (!window.confirm('Delete this review?')) return;
@@ -671,6 +524,50 @@ const AdminConsole = () => {
       setIsBusy(false);
     }
   };
+
+  useEffect(() => {
+    if (activeView === 'scheduled-tours') {
+      loadBookings();
+      const interval = setInterval(loadBookings, 10000);
+      return () => clearInterval(interval);
+    }
+    if (activeView === 'care-enquiries') {
+      loadEnquiries();
+      const interval = setInterval(loadEnquiries, 10000);
+      return () => clearInterval(interval);
+    }
+    if (activeView === 'career-applications') {
+      loadApplications();
+      const interval = setInterval(loadApplications, 5000);
+      const onStorage = (e) => {
+        if (e.key === 'career_applications') loadApplications();
+      };
+      window.addEventListener('storage', onStorage);
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener('storage', onStorage);
+      };
+    }
+    if (activeView === 'update-news') {
+      loadNews();
+    }
+    if (activeView === 'update-home' || activeView.startsWith('home-section-')) {
+      loadHomes();
+    }
+    if (activeView === 'manage-faqs') {
+      loadFaqs();
+    }
+    if (activeView === 'manage-users') {
+      loadHomes();
+      loadUsers();
+    }
+    if (activeView === 'reviews') {
+      loadReviews();
+    }
+    if (activeView === 'manage-management-team') {
+      loadMgmtTeam();
+    }
+  }, [activeView, loadBookings, loadEnquiries, loadApplications, loadNews, loadHomes, loadFaqs, loadUsers, loadReviews, loadMgmtTeam]);
 
   const handleSaveVacancy = async (data) => {
     try {
@@ -776,22 +673,23 @@ const AdminConsole = () => {
     <div className="app">
       <header>
         <div className="brand">
-          <i className="fa-solid fa-hospital-user"></i>
+          <i className="fa-solid fa-hospital-user" aria-hidden="true"></i>
           <h1>Bellavista Admin</h1>
           <span className="admin-badge">Dashboard</span>
         </div>
         <div className="header-actions">
-          <button className="btn" onClick={logout}>
-            <i className="fa-solid fa-sign-out-alt"></i>&nbsp;Logout
+          <button className="btn" onClick={logout} aria-label="Logout of admin console">
+            <i className="fa-solid fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Logout
           </button>
         </div>
       </header>
 
       <aside data-lenis-prevent>
         <div className="search">
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
           <input 
             id="globalSearch" 
+            aria-label="Search admin data"
             placeholder="Quick search…" 
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
@@ -984,6 +882,7 @@ const AdminConsole = () => {
         {(activeView === 'update-home' || activeView.startsWith('home-section-')) && (
           (selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId))) ? (
             <HomeForm 
+              key={(selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId)))?.id}
               mode="edit" 
               initialData={selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId))} 
               onCancel={() => setSelectedHome(null)}
@@ -1099,6 +998,13 @@ const AdminConsole = () => {
                 onSave={async (newsData) => {
                   try {
                     setIsBusy(true);
+                    console.log('AdminConsole: Attempting to update news with data:', {
+                      title: newsData.title,
+                      excerpt: newsData.excerpt?.substring(0, 100) + '...',
+                      excerptLength: newsData.excerpt?.length || 0,
+                      hasImage: !!newsData.image,
+                      galleryCount: newsData.gallery?.length || 0
+                    });
                     await updateNewsItem(newsData);
                     notify('News updated successfully!', 'success');
                     setSelectedNews(null);
@@ -1106,7 +1012,7 @@ const AdminConsole = () => {
                     loadNews();
                   } catch (error) {
                     console.error('Failed to update news:', error);
-                    notify('Failed to update news. Please try again.', 'error');
+                    notify(`Failed to update news: ${error.message}`, 'error');
                   } finally {
                     setIsBusy(false);
                   }

@@ -80,6 +80,7 @@ header {
   font-size: 32px;
   margin-right: 10px;
   background: linear-gradient(45deg, var(--cta-default), var(--soft-blue));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -97,6 +98,7 @@ header {
   font-size: 28px;
   color: var(--white);
   background: linear-gradient(45deg, var(--white), var(--soft-blue));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -721,6 +723,7 @@ header.christmas-theme .dropdown-menu {
 /* Adjust text colors for visibility on dark background */
 header.christmas-theme .logo-text {
   background: linear-gradient(45deg, #ffffff, #e0e7ff);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -741,6 +744,7 @@ header.christmas-theme nav a:hover {
 
 header.christmas-theme .logo-icon {
   background: linear-gradient(45deg, #ffffff, #60a5fa);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 10px rgba(255,255,255,0.5);

@@ -25,11 +25,13 @@ const OurHomes = ({ isStandalone = false }) => {
 
   useEffect(() => {
     const loadHomes = async () => {
+      let cached = null;
       try {
         // 1. Try to load from cache first for instant render
-        const cached = sessionStorage.getItem('bellavista_homes_data');
-        if (cached) {
-          const parsed = JSON.parse(cached);
+        const cachedRaw = sessionStorage.getItem('bellavista_homes_data');
+        if (cachedRaw) {
+          cached = cachedRaw;
+          const parsed = JSON.parse(cachedRaw);
           setHomes(parsed);
           setImageIndices(parsed.map(() => 0));
           setLoading(false); // Stop loading immediately if cache exists

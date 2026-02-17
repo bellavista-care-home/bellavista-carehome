@@ -1,5 +1,5 @@
 .activities-page {
-  padding-bottom: 80px;
+  padding: 4px 12px;
   background-color: var(--surface-blue);
 }
 
@@ -152,8 +152,11 @@
   font-size: 1.05rem;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* Limit to 3 lines */
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis; /* Ensure ellipsis is shown */
+  word-wrap: break-word; /* Break long words if necessary */
 }
 
 /* Care Sections - Alternating Layout */
@@ -386,6 +389,8 @@
 
 .modal-text {
   flex: 1;
+  min-width: 0; /* Fix for flex child overflow */
+  overflow-x: hidden; /* Prevent horizontal scroll */
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -406,9 +411,19 @@
   line-height: 1.8;
   color: var(--olive-drab);
   margin-bottom: 40px;
-  overflow-wrap: break-word; /* Prevent overflow from long words */
+  overflow-wrap: anywhere;
   word-wrap: break-word;
-  word-break: break-word; /* Handle non-breaking spaces and long words */
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.modal-description * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  box-sizing: border-box;
 }
 
 /* Quill Editor Styles Support */

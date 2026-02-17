@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchNewsItemById, fetchNewsItems } from '../services/newsService';
+import SEO from '../components/SEO';
+import { generateArticleSchema, generateOrganizationSchema } from '../utils/schemaUtils';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -9,6 +11,13 @@ import 'swiper/css/pagination';
 import '../styles/Careers.css';
 import '../styles/MainPage.css';
 import '../styles/NewsDetail.css';
+
+const stripHtml = (html) => {
+  if (!html) return '';
+  const tmp = document.createElement('DIV');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+};
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -72,8 +81,24 @@ const NewsDetail = () => {
     );
   }
 
-  const description = news.fullDescription || news.excerpt;
+  const description = news.fullDescription || news.excerpt || '';
   const isLongContent = description.length > 500;
+
+  const plainExcerpt = stripHtml(news.excerpt || description).slice(0, 300);
+
+  const articlePath = `/news/${news.id}`;
+
+  const schema = [
+    generateOrganizationSchema(),
+    generateArticleSchema({
+      title: news.title,
+      description: plainExcerpt,
+      image: news.image,
+      publishedDate: news.date,
+      modifiedDate: news.updatedAt || news.date,
+      url: `https://www.bellavistanursinghomes.com${articlePath}`
+    })
+  ];
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -126,8 +151,15 @@ const NewsDetail = () => {
   };
 
   return (
+    <>
+      <SEO
+        title={news.title}
+        description={plainExcerpt || news.title}
+        image={news.image}
+        url={articlePath}
+        schema={schema}
+      />
     <div className="news-page">
-      {/* Hero Section */}
       <section className="news-hero">
         <div className="container">
           <div className="hero-content">
@@ -294,6 +326,7 @@ const NewsDetail = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

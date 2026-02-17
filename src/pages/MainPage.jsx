@@ -21,6 +21,23 @@ const Home = () => {
   const [modalContent, setModalContent] = useState(null);
   const [newsList, setNewsList] = useState([]);
   
+  const stripHtml = (html) => {
+    if (!html) return '';
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    let text = tmp.textContent || tmp.innerText || '';
+    
+    // Check if text looks like HTML (double encoded)
+    if (text.match(/<[^>]*>/)) {
+      tmp.innerHTML = text;
+      text = tmp.textContent || tmp.innerText || '';
+    }
+    
+    return text.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ');
+  };
+
+  const MAX_EXCERPT = 400; // Increased from 180 to allow more content
+
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [reviews, setReviews] = useState([
     {
@@ -560,11 +577,17 @@ const Home = () => {
               </div>
               <div className="news-info-large">
                 <div className="news-meta">
-                  <span className="news-category featured">Health & Safety</span>
+                  {featuredNews.category && (
+                    <span className={`news-category featured ${featuredNews.category.toLowerCase()}`}>
+                      {featuredNews.category.charAt(0).toUpperCase() + featuredNews.category.slice(1)}
+                    </span>
+                  )}
                   <span className="news-date-large">{featuredNews.date}</span>
                 </div>
                 <h3>{featuredNews.title}</h3>
-                <div dangerouslySetInnerHTML={{ __html: featuredNews.excerpt }} />
+                <p>
+                  {stripHtml(featuredNews.excerpt || '')}
+                </p>
                 <Link to={`/news/${featuredNews.id}`} className="btn btn-primary">Read Full Update</Link>
               </div>
             </div>
@@ -589,9 +612,11 @@ const Home = () => {
                   {news.badge && <div className="news-badge">{news.badge}</div>}
                 </div>
                 <div className="news-content">
-                  <div className={`news-category ${news.category}`}>{news.category.charAt(0).toUpperCase() + news.category.slice(1)}</div>
+                  <div className={`news-category ${news.category.toLowerCase()}`}>{news.category.charAt(0).toUpperCase() + news.category.slice(1)}</div>
                   <h4>{news.title}</h4>
-                  <p>{news.excerpt}</p>
+                  <p>
+                    {stripHtml(news.excerpt || '')}
+                  </p>
                   <div className="news-engagement">
                     <span><i className="fas fa-calendar"></i> {news.date}</span>
                     <span><i className="fas fa-map-marker-alt"></i> {news.location}</span>
@@ -740,7 +765,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="activities" id="activities">
+      <section className="activities-section" id="activities">
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Life at Bellavista – Engaging Activities for Every Interest</h2>

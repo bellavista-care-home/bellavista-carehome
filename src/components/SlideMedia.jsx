@@ -20,7 +20,7 @@ const SlideMedia = ({ item, folder }) => {
 
   if (isVideo) {
     // Check for YouTube URL
-    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
     const youtubeMatch = src.match(youtubeRegex);
 
     if (youtubeMatch) {

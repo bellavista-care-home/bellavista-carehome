@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/ScheduleTour.css';
 import { saveEnquiryLocal, saveEnquiryToAPI } from '../services/enquiryService';
+import SEO from '../components/SEO';
 
 const Enquiry = () => {
   const [formData, setFormData] = useState({
@@ -39,11 +40,15 @@ const Enquiry = () => {
     
     try {
       saveEnquiryLocal(enquiry);
-    } catch {}
+    } catch (err) {
+      console.error("Local enquiry save error", err);
+    }
     
     try {
       await saveEnquiryToAPI(enquiry);
-    } catch {}
+    } catch (err) {
+      console.error("API enquiry save error", err);
+    }
     
     setLoading(false);
     setSubmitted(true);
@@ -57,8 +62,26 @@ const Enquiry = () => {
     });
   };
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Make an Enquiry | Bellavista Nursing Homes",
+    "description": "Send an enquiry to Bellavista Nursing Homes about care options, availability and our homes across South Wales.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   if (submitted) {
     return (
+      <>
+        <SEO 
+          title="Make an Enquiry | Bellavista Nursing Homes"
+          description="Thank you for your enquiry to Bellavista Nursing Homes. Our team will respond shortly."
+          url="/enquiry"
+          schema={schema}
+        />
       <div className="tour-page">
         <div className="tour-header">
           <div className="container">
@@ -102,10 +125,18 @@ const Enquiry = () => {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+      <SEO 
+        title="Make an Enquiry | Bellavista Nursing Homes"
+        description="Contact Bellavista Nursing Homes with questions about care, availability, funding or our homes."
+        url="/enquiry"
+        schema={schema}
+      />
     <div className="tour-page">
       <div className="tour-header">
         <div className="container">
@@ -223,6 +254,7 @@ const Enquiry = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

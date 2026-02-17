@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchCareServices, createCareService, updateCareService, deleteCareService } from '../../services/careService';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import { uploadImageToS3 } from '../../utils/imageUploadHelper';
 
 const CareServiceItem = ({ item, index, total, onMove, onRemove, onUpdate }) => {
     const title = item.title || '';
@@ -43,10 +42,41 @@ const CareServiceItem = ({ item, index, total, onMove, onRemove, onUpdate }) => 
                     {showOnPage && <span style={{ fontSize: '10px', background: '#28a745', color: 'white', padding: '2px 6px', borderRadius: '4px' }}>Visible</span>}
                 </div>
                 <div style={{ display: 'flex', gap: '4px' }}>
-                    <button className="btn ghost small icon-only" disabled={index === 0} onClick={() => onMove(index, 'up')}><i className="fa-solid fa-chevron-up"></i></button>
-                    <button className="btn ghost small icon-only" disabled={index === total - 1} onClick={() => onMove(index, 'down')}><i className="fa-solid fa-chevron-down"></i></button>
-                    <button className="btn ghost small icon-only" onClick={() => setIsExpanded(!isExpanded)}><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn ghost small icon-only" style={{ color: '#ff4757', borderColor: '#ff4757' }} onClick={() => onRemove(item.id)}><i className="fa-solid fa-trash"></i></button>
+                    <button
+                        type="button"
+                        className="btn ghost small icon-only"
+                        disabled={index === 0}
+                        onClick={() => onMove(index, 'up')}
+                        aria-label="Move service up"
+                    >
+                        <i className="fa-solid fa-chevron-up" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        className="btn ghost small icon-only"
+                        disabled={index === total - 1}
+                        onClick={() => onMove(index, 'down')}
+                        aria-label="Move service down"
+                    >
+                        <i className="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        className="btn ghost small icon-only"
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        aria-label={isExpanded ? "Collapse service details" : "Expand service details"}
+                    >
+                        <i className="fa-solid fa-pencil" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        className="btn ghost small icon-only"
+                        style={{ color: '#ff4757', borderColor: '#ff4757' }}
+                        onClick={() => onRemove(item.id)}
+                        aria-label="Delete service"
+                    >
+                        <i className="fa-solid fa-trash" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
 
@@ -90,11 +120,7 @@ const CareServiceManager = ({ notify }) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadServices();
-    }, []);
-
-    const loadServices = async () => {
+    const loadServices = useCallback(async () => {
         setLoading(true);
         try {
             const data = await fetchCareServices();
@@ -105,13 +131,13 @@ const CareServiceManager = ({ notify }) => {
                 showOnPage: s.showOnPage !== undefined ? s.showOnPage : true
             }));
             setServices(processed);
-        } catch (e) {
-            console.error(e);
+        } catch (error) {
+            console.error(error);
             notify('Failed to load services', 'error');
         } finally {
             setLoading(false);
         }
-    };
+    }, [notify]);
 
     const handleAddService = async () => {
         const newService = {
@@ -132,7 +158,7 @@ const CareServiceManager = ({ notify }) => {
                 loadServices();
                 notify('Service added', 'success');
             }
-        } catch (e) {
+        } catch {
             notify('Failed to add service', 'error');
         }
     };
@@ -164,21 +190,14 @@ const CareServiceManager = ({ notify }) => {
     const saveAllChanges = async () => {
         setLoading(true);
         try {
-            // Update order based on current array index
             const updates = services.map((s, idx) => ({
                 ...s,
                 order: idx + 1
             }));
-
-            // We need to send updates for each service.
-            // This is N requests.
-            // If we have many services, it's slow. But usually < 10 services.
             await Promise.all(updates.map(s => updateCareService(s.id, s)));
-            
             notify('All changes saved successfully', 'success');
-            loadServices(); // Reload to sync
-        } catch (e) {
-            console.error(e);
+            loadServices();
+        } catch {
             notify('Failed to save changes', 'error');
         } finally {
             setLoading(false);
@@ -191,10 +210,14 @@ const CareServiceManager = ({ notify }) => {
             await deleteCareService(id);
             setServices(prev => prev.filter(s => s.id !== id));
             notify('Service deleted', 'success');
-        } catch (e) {
+        } catch {
             notify('Failed to delete service', 'error');
         }
     };
+
+    useEffect(() => {
+        loadServices();
+    }, [loadServices]);
 
     const handleMove = (index, direction) => {
         const newServices = [...services];

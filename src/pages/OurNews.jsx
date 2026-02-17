@@ -1,30 +1,27 @@
-import { fetchNewsItems } from '../services/newsService';
-
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { fetchNewsItems } from '../services/newsService';
+import SEO from '../components/SEO';
 import '../styles/MainPage.css';
+import '../styles/NewsDetail.css';
 
 const OurNews = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchParams] = useSearchParams();
   const highlightedArticleId = searchParams.get('article');
-  const MAX_EXCERPT = 180;
+  const MAX_EXCERPT = 400; // Increased from 180 to allow more content
   
   const [newsDataState, setNewsDataState] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadNews = async () => {
-      setLoading(true);
       const items = await fetchNewsItems();
       setNewsDataState(items);
-      setLoading(false);
     };
     loadNews();
   }, []);
 
-  // Filter news based on category and search
   const filteredNews = newsDataState.filter(news => {
     const matchesCategory = activeFilter === 'all' || news.category === activeFilter;
     const matchesSearch = news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -54,12 +51,16 @@ const OurNews = () => {
     'community': 'Community'
   };
 
-  // Get featured (important) news for hero section
   const regularNews = filteredNews;
 
   return (
-    <div className="news-page">
-      {/* Main News Section */}
+    <>
+      <SEO 
+        title="News & Updates | Bellavista Nursing Homes"
+        description="Read the latest news, health updates, awards and community stories from Bellavista Nursing Homes across South Wales."
+        url="/news"
+      />
+      <div className="news-page">
       <section className="news-main">
         <div className="container">
           <div className="news-layout">
@@ -185,7 +186,8 @@ const OurNews = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

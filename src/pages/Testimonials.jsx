@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Testimonials.css';
 import { fetchReviews } from '../services/reviewService';
+import SEO from '../components/SEO';
 
 const Testimonials = () => {
   const [reviews, setReviews] = useState([]);
@@ -23,7 +24,34 @@ const Testimonials = () => {
     loadReviews();
   }, []);
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Bellavista Nursing Homes Reviews",
+    "description": "Read independent reviews and testimonials from residents and families of Bellavista Nursing Homes.",
+    "mainEntity": reviews.slice(0, 20).map((review, index) => ({
+      "@type": "Review",
+      "position": index + 1,
+      "author": {
+        "@type": "Person",
+        "name": review.name || review.author || "Resident or Family Member"
+      },
+      "reviewBody": review.review || review.text || "",
+      "itemReviewed": {
+        "@type": "Organization",
+        "name": "Bellavista Nursing Homes"
+      }
+    }))
+  };
+
   return (
+    <>
+      <SEO 
+        title="Reviews & Testimonials | Bellavista Nursing Homes"
+        description="See what residents and families say about Bellavista Nursing Homes across South Wales."
+        url="/testimonials"
+        schema={schema}
+      />
     <div className="testimonials-page">
       <div className="testimonials-header">
         <div className="container">
@@ -85,6 +113,7 @@ const Testimonials = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

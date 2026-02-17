@@ -1,47 +1,35 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { uploadImageToS3 } from '../utils/imageUploadHelper';
 
 export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, allowSkip = false, onSkip }) => {
   const [cropMode, setCropMode] = useState('select'); // 'select', 'drag', 'resize'
   const [selection, setSelection] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageDims, setImageDims] = useState({ naturalWidth: 0, naturalHeight: 0, clientWidth: 0, clientHeight: 0 });
   
   const containerRef = useRef(null);
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
-
-  // Initialize with a default selection when image loads
-  useEffect(() => {
-    if (imageLoaded && imageDims.clientWidth > 0 && imageDims.clientHeight > 0) {
-      // Create a centered 16:9 selection
-      const containerWidth = imageDims.clientWidth;
-      const containerHeight = imageDims.clientHeight;
-      const targetRatio = aspectRatio;
-      
-      // Calculate optimal selection size (80% of container width)
-      let selectionWidth = containerWidth * 0.8;
-      let selectionHeight = selectionWidth / targetRatio;
-      
-      // If height is too big, scale down
-      if (selectionHeight > containerHeight * 0.8) {
-        selectionHeight = containerHeight * 0.8;
-        selectionWidth = selectionHeight * targetRatio;
-      }
-      
-      // Center the selection
-      const centerX = (containerWidth - selectionWidth) / 2;
-      const centerY = (containerHeight - selectionHeight) / 2;
-      
-      setSelection({
-        x: centerX,
-        y: centerY,
-        width: selectionWidth,
-        height: selectionHeight
-      });
+  
+  const computeDefaultSelection = (containerWidth, containerHeight, targetRatio) => {
+    let selectionWidth = containerWidth * 0.8;
+    let selectionHeight = selectionWidth / targetRatio;
+    
+    if (selectionHeight > containerHeight * 0.8) {
+      selectionHeight = containerHeight * 0.8;
+      selectionWidth = selectionHeight * targetRatio;
     }
-  }, [imageLoaded, imageDims, aspectRatio]);
+    
+    const centerX = (containerWidth - selectionWidth) / 2;
+    const centerY = (containerHeight - selectionHeight) / 2;
+    
+    return {
+      x: centerX,
+      y: centerY,
+      width: selectionWidth,
+      height: selectionHeight
+    };
+  };
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -54,13 +42,17 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
   const handleImageLoad = (e) => {
     const img = e.target;
     const rect = img.getBoundingClientRect();
-    setImageDims({
+    const dims = {
       naturalWidth: img.naturalWidth,
       naturalHeight: img.naturalHeight,
       clientWidth: rect.width,
       clientHeight: rect.height
-    });
-    setImageLoaded(true);
+    };
+    setImageDims(dims);
+    if (dims.clientWidth > 0 && dims.clientHeight > 0 && aspectRatio) {
+      const initialSelection = computeDefaultSelection(dims.clientWidth, dims.clientHeight, aspectRatio);
+      setSelection(initialSelection);
+    }
   };
 
   const getMousePosition = (e) => {
@@ -186,14 +178,11 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
       
       setSelection(prev => ({ ...prev, x: newX, y: newY }));
     } else if (cropMode === 'resize') {
-      // Handle resize from different edges
-      const startPos = startPoint;
       let newWidth = selection.width;
       let newHeight = selection.height;
       let newX = selection.x;
       let newY = selection.y;
       
-      // Simple resize from bottom-right for now
       newWidth = pos.x - selection.x;
       newHeight = newWidth / aspectRatio;
       
@@ -252,28 +241,13 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
   };
 
   const resetSelection = () => {
-    if (imageDims.clientWidth > 0 && imageDims.clientHeight > 0) {
-      const containerWidth = imageDims.clientWidth;
-      const containerHeight = imageDims.clientHeight;
-      const targetRatio = aspectRatio;
-      
-      let selectionWidth = containerWidth * 0.8;
-      let selectionHeight = selectionWidth / targetRatio;
-      
-      if (selectionHeight > containerHeight * 0.8) {
-        selectionHeight = containerHeight * 0.8;
-        selectionWidth = selectionHeight * targetRatio;
-      }
-      
-      const centerX = (containerWidth - selectionWidth) / 2;
-      const centerY = (containerHeight - selectionHeight) / 2;
-      
-      setSelection({
-        x: centerX,
-        y: centerY,
-        width: selectionWidth,
-        height: selectionHeight
-      });
+    if (imageDims.clientWidth > 0 && imageDims.clientHeight > 0 && aspectRatio) {
+      const nextSelection = computeDefaultSelection(
+        imageDims.clientWidth,
+        imageDims.clientHeight,
+        aspectRatio
+      );
+      setSelection(nextSelection);
     }
   };
 

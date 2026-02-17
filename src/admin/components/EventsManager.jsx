@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { fetchEvents, createEvent, updateEvent, deleteEvent } from '../../services/eventService';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import SimpleTimePicker from '../../components/SimpleTimePicker';
@@ -33,26 +33,25 @@ const EventsManager = ({ notify }) => {
     "All Locations"
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
+    let isMounted = true;
+    const loadEvents = async () => {
+      const data = await fetchEvents();
+      if (isMounted) {
+        setEvents(data);
+      }
+    };
     loadEvents();
+    return () => {
+      isMounted = false;
+    };
   }, []);
-
-  const loadEvents = async () => {
-    const data = await fetchEvents();
-    setEvents(data);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCurrentEvent(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleLocationChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-    // Join multiple locations with a comma
-    setCurrentEvent(prev => ({ ...prev, location: selectedOptions.join(', ') }));
-  };
-
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     // Split and clean existing locations
@@ -87,8 +86,9 @@ const EventsManager = ({ notify }) => {
       }
       setIsEditing(false);
       resetForm();
-      loadEvents();
-    } catch (error) {
+      const data = await fetchEvents();
+      setEvents(data);
+    } catch {
       notify('Failed to save event', 'error');
     }
   };
@@ -104,8 +104,9 @@ const EventsManager = ({ notify }) => {
       try {
         await deleteEvent(id);
         notify('Event deleted successfully', 'success');
-        loadEvents();
-      } catch (error) {
+        const data = await fetchEvents();
+        setEvents(data);
+      } catch {
         notify('Failed to delete event', 'error');
       }
     }

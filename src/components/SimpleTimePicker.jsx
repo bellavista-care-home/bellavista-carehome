@@ -1,49 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const SimpleTimePicker = ({ label, value, onChange }) => {
-  const [hour, setHour] = useState('12');
-  const [minute, setMinute] = useState('00');
-  const [period, setPeriod] = useState('AM');
-
-  // Parse 24h value to state
-  useEffect(() => {
-    if (value) {
-      const [h, m] = value.split(':');
-      let hNum = parseInt(h, 10);
-      const p = hNum >= 12 ? 'PM' : 'AM';
-      if (hNum > 12) hNum -= 12;
-      if (hNum === 0) hNum = 12;
-      
-      setHour(String(hNum).padStart(2, '0'));
-      setMinute(m);
-      setPeriod(p);
+  const parseTime = () => {
+    if (!value) {
+      return { hour: '12', minute: '00', period: 'AM' };
     }
-  }, [value]);
+    const [h, m] = value.split(':');
+    let hNum = parseInt(h, 10);
+    const p = hNum >= 12 ? 'PM' : 'AM';
+    if (hNum > 12) hNum -= 12;
+    if (hNum === 0) hNum = 12;
+    return {
+      hour: String(hNum).padStart(2, '0'),
+      minute: m,
+      period: p
+    };
+  };
+
+  const { hour, minute, period } = parseTime();
 
   const updateTime = (newHour, newMinute, newPeriod) => {
     let h = parseInt(newHour, 10);
     if (newPeriod === 'PM' && h !== 12) h += 12;
     if (newPeriod === 'AM' && h === 12) h = 0;
-    
+
     const timeString = `${String(h).padStart(2, '0')}:${newMinute}`;
     onChange(timeString);
   };
 
   const handleHourChange = (e) => {
     const val = e.target.value;
-    setHour(val);
     updateTime(val, minute, period);
   };
 
   const handleMinuteChange = (e) => {
     const val = e.target.value;
-    setMinute(val);
     updateTime(hour, val, period);
   };
 
   const handlePeriodChange = (e) => {
     const val = e.target.value;
-    setPeriod(val);
     updateTime(hour, minute, val);
   };
 

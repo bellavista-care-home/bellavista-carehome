@@ -1,7 +1,26 @@
 import React from 'react';
+import SEO from '../components/SEO';
 
 const StaffPortal = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Staff Portal | Bellavista Nursing Homes",
+    "description": "Internal staff portal for Bellavista Nursing Homes employees.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
+
   return (
+    <>
+      <SEO 
+        title="Staff Portal | Bellavista Nursing Homes"
+        description="Access the internal staff portal for Bellavista Nursing Homes (currently under maintenance)."
+        url="/staff-portal"
+        schema={schema}
+      />
     <div className="staff-portal-page" style={{ padding: '100px 0', textAlign: 'center', minHeight: '60vh' }}>
       <div className="container">
         <h1>Staff Portal</h1>
@@ -13,6 +32,7 @@ const StaffPortal = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -48,6 +48,10 @@ const Footer = () => {
                <p style={{fontSize: '13px', margin: 0, color: 'rgba(255,255,255,0.6)'}}>
                  Looking for a specific home's contact info? Select a home from the list.
                </p>
+               <p style={{fontSize: '12px', marginTop: '8px', color: 'rgba(255,255,255,0.6)'}}>
+                 <Link to="/privacy-policy" style={{color: 'rgba(255,255,255,0.8)'}}>Privacy Policy</Link> ·{' '}
+                 <Link to="/terms-of-service" style={{color: 'rgba(255,255,255,0.8)'}}>Terms of Use</Link>
+               </p>
             </div>
           </div>
         </div>

@@ -8,8 +8,6 @@ const Activities = () => {
   const { locationId } = useParams();
   const [selectedItem, setSelectedItem] = useState(null);
   const [activities, setActivities] = useState([]);
-  const [facilities, setFacilities] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const locationNames = {
     'bellavista-barry': 'Bellavista Barry',
@@ -37,7 +35,6 @@ const Activities = () => {
 
   useEffect(() => {
     if (backendId) {
-      setLoading(true);
       fetchHome(backendId).then(data => {
         if (data) {
           // Process Activities
@@ -55,17 +52,10 @@ const Activities = () => {
               }));
             setActivities(visibleActivities);
           }
-          
-          // Process Facilities - REMOVED for Activities Page
-          // Facilities are now handled exclusively in the Facilities page
-          setFacilities([]);
         }
-        setLoading(false);
       });
-    } else {
-        setLoading(false);
     }
-  }, [locationId]);
+  }, [backendId]);
 
   useEffect(() => {
     if (selectedItem) {

@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ManagementTeam.css';
 import { fetchManagementTeam } from '../services/managementService';
+import SEO from '../components/SEO';
 
 const ManagementTeam = () => {
   const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Management Team | Bellavista Nursing Homes",
+    "description": "Meet the management team at Bellavista Nursing Homes who lead our care, quality and resident experience.",
+    "about": {
+      "@type": "Organization",
+      "name": "Bellavista Nursing Homes"
+    }
+  };
 
   const legacyTeam = [
     {
@@ -38,11 +50,16 @@ const ManagementTeam = () => {
     loadData();
   }, []);
 
-  // Use legacy team if DB is empty to prevent blank page on initial load
-  // Once user adds items to DB, team.length will be > 0
   const displayTeam = (team && team.length > 0) ? team : legacyTeam;
 
   return (
+    <>
+      <SEO 
+        title="Management Team | Bellavista Nursing Homes"
+        description="Meet the management team at Bellavista Nursing Homes, leading our homes with experience, compassion and a commitment to quality care."
+        url="/management-team"
+        schema={schema}
+      />
     <div className="team-page">
       <div className="team-header">
         <div className="container">
@@ -80,6 +97,7 @@ const ManagementTeam = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
