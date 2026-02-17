@@ -113,7 +113,7 @@ const Facilities = () => {
           <div className="facilities-grid">
             {facilities.map((facility, index) => (
               <div key={index} className="facilities-page-card" onClick={() => handleCardClick(facility)}>
-                <div className="card-image">
+                <div className="card-image-top">
                   <img src={facility.image} alt={facility.title} loading="lazy" />
                   <div className="overlay">
                     <i className="fas fa-plus"></i>

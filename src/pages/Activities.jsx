@@ -197,7 +197,7 @@ const Activities = () => {
           <div className="activities-grid">
             {activities.map((item, index) => (
               <div key={`act-${index}`} className="activities-page-card" onClick={() => handleCardClick(item)}>
-                <div className="card-image">
+                <div className="card-image-top">
                   <img src={item.image} alt={item.title} loading="lazy" />
                   <div className="overlay">
                     <i className="fas fa-plus"></i>

@@ -142,7 +142,7 @@ const WaverleyCareCentre = () => {
     "@context": "https://schema.org",
     "@type": "NursingHome",
     "@id": "https://www.bellavistanursinghomes.com/waverley-care-center#nursing-home",
-    "name": "Waverley Care Centre - Best Nursing Home in Penarth",
+    "name": "Waverley Care Centre - Best waverly care home penarth",
     "url": "https://www.bellavistanursinghomes.com/waverley-care-center",
     "description": "Waverley Care Centre is a top-rated nursing home in Penarth, UK, offering exceptional care with stunning coastal views.",
     "slogan": "Warm, Friendly, and Professional Care",
@@ -523,7 +523,7 @@ const WaverleyCareCentre = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Nursing Home in Penarth</span>
+              <span className="title-main">waverly care home penarth</span>
               <span className="title-sub">Waverley Care Centre - Warm, Friendly, and Professional Care</span>
             </h1>
             <p className="hero-description">
