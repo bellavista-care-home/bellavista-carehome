@@ -96,7 +96,7 @@ const Header = () => {
         
         <Link to="/" className="logo">
           <div className="logo-image" style={{ marginRight: '12px', display: 'flex', alignItems: 'center' }}>
-            <img src="/bellavista_logo_final.png" alt="Bellavista Logo" style={{ height: '75px', width: '75px', objectFit: 'fill', borderRadius: '50%' }} />
+            <img src="/bellavista_logo_final.png" alt="Bellavista Logo" style={{ height: '90px', width: '90px', objectFit: 'contain', borderRadius: '0 !important' }} />
           </div>
           <div className="logo-text-group">
             <div className="logo-text">Bellavista <span>Nursing Homes</span></div>

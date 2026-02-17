@@ -770,3 +770,9 @@ header.christmas-theme .dropdown-menu a:hover {
   color: var(--primary-blue);
   background: linear-gradient(90deg, rgba(0,102,204,0.1), rgba(0,180,216,0.1));
 }
+
+/* Ensure logo image maintains original shape */
+.logo-image img {
+  border-radius: 0 !important;
+  object-fit: contain !important;
+}
