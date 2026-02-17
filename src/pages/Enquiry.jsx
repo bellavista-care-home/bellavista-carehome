@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/ScheduleTour.css';
 import { saveEnquiryLocal, saveEnquiryToAPI } from '../services/enquiryService';
 import SEO from '../components/SEO';
+import { trackFormSubmission } from '../utils/analytics';
 
 const Enquiry = () => {
   const [formData, setFormData] = useState({
@@ -52,6 +53,15 @@ const Enquiry = () => {
     
     setLoading(false);
     setSubmitted(true);
+    
+    // Track successful enquiry form submission
+    trackFormSubmission('Enquiry Form', {
+      formId: 'enquiry-form',
+      category: 'enquiry',
+      enquiryType: formData.enquiryType,
+      location: formData.location
+    });
+    
     setFormData({
       name: '',
       email: '',

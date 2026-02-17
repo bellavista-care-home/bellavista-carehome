@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import SmoothScroll from './components/SmoothScroll';
 import SessionExpiredModal from './components/SessionExpiredModal';
 import DesktopExperienceNotice from './components/DesktopExperienceNotice';
+import useAnalytics from './hooks/useAnalytics';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -111,6 +112,9 @@ const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isSessionExpired, setIsSessionExpired] = useState(false);
+
+  // Initialize Google Analytics
+  useAnalytics();
 
   // Global fetch interceptor for 401 handling
   useEffect(() => {

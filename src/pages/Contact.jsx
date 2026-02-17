@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 import SEO from '../components/SEO';
+import { trackFormSubmission, trackPhoneCall, trackEmailClick } from '../utils/analytics';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -93,6 +94,13 @@ const Contact = () => {
       setStatus({ loading: false, success: true, error: null });
       setFormData({ name: '', email: '', phone: '', location: 'General Enquiry', message: '' });
       
+      // Track successful form submission
+      trackFormSubmission('Contact Form', {
+        formId: 'contact-form',
+        category: 'contact',
+        location: formData.location
+      });
+      
       // Reset success message after 5 seconds
       setTimeout(() => {
         setStatus(prev => ({ ...prev, success: false }));
@@ -129,11 +137,23 @@ const Contact = () => {
                 </div>
                 <div className="contact-detail">
                   <i className="fas fa-phone"></i>
-                  <p>{loc.phone}</p>
+                  <a 
+                    href={`tel:${loc.phone.replace(/\s/g, '')}`}
+                    onClick={() => trackPhoneCall(loc.name)}
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {loc.phone}
+                  </a>
                 </div>
                 <div className="contact-detail">
                   <i className="fas fa-envelope"></i>
-                  <p>{loc.email}</p>
+                  <a 
+                    href={`mailto:${loc.email}`}
+                    onClick={() => trackEmailClick(loc.email)}
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {loc.email}
+                  </a>
                 </div>
                 <a href={loc.mapLink} target="_blank" rel="noopener noreferrer" className="btn-map">
                   View on Map
