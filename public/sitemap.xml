@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  
+
   <!-- Main Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/</loc>
@@ -73,7 +73,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-  
+
   <!-- Care Services Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/care</loc>
@@ -116,7 +116,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <!-- Location Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/bellavista-barry</loc>
@@ -159,7 +159,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
+
   <!-- Information Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/our-vision</loc>
@@ -195,7 +195,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  
+
   <!-- Booking Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/schedule-tour</loc>
@@ -210,7 +210,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Regional Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/care-homes-cardiff</loc>
@@ -225,7 +225,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Legal Pages -->
   <url>
     <loc>https://www.bellavistanursinghomes.com/privacy-policy</loc>
@@ -240,5 +240,5 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  
+
 </urlset>
