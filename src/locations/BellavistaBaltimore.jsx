@@ -673,8 +673,8 @@ const BellavistaBaltimore = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="loc-section loc-section--light">
+      {/* 4. HIGH QUALITY CARE / OUR SERVICES SECTION (CONTENT ONLY) */}
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -714,8 +714,53 @@ const BellavistaBaltimore = () => {
                 such as chiropodists are available, and families are encouraged to arrange personal 
                 therapists or hairdressing visits if desired.
               </p>
-              <Link to="/facilities/bellavista-baltimore" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-eye"></i> View All Facilities
+              <Link to="/care/baltimore-care-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-heart"></i> Find Out More About Our Care
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. FACILITIES / MODERN & SAFE ENVIRONMENT SECTION */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Facilities</span>
+                <h2 className="section-header__title">Modern & Safe Environment</h2>
+              </div>
+              <p className="loc-text">
+                Baltimore House combines the charm of a traditional home with the modern 
+                amenities required for contemporary residential care. The property features spacious lounges, 
+                a large conservatory with garden views, and tastefully decorated rooms with high ceilings 
+                that retain original features while being enhanced with modern care facilities.
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                  <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                      <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                      Wheelchair access throughout the home
+                  </li>
+                  <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                      <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                      Lift access to upper floors
+                  </li>
+                  <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                      <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                      Pet-friendly policies and personalisation of rooms
+                  </li>
+                  <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                      <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                      Phone and television points, internet access
+                  </li>
+              </ul>
+              <p className="loc-text">
+                Additional amenities include the option for residents to bring their own furniture and 
+                social spaces hosting regular gatherings, entertainment, and community activities.
+              </p>
+              <Link to="/facilities/baltimore-care-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                 <i className="fas fa-building"></i> View All Facilities
               </Link>
             </div>
             <div className="loc-grid__media">
@@ -724,6 +769,7 @@ const BellavistaBaltimore = () => {
                   {facilitiesGalleryImages.map((img, index) => (
                     <SwiperSlide key={index}>
                       <div className="loc-slider__item">
+                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         <SlideMedia item={img} folder="facilities" />
                       </div>
                     </SwiperSlide>
@@ -735,78 +781,10 @@ const BellavistaBaltimore = () => {
         </div>
       </section>
 
-      {/* Facilities Section */}
+      {/* Activities Section - Images Left, Content Right */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Our Facilities</h2>
-              </div>
-              <div className="facilities-content">
-                <p className="loc-text">
-                  Baltimore House combines the charm of a traditional home with the modern 
-                  amenities required for contemporary residential care. The property features:
-                </p>
-                <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                        Wheelchair access throughout the home
-                    </li>
-                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                        Lift access to upper floors
-                    </li>
-                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                        Spacious lounges and a large conservatory with garden views
-                    </li>
-                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                        Tastefully decorated rooms and high ceilings that retain original features, enhanced with modern care facilities
-                    </li>
-                    <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                        Social spaces hosting regular gatherings, entertainment, and community activities
-                    </li>
-                </ul>
-                <p className="loc-text">
-                    Additional amenities include the option for residents to bring their own furniture, pet 
-                    friendly policies, phone and television points in rooms, and internet access for 
-                    residents.
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Facilities Cards Dynamic */}
-            <div style={{ marginTop: '40px' }}>
-              <Link to="/facilities/baltimore-care-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                 <i className="fas fa-eye"></i> View All Facilities
-              </Link>
-              <div className="loc-grid__media">
-                <div className="loc-slider">
-                  <Swiper {...sliderSettings} className="custom-swiper">
-                    {facilitiesGalleryImages.map((img, index) => (
-                      <SwiperSlide key={index}>
-                        <div className="loc-slider__item">
-                          <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                          <SlideMedia item={img} folder="facilities" />
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-              </div>
-            </div>
-        </div>
-      </section>
-
-      {/* Activities Section */}
-      <section className="loc-section loc-section--light">
-        <div className="container">
-          <div className="loc-grid activities-mobile-reverse">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -831,29 +809,33 @@ const BellavistaBaltimore = () => {
               <p className="loc-text" style={{ marginTop: '15px' }}>
                 We believe that every resident matters and strive to make life fulfilling through personal interaction, meaningful engagement, and activities tailored to individual interests.
               </p>
-              <Link to="/activities/bellavista-baltimore" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-calendar-alt"></i> View All Activities
-              </Link>
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link to="/activities/bellavista-baltimore" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar-alt"></i> View All Activities
+                </Link>
+                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar"></i> Calendar Events
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-        <section id="team-section" className="loc-section loc-section--white">
+      {/* 7. TEAM / DEDICATED STAFF SECTION */}
+      <section id="team-section" className="loc-section loc-section--light">
           <div className="container">
             <div className="loc-grid">
               <div className="loc-grid__content">
                 <div className="section-header">
                   <span className="section-header__subtitle">Dedicated Staff</span>
-                  <h2 className="section-header__title">Meet Our Team</h2>
+                  <h2 className="section-header__title">Our Team</h2>
                 </div>
                 <p className="loc-text">
-                  Our directors and management team are actively involved in the day-to-day operations, ensuring the highest standards of care and a personal approach that makes every resident feel valued and supported.
+                  Our dedicated team comprises highly trained, compassionate professionals who are appropriately qualified to deliver exceptional, person-centred care. We invest in continuous professional development, with regular training programmes to ensure compliance with legislation, regulations, and the Care Inspectorate for Wales (CIW) standards.
                 </p>
                 <p className="loc-text" style={{ marginTop: '15px' }}>
-                   Experienced and long-standing staff create a true home-from-home atmosphere, ensuring residents receive care that is both attentive and empathetic.
+                  Our team is committed to supporting residents to remain active, independent, and engaged. We deliver tailored programmes of meaningful activities and social engagement, from recreational pursuits to cognitive enhancement, ensuring every resident enjoys a fulfilling and purposeful life.
                 </p>
               </div>
               <div className="loc-grid__media">
@@ -950,9 +932,8 @@ const BellavistaBaltimore = () => {
             )}
           </div>
         </section>
-      )}
 
-      {/* Reviews Section */}
+      {/* 8. REVIEWS SECTION */}
       <section className="home-testimonials" id="testimonials">
         <div className="container">
           <div className="section-header centered">
@@ -1022,24 +1003,9 @@ const BellavistaBaltimore = () => {
         </div>
       </section>
 
-      {/* 5. NEWS SECTION */}
-      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
-          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
-            We invite families, healthcare professionals, and prospective residents to learn more 
-            about our person-centred approach, specialist services, and exceptional facilities. 
-            Baltimore House is committed to delivering the highest standards of care within 
-            a compassionate, professional, and inspiring environment.
-          </p>
-          <Link to="/care/baltimore-care-home" className="btn btn-primary btn-lg">
-            Click here to explore OUR CARE
-          </Link>
-        </div>
-      </section>
-
+      {/* 9. NEWS SECTION */}
       {baltimoreNews.length > 0 && (
-        <section className="loc-section loc-section--light">
+        <section className="loc-section loc-section--white">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1066,7 +1032,7 @@ const BellavistaBaltimore = () => {
         </section>
       )}
 
-      {/* 6. CONTACT & INFO GRID */}
+      {/* 10. CONTACT & INFORMATION SECTION */}
       <section className="loc-section loc-section--white">
         <div className="container">
           <div className="section-header section-header--center">

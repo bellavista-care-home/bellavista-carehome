@@ -684,14 +684,40 @@ const CollegeFieldsNursingHome = () => {
         </div>
       </section>
 
-      {/* 3. FACILITIES SECTION */}
-      <section className="loc-section loc-section--light">
+      {/* HIGH QUALITY CARE / OUR SERVICES SECTION */}
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Comfort & Care</span>
-                <h2 className="section-header__title">Facilities & Services</h2>
+                <span className="section-header__subtitle">High Quality Care</span>
+                <h2 className="section-header__title">Our Services</h2>
+              </div>
+              <p className="loc-text">
+                College Fields Nursing Home provides compassionate, person-centred care for residents 
+                of all ages with varying care needs. We deliver nursing care tailored to each individual's 
+                requirements, supporting their independence, dignity, and quality of life.
+              </p>
+              <p className="loc-text" style={{ marginTop: '15px' }}>
+                Our professional team is committed to providing excellent nursing support, combined with 
+                a warm, homely environment where residents feel valued, respected, and truly at home.
+              </p>
+              <Link to="/care/college-fields-nursing-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-heart"></i> Find Out More About Our Care
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FACILITIES SECTION */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Facilities</span>
+                <h2 className="section-header__title">Modern & Safe Environment</h2>
               </div>
               <div className="facilities-content">
                 <p className="loc-text">
@@ -736,7 +762,7 @@ const CollegeFieldsNursingHome = () => {
       {/* 4. ACTIVITIES SECTION */}
       <section className="loc-section loc-section--white">
         <div className="container">
-          <div className="loc-grid activities-mobile-reverse">
+          <div className="loc-grid">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -764,39 +790,34 @@ const CollegeFieldsNursingHome = () => {
                 Our home promotes companionship, social engagement, and a sense of community, 
                 ensuring that every resident feels connected and supported.
               </p>
-              <Link to="/activities/college-fields-nursing-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-calendar-alt"></i> View All Activities
-              </Link>
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link to="/activities/college-fields-nursing-home" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar-alt"></i> View All Activities
+                </Link>
+                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar"></i> Calendar Events
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* 5. TEAM & CARE */}
-      {(teamMembers.length > 0 || teamGalleryImages.length > 0) && (
-        <section id="team-section" className="loc-section loc-section--light">
+      <section id="team-section" className="loc-section loc-section--light">
           <div className="container">
             <div className="loc-grid">
               <div className="loc-grid__content">
                 <div className="section-header">
                   <span className="section-header__subtitle">Dedicated Staff</span>
-                  <h2 className="section-header__title">Meet Our Team</h2>
+                  <h2 className="section-header__title">Our Team</h2>
                 </div>
                 <div className="team-content">
                   <p className="loc-text">
-                    Our reputation for excellence has been built on the dedication, professionalism, 
-                    and compassion of our staff, who go above and beyond to provide care that is both 
-                    attentive and empathetic.
+                    Our dedicated team comprises highly trained, compassionate professionals who are appropriately qualified to deliver exceptional, person-centred care. We invest in continuous professional development, with regular training programmes to ensure compliance with legislation, regulations, and the Care Inspectorate for Wales (CIW) standards.
                   </p>
                   <p className="loc-text" style={{ marginTop: '15px' }}>
-                    Relatives can take comfort in knowing that their loved ones are cared for by 
-                    highly trained, professional nursing staff available 24 hours a day, providing 
-                    both medical support and emotional reassurance.
-                  </p>
-                  <p className="loc-text" style={{ marginTop: '15px' }}>
-                    We have a full compliment of trained, qualified nurses supported by nurse 
-                    auxiliaries and care practitioners. Our team is committed to creating a safe, 
-                    supportive, and inclusive environment where residents feel valued and respected.
+                    Our team is committed to supporting residents to remain active, independent, and engaged. We deliver tailored programmes of meaningful activities and social engagement, from recreational pursuits to cognitive enhancement, ensuring every resident enjoys a fulfilling and purposeful life.
                   </p>
                 </div>
               </div>
@@ -876,7 +897,6 @@ const CollegeFieldsNursingHome = () => {
             )}
           </div>
         </section>
-      )}
 
       {/* Reviews Section */}
       <section className="home-testimonials" id="testimonials">
@@ -948,24 +968,8 @@ const CollegeFieldsNursingHome = () => {
         </div>
       </section>
 
-      {/* 5. NEWS SECTION */}
-      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
-          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
-            We invite families, healthcare professionals, and prospective residents to learn more 
-            about our person-centred approach, specialist services, and exceptional facilities. 
-            College Fields is committed to delivering the highest standards of care within 
-            a compassionate, professional, and inspiring environment.
-          </p>
-          <Link to="/care/college-fields-nursing-home" className="btn btn-primary btn-lg">
-            Click here to explore OUR CARE
-          </Link>
-        </div>
-      </section>
-
       {collegeFieldsNews.length > 0 && (
-        <section className="loc-section loc-section--light">
+        <section className="loc-section loc-section--white">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>

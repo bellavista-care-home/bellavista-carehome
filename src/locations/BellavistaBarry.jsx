@@ -742,8 +742,8 @@ const BellavistaBarry = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="loc-section loc-section--light">
+      {/* High Quality Care - Our Services Section */}
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -767,32 +767,59 @@ const BellavistaBarry = () => {
                 tranquillity, privacy, companionship, and safety, all within a secure and supportive 
                 environment.
               </p>
-          <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-             <i className="fas fa-eye"></i> View All Facilities
-          </Link>
+              <p className="loc-text" style={{ marginTop: '30px' }}>
+                We invite families, healthcare professionals, and prospective residents to explore our 
+                approach to care, see how our team supports residents, and experience the warmth 
+                and professionalism that define Bellavista Barry.
+              </p>
+              <Link to="/care/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-heart"></i> Find Out More About Our Care
+              </Link>
             </div>
-          <div className="loc-grid__media">
-            <div className="loc-slider">
-              <Swiper {...sliderSettings} className="custom-swiper">
-                {facilitiesGalleryImages.map((img, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="loc-slider__item">
-                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                      <SlideMedia item={img} folder="facilities" />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+          </div>
+        </div>
+      </section>
+
+      {/* Facilities Section - Content Left, Images Right */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Facilities</span>
+                <h2 className="section-header__title">Modern & Safe Environment</h2>
+              </div>
+              <p className="loc-text">
+                Our state-of-the-art facilities have been designed with care and comfort in mind. 
+                We provide a secure, welcoming environment with modern amenities that support the wellbeing 
+                and independence of our residents.
+              </p>
+              <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-building"></i> View All Facilities
+              </Link>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        <SlideMedia item={img} folder="facilities" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. ACTIVITIES SECTION */}
+      {/* 2. ACTIVITIES SECTION - Images Left, Content Right */}
       <section className="loc-section loc-section--white">
         <div className="container">
-          <div className="loc-grid activities-mobile-reverse">
+          <div className="loc-grid">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -817,9 +844,14 @@ const BellavistaBarry = () => {
                 to cognitive engagement, we encourage residents to remain active, independent, and 
                 fulfilled throughout their stay.
               </p>
-              <Link to="/activities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-calendar-alt"></i> View All Activities
-              </Link>
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link to="/activities/bellavista-barry" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar-alt"></i> View All Activities
+                </Link>
+                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar"></i> Calendar Events
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1025,19 +1057,6 @@ const BellavistaBarry = () => {
       </section>
 
       {/* 5. NEWS SECTION */}
-      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover More About Our Care</h2>
-          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
-            We invite families, healthcare professionals, and prospective residents to explore our 
-            approach to care, see how our team supports residents, and experience the warmth 
-            and professionalism that define Bellavista Barry.
-          </p>
-          <Link to="/care/bellavista-barry" className="btn btn-primary btn-lg">
-            Find out more about OUR CARE
-          </Link>
-        </div>
-      </section>
 
       {barryNews.length > 0 && (
         <section className="loc-section loc-section--light">

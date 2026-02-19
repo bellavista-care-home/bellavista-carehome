@@ -59,7 +59,7 @@ const Gallery = lazy(() => import('./pages/Gallery'));
 
 // SEO Content Pages
 const BellavistaNursingHome = lazy(() => import('./pages/BellavistaNursingHome'));
-const DiningNutrition = lazy(() => import('./pages/DiningNutrition'));
+const DiningNutrition = lazy(() => import('./pages/DiningAndNutrition'));
 const OurVision = lazy(() => import('./pages/OurVision'));
 const OurValues = lazy(() => import('./pages/OurValues'));
 const CareHomesCardiff = lazy(() => import('./pages/CareHomesCardiff'));

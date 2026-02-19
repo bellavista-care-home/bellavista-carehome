@@ -1,0 +1,466 @@
+/* Dining & Nutrition Page Styles */
+
+:root {
+  --color-primary: #0066cc;
+  --color-secondary: #004494;
+  --color-accent: #00a8ff;
+  --color-text-dark: #333;
+  --color-text-light: #666;
+  --color-bg-light: #f8f9fa;
+  --color-white: #ffffff;
+  --color-border: #e0e0e0;
+  --color-success: #27ae60;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+.dining-nutrition-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-light);
+}
+
+/* Hero Section */
+.dining-hero {
+  position: relative;
+  height: 400px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1200" height="400" fill="url(%23dots)"/></svg>');
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dining-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.dining-hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--color-white);
+}
+
+.dining-hero__title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md) 0;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -1px;
+}
+
+.dining-hero__subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Sections */
+.dining-section {
+  padding: var(--spacing-xl) 0;
+}
+
+.dining-section--light {
+  background-color: var(--color-white);
+}
+
+.dining-section--white {
+  background-color: var(--color-bg-light);
+}
+
+/* Home Selector */
+.home-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  max-width: 400px;
+}
+
+.home-selector__label {
+  font-weight: 600;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+}
+
+.home-selector__select {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-selector__select:hover {
+  border-color: var(--color-primary);
+}
+
+.home-selector__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* Info Box */
+.dining-info-box {
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 168, 255, 0.1));
+  border-left: 4px solid var(--color-primary);
+  padding: var(--spacing-lg);
+  border-radius: 8px;
+}
+
+.dining-info-box__title {
+  font-size: 1.5rem;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.dining-info-box__title i {
+  font-size: 1.8rem;
+}
+
+.dining-info-box__text {
+  margin: 0;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* Day Navigation */
+.day-navigation {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.day-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-white);
+  color: var(--color-text-dark);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.day-button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.day-button--active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+/* Meals Grid */
+.meals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+  .meals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Meal Card */
+.meal-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.meal-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.meal-card__image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background-color: var(--color-bg-light);
+}
+
+.meal-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.meal-card:hover .meal-card__image img {
+  transform: scale(1.05);
+}
+
+.meal-card__type {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.meal-card__content {
+  padding: var(--spacing-lg);
+}
+
+.meal-card__name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--color-text-dark);
+}
+
+.meal-card__description {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: 1.5;
+}
+
+/* Tags */
+.meal-card__tags {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.meal-tag {
+  display: inline-block;
+  background-color: rgba(0, 102, 204, 0.1);
+  color: var(--color-primary);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Allergens */
+.meal-card__allergens {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: rgba(243, 156, 18, 0.1);
+  border-left: 3px solid var(--color-warning);
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-md);
+  font-size: 0.9rem;
+  color: #d68910;
+}
+
+.meal-card__allergens i {
+  color: var(--color-warning);
+}
+
+/* Nutrition */
+.meal-card__nutrition {
+  display: none;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.meal-card__nutrition.show {
+  display: block;
+}
+
+.nutrition-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-sm) 0;
+  font-size: 0.9rem;
+}
+
+.nutrition-label {
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.nutrition-value {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* Loading & Error States */
+.loading-spinner,
+.error-message,
+.no-meals-message {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: var(--color-white);
+  border-radius: 8px;
+  margin: var(--spacing-xl) 0;
+}
+
+.loading-spinner i,
+.no-meals-message i {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.loading-spinner p,
+.error-message p,
+.no-meals-message p {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.error-message {
+  background-color: rgba(231, 76, 60, 0.1);
+  border-left: 4px solid var(--color-danger);
+}
+
+.error-message i {
+  color: var(--color-danger);
+}
+
+/* Section Title */
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 var(--spacing-xl) 0;
+  color: var(--color-text-dark);
+}
+
+/* Dietary Info Grid */
+.dietary-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.dietary-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.dietary-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+.dietary-card i {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.dietary-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--color-text-dark);
+}
+
+.dietary-card p {
+  margin: 0;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dining-hero__title {
+    font-size: 2.5rem;
+  }
+
+  .dining-hero__subtitle {
+    font-size: 1.2rem;
+  }
+
+  .day-navigation {
+    gap: 4px;
+  }
+
+  .day-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .dining-hero {
+    height: 300px;
+  }
+
+  .dining-hero__title {
+    font-size: 1.8rem;
+  }
+
+  .dining-hero__subtitle {
+    font-size: 1rem;
+  }
+
+  .home-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-selector__label {
+    width: 100%;
+  }
+
+  .day-button {
+    flex: 1;
+    min-width: 70px;
+    padding: 8px 4px;
+    font-size: 0.8rem;
+  }
+
+  .meal-card__name {
+    font-size: 1.1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}

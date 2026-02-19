@@ -715,7 +715,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Services Section */}
-      <section className="loc-section loc-section--light">
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -737,33 +737,54 @@ const BellavistaCardiff = () => {
               <p className="loc-text">
                 We strive to create the ideal balance of peace, privacy, companionship, and high quality care, ensuring a safe and nurturing environment for all our residents.
               </p>
-              <Link to="/facilities/bellavista-cardiff" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                 <i className="fas fa-eye"></i> View All Facilities
+              <Link to="/care/bellavista-cardiff" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>
             </div>
-            {/* Facilities Cards */}
-            <div className="loc-grid__media">
-            <div className="loc-slider">
-              <Swiper {...sliderSettings} className="custom-swiper">
-                {facilitiesGalleryImages.map((img, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="loc-slider__item">
-                      <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                      <SlideMedia item={img} folder="facilities" />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </div>
           </div>
         </div>
       </section>
 
-      {/* Activities Section */}
+      {/* Facilities Section - Content Left, Images Right */}
       <section className="loc-section loc-section--white">
         <div className="container">
-          <div className="loc-grid activities-mobile-reverse">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Facilities</span>
+                <h2 className="section-header__title">Modern & Safe Environment</h2>
+              </div>
+              <p className="loc-text">
+                Our state-of-the-art facilities have been designed with care and comfort in mind. 
+                We provide a secure, welcoming environment with modern amenities that support the wellbeing 
+                and independence of our residents.
+              </p>
+              <Link to="/facilities/bellavista-cardiff" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-building"></i> View All Facilities
+              </Link>
+            </div>
+            <div className="loc-grid__media">
+              <div className="loc-slider">
+                <Swiper {...sliderSettings} className="custom-swiper">
+                  {facilitiesGalleryImages.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="loc-slider__item">
+                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                        <SlideMedia item={img} folder="facilities" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Activities Section - Images Left, Content Right */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -785,10 +806,14 @@ const BellavistaCardiff = () => {
               <p className="loc-text">
                 Our dedicated activities team designs and delivers tailored programmes to meet the individual interests and needs of our residents, encouraging engagement, independence, and quality of life.
               </p>
-              <Link to="/activities/bellavista-cardiff" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-calendar-alt"></i> View All Activities
-              </Link>
-
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link to="/activities/bellavista-cardiff" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar-alt"></i> View All Activities
+                </Link>
+                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar"></i> Calendar Events
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -980,20 +1005,6 @@ const BellavistaCardiff = () => {
         </div>
       </section>
 
-      {/* Discover Our Care (CTA) */}
-      <section className="loc-section loc-section--light" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
-          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
-            We invite you to explore our approach to care, learn about our dedicated staff, and see 
-            how we create a home where residents can live safely, happily, and with dignity.
-          </p>
-          <Link to="/care/bellavista-cardiff" className="btn btn-primary btn-lg">
-            Find out more about OUR CARE
-          </Link>
-        </div>
-      </section>
-
       {/* News Section */}
       {cardiffNews.length > 0 && (
         <section className="loc-section loc-section--white">
@@ -1024,7 +1035,7 @@ const BellavistaCardiff = () => {
       )}
 
       {/* Contact & Info Grid */}
-      <section className="loc-section loc-section--light">
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>

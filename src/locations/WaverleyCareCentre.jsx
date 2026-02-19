@@ -692,13 +692,13 @@ const WaverleyCareCentre = () => {
       </section>
 
       {/* Services Section */}
-      <section className="loc-section loc-section--light">
+      <section className="loc-section loc-section--white">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
                 <span className="section-header__subtitle">High Quality Care</span>
-                <h2 className="section-header__title">Our Care and Services</h2>
+                <h2 className="section-header__title">Our Services</h2>
               </div>
               <p className="loc-text">
                 Waverley Care Centre is designed to provide exceptional, person-centred care for 
@@ -733,8 +733,30 @@ const WaverleyCareCentre = () => {
                 improved communal spaces, and additional beds, offering a comfortable, home-like 
                 environment in each unit.
               </p>
+              <Link to="/care/waverley-care-center" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <i className="fas fa-heart"></i> Find Out More About Our Care
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Facilities Section - Content Left, Images Right */}
+      <section className="loc-section loc-section--white">
+        <div className="container">
+          <div className="loc-grid">
+            <div className="loc-grid__content">
+              <div className="section-header">
+                <span className="section-header__subtitle">Facilities</span>
+                <h2 className="section-header__title">Modern & Safe Environment</h2>
+              </div>
+              <p className="loc-text">
+                Our state-of-the-art facilities have been designed with care and comfort in mind. 
+                We provide a secure, welcoming environment with modern amenities that support the wellbeing 
+                and independence of our residents.
+              </p>
               <Link to="/facilities/waverley-care-centre" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-eye"></i> View All Facilities
+                <i className="fas fa-building"></i> View All Facilities
               </Link>
             </div>
             <div className="loc-grid__media">
@@ -743,6 +765,7 @@ const WaverleyCareCentre = () => {
                   {facilitiesGalleryImages.map((img, index) => (
                     <SwiperSlide key={index}>
                       <div className="loc-slider__item">
+                        <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         <SlideMedia item={img} folder="facilities" />
                       </div>
                     </SwiperSlide>
@@ -754,10 +777,10 @@ const WaverleyCareCentre = () => {
         </div>
       </section>
 
-      {/* Activities Section */}
+      {/* Activities Section - Images Left, Content Right */}
       <section className="loc-section loc-section--white">
         <div className="container">
-          <div className="loc-grid activities-mobile-reverse">
+          <div className="loc-grid">
             <div className="loc-grid__media">
               <div className="loc-slider">
                 <Swiper {...sliderSettings} className="custom-swiper">
@@ -789,9 +812,14 @@ const WaverleyCareCentre = () => {
                 Our holistic approach ensures that every resident receives personalised, person-centred 
                 care tailored to their individual preferences, abilities, and wellbeing.
               </p>
-              <Link to="/activities/waverley-care-center" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <i className="fas fa-calendar-alt"></i> View All Activities
-              </Link>
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link to="/activities/waverley-care-center" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar-alt"></i> View All Activities
+                </Link>
+                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="fas fa-calendar"></i> Calendar Events
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -982,25 +1010,9 @@ const WaverleyCareCentre = () => {
         </div>
       </section>
 
-      {/* Discover More Section */}
-      <section className="loc-section loc-section--white" style={{ textAlign: 'center' }}>
-        <div className="container">
-          <h2 className="section-header__title" style={{ marginBottom: '20px' }}>Discover Our Care</h2>
-          <p className="loc-text" style={{ maxWidth: '800px', margin: '0 auto 30px auto' }}>
-            We invite families, healthcare professionals, and prospective residents to learn more 
-            about our person-centred approach, specialist services, and exceptional facilities. 
-            Waverley Care Centre is committed to delivering the highest standards of care within 
-            a compassionate, professional, and inspiring environment.
-          </p>
-          <Link to="/care/waverley-care-center" className="btn btn-primary btn-lg">
-            Click here to explore OUR CARE
-          </Link>
-        </div>
-      </section>
-
       {/* News Section */}
       {waverleyNews.length > 0 && (
-        <section className="loc-section loc-section--light">
+        <section className="loc-section loc-section--white">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>

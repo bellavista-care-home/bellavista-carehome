@@ -18,6 +18,7 @@ import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
 import EventsManager from './components/EventsManager';
 import CareServiceManager from './components/CareServiceManager';
+import MealManagement from './MealManagement';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import './AdminConsole.css';
@@ -761,6 +762,12 @@ const AdminConsole = () => {
             onClick={() => setActiveView('manage-management-team')}
           >
             <i className="fa-solid fa-user-tie"></i><span>Management Team</span>
+          </button>
+          <button
+            className={activeView === 'manage-meal-plans' ? 'active' : ''}
+            onClick={() => setActiveView('manage-meal-plans')}
+          >
+            <i className="fa-solid fa-utensils"></i><span>Meal Plans</span>
           </button>
           {!isHomeAdmin && (
             <>
@@ -1951,6 +1958,10 @@ const AdminConsole = () => {
               </table>
             </div>
           </section>
+        )}
+
+        {activeView === 'manage-meal-plans' && (
+          <MealManagement />
         )}
       </main>
       {isBusy && (
