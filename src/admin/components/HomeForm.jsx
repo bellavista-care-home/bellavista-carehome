@@ -306,7 +306,8 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   };
 
   const [formData, setFormData] = useState(createInitialFormData);
-  const [isLoadingHomeData, setIsLoadingHomeData] = useState(false);
+  // Start with loading=true when editing to prevent showing empty form
+  const [isLoadingHomeData, setIsLoadingHomeData] = useState(mode === 'edit');
 
   // Fetch full home data when editing (since homes list only has lightweight data)
   useEffect(() => {
