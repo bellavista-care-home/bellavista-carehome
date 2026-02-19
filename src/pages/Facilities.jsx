@@ -62,16 +62,13 @@ const Facilities = () => {
     if (selectedFacility) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [selectedFacility]);
 
@@ -132,12 +129,12 @@ const Facilities = () => {
       {/* Modal for Facility Details */}
       {selectedFacility && (
         <div className="facility-modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={closeModal}>&times;</button>
             <div className="modal-image">
               <img src={selectedFacility.image} alt={selectedFacility.title} />
             </div>
-            <div className="modal-text" data-lenis-prevent>
+            <div className="modal-text">
               <h3>{selectedFacility.title}</h3>
               <div className="modal-description" dangerouslySetInnerHTML={{ __html: selectedFacility.details }} />
               <div className="modal-footer">

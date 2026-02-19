@@ -282,7 +282,7 @@ export const ImageCropper = ({ imageUrl, aspectRatio, onCropComplete, onCancel, 
         display: 'flex',
         flexDirection: 'column',
         overscrollBehavior: 'contain'
-      }} data-lenis-prevent>
+      }}>
         <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px', flexShrink: 0}}>
           <h3 style={{margin:0, fontSize: '18px'}}>Crop Image</h3>
           <button 

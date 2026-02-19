@@ -50,16 +50,13 @@ const NewsDetail = () => {
     if (showImageModal) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [showImageModal]);
 
@@ -204,7 +201,7 @@ const NewsDetail = () => {
               </div>
               {showImageModal && (
                 <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
-                  <div className="modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                     <div className="modal-header">
                       <h3>Image</h3>
                       <button className="modal-close" onClick={() => setShowImageModal(false)}>&times;</button>

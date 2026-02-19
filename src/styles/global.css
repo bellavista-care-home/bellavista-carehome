@@ -75,8 +75,7 @@
 }
 
 html {
-  /* scroll-behavior: smooth; Disabled for Lenis compatibility */
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
 }
 
 html, body {
@@ -114,7 +113,26 @@ section, footer, main, .App, .home {
 .activity-grid,
 .news-grid.modern {
   overflow-x: auto !important;
+  overflow-y: hidden !important;
   max-width: 100% !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Allow news section to show horizontal scroll */
+section.news {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+section.news .container {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+section.news .news-grid.modern {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
 }
 
 body {
@@ -535,29 +553,7 @@ img {
 
 /* Smooth Scroll Behavior */
 html {
-  /* scroll-behavior: smooth; Disabled for Lenis compatibility */
-  scroll-behavior: auto;
-}
-
-/* Lenis Smooth Scrolling Styles */
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+  scroll-behavior: smooth;
 }
 
 /* Enhanced Focus Styles - Removed global focus outline as requested */

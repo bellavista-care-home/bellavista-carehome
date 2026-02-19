@@ -8,16 +8,13 @@ const DynamicContentSection = ({ title, subtitle, items, type = 'activity' }) =>
     if (selectedItem) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [selectedItem]);
 
@@ -63,12 +60,12 @@ const DynamicContentSection = ({ title, subtitle, items, type = 'activity' }) =>
         {/* Modal for Details */}
         {selectedItem && (
           <div className="activity-modal" onClick={closeModal} style={{ zIndex: 9999 }}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <button className="close-btn" onClick={closeModal}>&times;</button>
               <div className="modal-image">
                 <img src={selectedItem.image} alt={selectedItem.title} />
               </div>
-              <div className="modal-text" data-lenis-prevent>
+              <div className="modal-text">
                 <h3>{selectedItem.title}</h3>
                 <div className="modal-description" dangerouslySetInnerHTML={{ __html: cleanLongDescription(selectedItem.details) }} />
                 <div className="modal-footer">

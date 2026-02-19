@@ -12,7 +12,6 @@ import ScrollToTop from './components/ScrollToTop';
 import ChatWidget from './components/ChatWidget';
 import CookieBanner from './components/CookieBanner';
 import ProtectedRoute from './components/ProtectedRoute';
-import SmoothScroll from './components/SmoothScroll';
 import SessionExpiredModal from './components/SessionExpiredModal';
 import DesktopExperienceNotice from './components/DesktopExperienceNotice';
 import useAnalytics from './hooks/useAnalytics';
@@ -269,10 +268,8 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
-      <SmoothScroll>
-        <ScrollToTop />
-        <AppContent />
-      </SmoothScroll>
+      <ScrollToTop />
+      <AppContent />
     </Router>
   );
 }

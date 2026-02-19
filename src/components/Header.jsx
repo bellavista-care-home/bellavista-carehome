@@ -16,10 +16,8 @@ const Header = () => {
   useEffect(() => {
     if (sideMenuOpen) {
       document.body.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     const handleClickOutside = (event) => {
       if (sideMenuOpen && !event.target.closest('.left-menu-wrapper')) {
@@ -31,7 +29,6 @@ const Header = () => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
       document.body.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [sideMenuOpen]);
 
@@ -67,7 +64,6 @@ const Header = () => {
             <div
               id="mobile-main-navigation"
               className="nav-scrollable"
-              data-lenis-prevent="true"
             >
               <ul>
                 <div className="nav-category">Main</div>

@@ -306,13 +306,13 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
           </div>
 
           <div className="field">
-            <label>Short Description * (Recommended: Max 400 characters)</label>
+            <label>Short Description * (Max 600 characters, displays 4-5 lines on card)</label>
             <ReactQuill 
               theme="snow"
               value={formData.shortDescription}
               onChange={(val) => handleChange('shortDescription', val)}
               placeholder="Brief description for the main card..."
-              style={{ height: '100px', marginBottom: '50px' }}
+              style={{ height: '150px', marginBottom: '50px' }}
             />
             <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
               Note: Character count is approximate due to formatting.
@@ -335,7 +335,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
             <i className="fa-solid fa-align-left"></i> Detailed Content Section
           </div>
 
-          <div className="field" data-lenis-prevent>
+          <div className="field">
             <label>Full Description</label>
             <ReactQuill 
               theme="snow"
@@ -376,7 +376,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
               
               {/* Gallery Grid */}
               {formData.galleryImages.length > 0 && (
-                <div data-lenis-prevent style={{ 
+                <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
                   gap: '15px', 
@@ -607,7 +607,7 @@ const NewsForm = ({ mode = 'add', initialData = null, onCancel, onSave, onDelete
                 </div>
               )}
               
-              <div className="field" style={{marginTop:'15px'}} data-lenis-prevent>
+              <div className="field" style={{marginTop:'15px'}}>
                 <label>Video Description</label>
                 <ReactQuill
                   theme="snow"

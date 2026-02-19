@@ -67,7 +67,7 @@ const AdminConsole = () => {
     gallery: [],
     videoUrl: ''
   });
-  const MAX_EXCERPT = 400; // Increased from 180 to allow more content
+  const MAX_EXCERPT = 600; // Increased to allow more content (4-5 lines)
   const [newsList, setNewsList] = useState([]);
   const [selectedNews, setSelectedNews] = useState(null);
   const [faqQuestion, setFaqQuestion] = useState('');
@@ -244,21 +244,18 @@ const AdminConsole = () => {
   const [kioskCheckIns, setKioskCheckIns] = useState([]);
   const [kioskSearch, setKioskSearch] = useState('');
 
-  // Lock body scroll and stop Lenis when download modal is open
+  // Lock body scroll when download modal is open
   useEffect(() => {
     if (showDownloadModal) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [showDownloadModal]);
 
@@ -685,7 +682,7 @@ const AdminConsole = () => {
         </div>
       </header>
 
-      <aside data-lenis-prevent>
+      <aside>
         <div className="search">
           <i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
           <input 
@@ -1350,7 +1347,7 @@ const AdminConsole = () => {
             <h2>Manage FAQs</h2>
             <div className="grid cols-2">
               <div className="field"><label>Question</label><input value={faqQuestion} onChange={e=>setFaqQuestion(e.target.value)} type="text" placeholder="What types of care do you provide?"/></div>
-              <div className="field" style={{gridColumn:'1/-1'}} data-lenis-prevent>
+              <div className="field" style={{gridColumn:'1/-1'}}>
                 <label>Answer</label>
                 <ReactQuill 
                   theme="snow"
@@ -1536,7 +1533,6 @@ const AdminConsole = () => {
                     boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                     overscrollBehavior: 'contain'
                   }}
-                  data-lenis-prevent
                 >
                   <h3 style={{marginTop: 0, marginBottom: '20px'}}>Download Bookings</h3>
                   <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
@@ -1554,7 +1550,7 @@ const AdminConsole = () => {
               </div>
             )}
 
-            <div style={{marginTop:'16px', overflowX:'auto'}} data-lenis-prevent>
+            <div style={{marginTop:'16px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>
@@ -1633,7 +1629,7 @@ const AdminConsole = () => {
               <button className="btn ghost small" onClick={loadKioskCheckIns}><i className="fa-solid fa-rotate"></i>&nbsp;Refresh</button>
             </div>
             
-            <div style={{marginTop:'16px', overflowX:'auto'}} data-lenis-prevent>
+            <div style={{marginTop:'16px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>
@@ -1694,7 +1690,7 @@ const AdminConsole = () => {
               <input placeholder="Search by name, phone, type, location..." style={{flex:1}} value={enquirySearch} onChange={e=>setEnquirySearch(e.target.value)} />
               <button className="btn ghost small" onClick={loadEnquiries}><i className="fa-solid fa-rotate"></i>&nbsp;Refresh</button>
             </div>
-            <div style={{marginTop:'16px', overflowX:'auto'}} data-lenis-prevent>
+            <div style={{marginTop:'16px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>
@@ -1744,7 +1740,7 @@ const AdminConsole = () => {
               <input placeholder="Search by name, phone, position..." style={{flex:1}} value={applicationSearch} onChange={e=>setApplicationSearch(e.target.value)} />
               <button className="btn ghost small" onClick={loadApplications}><i className="fa-solid fa-rotate"></i>&nbsp;Refresh</button>
             </div>
-            <div style={{marginTop:'16px', overflowX:'auto'}} data-lenis-prevent>
+            <div style={{marginTop:'16px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>
@@ -1909,7 +1905,7 @@ const AdminConsole = () => {
               <i className="fa-solid fa-envelope"></i> Notification Emails
             </div>
             <p className="muted" style={{marginBottom:'15px'}}>Configure which email addresses receive tour booking notifications for each location.</p>
-            <div style={{marginTop:'10px', overflowX:'auto'}} data-lenis-prevent>
+            <div style={{marginTop:'10px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
                   <tr style={{background:'#f7f9fc'}}>

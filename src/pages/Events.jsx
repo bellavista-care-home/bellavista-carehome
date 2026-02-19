@@ -174,7 +174,7 @@ const Events = () => {
               {loading ? (
                 <div className="loading-spinner">Loading events...</div>
               ) : selectedEvents.length > 0 ? (
-                <div className="daily-events-list" data-lenis-prevent>
+                <div className="daily-events-list">
                   {selectedEvents.map(event => (
                     <div key={event.id} className="event-card-small">
                       {event.image && (

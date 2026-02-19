@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -15,6 +15,7 @@ import FindNearestHome from '../components/FindNearestHome';
 import '../styles/MainPage.css';
 
 const Home = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('living');
   const [activeFilter, setActiveFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +37,7 @@ const Home = () => {
     return text.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ');
   };
 
-  const MAX_EXCERPT = 400; // Increased from 180 to allow more content
+  const MAX_EXCERPT = 600; // Increased to allow more content (4-5 lines)
 
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [reviews, setReviews] = useState([
@@ -133,43 +134,29 @@ const Home = () => {
     loadNews();
   }, []);
 
-  // Handle modal body lock and Lenis
+  // Handle modal body lock
   useEffect(() => {
     if (modalOpen) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-      if (window.lenis) window.lenis.start();
     };
   }, [modalOpen]);
 
   const filterNews = (filter) => {
     setActiveFilter(filter);
-    const newsCards = document.querySelectorAll('.news-card[data-category]');
-
-    newsCards.forEach(card => {
-      if (filter === 'all') {
-        if (card.classList.contains('news-visible')) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      } else if (card.dataset.category === filter) {
-        card.style.display = 'block';
-        card.style.animation = 'fadeInUp 0.5s ease';
-      } else {
-        card.style.display = 'none';
-      }
-    });
   };
+
+  // Filter news based on active filter
+  const filteredNews = activeFilter === 'all' 
+    ? newsList 
+    : newsList.filter(news => news.category && news.category.toLowerCase() === activeFilter);
 
 
   const openModal = (serviceType) => {
@@ -341,7 +328,7 @@ const Home = () => {
       "addressCountry": "UK"
     },
     "image": [
-      "https://www.bellavistanursinghomes.com/theraphy-rooms.jpg",
+      "https://www.bellavistanursinghomes.com/theraphy-room.jpg",
       "https://www.bellavistanursinghomes.com/home-images/barry.jpg"
     ],
     "contactPoint": {
@@ -600,9 +587,9 @@ const Home = () => {
             <button className={`filter-btn ${activeFilter === 'innovation' ? 'active' : ''}`} onClick={() => filterNews('innovation')}>Innovation</button>
             <button className={`filter-btn ${activeFilter === 'community' ? 'active' : ''}`} onClick={() => filterNews('community')}>Community</button>
           </div>
-          <div className="news-grid modern">
-            {newsList.map((news, index) => (
-              <div key={index} className="news-card modern news-visible" data-category={news.category}>
+          <div className="news-grid modern" key={`news-grid-${location.key}`}>
+            {filteredNews.map((news, index) => (
+              <div key={news.id || index} className="news-card modern news-visible" data-category={news.category}>
                 <div className="news-image">
                   {news.image ? (
                     <img alt={news.title} src={news.image}/>
@@ -638,69 +625,67 @@ const Home = () => {
         <div className="container">
           <div className="section-header centered">
             <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <div className="rating-badges">
+              <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Barry#lrd=0x486e09597f7e580b:0x22f8a99287879acd,1,,," target="_blank" rel="noopener noreferrer" className="rating-badge google-badge">
+                <img src="/google-logo.svg" alt="Google" />
+                <span className="badge-score">4.8</span>
+                <span className="badge-stars">★★★★★</span>
+              </a>
+              <a href="https://www.carehome.co.uk/care_search_results.cfm/searchgroup/72849#reviews" target="_blank" rel="noopener noreferrer" className="rating-badge carehome-badge">
+                <img src="/carehome-logo.svg" alt="carehome.co.uk" />
+                <span className="badge-score">9.2<small>/10</small></span>
+              </a>
+            </div>
             <p className="section-subtitle">
               The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Bellavista Nursing Home.
             </p>
           </div>
-          <div className="testimonials-layout">
-            <div className="rating-cards-container">
-              {/* Google Rating Card */}
-              <div className="google-rating-card">
-                <div className="google-logo">
-                  <img src="/google-logo.svg" alt="Google" style={{ height: '30px', maxWidth: '100%' }} />
-                </div>
-                <div className="google-rating-circle">
-                  <span className="google-score">4.8</span>
-                  <span className="google-max">/ 5</span>
-                </div>
-                <div className="google-stars">
-                  ★★★★★
-                </div>
-                <p className="google-text">Based on 50+ reviews</p>
-                <a href="https://www.google.com/search?q=Bellavista+Nursing+Home+Barry#lrd=0x486e09597f7e580b:0x22f8a99287879acd,1,,," target="_blank" rel="noopener noreferrer" className="btn-google">
-                  Read Reviews
-                </a>
-              </div>
 
-              {/* Carehome.co.uk Rating Card */}
-              <div className="carehome-rating-card">
-                <div className="carehome-logo">
-                  <img src="/carehome-logo.svg" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
-                </div>
-                <div className="carehome-rating-circle">
-                  <span className="carehome-score">9.2</span>
-                  <span className="carehome-max">/ 10</span>
-                </div>
-                <p className="carehome-text">Review Score on carehome.co.uk</p>
-                <a href="https://www.carehome.co.uk/care_search_results.cfm/searchgroup/72849#reviews" target="_blank" rel="noopener noreferrer" className="btn-carehome">
-                  Read Reviews
-                </a>
-              </div>
-            </div>
+          <div className="testimonials-carousel-wrapper">
+            <button 
+              className="carousel-nav-btn carousel-prev" 
+              onClick={() => setCurrentReviewIndex((prev) => (prev - 1 + reviews.length) % reviews.length)}
+              aria-label="Previous testimonial"
+            >
+              <i className="fas fa-chevron-left"></i>
+            </button>
 
-            <div className="vertical-testimonials-container">
-              {reviews.map((review, index) => {
-                 let className = 'testimonial-slide';
-                 if (index === currentReviewIndex) {
-                     className += ' active';
-                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
-                     className += ' prev';
-                 }
-                 
-                 return (
-                    <div key={index} className={className}>
-                      <div className="testimonial-inner-content">
-                        <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
-                        <p className="testimonial-text">"{review.text}"</p>
-                        <div className="testimonial-author">
-                          <h4>{review.author}</h4>
-                          <span>{review.role}</span>
-                        </div>
-                      </div>
+            <div className="testimonials-carousel">
+              <div 
+                className="testimonials-track" 
+                style={{ transform: `translateX(-${currentReviewIndex * 100}%)` }}
+              >
+                {reviews.map((review, index) => (
+                  <div key={index} className="testimonial-card">
+                    <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                    <p className="testimonial-text">"{review.text}"</p>
+                    <div className="testimonial-author">
+                      <h4>{review.author}</h4>
+                      <span>{review.role}</span>
                     </div>
-                 );
-              })}
+                  </div>
+                ))}
+              </div>
             </div>
+
+            <button 
+              className="carousel-nav-btn carousel-next" 
+              onClick={() => setCurrentReviewIndex((prev) => (prev + 1) % reviews.length)}
+              aria-label="Next testimonial"
+            >
+              <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <div className="carousel-dots">
+            {reviews.map((_, index) => (
+              <button
+                key={index}
+                className={`carousel-dot ${index === currentReviewIndex ? 'active' : ''}`}
+                onClick={() => setCurrentReviewIndex(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -925,7 +910,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Physiotherapy" src="/theraphy-rooms.jpg"/>
+                    <img alt="Physiotherapy" src="/theraphy-room.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-dumbbell"></i> Therapy Rooms</h4>
@@ -1011,7 +996,7 @@ const Home = () => {
 
       {modalOpen && modalContent && (
         <div className="service-modal-overlay" onClick={closeModal}>
-          <div className="service-modal-content" onClick={(e) => e.stopPropagation()} data-lenis-prevent style={{overscrollBehavior: 'contain'}}>
+          <div className="service-modal-content" onClick={(e) => e.stopPropagation()} style={{overscrollBehavior: 'contain'}}>
             <button className="service-modal-close" onClick={closeModal}>&times;</button>
             <div className="service-modal-header">
               <h3>{modalContent.title}</h3>

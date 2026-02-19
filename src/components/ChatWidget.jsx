@@ -52,7 +52,6 @@ const ChatWidget = () => {
       <div
         id="chat-widget-panel"
         className={`chat-popup ${isOpen ? 'active' : ''}`}
-        data-lenis-prevent
         role="dialog"
         aria-modal="false"
         aria-label="Quick links for enquiries and contact"
