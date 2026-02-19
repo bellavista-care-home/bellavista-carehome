@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { fetchHome } from '../../services/homeService';
 
 // Simplified Care Section Item
 const CareSectionItem = ({ item, index, total, field, onMove, onRemove, onUpdate }) => {
@@ -305,17 +306,59 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   };
 
   const [formData, setFormData] = useState(createInitialFormData);
+  const [isLoadingHomeData, setIsLoadingHomeData] = useState(false);
 
-  // Sync formData with initialData when it changes
-  React.useEffect(() => {
-    if (mode === 'edit' && initialData) {
-      setFormData(prev => ({
-        ...prev,
-        ...createInitialFormData(),
-        id: initialData.id // Ensure ID is always set
-      }));
-    }
-  }, [initialData, mode]);
+  // Fetch full home data when editing (since homes list only has lightweight data)
+  useEffect(() => {
+    const loadFullHomeData = async () => {
+      if (mode === 'edit' && initialData?.id) {
+        setIsLoadingHomeData(true);
+        try {
+          const fullHome = await fetchHome(initialData.id);
+          if (fullHome) {
+            setFormData({
+              id: fullHome.id,
+              homeName: fullHome.homeName || '',
+              homeLocation: fullHome.homeLocation || '',
+              adminEmail: fullHome.adminEmail || '',
+              homeImage: fullHome.homeImage || '',
+              cardImage2: fullHome.cardImage2 || '',
+              homeBadge: fullHome.homeBadge || '',
+              homeDesc: fullHome.homeDesc || '',
+              heroTitle: fullHome.heroTitle || '',
+              heroSubtitle: fullHome.heroSubtitle || '',
+              heroBgImage: fullHome.heroBgImage || '',
+              heroExpandedDesc: fullHome.heroExpandedDesc || '',
+              ciwReportUrl: fullHome.ciwReportUrl || '',
+              newsletterUrl: fullHome.newsletterUrl || '',
+              bannerImages: fullHome.bannerImages || [],
+              statsBedrooms: fullHome.statsBedrooms || '',
+              statsPremier: fullHome.statsPremier || '',
+              teamMembers: fullHome.teamMembers || [],
+              teamGalleryImages: fullHome.teamGalleryImages || [],
+              careIntro: fullHome.careIntro || '',
+              careSectionsJson: fullHome.careSectionsJson || [],
+              careGalleryImages: fullHome.careGalleryImages || [],
+              activitiesIntro: fullHome.activitiesIntro || '',
+              activities: fullHome.activities || [],
+              activityImages: fullHome.activityImages || [],
+              activitiesModalDesc: fullHome.activitiesModalDesc || '',
+              facilitiesIntro: fullHome.facilitiesIntro || '',
+              facilitiesList: fullHome.facilitiesList || [],
+              detailedFacilities: fullHome.detailedFacilities || [],
+              facilitiesGalleryImages: fullHome.facilitiesGalleryImages || [],
+              homeFeatured: fullHome.homeFeatured || false
+            });
+          }
+        } catch (err) {
+          console.error('Failed to load full home data:', err);
+        } finally {
+          setIsLoadingHomeData(false);
+        }
+      }
+    };
+    loadFullHomeData();
+  }, [mode, initialData?.id]);
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -434,6 +477,16 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
   };
 
   // GalleryItem moved outside
+
+  if (isLoadingHomeData) {
+    return (
+      <section className="panel" style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100%', padding: '60px'}}>
+        <i className="fa-solid fa-spinner fa-spin" style={{fontSize:'48px', color:'#667eea', marginBottom:'20px'}}></i>
+        <h3>Loading Home Data...</h3>
+        <p className="muted">Please wait while we fetch the full home information</p>
+      </section>
+    );
+  }
 
   return (
     <section className="panel" style={{display:'flex', flexDirection:'column', height:'100%', overflow:'hidden', padding: 0}}>
