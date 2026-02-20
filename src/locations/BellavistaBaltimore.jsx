@@ -938,67 +938,67 @@ const BellavistaBaltimore = () => {
         <div className="container">
           <div className="section-header centered">
             <h2 className="section-title">Trusted by Residents. Valued by Families.</h2>
+            <div className="rating-badges">
+              <a href="https://www.google.com/search?q=Baltimore+Care+Home+Barry#lrd=0x486e09597f7e580b:0x22f8a99287879acd,1,,," target="_blank" rel="noopener noreferrer" className="rating-badge google-badge">
+                <img src="/google-logo.svg" alt="Google" />
+                <span className="badge-score">5.0</span>
+                <span className="badge-stars">★★★★★</span>
+              </a>
+              <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/10005022BALA" target="_blank" rel="noopener noreferrer" className="rating-badge carehome-badge">
+                <img src="/carehome-logo.svg" alt="carehome.co.uk" />
+                <span className="badge-score">9.6<small>/10</small></span>
+              </a>
+            </div>
             <p className="section-subtitle">
               The experiences shared by our residents and their loved ones reflect the compassion, dedication, and exceptional standards that define life at Baltimore House Care Home.
             </p>
           </div>
-          <div className="testimonials-layout">
-            <div className="rating-cards-container">
-              {/* Google Rating Card */}
-              <div className="google-rating-card">
-                <div className="google-logo">
-                  <img src="/google-logo.svg" alt="Google" style={{ height: '30px', maxWidth: '100%' }} />
-                </div>
-                <div className="google-rating-circle">
-                  <span className="google-score">5.0</span>
-                  <span className="google-max">/ 5</span>
-                </div>
-                <div className="google-stars">
-                  ★★★★★
-                </div>
-                <p className="google-text">Based on 6 reviews</p>
-                <a href="https://www.google.com/search?q=Baltimore+Care+Home+Barry#lrd=0x486e09597f7e580b:0x22f8a99287879acd,1,,," target="_blank" rel="noopener noreferrer" className="btn-google">
-                  Read Reviews
-                </a>
-              </div>
 
-              {/* Carehome.co.uk Rating Card */}
-              <div className="carehome-rating-card">
-                <div className="carehome-logo">
-                  <img src="/carehome-logo.svg" alt="carehome.co.uk" style={{ height: '30px', maxWidth: '100%' }} />
-                </div>
-                <div className="carehome-rating-circle">
-                  <span className="carehome-score">9.6</span>
-                  <span className="carehome-max">/ 10</span>
-                </div>
-                <p className="carehome-text">Review Score on carehome.co.uk</p>
-                <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/10005022BALA" target="_blank" rel="noopener noreferrer" className="btn-carehome">
-                  Read Reviews
-                </a>
-              </div>
-            </div>
+          <div className="testimonials-carousel-wrapper">
+            <button 
+              className="carousel-nav-btn carousel-prev" 
+              onClick={() => setCurrentReviewIndex((prev) => (prev - 1 + reviews.length) % reviews.length)}
+              aria-label="Previous testimonial"
+            >
+              <i className="fas fa-chevron-left"></i>
+            </button>
 
-            <div className="vertical-testimonials-container">
-              {reviews.map((review, index) => {
-                 let className = 'testimonial-slide';
-                 if (index === currentReviewIndex) {
-                     className += ' active';
-                 } else if (index === (currentReviewIndex - 1 + reviews.length) % reviews.length) {
-                     className += ' prev';
-                 }
-                 
-                 return (
-                    <div key={index} className={className}>
-                      <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
-                      <p className="testimonial-text">"{review.text}"</p>
-                      <div className="testimonial-author">
-                        <h4>{review.author}</h4>
-                        <span>{review.role}</span>
-                      </div>
+            <div className="testimonials-carousel">
+              <div 
+                className="testimonials-track" 
+                style={{ transform: `translateX(-${currentReviewIndex * 100}%)` }}
+              >
+                {reviews.map((review, index) => (
+                  <div key={index} className="testimonial-card">
+                    <div className="testimonial-quote-icon"><i className="fas fa-quote-left"></i></div>
+                    <p className="testimonial-text">"{review.text}"</p>
+                    <div className="testimonial-author">
+                      <h4>{review.author}</h4>
+                      <span>{review.role}</span>
                     </div>
-                 );
-              })}
+                  </div>
+                ))}
+              </div>
             </div>
+
+            <button 
+              className="carousel-nav-btn carousel-next" 
+              onClick={() => setCurrentReviewIndex((prev) => (prev + 1) % reviews.length)}
+              aria-label="Next testimonial"
+            >
+              <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <div className="carousel-dots">
+            {reviews.map((_, index) => (
+              <button
+                key={index}
+                className={`carousel-dot ${index === currentReviewIndex ? 'active' : ''}`}
+                onClick={() => setCurrentReviewIndex(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
