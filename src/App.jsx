@@ -75,6 +75,7 @@ const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
 // Admin Pages
 const AdminConsole = lazy(() => import('./admin/AdminConsole'));
+const AdminLiveEditPage = lazy(() => import('./admin/AdminLiveEditPage'));
 const ReceptionKiosk = lazy(() => import('./pages/ReceptionKiosk'));
 const Login = lazy(() => import('./pages/Login'));
 
@@ -141,7 +142,7 @@ const AppContent = () => {
     navigate('/login');
   };
 
-  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname === '/admin-console';
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/admin-console');
   const isKioskRoute = location.pathname.startsWith('/kiosk');
 
   // Define routes where ChatWidget should appear (Home page and all Location pages)
@@ -175,6 +176,11 @@ const AppContent = () => {
             <Route path="/admin-console" element={
               <ProtectedRoute>
                 <AdminConsole />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-console/:homeSlug" element={
+              <ProtectedRoute>
+                <AdminLiveEditPage />
               </ProtectedRoute>
             } />
             <Route path="/admin/login" element={<Login />} />

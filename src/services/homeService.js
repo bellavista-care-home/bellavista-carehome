@@ -16,18 +16,33 @@ export async function fetchHomes() {
 
 export async function fetchHome(id) {
   try {
+    // Check if we're in preview mode - if so, always fetch fresh data
+    const urlParams = new URLSearchParams(window.location.search);
+    const isPreview = urlParams.get('preview') === 'true' || urlParams.get('nocache');
+    
+    // Clear any cached data when in preview mode
+    if (isPreview) {
+      sessionStorage.removeItem(`home_${id}`);
+    }
+
     // Check session storage first - DISABLED for now to ensure fresh data during updates
     // const cached = sessionStorage.getItem(`home_${id}`);
     // if (cached) {
     //   return JSON.parse(cached);
     // }
 
-    const res = await fetch(`${API_URL}/homes/${id}`);
+    // Add cache-busting to ensure fresh data
+    const cacheBuster = isPreview ? `?t=${Date.now()}` : '';
+    const res = await fetch(`${API_URL}/homes/${id}${cacheBuster}`, {
+      cache: isPreview ? 'no-store' : 'default'
+    });
     if (!res.ok) throw new Error('Failed to fetch home');
     const data = await res.json();
     
-    // Cache the result
-    sessionStorage.setItem(`home_${id}`, JSON.stringify(data));
+    // Only cache if not in preview mode
+    if (!isPreview) {
+      sessionStorage.setItem(`home_${id}`, JSON.stringify(data));
+    }
     
     return data;
   } catch (error) {

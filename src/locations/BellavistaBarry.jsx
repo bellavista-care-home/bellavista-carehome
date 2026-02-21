@@ -17,6 +17,7 @@ import '../styles/Testimonials.css';
 import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
+import ContentBlocksRenderer from '../components/ContentBlocksRenderer';
 
 const BellavistaBarry = () => {
   const navigate = useNavigate();
@@ -136,6 +137,21 @@ const BellavistaBarry = () => {
       }
     };
     loadData();
+  }, []);
+
+  // Listen for scroll commands from parent (admin preview)
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data && event.data.type === 'scrollToSection') {
+        const sectionId = event.data.sectionId;
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   useEffect(() => {
@@ -578,7 +594,8 @@ const BellavistaBarry = () => {
         url="/bellavista-barry"
         schema={barrySchema}
       />
-      <section className="hero">
+
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <img src="/home-images/barry.jpg" alt="Bellavista Nursing Home Barry" />
@@ -588,15 +605,15 @@ const BellavistaBarry = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Nursing Home in Barry</span>
-              <span className="title-sub">Bellavista Nursing Home Barry - stunning views over the Bristol Channel.</span>
+              <span className="title-main">{homeData?.heroTitle || 'Nursing Home in Barry'}</span>
+              <span className="title-sub">{homeData?.heroSubtitle || 'Bellavista Nursing Home Barry - stunning views over the Bristol Channel.'}</span>
             </h1>
             <p className="hero-description">
-              Bellavista Barry is a long-established, high-quality nursing home located in the seaside 
+              {homeData?.heroDescription || homeData?.heroExpandedDesc || `Bellavista Barry is a long-established, high-quality nursing home located in the seaside 
               town of Barry, offering stunning views over the Bristol Channel. Since opening in 
               2007, we have been dedicated to enabling older adults to continue living as 
               independently as possible, with personalised care and support tailored to their 
-              individual needs.
+              individual needs.`}
             </p>
             
             <div className="hero-cta-buttons hero-buttons-row">
@@ -604,7 +621,7 @@ const BellavistaBarry = () => {
                 <i className="fas fa-bed"></i> {homeData?.statsBedrooms || "39 Bedrooms"}
               </div>
               <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Barry', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-map-marker-alt"></i> Barry Seaside
+                <i className="fas fa-map-marker-alt"></i> {homeData?.statsLocationBadge || "Barry Seaside"}
               </div>
               <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
                 <i className="fas fa-star"></i> Quality Care
@@ -659,11 +676,11 @@ const BellavistaBarry = () => {
         )}
       </section>
 
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
-              <span className="group-name">Welcome to Bellavista Barry</span>
+              <span className="group-name">{homeData?.aboutTitle || 'Welcome to Bellavista Barry'}</span>
             </h2>
 
             <div className="hero-actions" style={{ justifyContent: 'center', marginBottom: '40px' }}>
@@ -676,12 +693,18 @@ const BellavistaBarry = () => {
             </div>
 
             <div className="group-intro-text">
+              {/* Dynamic Content Blocks */}
+              {homeData?.contentBlocks && homeData.contentBlocks.length > 0 ? (
+                <ContentBlocksRenderer blocks={homeData.contentBlocks} />
+              ) : (
+                /* Fallback to legacy content */
+                <>
               <p>
-                Bellavista Barry is a long-established, high-quality nursing home located in the seaside 
+                {homeData?.aboutIntro || `Bellavista Barry is a long-established, high-quality nursing home located in the seaside 
                 town of Barry, offering stunning views over the Bristol Channel. Since opening in 
                 2007, we have been dedicated to enabling older adults to continue living as 
                 independently as possible, with personalised care and support tailored to their 
-                individual needs.
+                individual needs.`}
               </p>
               <p>
                 Our 39-bedded, fully registered care home provides accommodation, nursing, and 
@@ -691,7 +714,7 @@ const BellavistaBarry = () => {
                 are central to their stay at Bellavista Barry.
               </p>
 
-              <h3 className="section-header__title" style={{ marginTop: '40px' }}>Our Care Philosophy</h3>
+              <h3 className="section-header__title" style={{ marginTop: '40px' }}>{homeData?.carePhilosophyTitle || 'Our Care Philosophy'}</h3>
               <p>
                 At Bellavista Barry, every resident’s care is person-centred and carefully tailored. 
                 Individual needs are assessed, and a personalised care plan is created to ensure the 
@@ -701,22 +724,22 @@ const BellavistaBarry = () => {
               </p>
               
               <div className="location-highlight" style={{ marginTop: '40px', padding: '20px', background: 'rgba(255, 255, 255, 0.5)', borderRadius: '8px', borderLeft: '4px solid var(--color-secondary)' }}>
-                <h3 className="section-header__title" style={{ marginTop: '0', marginBottom: '15px' }}>Our Location</h3>
+                <h3 className="section-header__title" style={{ marginTop: '0', marginBottom: '15px' }}>{homeData?.locationTitle || 'Our Location'}</h3>
                 <p style={{ marginBottom: '0' }}>
-                  Our home combines high standards of care with a welcoming atmosphere, ensuring 
-                  residents feel secure, valued, and at home at all times. We are proud to offer a homely yet professional environment, with facilities designed 
-                  to support the needs of all residents, including those living with dementia.
-                  Residents benefit from modern, safe, and comfortable surroundings, including our brand new 
-                  dining area, which provides a Dementia-Friendly Dining Experience.
+                  {homeData?.locationDescription || `Our home combines high standards of care with a welcoming atmosphere, ensuring 
+                  residents feel secure, valued, and at home at all times.`}
                 </p>
               </div>
+                </>
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Choose Bellavista Barry */}
-      <section className="loc-section loc-section--white">
+      {/* Why Choose Bellavista Barry */}
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -743,35 +766,41 @@ const BellavistaBarry = () => {
       </section>
 
       {/* High Quality Care - Our Services Section */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">High Quality Care</span>
-                <h2 className="section-header__title">Our Services</h2>
+                <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'High Quality Care'}</span>
+                <h2 className="section-header__title">{homeData?.servicesTitle || 'Our Services'}</h2>
               </div>
-              <p className="loc-text">
-                Our team delivers professional social care and nursing services for older adults, including:
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                {servicesList.map((service, index) => (
-                  <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    {service}
-                  </li>
-                ))}
-              </ul>
-              <p className="loc-text">
-                This comprehensive approach ensures residents enjoy the perfect balance of peace, 
-                tranquillity, privacy, companionship, and safety, all within a secure and supportive 
-                environment.
-              </p>
-              <p className="loc-text" style={{ marginTop: '30px' }}>
-                We invite families, healthcare professionals, and prospective residents to explore our 
-                approach to care, see how our team supports residents, and experience the warmth 
-                and professionalism that define Bellavista Barry.
-              </p>
+              {homeData?.servicesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.servicesContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    Our team delivers professional social care and nursing services for older adults, including:
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                    {servicesList.map((service, index) => (
+                      <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="loc-text">
+                    This comprehensive approach ensures residents enjoy the perfect balance of peace, 
+                    tranquillity, privacy, companionship, and safety, all within a secure and supportive 
+                    environment.
+                  </p>
+                  <p className="loc-text" style={{ marginTop: '30px' }}>
+                    We invite families, healthcare professionals, and prospective residents to explore our 
+                    approach to care, see how our team supports residents, and experience the warmth 
+                    and professionalism that define Bellavista Barry.
+                  </p>
+                </>
+              )}
               <Link to="/care/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>
@@ -781,19 +810,23 @@ const BellavistaBarry = () => {
       </section>
 
       {/* Facilities Section - Content Left, Images Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Facilities</span>
-                <h2 className="section-header__title">Modern & Safe Environment</h2>
+                <span className="section-header__subtitle">{homeData?.facilitiesSubtitle || 'Facilities'}</span>
+                <h2 className="section-header__title">{homeData?.facilitiesTitle || 'Modern & Safe Environment'}</h2>
               </div>
-              <p className="loc-text">
-                Our state-of-the-art facilities have been designed with care and comfort in mind. 
-                We provide a secure, welcoming environment with modern amenities that support the wellbeing 
-                and independence of our residents.
-              </p>
+              {homeData?.facilitiesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.facilitiesContent }} />
+              ) : (
+                <p className="loc-text">
+                  Our state-of-the-art facilities have been designed with care and comfort in mind. 
+                  We provide a secure, welcoming environment with modern amenities that support the wellbeing 
+                  and independence of our residents.
+                </p>
+              )}
               <Link to="/facilities/bellavista-barry" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-building"></i> View All Facilities
               </Link>
@@ -817,7 +850,7 @@ const BellavistaBarry = () => {
       </section>
 
       {/* 2. ACTIVITIES SECTION - Images Left, Content Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__media">
@@ -835,15 +868,19 @@ const BellavistaBarry = () => {
             </div>
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Life at Bellavista</span>
-                <h2 className="section-header__title">Activities Barry</h2>
+                <span className="section-header__subtitle">{homeData?.activitiesSubtitle || 'Life at Bellavista'}</span>
+                <h2 className="section-header__title">{homeData?.activitiesTitle || 'Activities Barry'}</h2>
               </div>
-              <p className="loc-text">
-                Our dedicated activities team designs and delivers person-centred programmes, 
-                tailored to the interests, abilities, and wellbeing of each resident. From social activities 
-                to cognitive engagement, we encourage residents to remain active, independent, and 
-                fulfilled throughout their stay.
-              </p>
+              {homeData?.activitiesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.activitiesContent }} />
+              ) : (
+                <p className="loc-text">
+                  Our dedicated activities team designs and delivers person-centred programmes, 
+                  tailored to the interests, abilities, and wellbeing of each resident. From social activities 
+                  to cognitive engagement, we encourage residents to remain active, independent, and 
+                  fulfilled throughout their stay.
+                </p>
+              )}
               <div style={{ marginTop: '24px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <Link to="/activities/bellavista-barry" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-calendar-alt"></i> View All Activities
@@ -874,21 +911,27 @@ const BellavistaBarry = () => {
           <div className="loc-grid">
             <div className="loc-grid__content">
               <div className="section-header">
-                <span className="section-header__subtitle">Dedicated Staff</span>
-                <h2 className="section-header__title">Our Team</h2>
+                <span className="section-header__subtitle">{homeData?.teamSubtitle || 'Dedicated Staff'}</span>
+                <h2 className="section-header__title">{homeData?.teamTitle || 'Our Team'}</h2>
               </div>
-              <p className="loc-text">
-                All staff at Bellavista Barry are highly trained and appropriately qualified to deliver 
-                exceptional care. We invest in continuous professional development, with regular 
-                training programmes to ensure compliance with legislation, regulations, and the Care 
-                Inspectorate for Wales (CIW) standards.
-              </p>
-              <p className="loc-text">
-                Our dedicated activities team designs and delivers person-centred programmes, 
-                tailored to the interests, abilities, and wellbeing of each resident. From social activities 
-                to cognitive engagement, we encourage residents to remain active, independent, and 
-                fulfilled throughout their stay.
-              </p>
+              {homeData?.teamContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.teamContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    All staff at Bellavista Barry are highly trained and appropriately qualified to deliver 
+                    exceptional care. We invest in continuous professional development, with regular 
+                    training programmes to ensure compliance with legislation, regulations, and the Care 
+                    Inspectorate for Wales (CIW) standards.
+                  </p>
+                  <p className="loc-text">
+                    Our dedicated activities team designs and delivers person-centred programmes, 
+                    tailored to the interests, abilities, and wellbeing of each resident. From social activities 
+                    to cognitive engagement, we encourage residents to remain active, independent, and 
+                    fulfilled throughout their stay.
+                  </p>
+                </>
+              )}
             </div>
             <div className="loc-grid__media">
               <div className="loc-slider">
@@ -1058,7 +1101,7 @@ const BellavistaBarry = () => {
       {/* 5. NEWS SECTION */}
 
       {barryNews.length > 0 && (
-        <section className="loc-section loc-section--light">
+        <section className="loc-section loc-section--light" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1086,11 +1129,11 @@ const BellavistaBarry = () => {
       )}
 
       {/* 6. CONTACT & INFO GRID */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
-            <span className="section-header__subtitle">Get in Touch</span>
-            <h2 className="section-header__title">Contact & Information</h2>
+            <span className="section-header__subtitle">{homeData?.contactSubtitle || 'Get in Touch'}</span>
+            <h2 className="section-header__title">{homeData?.contactTitle || 'Contact & Information'}</h2>
           </div>
 
           <div className="bottom-grid">
@@ -1102,15 +1145,15 @@ const BellavistaBarry = () => {
               <div className="bottom-card__content">
                 <div className="contact-mini-item">
                   <i className="fas fa-map-marker-alt"></i>
-                  <span>106-108 Tynewydd Road,<br/>Barry, CF62 8BB</span>
+                  <span dangerouslySetInnerHTML={{ __html: (homeData?.contactAddress || '106-108 Tynewydd Road,<br/>Barry, CF62 8BB').replace(/\n/g, '<br/>') }} />
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-phone"></i>
-                  <a href="tel:01446743893">01446 743893</a>
+                  <a href={`tel:${homeData?.contactPhone || '01446743893'}`}>{homeData?.contactPhone || '01446 743893'}</a>
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-envelope"></i>
-                  <a href="mailto:admin@bellavistanursinghome.com">admin@bellavistanursinghome.com</a>
+                  <a href={`mailto:${homeData?.contactEmail || 'admin@bellavistanursinghome.com'}`}>{homeData?.contactEmail || 'admin@bellavistanursinghome.com'}</a>
                 </div>
                 <button className="btn btn-primary" style={{width: '100%', marginTop: '24px'}} onClick={() => window.location.href='/schedule-tour'}>
                   Book a Visit
@@ -1126,7 +1169,7 @@ const BellavistaBarry = () => {
               <div className="bottom-card__content">
                 <div className="fact-row">
                   <span className="fact-label">Registered Beds:</span>
-                  <span className="fact-value">62</span>
+                  <span className="fact-value">{homeData?.quickFactBeds || '62'}</span>
                 </div>
                 <div className="fact-row">
                   <span className="fact-label">Location:</span>
@@ -1135,7 +1178,7 @@ const BellavistaBarry = () => {
                     style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
                     onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Bellavista+Nursing+Home+Barry', '_blank')}
                   >
-                    Barry
+                    {homeData?.quickFactLocation || 'Barry'}
                   </span>
                 </div>
                 <div className="fact-row">
@@ -1145,12 +1188,12 @@ const BellavistaBarry = () => {
                     className="fact-value" 
                     style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
                   >
-                    Dementia Care
+                    {homeData?.quickFactCareType || 'Dementia Care'}
                   </Link>
                 </div>
                 <div className="fact-row">
                   <span className="fact-label">Parking:</span>
-                  <span className="fact-value">Available</span>
+                  <span className="fact-value">{homeData?.quickFactParking || 'Available'}</span>
                 </div>
               </div>
             </div>

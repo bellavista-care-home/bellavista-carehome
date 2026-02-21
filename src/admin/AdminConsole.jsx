@@ -710,6 +710,12 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-pen-to-square"></i><span>Update Home</span>
           </button>
+          <button 
+            className={activeView === 'live-page-edit' ? 'active' : ''}
+            onClick={() => setActiveView('live-page-edit')}
+          >
+            <i className="fa-solid fa-eye"></i><span>Live Page Edit</span>
+          </button>
           <div className="group-title">News</div>
           <button 
             className={activeView === 'add-news' ? 'active' : ''}
@@ -881,6 +887,50 @@ const AdminConsole = () => {
       <main>
         {activeView === 'add-home' && (
           <HomeForm mode="add" />
+        )}
+
+        {activeView === 'live-page-edit' && (
+          <section className="panel">
+            <h2>Live Page Edit</h2>
+            <p style={{color: '#666', marginBottom: '20px'}}>Edit content directly on the live page. Click a home to open it in edit mode.</p>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'20px'}}>
+              {[
+                { name: 'Bellavista Barry', slug: 'bellavista-barry', location: 'Barry', color: '#1b3c78' },
+                { name: 'Bellavista Cardiff', slug: 'bellavista-cardiff', location: 'Cardiff Bay', color: '#2563eb' },
+                { name: 'Bellavista Baltimore', slug: 'bellavista-baltimore', location: 'Cardiff Bay', color: '#0891b2' },
+                { name: 'Waverley Care Centre', slug: 'waverley-care-centre', location: 'Penarth', color: '#059669' },
+                { name: 'College Fields', slug: 'college-fields-nursing-home', location: 'Barry', color: '#7c3aed' },
+                { name: 'Meadow Vale Cwtch', slug: 'meadow-vale-cwtch', location: 'Bridgend', color: '#db2777' }
+              ].map(home => (
+                <div key={home.slug} style={{border:'1px solid #e0e0e0', borderRadius:'12px', overflow:'hidden', background:'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)'}}>
+                  <div style={{height:'8px', background: home.color}}></div>
+                  <div style={{padding:'20px'}}>
+                    <h3 style={{margin:'0 0 5px 0', fontSize: '1.1rem'}}>{home.name}</h3>
+                    <p style={{color:'#666', fontSize:'13px', marginBottom:'15px'}}>
+                      <i className="fas fa-map-marker-alt" style={{marginRight: '6px'}}></i>{home.location}
+                    </p>
+                    <button 
+                      className="btn small" 
+                      style={{background: home.color, color: 'white', border: 'none', display: 'flex', alignItems: 'center', gap: '6px'}}
+                      onClick={() => navigate(`/admin-console/${home.slug}`)}
+                    >
+                      <i className="fas fa-pencil-alt"></i> Edit Live Page
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{marginTop: '30px', padding: '20px', background: '#f0f9ff', borderRadius: '10px', border: '1px solid #bae6fd'}}>
+              <h4 style={{margin: '0 0 10px 0', color: '#0369a1'}}><i className="fas fa-info-circle" style={{marginRight: '8px'}}></i>How to use</h4>
+              <ol style={{margin: 0, paddingLeft: '20px', color: '#0c4a6e', lineHeight: '1.8'}}>
+                <li>Click "Edit Live Page" to open the home's public page</li>
+                <li>You'll see a blue admin bar at the top of the page</li>
+                <li>Hover over sections to see edit buttons</li>
+                <li>Click "Edit" to modify content inline</li>
+                <li>Save changes - they'll appear immediately on the live site</li>
+              </ol>
+            </div>
+          </section>
         )}
 
         {(activeView === 'update-home' || activeView.startsWith('home-section-')) && (
