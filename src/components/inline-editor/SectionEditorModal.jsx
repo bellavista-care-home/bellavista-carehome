@@ -1,10 +1,458 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as authService from '../../services/authService';
 import ContentBlocksEditor from './ContentBlocksEditor';
 import RichTextEditor from './RichTextEditor';
+import EnhancedImageUploader from '../EnhancedImageUploader';
 import './SectionEditorModal.css';
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
+/**
+ * Helper to upload a file (PDF, image, etc.) and return the URL
+ */
+const uploadFile = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('process_type', 'none');
+
+  const response = await fetch(`${API_URL}/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Upload failed');
+  }
+
+  const data = await response.json();
+  return data.url;
+};
+
+/**
+ * FileUrlInput - Input field with file upload button
+ * Allows entering a URL manually or uploading a file
+ */
+const FileUrlInput = ({ value, onChange, placeholder, accept = '.pdf' }) => {
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileSelect = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError(null);
+
+    try {
+      const url = await uploadFile(file);
+      onChange(url);
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  return (
+    <div className="file-url-input">
+      <div className="file-url-input__row">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="file-url-input__text"
+        />
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={accept}
+          onChange={handleFileSelect}
+          style={{ display: 'none' }}
+        />
+        <button
+          type="button"
+          className="file-url-input__btn"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          title="Upload file"
+        >
+          {uploading ? (
+            <i className="fas fa-spinner fa-spin"></i>
+          ) : (
+            <i className="fas fa-upload"></i>
+          )}
+        </button>
+        {value && (
+          <a
+            href={value}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="file-url-input__preview"
+            title="Open in new tab"
+          >
+            <i className="fas fa-external-link-alt"></i>
+          </a>
+        )}
+      </div>
+      {uploadError && (
+        <span className="file-url-input__error">{uploadError}</span>
+      )}
+    </div>
+  );
+};
+
+/**
+ * MediaGalleryEditor - Component for managing image/video gallery
+ * Supports bulk upload, single upload, video URLs, and gallery management
+ */
+const MediaGalleryEditor = ({ 
+  galleryItems = [], 
+  onAddItem, 
+  onRemoveItem, 
+  onMoveItem, 
+  onUpdateItem,
+  fieldName,
+  isUploading,
+  setIsUploading,
+  showEdit = true
+}) => {
+  const [mediaType, setMediaType] = useState('image');
+  const [videoUrl, setVideoUrl] = useState('');
+
+  const handleBulkUpload = async (files) => {
+    if (files.length === 0) return;
+    
+    setIsUploading(true);
+    let uploaded = 0;
+    
+    try {
+      for (const file of files) {
+        try {
+          const formDataUpload = new FormData();
+          formDataUpload.append('file', file);
+          formDataUpload.append('process_type', 'none');
+          
+          const response = await fetch(`${API_URL}/upload`, {
+            method: 'POST',
+            body: formDataUpload,
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            onAddItem(fieldName, { type: 'image', url: data.url, cropMode: 'uncropped' });
+            uploaded++;
+          }
+        } catch (error) {
+          console.error('Upload error for file:', file.name, error);
+        }
+      }
+    } finally {
+      setIsUploading(false);
+      if (uploaded > 0) {
+        alert(`✅ Successfully uploaded ${uploaded} of ${files.length} images!`);
+      }
+    }
+  };
+
+  const handleVideoUpload = async (file) => {
+    if (!file) return;
+    
+    setIsUploading(true);
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+      formDataUpload.append('process_type', 'none');
+      
+      const response = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        body: formDataUpload,
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        onAddItem(fieldName, { type: 'video', url: data.url });
+      }
+    } catch (error) {
+      console.error('Video upload error:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="media-gallery-editor">
+      {/* Bulk Upload Section */}
+      <div className="bulk-upload-banner">
+        <div className="bulk-upload-banner__info">
+          <strong>📦 Bulk Upload</strong>
+          <span>Upload up to 30 images at once</span>
+        </div>
+        <button 
+          type="button"
+          className="bulk-upload-banner__btn"
+          onClick={() => document.getElementById(`bulk-${fieldName}-upload`).click()}
+          disabled={isUploading}
+        >
+          {isUploading ? (
+            <><i className="fas fa-spinner fa-spin"></i> Uploading...</>
+          ) : (
+            <><i className="fas fa-images"></i> Select Multiple</>
+          )}
+        </button>
+        <input
+          type="file"
+          id={`bulk-${fieldName}-upload`}
+          accept="image/*"
+          multiple
+          style={{display: 'none'}}
+          onChange={(e) => {
+            const files = Array.from(e.target.files).slice(0, 30);
+            handleBulkUpload(files);
+            e.target.value = '';
+          }}
+        />
+      </div>
+
+      {/* Media Type Toggle */}
+      <div className="media-type-toggle">
+        <span className="media-type-label">Media Type</span>
+        <div className="media-type-options">
+          <label className={`media-type-option ${mediaType === 'image' ? 'active' : ''}`}>
+            <input 
+              type="radio" 
+              name={`${fieldName}-mediaType`}
+              value="image"
+              checked={mediaType === 'image'}
+              onChange={() => setMediaType('image')}
+            />
+            <i className="fas fa-image"></i> Image
+          </label>
+          <label className={`media-type-option ${mediaType === 'video' ? 'active' : ''}`}>
+            <input 
+              type="radio" 
+              name={`${fieldName}-mediaType`}
+              value="video"
+              checked={mediaType === 'video'}
+              onChange={() => setMediaType('video')}
+            />
+            <i className="fas fa-video"></i> Video
+          </label>
+        </div>
+      </div>
+
+      {/* Upload Section based on media type */}
+      {mediaType === 'video' ? (
+        <div className="video-upload-section">
+          <div className="video-url-input">
+            <input 
+              type="text" 
+              placeholder="Paste Video URL (YouTube/Vimeo)..."
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+            />
+            <button 
+              type="button"
+              className="btn-add-url"
+              onClick={() => {
+                if (videoUrl) {
+                  onAddItem(fieldName, { type: 'video', url: videoUrl });
+                  setVideoUrl('');
+                }
+              }}
+            >
+              <i className="fas fa-plus"></i> Add URL
+            </button>
+          </div>
+          <div className="video-file-upload">
+            <input
+              type="file"
+              accept="video/*"
+              id={`${fieldName}-video-upload`}
+              style={{display: 'none'}}
+              onChange={(e) => {
+                handleVideoUpload(e.target.files[0]);
+                e.target.value = '';
+              }}
+            />
+            <button 
+              type="button"
+              className="btn-upload-video"
+              onClick={() => document.getElementById(`${fieldName}-video-upload`).click()}
+              disabled={isUploading}
+            >
+              {isUploading ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-upload"></i>} Upload Video File
+            </button>
+            <span className="video-hint">Supports MP4, WebM (Max 50MB)</span>
+          </div>
+        </div>
+      ) : (
+        <div className="single-image-upload">
+          <EnhancedImageUploader
+            label="Upload Image (16:9)"
+            aspectRatio={16/9}
+            onImageSelected={(url) => {
+              if (url) onAddItem(fieldName, { type: 'image', url, cropMode: 'uncropped' });
+            }}
+            autoReset={true}
+            allowSkipOnUpload={true}
+            showCrop={true}
+          />
+        </div>
+      )}
+
+      {/* Gallery Grid */}
+      {galleryItems.length > 0 && (
+        <div className="gallery-section">
+          <div className="gallery-header">
+            <span>{galleryItems.length} Items in Gallery</span>
+          </div>
+          <div className="gallery-grid">
+            {galleryItems.map((item, index) => (
+              <GalleryItemCard
+                key={index}
+                item={item}
+                index={index}
+                total={galleryItems.length}
+                fieldName={fieldName}
+                onMoveItem={onMoveItem}
+                onRemoveItem={onRemoveItem}
+                onUpdateItem={onUpdateItem}
+                showEdit={showEdit}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * GalleryItemCard - Individual gallery item with edit functionality
+ */
+const GalleryItemCard = ({ item, index, total, fieldName, onMoveItem, onRemoveItem, onUpdateItem, showEdit = true }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const title = item.title || '';
+  const shortDesc = item.shortDescription || '';
+  const fullDesc = item.fullDescription || '';
+  const showOnPage = item.showOnPage || false;
+
+  const handleUpdate = (updates) => {
+    onUpdateItem(fieldName, index, { ...item, ...updates });
+  };
+
+  return (
+    <div className={`gallery-item ${isExpanded ? 'gallery-item--expanded' : ''}`}>
+      <div className="gallery-item__preview">
+        {item.type === 'video' ? (
+          <div className="gallery-item__video">
+            <i className="fas fa-play-circle"></i>
+            <span>Video</span>
+          </div>
+        ) : (
+          <img src={item.url} alt={`Gallery ${index + 1}`} />
+        )}
+        {showOnPage && (
+          <div className="gallery-item__badge">Page Visible</div>
+        )}
+        {title && (
+          <div className="gallery-item__title-overlay">{title}</div>
+        )}
+      </div>
+      <div className="gallery-item__controls">
+        <div className="gallery-item__move">
+          <button 
+            type="button"
+            className="btn-icon" 
+            disabled={index === 0} 
+            onClick={() => onMoveItem(fieldName, index, 'up')}
+            title="Move left"
+          >
+            <i className="fas fa-chevron-left"></i>
+          </button>
+          <button 
+            type="button"
+            className="btn-icon" 
+            disabled={index === total - 1} 
+            onClick={() => onMoveItem(fieldName, index, 'down')}
+            title="Move right"
+          >
+            <i className="fas fa-chevron-right"></i>
+          </button>
+          {showEdit && (
+            <button 
+              type="button"
+              className="btn-icon btn-icon--edit" 
+              onClick={() => setIsExpanded(!isExpanded)}
+              title="Edit details"
+            >
+              <i className={`fas fa-${isExpanded ? 'times' : 'pencil-alt'}`}></i>
+            </button>
+          )}
+        </div>
+        <button 
+          type="button"
+          className="btn-icon btn-icon--danger" 
+          onClick={() => onRemoveItem(fieldName, index)}
+          title="Remove"
+        >
+          <i className="fas fa-trash"></i>
+        </button>
+      </div>
+      
+      {/* Expanded Edit Form */}
+      {isExpanded && (
+        <div className="gallery-item__edit-form">
+          <div className="edit-form-field">
+            <label>Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => handleUpdate({ title: e.target.value })}
+              placeholder="Activity/Facility Title"
+            />
+          </div>
+          <div className="edit-form-field">
+            <label>Short Description (Card)</label>
+            <textarea
+              value={shortDesc}
+              onChange={(e) => handleUpdate({ shortDescription: e.target.value })}
+              placeholder="Brief description for the card..."
+              rows={3}
+            />
+          </div>
+          <div className="edit-form-field edit-form-field--rich">
+            <label>Full Description (Detail Page)</label>
+            <RichTextEditor
+              value={fullDesc}
+              onChange={(html) => handleUpdate({ fullDescription: html })}
+              placeholder="Detailed description with formatting..."
+              minHeight={150}
+            />
+          </div>
+          <div className="edit-form-checkbox">
+            <label>
+              <input
+                type="checkbox"
+                checked={showOnPage}
+                onChange={(e) => handleUpdate({ showOnPage: e.target.checked })}
+              />
+              Show on Page
+            </label>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 /**
  * SectionEditorModal - Modal for editing section content
@@ -26,6 +474,7 @@ const SectionEditorModal = ({
   const [formData, setFormData] = useState({});
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (sectionData) {
@@ -115,7 +564,8 @@ const SectionEditorModal = ({
           statsBedrooms: data.statsBedrooms,
           statsLocationBadge: data.statsLocationBadge,
           ciwReportUrl: data.ciwReportUrl,
-          newsletterUrl: data.newsletterUrl
+          newsletterUrl: data.newsletterUrl,
+          bannerImages: data.bannerImages || []
         };
       case 'about':
         // Extract legacy fields from content blocks for backwards compatibility
@@ -152,19 +602,22 @@ const SectionEditorModal = ({
         return {
           facilitiesTitle: data.facilitiesTitle,
           facilitiesSubtitle: data.facilitiesSubtitle,
-          facilitiesContent: data.facilitiesContent || data.facilitiesIntro
+          facilitiesContent: data.facilitiesContent || data.facilitiesIntro,
+          facilitiesGallery: data.facilitiesGallery || []
         };
       case 'activities':
         return {
           activitiesTitle: data.activitiesTitle,
           activitiesSubtitle: data.activitiesSubtitle,
-          activitiesContent: data.activitiesContent || data.activitiesIntro
+          activitiesContent: data.activitiesContent || data.activitiesIntro,
+          activitiesGallery: data.activitiesGallery || []
         };
       case 'team':
         return {
           teamTitle: data.teamTitle,
           teamSubtitle: data.teamSubtitle,
-          teamContent: data.teamContent || data.teamIntro
+          teamContent: data.teamContent || data.teamIntro,
+          teamGallery: data.teamGallery || []
         };
       case 'testimonials':
         return {
@@ -225,7 +678,7 @@ const SectionEditorModal = ({
           )}
 
           {/* Render form based on section type */}
-          {renderSectionForm(sectionType, formData, handleChange, handleArrayChange, handleAddArrayItem, handleRemoveArrayItem, handleMoveArrayItem)}
+          {renderSectionForm(sectionType, formData, handleChange, handleArrayChange, handleAddArrayItem, handleRemoveArrayItem, handleMoveArrayItem, isUploading, setIsUploading)}
         </div>
 
         <div className="section-editor-split-panel__footer">
@@ -281,7 +734,7 @@ const SectionEditorModal = ({
           )}
 
           {/* Render form based on section type */}
-          {renderSectionForm(sectionType, formData, handleChange, handleArrayChange, handleAddArrayItem, handleRemoveArrayItem, handleMoveArrayItem)}
+          {renderSectionForm(sectionType, formData, handleChange, handleArrayChange, handleAddArrayItem, handleRemoveArrayItem, handleMoveArrayItem, isUploading, setIsUploading)}
         </div>
 
         <div className="section-editor-footer">
@@ -316,7 +769,7 @@ const SectionEditorModal = ({
 };
 
 // Render different forms based on section type
-const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAddItem, onRemoveItem, onMoveItem) => {
+const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAddItem, onRemoveItem, onMoveItem, isUploading, setIsUploading) => {
   switch (sectionType) {
     case 'hero':
       return (
@@ -370,21 +823,160 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
           </div>
           <div className="form-group">
             <label>CIW Report URL</label>
-            <input
-              type="url"
+            <FileUrlInput
               value={formData.ciwReportUrl || ''}
-              onChange={(e) => onChange('ciwReportUrl', e.target.value)}
-              placeholder="https://..."
+              onChange={(url) => onChange('ciwReportUrl', url)}
+              placeholder="https://... or upload a PDF"
+              accept=".pdf"
             />
           </div>
           <div className="form-group">
             <label>Newsletter URL</label>
-            <input
-              type="url"
+            <FileUrlInput
               value={formData.newsletterUrl || ''}
-              onChange={(e) => onChange('newsletterUrl', e.target.value)}
-              placeholder="https://..."
+              onChange={(url) => onChange('newsletterUrl', url)}
+              placeholder="https://... or upload a PDF"
+              accept=".pdf"
             />
+          </div>
+
+          {/* Banner Images Section */}
+          <div className="form-group banner-images-section">
+            <div className="section-divider">
+              <i className="fas fa-panorama"></i> Scrolling Banner Images
+            </div>
+            
+            {/* Bulk Upload Section */}
+            <div className="bulk-upload-banner">
+              <div className="bulk-upload-banner__info">
+                <strong>📦 Bulk Upload Banners</strong>
+                <span>Upload multiple banner images at once</span>
+              </div>
+              <button 
+                type="button"
+                className="bulk-upload-banner__btn"
+                onClick={() => document.getElementById('bulk-banner-upload-hero').click()}
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <><i className="fas fa-spinner fa-spin"></i> Uploading...</>
+                ) : (
+                  <><i className="fas fa-images"></i> Select Multiple</>
+                )}
+              </button>
+              <input
+                type="file"
+                id="bulk-banner-upload-hero"
+                accept="image/*"
+                multiple
+                style={{display: 'none'}}
+                onChange={async (e) => {
+                  const files = Array.from(e.target.files).slice(0, 30);
+                  if (files.length === 0) return;
+                  
+                  setIsUploading(true);
+                  let uploaded = 0;
+                  
+                  try {
+                    for (const file of files) {
+                      try {
+                        const formDataUpload = new FormData();
+                        formDataUpload.append('file', file);
+                        formDataUpload.append('process_type', 'none');
+                        
+                        const response = await fetch(`${API_URL}/upload`, {
+                          method: 'POST',
+                          body: formDataUpload,
+                        });
+                        
+                        if (response.ok) {
+                          const data = await response.json();
+                          onAddItem('bannerImages', { url: data.url, showOnMain: true });
+                          uploaded++;
+                        }
+                      } catch (error) {
+                        console.error('Upload error for file:', file.name, error);
+                      }
+                    }
+                  } finally {
+                    setIsUploading(false);
+                    e.target.value = '';
+                    if (uploaded > 0) {
+                      alert(`✅ Successfully uploaded ${uploaded} of ${files.length} banner images!`);
+                    }
+                  }
+                }}
+              />
+            </div>
+
+            {/* Single Image Upload */}
+            <div className="single-banner-upload">
+              <EnhancedImageUploader 
+                label="Upload Banner Image (16:9)" 
+                aspectRatio={16/9}
+                onImageSelected={(url) => {
+                  if (url) {
+                    onAddItem('bannerImages', { url: url, showOnMain: true });
+                  }
+                }}
+                showCrop={true}
+                autoReset={true}
+                allowSkipOnUpload={true}
+              />
+            </div>
+
+            {/* Banner Images Grid */}
+            {formData.bannerImages && formData.bannerImages.length > 0 && (
+              <div className="banner-images-grid">
+                {formData.bannerImages.map((item, index) => (
+                  <div key={index} className="banner-image-card">
+                    <div className="banner-image-card__preview">
+                      <img src={item.url} alt={`Banner ${index + 1}`} />
+                    </div>
+                    <div className="banner-image-card__controls">
+                      <label className="banner-image-card__checkbox">
+                        <input 
+                          type="checkbox" 
+                          checked={item.showOnMain || false} 
+                          onChange={(e) => {
+                            onArrayChange('bannerImages', index, { showOnMain: e.target.checked });
+                          }}
+                        />
+                        Show on Main Page
+                      </label>
+                      <div className="banner-image-card__actions">
+                        <button 
+                          type="button"
+                          className="btn-icon" 
+                          disabled={index === 0} 
+                          onClick={() => onMoveItem('bannerImages', index, 'up')}
+                          title="Move left"
+                        >
+                          <i className="fas fa-chevron-left"></i>
+                        </button>
+                        <button 
+                          type="button"
+                          className="btn-icon" 
+                          disabled={index === formData.bannerImages.length - 1} 
+                          onClick={() => onMoveItem('bannerImages', index, 'down')}
+                          title="Move right"
+                        >
+                          <i className="fas fa-chevron-right"></i>
+                        </button>
+                        <button 
+                          type="button"
+                          className="btn-icon btn-icon--danger" 
+                          onClick={() => onRemoveItem('bannerImages', index)}
+                          title="Remove"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       );
@@ -591,6 +1183,23 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
               minHeight={200}
             />
           </div>
+          
+          {/* Facilities Gallery */}
+          <div className="form-group">
+            <div className="section-divider">
+              <i className="fas fa-building"></i> Facilities Gallery
+            </div>
+            <MediaGalleryEditor
+              galleryItems={formData.facilitiesGallery || []}
+              onAddItem={onAddItem}
+              onRemoveItem={onRemoveItem}
+              onMoveItem={onMoveItem}
+              onUpdateItem={onArrayChange}
+              fieldName="facilitiesGallery"
+              isUploading={isUploading}
+              setIsUploading={setIsUploading}
+            />
+          </div>
         </div>
       );
 
@@ -625,6 +1234,23 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
               minHeight={200}
             />
           </div>
+          
+          {/* Activities Gallery */}
+          <div className="form-group">
+            <div className="section-divider">
+              <i className="fas fa-running"></i> Activities Gallery
+            </div>
+            <MediaGalleryEditor
+              galleryItems={formData.activitiesGallery || []}
+              onAddItem={onAddItem}
+              onRemoveItem={onRemoveItem}
+              onMoveItem={onMoveItem}
+              onUpdateItem={onArrayChange}
+              fieldName="activitiesGallery"
+              isUploading={isUploading}
+              setIsUploading={setIsUploading}
+            />
+          </div>
         </div>
       );
 
@@ -657,6 +1283,24 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
               onChange={(html) => onChange('teamContent', html)}
               placeholder="Describe your team... Use bullet points, bold, italic, and alignment from the toolbar above."
               minHeight={200}
+            />
+          </div>
+          
+          {/* Team Gallery */}
+          <div className="form-group">
+            <div className="section-divider">
+              <i className="fas fa-users"></i> Meet My Team (Gallery)
+            </div>
+            <MediaGalleryEditor
+              galleryItems={formData.teamGallery || []}
+              onAddItem={onAddItem}
+              onRemoveItem={onRemoveItem}
+              onMoveItem={onMoveItem}
+              onUpdateItem={onArrayChange}
+              fieldName="teamGallery"
+              isUploading={isUploading}
+              setIsUploading={setIsUploading}
+              showEdit={false}
             />
           </div>
         </div>
