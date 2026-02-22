@@ -116,6 +116,24 @@ const AppContent = () => {
   // Initialize Google Analytics
   useAnalytics();
 
+  // Global message listener for admin iframe scroll-to-section
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data && event.data.type === 'scrollToSection') {
+        const sectionId = event.data.sectionId;
+        if (sectionId) {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    };
+    
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   // Global fetch interceptor for 401 handling
   useEffect(() => {
     const originalFetch = window.fetch;

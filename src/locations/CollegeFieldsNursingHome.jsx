@@ -47,7 +47,7 @@ const CollegeFieldsNursingHome = () => {
       setCollegeFieldsNews(filtered);
 
       // Load Home Data from Backend
-      const home = await fetchHome('college-fields');
+      const home = await fetchHome('college-fields-nursing-home');
       if (home) {
         setHomeData(home);
         if (home.teamMembers && home.teamMembers.length > 0) {
@@ -496,7 +496,7 @@ const CollegeFieldsNursingHome = () => {
         schema={collegeFieldsSchema}
       />
       {/* 1. HERO SECTION */}
-      <section className="hero">
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <img src="/home-images/college-fields.jpg" alt="College Fields Nursing Home" />
@@ -576,7 +576,7 @@ const CollegeFieldsNursingHome = () => {
         )}
       </section>
 
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
@@ -641,7 +641,7 @@ const CollegeFieldsNursingHome = () => {
       </section>
 
       {/* Why Choose College Fields Nursing Home */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -685,7 +685,7 @@ const CollegeFieldsNursingHome = () => {
       </section>
 
       {/* HIGH QUALITY CARE / OUR SERVICES SECTION */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -711,7 +711,7 @@ const CollegeFieldsNursingHome = () => {
       </section>
 
       {/* 3. FACILITIES SECTION */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -760,7 +760,7 @@ const CollegeFieldsNursingHome = () => {
       </section>
 
       {/* 4. ACTIVITIES SECTION */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__media">
@@ -969,7 +969,7 @@ const CollegeFieldsNursingHome = () => {
       </section>
 
       {collegeFieldsNews.length > 0 && (
-        <section className="loc-section loc-section--white">
+        <section className="loc-section loc-section--white" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -997,7 +997,7 @@ const CollegeFieldsNursingHome = () => {
       )}
 
       {/* 6. CONTACT & INFO GRID */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>

@@ -107,9 +107,20 @@ const SortableSectionItem = ({ section, onEdit, onToggleVisibility, homeData }) 
   );
 };
 
+// Map admin slugs to frontend route paths
+const slugToRouteMap = {
+  'bellavista-barry': '/bellavista-barry',
+  'bellavista-cardiff': '/bellavista-cardiff',
+  'bellavista-baltimore': '/baltimore-care-home',
+  'waverley-care-centre': '/waverley-care-center',
+  'college-fields-nursing-home': '/college-fields-nursing-home',
+  'meadow-vale-cwtch': '/meadow-vale-cwtch'
+};
+
 // Main Admin Page Editor Component
 const AdminPageEditor = () => {
   const { homeSlug } = useParams();
+  const frontendRoute = slugToRouteMap[homeSlug] || `/${homeSlug}`;
   const navigate = useNavigate();
   const [sections, setSections] = useState([]);
   const [homeData, setHomeData] = useState(null);
@@ -460,7 +471,7 @@ const AdminPageEditor = () => {
           </button>
           <button 
             className="preview-btn"
-            onClick={() => window.open(`/${homeSlug}`, '_blank')}
+            onClick={() => window.open(frontendRoute, '_blank')}
           >
             <i className="fas fa-external-link-alt"></i>
             Open in New Tab
@@ -519,7 +530,7 @@ const AdminPageEditor = () => {
                 </button>
                 <button 
                   className="live-preview-btn"
-                  onClick={() => window.open(`/${homeSlug}`, '_blank')}
+                  onClick={() => window.open(frontendRoute, '_blank')}
                   title="Open in New Tab"
                 >
                   <i className="fas fa-external-link-alt"></i>
@@ -538,7 +549,7 @@ const AdminPageEditor = () => {
                   <iframe
                     key={iframeKey}
                     ref={iframeRef}
-                    src={`/${homeSlug}?preview=true&nocache=${iframeKey}`}
+                    src={`${frontendRoute}?preview=true&nocache=${iframeKey}`}
                     title="Live Page Preview"
                     className="live-preview-iframe"
                     onLoad={() => {
@@ -638,13 +649,13 @@ const AdminPageEditor = () => {
           <div className="info-card">
             <h3><i className="fas fa-link"></i> Quick Links</h3>
             <div className="quick-links">
-              <a href={`/${homeSlug}`} target="_blank" rel="noopener noreferrer">
+              <a href={frontendRoute} target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-external-link-alt"></i> View Live Page
               </a>
-              <a href={`/facilities/${homeSlug}`} target="_blank" rel="noopener noreferrer">
+              <a href={`/facilities${frontendRoute}`} target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-building"></i> Facilities Page
               </a>
-              <a href={`/activities/${homeSlug}`} target="_blank" rel="noopener noreferrer">
+              <a href={`/activities${frontendRoute}`} target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-calendar-alt"></i> Activities Page
               </a>
             </div>

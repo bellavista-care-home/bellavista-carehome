@@ -491,7 +491,7 @@ const WaverleyCareCentre = () => {
         schema={waverleySchema}
       />
       {/* 1. HERO SECTION */}
-      <section className="hero">
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <Swiper
@@ -560,7 +560,7 @@ const WaverleyCareCentre = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
+          <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
               spaceBetween={20}
@@ -592,7 +592,7 @@ const WaverleyCareCentre = () => {
         )}
       </section>
 
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
@@ -648,7 +648,7 @@ const WaverleyCareCentre = () => {
       </section>
 
       {/* Why Choose Waverley Care Centre */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -692,7 +692,7 @@ const WaverleyCareCentre = () => {
       </section>
 
       {/* Services Section */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -742,7 +742,7 @@ const WaverleyCareCentre = () => {
       </section>
 
       {/* Facilities Section - Content Left, Images Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -778,7 +778,7 @@ const WaverleyCareCentre = () => {
       </section>
 
       {/* Activities Section - Images Left, Content Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__media">
@@ -1012,7 +1012,7 @@ const WaverleyCareCentre = () => {
 
       {/* News Section */}
       {waverleyNews.length > 0 && (
-        <section className="loc-section loc-section--white">
+        <section className="loc-section loc-section--white" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1040,7 +1040,7 @@ const WaverleyCareCentre = () => {
       )}
 
       {/* 6. CONTACT & INFO GRID */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>

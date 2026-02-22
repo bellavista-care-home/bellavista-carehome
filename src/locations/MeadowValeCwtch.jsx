@@ -510,7 +510,7 @@ const MeadowValeCwtch = () => {
       />
       
       {/* 1. HERO SECTION */}
-      <section className="hero">
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <Swiper
@@ -577,7 +577,7 @@ const MeadowValeCwtch = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
+          <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
               spaceBetween={20}
@@ -610,7 +610,7 @@ const MeadowValeCwtch = () => {
       </section>
 
       {/* 2. ABOUT / INTRO SECTION */}
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
@@ -654,7 +654,7 @@ const MeadowValeCwtch = () => {
       </section>
 
       {/* Why Choose Section (Moved Up) */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -684,7 +684,7 @@ const MeadowValeCwtch = () => {
       </section>
 
       {/* Services Section */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -715,7 +715,7 @@ const MeadowValeCwtch = () => {
       </section>
 
       {/* Facilities Section - Content Left, Images Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -751,7 +751,7 @@ const MeadowValeCwtch = () => {
       </section>
 
       {/* Activities Section */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid activities-mobile-reverse">
             <div className="loc-grid__media">
@@ -974,7 +974,7 @@ const MeadowValeCwtch = () => {
 
       {/* News Section */}
       {meadowNews.length > 0 && (
-        <section className="loc-section loc-section--white">
+        <section className="loc-section loc-section--white" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1002,7 +1002,7 @@ const MeadowValeCwtch = () => {
       )}
 
       {/* Contact & Info Grid */}
-      <section className="loc-section loc-section--light">
+      <section className="loc-section loc-section--light" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>

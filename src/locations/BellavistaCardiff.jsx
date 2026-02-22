@@ -561,7 +561,7 @@ const BellavistaCardiff = () => {
         schema={cardiffSchema}
       />
       
-      <section className="hero">
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <img src="/home-images/cardiff.jpg" alt="Bellavista Cardiff" />
@@ -639,7 +639,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Intro & Location Section */}
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
@@ -685,7 +685,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Why Choose Bellavista Cardiff (Moved Up) */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -715,7 +715,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Services Section */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -746,7 +746,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Facilities Section - Content Left, Images Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -782,7 +782,7 @@ const BellavistaCardiff = () => {
       </section>
 
       {/* Activities Section - Images Left, Content Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__media">
@@ -1007,7 +1007,7 @@ const BellavistaCardiff = () => {
 
       {/* News Section */}
       {cardiffNews.length > 0 && (
-        <section className="loc-section loc-section--white">
+        <section className="loc-section loc-section--white" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1035,7 +1035,7 @@ const BellavistaCardiff = () => {
       )}
 
       {/* Contact & Info Grid */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>

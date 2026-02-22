@@ -51,7 +51,7 @@ const BellavistaBaltimore = () => {
       setBaltimoreNews(filtered);
 
       // Load Home Data from Backend
-      const home = await fetchHome('baltimore-care-home');
+      const home = await fetchHome('bellavista-baltimore');
       if (home) {
         setHomeData(home);
         if (home.teamMembers && home.teamMembers.length > 0) {
@@ -477,7 +477,7 @@ const BellavistaBaltimore = () => {
         schema={baltimoreSchema}
       />
       {/* 1. HERO SECTION */}
-      <section className="hero">
+      <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
             <Swiper
@@ -546,7 +546,7 @@ const BellavistaBaltimore = () => {
         </div>
 
         {bannerImages.length > 0 && (
-          <div className="hero-netflix-slider">
+          <div className="hero-bottom-carousel">
             <Swiper
               modules={[Autoplay]}
               spaceBetween={20}
@@ -578,7 +578,7 @@ const BellavistaBaltimore = () => {
         )}
       </section>
 
-      <section className="about-group-intro">
+      <section className="about-group-intro" id="about-section">
         <div className="container">
           <div className="about-group-content">
             <h2 className="group-intro-title">
@@ -625,7 +625,7 @@ const BellavistaBaltimore = () => {
       </section>
 
       {/* Why Choose Baltimore House */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="whyChoose-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content" style={{ width: '100%' }}>
@@ -674,7 +674,7 @@ const BellavistaBaltimore = () => {
       </section>
 
       {/* 4. HIGH QUALITY CARE / OUR SERVICES SECTION (CONTENT ONLY) */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -723,7 +723,7 @@ const BellavistaBaltimore = () => {
       </section>
 
       {/* 5. FACILITIES / MODERN & SAFE ENVIRONMENT SECTION */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="facilities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__content">
@@ -782,7 +782,7 @@ const BellavistaBaltimore = () => {
       </section>
 
       {/* Activities Section - Images Left, Content Right */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="activities-section">
         <div className="container">
           <div className="loc-grid">
             <div className="loc-grid__media">
@@ -1005,7 +1005,7 @@ const BellavistaBaltimore = () => {
 
       {/* 9. NEWS SECTION */}
       {baltimoreNews.length > 0 && (
-        <section className="loc-section loc-section--white">
+        <section className="loc-section loc-section--white" id="news-section">
           <div className="container">
             <div className="section-header section-header--center">
               <span className="section-header__subtitle">Updates</span>
@@ -1033,7 +1033,7 @@ const BellavistaBaltimore = () => {
       )}
 
       {/* 10. CONTACT & INFORMATION SECTION */}
-      <section className="loc-section loc-section--white">
+      <section className="loc-section loc-section--white" id="contact-section">
         <div className="container">
           <div className="section-header section-header--center">
             <span className="section-header__subtitle">Get in Touch</span>
