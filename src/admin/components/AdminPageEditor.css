@@ -449,6 +449,78 @@
   background: #eff6ff;
 }
 
+/* External Resources Links */
+.external-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.external-link-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.external-link-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.external-link-url {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.external-link-url:hover {
+  color: #2563eb;
+}
+
+.external-link-url i {
+  font-size: 0.75rem;
+}
+
+.external-link-empty {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.edit-external-links-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  background: #eff6ff;
+  color: #3b82f6;
+  border: 1px dashed #93c5fd;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-external-links-btn:hover {
+  background: #dbeafe;
+  border-color: #3b82f6;
+}
+
 /* Mobile Responsive */
 @media (max-width: 640px) {
   .admin-page-editor__header {

@@ -324,6 +324,7 @@ const AdminPageEditor = () => {
           statsLocationBadge: homeData.statsLocationBadge,
           ciwReportUrl: homeData.ciwReportUrl,
           newsletterUrl: homeData.newsletterUrl,
+          bannerImages: homeData.bannerImages || [],
         };
       case 'about':
         return {
@@ -377,6 +378,7 @@ const AdminPageEditor = () => {
           teamContent: homeData.teamContent || homeData.teamIntro,
           teamIntro2: homeData.teamIntro2,
           teamMembers: homeData.teamMembers || [],
+          teamGallery: homeData.teamGallery || [],
         };
       case 'testimonials':
         return {
@@ -645,6 +647,41 @@ const AdminPageEditor = () => {
               <a href={`/activities/${homeSlug}`} target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-calendar-alt"></i> Activities Page
               </a>
+            </div>
+          </div>
+          
+          <div className="info-card">
+            <h3><i className="fas fa-file-alt"></i> External Resources</h3>
+            <div className="external-links">
+              <div className="external-link-item">
+                <span className="external-link-label">CIW Report URL</span>
+                {homeData?.ciwReportUrl ? (
+                  <a href={homeData.ciwReportUrl} target="_blank" rel="noopener noreferrer" className="external-link-url">
+                    <i className="fas fa-external-link-alt"></i> View Report
+                  </a>
+                ) : (
+                  <span className="external-link-empty">Not configured</span>
+                )}
+              </div>
+              <div className="external-link-item">
+                <span className="external-link-label">Newsletter URL</span>
+                {homeData?.newsletterUrl ? (
+                  <a href={homeData.newsletterUrl} target="_blank" rel="noopener noreferrer" className="external-link-url">
+                    <i className="fas fa-external-link-alt"></i> View Newsletter
+                  </a>
+                ) : (
+                  <span className="external-link-empty">Not configured</span>
+                )}
+              </div>
+              <button 
+                className="edit-external-links-btn"
+                onClick={() => {
+                  const heroSection = sections.find(s => s.sectionKey === 'hero');
+                  if (heroSection) handleEditSection(heroSection);
+                }}
+              >
+                <i className="fas fa-pencil-alt"></i> Edit in Hero Section
+              </button>
             </div>
           </div>
         </div>
