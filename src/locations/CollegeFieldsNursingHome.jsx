@@ -47,7 +47,7 @@ const CollegeFieldsNursingHome = () => {
       setCollegeFieldsNews(filtered);
 
       // Load Home Data from Backend
-      const home = await fetchHome('college-fields-nursing-home');
+      const home = await fetchHome('college-fields');
       if (home) {
         setHomeData(home);
         if (home.teamMembers && home.teamMembers.length > 0) {

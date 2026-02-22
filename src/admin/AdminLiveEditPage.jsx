@@ -7,9 +7,9 @@ import AdminPageEditor from './components/AdminPageEditor';
 const validHomeSlugs = [
   'bellavista-barry',
   'bellavista-cardiff',
-  'college-fields-nursing-home',
+  'college-fields',
   'waverley-care-centre',
-  'bellavista-baltimore',
+  'baltimore-care-home',
   'meadow-vale-cwtch'
 ];
 

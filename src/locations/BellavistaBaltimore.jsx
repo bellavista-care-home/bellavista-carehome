@@ -51,7 +51,7 @@ const BellavistaBaltimore = () => {
       setBaltimoreNews(filtered);
 
       // Load Home Data from Backend
-      const home = await fetchHome('bellavista-baltimore');
+      const home = await fetchHome('baltimore-care-home');
       if (home) {
         setHomeData(home);
         if (home.teamMembers && home.teamMembers.length > 0) {

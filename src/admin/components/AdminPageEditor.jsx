@@ -111,9 +111,9 @@ const SortableSectionItem = ({ section, onEdit, onToggleVisibility, homeData }) 
 const slugToRouteMap = {
   'bellavista-barry': '/bellavista-barry',
   'bellavista-cardiff': '/bellavista-cardiff',
-  'bellavista-baltimore': '/baltimore-care-home',
+  'baltimore-care-home': '/baltimore-care-home',
   'waverley-care-centre': '/waverley-care-center',
-  'college-fields-nursing-home': '/college-fields-nursing-home',
+  'college-fields': '/college-fields-nursing-home',
   'meadow-vale-cwtch': '/meadow-vale-cwtch'
 };
 

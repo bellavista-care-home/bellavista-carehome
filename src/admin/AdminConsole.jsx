@@ -897,9 +897,9 @@ const AdminConsole = () => {
               {[
                 { name: 'Bellavista Barry', slug: 'bellavista-barry', location: 'Barry', color: '#1b3c78' },
                 { name: 'Bellavista Cardiff', slug: 'bellavista-cardiff', location: 'Cardiff Bay', color: '#2563eb' },
-                { name: 'Bellavista Baltimore', slug: 'bellavista-baltimore', location: 'Cardiff Bay', color: '#0891b2' },
+                { name: 'Bellavista Baltimore', slug: 'baltimore-care-home', location: 'Cardiff Bay', color: '#0891b2' },
                 { name: 'Waverley Care Centre', slug: 'waverley-care-centre', location: 'Penarth', color: '#059669' },
-                { name: 'College Fields', slug: 'college-fields-nursing-home', location: 'Barry', color: '#7c3aed' },
+                { name: 'College Fields', slug: 'college-fields', location: 'Barry', color: '#7c3aed' },
                 { name: 'Meadow Vale Cwtch', slug: 'meadow-vale-cwtch', location: 'Bridgend', color: '#db2777' }
               ].map(home => (
                 <div key={home.slug} style={{border:'1px solid #e0e0e0', borderRadius:'12px', overflow:'hidden', background:'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)'}}>

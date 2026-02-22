@@ -35,7 +35,6 @@ const Care = () => {
     'college-fields-nursing-home': 'college-fields',
     'waverley-care-center': 'waverley-care-centre',
     'meadow-vale-cwtch': 'meadow-vale-cwtch',
-    'baltimore-care-home': 'bellavista-baltimore',
   };
 
   const backendId = backendIdMap[locationId] || locationId;
