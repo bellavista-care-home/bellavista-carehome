@@ -870,7 +870,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Private Rooms" src="/personal-rooms.jpg"/>
+                    <img alt="Private Rooms" src="/facilities-images/private-rooms.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-bed"></i> Private Rooms</h4>
@@ -879,7 +879,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Communal Lounges" src="/communal-longues.jpg"/>
+                    <img alt="Communal Lounges" src="/facilities-images/communal-longues.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-couch"></i> Communal Lounges</h4>
@@ -910,7 +910,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Physiotherapy" src="/theraphy-room.jpg"/>
+                    <img alt="Therapy Rooms" src="/facilities-images/theraphy-rooms.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-dumbbell"></i> Therapy Rooms</h4>
@@ -919,7 +919,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Spa" src="/wellness-and-spa.jpg"/>
+                    <img alt="Wellness Spa" src="/facilities-images/wellness-spa.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-spa"></i> Wellness Spa</h4>
@@ -932,7 +932,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Cinema" src="/cinema.jpg"/>
+                    <img alt="Cinema Room" src="/facilities-images/cinema-rooms.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-film"></i> Cinema Room</h4>
@@ -941,7 +941,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Arts Studio" src="/arts.jpg"/>
+                    <img alt="Arts Studio" src="/facilities-images/arts-studio.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-palette"></i> Arts Studio</h4>
@@ -963,7 +963,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Dining" src="/Dining.jpg"/>
+                    <img alt="Restaurant Dining" src="/facilities-images/restaurant-dining.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-utensils"></i> Restaurant Dining</h4>
@@ -981,7 +981,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Reception" src="/reception.jpg"/>
+                    <img alt="Reception" src="/facilities-images/reception.jpg"/>
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-concierge-bell"></i> 24/7 Reception</h4>
