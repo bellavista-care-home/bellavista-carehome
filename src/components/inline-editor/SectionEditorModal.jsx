@@ -3,9 +3,8 @@ import * as authService from '../../services/authService';
 import ContentBlocksEditor from './ContentBlocksEditor';
 import RichTextEditor from './RichTextEditor';
 import EnhancedImageUploader from '../EnhancedImageUploader';
+import { API_URL } from '../../config/apiConfig';
 import './SectionEditorModal.css';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 /**
  * Helper to upload a file (PDF, image, etc.) and return the URL

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getAuthHeader } from '../../services/authService';
+import { API_URL } from '../../config/apiConfig';
 
 // Small, focused component that handles copying a single meal to other dates
 export default function CopyMealPanel({
@@ -76,7 +77,7 @@ export default function CopyMealPanel({
       }
 
       const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
-      const resp = await fetch('/api/meal-plans/bulk-create', { method: 'POST', headers, body: JSON.stringify({ homeId: selectedHomeId, meals: toCreate }) });
+      const resp = await fetch(`${API_URL}/meal-plans/bulk-create`, { method: 'POST', headers, body: JSON.stringify({ homeId: selectedHomeId, meals: toCreate }) });
       if (!resp.ok) throw new Error('Copy failed');
 
       // refresh parent list

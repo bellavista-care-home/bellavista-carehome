@@ -18,9 +18,8 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import * as authService from '../../services/authService';
 import SectionEditorModal from '../../components/inline-editor/SectionEditorModal';
+import { API_URL } from '../../config/apiConfig';
 import './AdminPageEditor.css';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 // Section metadata with icons and labels
 // editable: false means the section cannot be edited in admin

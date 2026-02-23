@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { getAuthHeader } from '../services/authService';
+import { API_URL } from '../config/apiConfig';
 import '../styles/MealManagement.css';
 import CopyMealPanel from './components/CopyMealPanel';
 
@@ -72,7 +73,7 @@ const MealManagement = () => {
   useEffect(() => {
     const fetchHomes = async () => {
       try {
-        const response = await fetch('/api/homes');
+        const response = await fetch(`${API_URL}/homes`);
         if (response.ok) {
           const data = await response.json();
           let homesArray = Array.isArray(data) ? data : [];
@@ -120,7 +121,7 @@ const MealManagement = () => {
         };
         // include weekStart so backend/filtering can be implemented later if needed
         const qs = `?weekStart=${weekStart.toISOString().slice(0,10)}`;
-        const response = await fetch(`/api/meal-plans/${selectedHomeId}${qs}`, { headers });
+        const response = await fetch(`${API_URL}/meal-plans/${selectedHomeId}${qs}`, { headers });
         if (response.ok) {
           const data = await response.json();
           const mealsArray = data.data || data || [];
@@ -252,7 +253,7 @@ const MealManagement = () => {
           effectiveDate: d.toISOString().slice(0,10)
         }));
 
-        const resp = await fetch('/api/meal-plans/bulk-create', {
+        const resp = await fetch(`${API_URL}/meal-plans/bulk-create`, {
           method: 'POST',
           headers,
           body: JSON.stringify({ homeId: selectedHomeId, meals })
@@ -275,7 +276,7 @@ const MealManagement = () => {
         };
 
         const method = editingMealId ? 'PUT' : 'POST';
-        const url = editingMealId ? `/api/meal-plans/${editingMealId}` : '/api/meal-plans/';
+        const url = editingMealId ? `${API_URL}/meal-plans/${editingMealId}` : `${API_URL}/meal-plans/`;
 
         const response = await fetch(url, { method, headers, body: JSON.stringify(payload) });
         if (!response.ok) throw new Error('Failed to save meal plan');
@@ -284,7 +285,7 @@ const MealManagement = () => {
       // refresh list for the selected week
       resetForm();
       setShowForm(false);
-      const mealsResponse = await fetch(`/api/meal-plans/${selectedHomeId}?weekStart=${weekStart.toISOString().slice(0,10)}`, { headers });
+      const mealsResponse = await fetch(`${API_URL}/meal-plans/${selectedHomeId}?weekStart=${weekStart.toISOString().slice(0,10)}`, { headers });
       if (mealsResponse.ok) {
         const data = await mealsResponse.json();
         const mealsArray = data.data || data || [];
@@ -325,7 +326,7 @@ const MealManagement = () => {
     if (!confirm('Are you sure you want to delete this meal?')) return;
 
     try {
-      const response = await fetch(`/api/meal-plans/${mealId}`, {
+      const response = await fetch(`${API_URL}/meal-plans/${mealId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -385,7 +386,7 @@ const MealManagement = () => {
     if (!selectedHomeId) return;
     try {
       const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
-      const mealsResponse = await fetch(`/api/meal-plans/${selectedHomeId}?weekStart=${weekStart.toISOString().slice(0,10)}`, { headers });
+      const mealsResponse = await fetch(`${API_URL}/meal-plans/${selectedHomeId}?weekStart=${weekStart.toISOString().slice(0,10)}`, { headers });
       if (mealsResponse.ok) {
         const data = await mealsResponse.json();
         const mealsArray = data.data || data || [];
@@ -787,7 +788,7 @@ const MealManagement = () => {
                   if (!confirm('Copy all date-specific meals from this week to next week?')) return;
                   try {
                     const headers = { 'Content-Type': 'application/json', ...getAuthHeader() };
-                    const resp = await fetch('/api/meal-plans/copy-week', { method: 'POST', headers, body: JSON.stringify({ homeId: selectedHomeId, sourceWeekStart: weekStart.toISOString().slice(0,10) }) });
+                    const resp = await fetch(`${API_URL}/meal-plans/copy-week`, { method: 'POST', headers, body: JSON.stringify({ homeId: selectedHomeId, sourceWeekStart: weekStart.toISOString().slice(0,10) }) });
                     if (!resp.ok) throw new Error('Copy week failed');
                     const payload = await resp.json();
                     // refresh

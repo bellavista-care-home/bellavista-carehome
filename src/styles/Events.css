@@ -140,9 +140,19 @@
   font-family: 'Playfair Display', serif;
   color: #11120D;
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   border-bottom: 2px solid #D8CFBC;
   padding-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.daily-subheading {
+  color: #565449 !important;
+  font-size: 0.95rem !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 1.5rem !important;
+  font-weight: normal !important;
+  font-style: italic;
 }
 
 .daily-events-list {

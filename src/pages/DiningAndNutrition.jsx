@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { API_URL } from '../config/apiConfig';
 import '../styles/DiningAndNutrition.css';
 
 const DiningAndNutrition = () => {
@@ -66,7 +67,7 @@ const DiningAndNutrition = () => {
   useEffect(() => {
     const fetchHomes = async () => {
       try {
-        const response = await fetch('/api/homes');
+        const response = await fetch(`${API_URL}/homes`);
         if (response.ok) {
           const data = await response.json();
           let homesArray = Array.isArray(data) ? data : [];
@@ -112,7 +113,7 @@ const DiningAndNutrition = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/meal-plans/${homeId}?groupByDay=true`);
+        const response = await fetch(`${API_URL}/meal-plans/${homeId}?groupByDay=true`);
         if (!response.ok) {
           throw new Error(`API error: ${response.status}`);
         }

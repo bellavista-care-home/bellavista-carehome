@@ -885,9 +885,9 @@ const BellavistaBarry = () => {
                 <Link to="/activities/bellavista-barry" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-calendar-alt"></i> View All Activities
                 </Link>
-                <a href="http://localhost:5173/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <Link to="/events" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                   <i className="fas fa-calendar"></i> Calendar Events
-                </a>
+                </Link>
               </div>
             </div>
           </div>

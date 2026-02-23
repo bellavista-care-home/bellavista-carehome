@@ -3,6 +3,7 @@ import EnhancedImageUploader from '../../components/EnhancedImageUploader';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { fetchHome } from '../../services/homeService';
+import { API_URL } from '../../config/apiConfig';
 
 // Simplified Care Section Item
 const CareSectionItem = ({ item, index, total, field, onMove, onRemove, onUpdate }) => {
@@ -960,10 +961,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                       formData.append('file', file);
                       formData.append('process_type', 'none');
                       
-                      const API_URL = window.location.hostname === 'localhost' 
-                        ? 'http://localhost:8000/api' 
-                        : 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
-                      
                       const response = await fetch(`${API_URL}/upload`, {
                         method: 'POST',
                         body: formData,
@@ -1164,10 +1161,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                       const formData = new FormData();
                       formData.append('file', file);
                       formData.append('process_type', 'none');
-                      
-                      const API_URL = window.location.hostname === 'localhost' 
-                        ? 'http://localhost:8000/api' 
-                        : 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
                       
                       const response = await fetch(`${API_URL}/upload`, {
                         method: 'POST',
@@ -1410,10 +1403,6 @@ const HomeForm = ({ mode = 'add', initialData = null, onCancel, onSave, isHomeAd
                       const formData = new FormData();
                       formData.append('file', file);
                       formData.append('process_type', 'none');
-                      
-                      const API_URL = window.location.hostname === 'localhost' 
-                        ? 'http://localhost:8000/api' 
-                        : 'https://tx33akztgs.eu-west-2.awsapprunner.com/api';
                       
                       const response = await fetch(`${API_URL}/upload`, {
                         method: 'POST',
