@@ -179,40 +179,52 @@
   border-radius: 8px;
   border-left: 4px solid #C5A059;
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
 }
 
 .event-card-small .event-image {
-  flex: 0 0 120px;
-  max-width: 120px;
+  margin-bottom: 0.75rem;
 }
 
 .event-card-small .event-image img {
   width: 100%;
-  height: 80px;
+  height: 150px;
   object-fit: cover;
   border-radius: 4px;
 }
 
 .event-card-small .event-details {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
 }
 
-@media (max-width: 600px) {
-  .event-card-small {
-    flex-direction: column;
-  }
-  .event-card-small .event-image {
-    flex: none;
-    max-width: 100%;
-  }
-  .event-card-small .event-image img {
-    height: 150px;
-    width: 100%;
-  }
+/* Location Filter */
+.location-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.location-filter button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #D8CFBC;
+  border-radius: 20px;
+  background: white;
+  color: #565449;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.location-filter button:hover {
+  background: #f5f5f0;
+}
+
+.location-filter button.active {
+  background: #565449;
+  color: white;
+  border-color: #565449;
 }
 
 .event-card-small h4 {

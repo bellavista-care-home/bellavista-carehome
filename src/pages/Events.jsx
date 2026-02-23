@@ -11,22 +11,32 @@ const Events = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedEvents, setSelectedEvents] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState('all');
+
+  // Extract unique locations from events
+  const locations = ['all', ...new Set(events.map(e => e.location).filter(Boolean))];
 
   useEffect(() => {
     loadEvents();
   }, []);
 
   useEffect(() => {
-    // Filter events for the selected date
+    // Filter events for the selected date and location
     // Use local date parts to construct YYYY-MM-DD string to match backend storage
     const year = selectedDate.getFullYear();
     const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
     const day = String(selectedDate.getDate()).padStart(2, '0');
     const dateStr = `${year}-${month}-${day}`;
     
-    const daysEvents = events.filter(e => e.date === dateStr);
+    let daysEvents = events.filter(e => e.date === dateStr);
+    
+    // Apply location filter
+    if (selectedLocation !== 'all') {
+      daysEvents = daysEvents.filter(e => e.location === selectedLocation);
+    }
+    
     setSelectedEvents(daysEvents);
-  }, [selectedDate, events]);
+  }, [selectedDate, events, selectedLocation]);
 
   const loadEvents = async () => {
     try {
@@ -103,7 +113,13 @@ const Events = () => {
       const day = String(checkDate.getDate()).padStart(2, '0');
       const formattedDate = `${year}-${month}-${day}`;
       
-      const hasEvents = events.some(e => e.date === formattedDate);
+      // Check events with location filter
+      let dayEvents = events.filter(e => e.date === formattedDate);
+      if (selectedLocation !== 'all') {
+        dayEvents = dayEvents.filter(e => e.location === selectedLocation);
+      }
+      const hasEvents = dayEvents.length > 0;
+      
       const isSelected = selectedDate && 
         selectedDate.getDate() === i && 
         selectedDate.getMonth() === currentDate.getMonth() && 
@@ -146,6 +162,19 @@ const Events = () => {
         </section>
 
         <section className="calendar-container-wrapper">
+          {/* Location Filter */}
+          <div className="location-filter">
+            {locations.map(loc => (
+              <button
+                key={loc}
+                className={selectedLocation === loc ? 'active' : ''}
+                onClick={() => setSelectedLocation(loc)}
+              >
+                {loc === 'all' ? 'All Locations' : loc}
+              </button>
+            ))}
+          </div>
+          
           <div className="calendar-layout">
             <div className="calendar-section">
               <div className="calendar-header">
@@ -211,10 +240,11 @@ const Events = () => {
 
         <section className="upcoming-events-section">
           <div className="container">
-            <h2>Upcoming Highlights</h2>
+            <h2>Upcoming Highlights{selectedLocation !== 'all' ? ` at ${selectedLocation}` : ''}</h2>
             <div className="events-grid">
               {events
                 .filter(e => new Date(e.date) >= new Date())
+                .filter(e => selectedLocation === 'all' || e.location === selectedLocation)
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .slice(0, 3)
                 .map(event => (
