@@ -16,6 +16,7 @@ import { fetchHome } from '../services/homeService';
 import { fetchReviews } from '../services/reviewService';
 import SlideMedia from '../components/SlideMedia';
 import SEO from '../components/SEO';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const MeadowValeCwtch = () => {
   const navigate = useNavigate();
@@ -1000,6 +1001,9 @@ const MeadowValeCwtch = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="Meadow Vale Cwtch" homeName="Meadow Vale Cwtch" />
 
       {/* Contact & Info Grid */}
       <section className="loc-section loc-section--light" id="contact-section">

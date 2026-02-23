@@ -1,0 +1,438 @@
+/* ============================================================
+   HomeEventsCalendar – compact per-home calendar widget
+   ============================================================ */
+
+.hec-section {
+  padding: 5rem 2rem;
+  background-color: #F8F6F1;
+}
+
+/* ---- Layout ---- */
+.hec-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.hec-layout > * {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .hec-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Calendar ---- */
+.hec-calendar {
+  padding: 2rem;
+  border-right: 1px solid #eee;
+}
+
+.hec-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.hec-month-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #11120D;
+  margin: 0;
+}
+
+.hec-nav-btn {
+  background: none;
+  border: 1px solid #D8CFBC;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  color: #565449;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.hec-nav-btn:hover {
+  background: #565449;
+  color: #fff;
+  border-color: #565449;
+}
+
+.hec-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.hec-weekday {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0 8px;
+}
+
+.hec-day {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  position: relative;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.hec-day--empty {
+  cursor: default;
+  pointer-events: none;
+}
+
+.hec-day:not(.hec-day--empty):hover {
+  background: #F0EDE6;
+}
+
+.hec-day--selected {
+  background: #565449 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.hec-day--today {
+  border: 1.5px solid #C5A059;
+}
+
+.hec-day__num {
+  line-height: 1;
+}
+
+.hec-day__dot {
+  display: block;
+  width: 5px;
+  height: 5px;
+  background: #C5A059;
+  border-radius: 50%;
+  margin-top: 3px;
+}
+
+.hec-day--selected .hec-day__dot {
+  background: #fff;
+}
+
+/* ---- Events Panel ---- */
+.hec-panel {
+  padding: 2rem;
+  background: #FAFAF8;
+  display: flex;
+  flex-direction: column;
+}
+
+.hec-panel-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #D8CFBC;
+  margin-bottom: 1.25rem;
+}
+
+.hec-panel-icon {
+  font-size: 1.5rem;
+  color: #C5A059;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.hec-panel-date {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: #11120D;
+  margin: 0 0 2px;
+  font-weight: 600;
+}
+
+.hec-panel-home {
+  font-size: 0.82rem;
+  color: #888;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ---- Events List ---- */
+.hec-events-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 4px;
+}
+
+.hec-events-list::-webkit-scrollbar {
+  width: 5px;
+}
+.hec-events-list::-webkit-scrollbar-thumb {
+  background: #D8CFBC;
+  border-radius: 3px;
+}
+
+/* ---- Event item ---- */
+.hec-event-item {
+  background: #fff;
+  border-radius: 10px;
+  border-left: 3px solid #C5A059;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.hec-event-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.hec-event-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+
+.hec-event-body {
+  padding: 0.75rem 0.9rem;
+  overflow: hidden;
+}
+
+.hec-event-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #C5A059;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.hec-event-title {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  color: #11120D;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hec-event-desc {
+  font-size: 0.82rem;
+  color: #666;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.hec-event-desc * {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ---- Empty state ---- */
+.hec-empty {
+  text-align: center;
+  padding: 2rem 0;
+  color: #999;
+  font-style: italic;
+}
+
+.hec-empty-icon {
+  display: block;
+  font-size: 2rem;
+  color: #D8CFBC;
+  margin-bottom: 0.5rem;
+}
+
+.hec-empty-hint {
+  font-size: 0.82rem;
+  color: #bbb;
+  margin-top: 0.25rem;
+}
+
+/* ---- Panel footer ---- */
+.hec-panel-footer {
+  padding-top: 1rem;
+  margin-top: auto;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.hec-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #565449;
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  border: 1.5px solid #D8CFBC;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.hec-view-all:hover {
+  background: #565449;
+  color: #fff;
+  border-color: #565449;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.hec-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.hec-modal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.hec-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease;
+}
+
+.hec-modal-close:hover {
+  background: #fff;
+}
+
+.hec-modal-img {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+  display: block;
+}
+
+.hec-modal-content {
+  padding: 1.5rem;
+}
+
+.hec-modal-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #C5A059;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.5rem;
+}
+
+.hec-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #11120D;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.hec-modal-location {
+  font-size: 0.88rem;
+  color: #888;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hec-modal-desc {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.hec-modal-desc * {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .hec-section {
+    padding: 3rem 1rem;
+  }
+
+  .hec-calendar,
+  .hec-panel {
+    padding: 1.25rem;
+  }
+
+  .hec-month-title {
+    font-size: 1.1rem;
+  }
+
+  .hec-events-list {
+    max-height: 280px;
+  }
+
+  .hec-modal-title {
+    font-size: 1.2rem;
+  }
+}

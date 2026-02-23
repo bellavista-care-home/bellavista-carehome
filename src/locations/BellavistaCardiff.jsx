@@ -17,6 +17,7 @@ import '../styles/Testimonials.css';
 import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const BellavistaCardiff = () => {
   const navigate = useNavigate();
@@ -1033,6 +1034,9 @@ const BellavistaCardiff = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="Bellavista Cardiff" homeName="Bellavista Cardiff" />
 
       {/* Contact & Info Grid */}
       <section className="loc-section loc-section--white" id="contact-section">

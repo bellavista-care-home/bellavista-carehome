@@ -15,6 +15,7 @@ import { fetchHome } from '../services/homeService';
 import { fetchReviews } from '../services/reviewService';
 import '../styles/Testimonials.css';
 import SEO from '../components/SEO';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const CollegeFieldsNursingHome = () => {
   const navigate = useNavigate();
@@ -995,6 +996,9 @@ const CollegeFieldsNursingHome = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="College Fields Nursing Home" homeName="College Fields Nursing Home" />
 
       {/* 6. CONTACT & INFO GRID */}
       <section className="loc-section loc-section--white" id="contact-section">

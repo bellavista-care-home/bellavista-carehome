@@ -15,6 +15,7 @@ import { fetchNewsItems } from '../services/newsService';
 import { fetchHome } from '../services/homeService';
 import { fetchReviews } from '../services/reviewService';
 import SEO from '../components/SEO';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const WaverleyCareCentre = () => {
   const navigate = useNavigate();
@@ -1038,6 +1039,9 @@ const WaverleyCareCentre = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="Waverley Care Centre" homeName="Waverley Care Centre" />
 
       {/* 6. CONTACT & INFO GRID */}
       <section className="loc-section loc-section--white" id="contact-section">

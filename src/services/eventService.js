@@ -2,9 +2,12 @@
 import { API_URL } from '../config/apiConfig';
 import { getAuthHeaders } from './authService';
 
-export const fetchEvents = async () => {
+export const fetchEvents = async (location = '') => {
   try {
-    const response = await fetch(`${API_URL}/events`);
+    const url = location
+      ? `${API_URL}/events?location=${encodeURIComponent(location)}`
+      : `${API_URL}/events`;
+    const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch events');
     return await response.json();
   } catch (error) {

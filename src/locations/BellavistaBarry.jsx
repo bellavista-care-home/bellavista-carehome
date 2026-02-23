@@ -18,6 +18,7 @@ import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
 import ContentBlocksRenderer from '../components/ContentBlocksRenderer';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const BellavistaBarry = () => {
   const navigate = useNavigate();
@@ -1127,6 +1128,9 @@ const BellavistaBarry = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="Bellavista Barry" homeName="Bellavista Barry" />
 
       {/* 6. CONTACT & INFO GRID */}
       <section className="loc-section loc-section--white" id="contact-section">

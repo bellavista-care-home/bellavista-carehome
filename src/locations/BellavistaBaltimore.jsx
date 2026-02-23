@@ -17,6 +17,7 @@ import SlideMedia from '../components/SlideMedia';
 import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
+import HomeEventsCalendar from '../components/HomeEventsCalendar';
 
 const BellavistaBaltimore = () => {
   const navigate = useNavigate();
@@ -1031,6 +1032,9 @@ const BellavistaBaltimore = () => {
           </div>
         </section>
       )}
+
+      {/* Events Calendar */}
+      <HomeEventsCalendar locationName="Baltimore Care Home" homeName="Baltimore Care Home" />
 
       {/* 10. CONTACT & INFORMATION SECTION */}
       <section className="loc-section loc-section--white" id="contact-section">
