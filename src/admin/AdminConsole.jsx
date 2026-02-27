@@ -19,6 +19,7 @@ import VacancyForm from './components/VacancyForm';
 import EventsManager from './components/EventsManager';
 import CareServiceManager from './components/CareServiceManager';
 import MealManagement from './MealManagement';
+import NewsletterManager from './components/NewsletterManager';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import './AdminConsole.css';
@@ -729,6 +730,12 @@ const AdminConsole = () => {
           >
             <i className="fa-solid fa-rectangle-list"></i><span>Update News</span>
           </button>
+          <button 
+            className={activeView === 'manage-newsletters' ? 'active' : ''}
+            onClick={() => setActiveView('manage-newsletters')}
+          >
+            <i className="fa-solid fa-envelopes-bulk"></i><span>Newsletters & Subscribers</span>
+          </button>
           <div className="group-title">Content</div>
           <button 
             className={activeView === 'manage-faqs' ? 'active' : ''}
@@ -852,6 +859,9 @@ const AdminConsole = () => {
             </button>
             <button className={activeView === 'update-news' ? 'active' : ''} onClick={() => setActiveView('update-news')}>
               <i className="fa-solid fa-pen-to-square"></i><span>Update News</span>
+            </button>
+            <button className={activeView === 'manage-newsletters' ? 'active' : ''} onClick={() => setActiveView('manage-newsletters')}>
+              <i className="fa-solid fa-envelopes-bulk"></i><span>Newsletters</span>
             </button>
             <button className={activeView === 'manage-events' ? 'active' : ''} onClick={() => setActiveView('manage-events')}>
               <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
@@ -2008,6 +2018,10 @@ const AdminConsole = () => {
 
         {activeView === 'manage-meal-plans' && (
           <MealManagement />
+        )}
+
+        {activeView === 'manage-newsletters' && (
+          <NewsletterManager notify={notify} />
         )}
       </main>
       {isBusy && (

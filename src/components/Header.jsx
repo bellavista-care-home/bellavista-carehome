@@ -80,6 +80,7 @@ const Header = () => {
                 <div className="nav-category">Information</div>
                 <li><Link to="/testimonials" onClick={closeSideMenu}>Reviews</Link></li>
                 <li><Link to="/news" onClick={closeSideMenu}>News & Updates</Link></li>
+                <li><Link to="/newsletters" onClick={closeSideMenu}>Newsletters</Link></li>
                 <li><Link to="/faq" onClick={closeSideMenu}>FAQ</Link></li>
                 <div className="nav-category">Support</div>
                 <li><Link to="/contact" onClick={closeSideMenu}>Contact Us</Link></li>

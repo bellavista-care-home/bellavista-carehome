@@ -51,6 +51,7 @@ const Events = lazy(() => import('./pages/Events'));
 const Facilities = lazy(() => import('./pages/Facilities'));
 const News = lazy(() => import('./pages/OurNews'));
 const NewsDetail = lazy(() => import('./pages/NewsDetail'));
+const Newsletters = lazy(() => import('./pages/Newsletters'));
 const Testimonials = lazy(() => import('./pages/Testimonials'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const Career = lazy(() => import('./pages/Careers'));
@@ -250,6 +251,7 @@ const AppContent = () => {
             <Route path="/facilities/:locationId" element={<Facilities />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/newsletters" element={<Newsletters />} />
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/career" element={<Career />} />
