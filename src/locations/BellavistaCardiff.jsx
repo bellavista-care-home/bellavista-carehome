@@ -194,7 +194,7 @@ const BellavistaCardiff = () => {
 
   const cardiffSchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/bellavista-cardiff#nursing-home",
     "name": "Bellavista Nursing Home Cardiff - Rated Best in Cardiff",
     "url": "https://www.bellavistanursinghomes.com/bellavista-cardiff",

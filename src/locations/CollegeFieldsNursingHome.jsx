@@ -150,7 +150,7 @@ const CollegeFieldsNursingHome = () => {
 
   const collegeFieldsSchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/college-fields-nursing-home#nursing-home",
     "name": "College Fields Nursing Home - Rated Best in Barry",
     "url": "https://www.bellavistanursinghomes.com/college-fields-nursing-home",

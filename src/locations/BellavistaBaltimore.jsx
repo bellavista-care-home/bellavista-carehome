@@ -176,7 +176,7 @@ const BellavistaBaltimore = () => {
 
   const baltimoreSchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/baltimore-care-home#nursing-home",
     "name": "Baltimore House Care Home",
     "image": "https://www.bellavistanursinghomes.com/home-images/baltimore.jpg",

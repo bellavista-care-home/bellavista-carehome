@@ -152,7 +152,7 @@ const MeadowValeCwtch = () => {
 
   const meadowSchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/meadow-vale-cwtch#nursing-home",
     "name": "Meadow Vale Cwtch - Rated Best Young Onset Dementia Care",
     "url": "https://www.bellavistanursinghomes.com/meadow-vale-cwtch",

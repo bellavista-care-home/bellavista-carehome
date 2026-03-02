@@ -241,7 +241,7 @@ const BellavistaBarry = () => {
 
   const barrySchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/bellavista-barry#nursing-home",
     "name": "Bellavista Nursing Home Barry - Rated Best in UK",
     "url": "https://www.bellavistanursinghomes.com/bellavista-barry",

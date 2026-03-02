@@ -141,7 +141,7 @@ const WaverleyCareCentre = () => {
 
   const waverleySchema = {
     "@context": "https://schema.org",
-    "@type": "NursingHome",
+    "@type": ["NursingHome", "LocalBusiness"],
     "@id": "https://www.bellavistanursinghomes.com/waverley-care-center#nursing-home",
     "name": "Waverley Care Centre - Best waverly care home penarth",
     "url": "https://www.bellavistanursinghomes.com/waverley-care-center",
