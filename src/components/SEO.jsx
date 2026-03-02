@@ -55,8 +55,8 @@ const SEO = ({
       <meta name="msapplication-TileImage" content={`${SITE_URL}/bellalogo1.png`} />
       <meta name="geo.region" content="GB-WLS" />
       <meta name="geo.placename" content="South Wales" />
-      <meta name="geo.position" content="51.5074;-0.1278" />
-      <meta name="ICBM" content="51.5074, -0.1278" />
+      <meta name="geo.position" content="51.464;-3.165" />
+      <meta name="ICBM" content="51.464, -3.165" />
       
       {/* Open Graph */}
       <meta property="og:type" content="website" />

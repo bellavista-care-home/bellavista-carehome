@@ -11,12 +11,12 @@ export const generateOrganizationSchema = () => ({
   "description": "Bellavista Nursing Home provides exceptional 5-star dementia care, residential nursing, and elderly care services across South Wales with multiple locations.",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "123 Care Home Lane",
+    "streetAddress": "2 Harrowby Place",
     "addressLocality": "Cardiff",
-    "postalCode": "CF10 1AA",
+    "postalCode": "CF10 5GB",
     "addressCountry": "UK"
   },
-  "telephone": "+44-2920-123456",
+  "telephone": "+442920705282",
   "priceRange": "£££",
   "aggregateRating": {
     "@type": "AggregateRating",

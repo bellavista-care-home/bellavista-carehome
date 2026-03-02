@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import { API_URL } from '../config/apiConfig';
 import '../styles/DiningAndNutrition.css';
 
@@ -148,10 +148,12 @@ const DiningAndNutrition = () => {
 
   return (
     <div className="dining-nutrition-page">
-      <Helmet>
-        <title>Dining & Nutrition - Bellavista Nursing Homes</title>
-        <meta name="description" content="Explore our nutritious and delicious meal plans tailored for our residents' health and wellbeing." />
-      </Helmet>
+      <SEO
+        title="Dining & Nutrition"
+        description="Explore our nutritious and delicious meal plans tailored for our residents' health and wellbeing at Bellavista Nursing Homes across South Wales."
+        url="/dining-nutrition"
+        keywords="dining, nutrition, meal plans, nursing home food, care home catering, healthy meals, South Wales care home"
+      />
 
       {/* Hero Section */}
       <section className="dining-hero">
