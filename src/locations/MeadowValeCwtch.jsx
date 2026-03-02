@@ -187,7 +187,8 @@ const MeadowValeCwtch = () => {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
       "reviewCount": "15",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/home-images/meadow-vale-cwtch.jpg"

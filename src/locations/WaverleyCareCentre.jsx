@@ -178,7 +178,8 @@ const WaverleyCareCentre = () => {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
       "reviewCount": "32",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "priceRange": "$$$",
     "areaServed": ["Penarth", "Cardiff", "Vale of Glamorgan", "South Wales"],

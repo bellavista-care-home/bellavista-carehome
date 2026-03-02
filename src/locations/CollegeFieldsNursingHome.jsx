@@ -187,7 +187,8 @@ const CollegeFieldsNursingHome = () => {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
       "reviewCount": "24",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "priceRange": "$$$",
     "areaServed": ["Barry", "Vale of Glamorgan", "South Wales", "Cardiff"],

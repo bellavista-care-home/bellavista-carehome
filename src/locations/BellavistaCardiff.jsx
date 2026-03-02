@@ -236,7 +236,8 @@ const BellavistaCardiff = () => {
       "@type": "AggregateRating",
       "ratingValue": "4.8",
       "reviewCount": "92",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-second.png"

@@ -283,7 +283,8 @@ const BellavistaBarry = () => {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
       "reviewCount": "85",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     },
     "image": [
       "https://www.bellavistanursinghomes.com/FrontPageBanner/banner-first.jpg"

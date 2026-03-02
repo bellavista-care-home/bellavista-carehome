@@ -213,7 +213,8 @@ const BellavistaBaltimore = () => {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
       "reviewCount": "6",
-      "bestRating": "5"
+      "bestRating": "5",
+      "worstRating": "1"
     }
   };
 
