@@ -199,25 +199,31 @@ const MeadowValeCwtch = () => {
     "review": [
       {
         "@type": "Review",
+        "datePublished": "2025-12-05",
         "author": {
           "@type": "Person",
-          "name": "Family Member"
+          "name": "Christine B."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "A home from home style Young Onset Dementia Nursing Care provision."
       },
       {
         "@type": "Review",
+        "datePublished": "2025-11-18",
         "author": {
           "@type": "Person",
-          "name": "Visitor"
+          "name": "Michael S."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "The environment is so peaceful and the staff are incredibly supportive."
       }

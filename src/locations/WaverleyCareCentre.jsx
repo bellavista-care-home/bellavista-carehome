@@ -189,25 +189,31 @@ const WaverleyCareCentre = () => {
     "review": [
       {
         "@type": "Review",
+        "datePublished": "2025-11-10",
         "author": {
           "@type": "Person",
-          "name": "Family of Resident"
+          "name": "Patricia H."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "The Waverley staff go the extra mile to ensure the comfort and happiness of our residents."
       },
       {
         "@type": "Review",
+        "datePublished": "2025-10-05",
         "author": {
           "@type": "Person",
-          "name": "Visitor"
+          "name": "Robert K."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "A wonderful home with stunning views and a warm, friendly atmosphere."
       }

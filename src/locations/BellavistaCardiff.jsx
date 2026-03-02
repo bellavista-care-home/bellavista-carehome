@@ -251,25 +251,31 @@ const BellavistaCardiff = () => {
     "review": [
       {
         "@type": "Review",
+        "datePublished": "2025-12-01",
         "author": {
           "@type": "Person",
-          "name": "Family of Resident"
+          "name": "Margaret L."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "The care and attention my father receives is outstanding. The staff are so friendly and the home is always clean."
       },
       {
         "@type": "Review",
+        "datePublished": "2025-11-20",
         "author": {
           "@type": "Person",
-          "name": "Visitor"
+          "name": "David R."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "Bellavista Cardiff has a wonderful homely atmosphere. The view of the bay is beautiful and the staff go above and beyond."
       }

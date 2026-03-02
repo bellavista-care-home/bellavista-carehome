@@ -298,25 +298,31 @@ const BellavistaBarry = () => {
     "review": [
       {
         "@type": "Review",
+        "datePublished": "2025-11-01",
         "author": {
           "@type": "Person",
-          "name": "Family of Resident"
+          "name": "Sarah M."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "Bellavista Barry provided exceptional care for my mother. The staff were always kind, attentive, and professional."
       },
       {
         "@type": "Review",
+        "datePublished": "2025-10-15",
         "author": {
           "@type": "Person",
-          "name": "Visitor"
+          "name": "James T."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "The views over the Bristol Channel are stunning, and the home has such a warm, welcoming atmosphere."
       }

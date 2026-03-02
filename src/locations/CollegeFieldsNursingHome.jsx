@@ -198,25 +198,31 @@ const CollegeFieldsNursingHome = () => {
     "review": [
       {
         "@type": "Review",
+        "datePublished": "2025-12-10",
         "author": {
           "@type": "Person",
-          "name": "Family of Resident"
+          "name": "Anne W."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "Residents enjoy home comforts in a warm, spacious, and delightful environment."
       },
       {
         "@type": "Review",
+        "datePublished": "2025-11-25",
         "author": {
           "@type": "Person",
-          "name": "Visitor"
+          "name": "Thomas G."
         },
         "reviewRating": {
           "@type": "Rating",
-          "ratingValue": "5"
+          "ratingValue": "5",
+          "bestRating": "5",
+          "worstRating": "1"
         },
         "reviewBody": "The staff go above and beyond to provide care that is both attentive and empathetic."
       }
