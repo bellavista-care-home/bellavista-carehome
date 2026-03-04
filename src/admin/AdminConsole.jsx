@@ -12,7 +12,7 @@ import { fetchFaqs, createFaq, deleteFaq } from '../services/faqService';
 import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../services/vacancyService';
 import { fetchManagementTeam, createManagementMember, updateManagementMember, deleteManagementMember, seedManagementTeam } from '../services/managementService';
 import { fetchReviews, deleteReview, importGoogleReviews } from '../services/reviewService';
-import { fetchUsers, createUser, deleteUser } from '../services/userService';
+import { fetchUsers, createUser, updateUser, deleteUser } from '../services/userService';
 import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
@@ -40,6 +40,37 @@ const AdminConsole = () => {
   }, [activeView]);
 
   const isHomeAdmin = user?.role === 'home_admin';
+  const isTempAdmin = user?.role === 'temp_admin';
+
+  // All grantable permission items (used for temp_admin access control)
+  // Note: 'update-home', 'live-page-edit', 'kiosk-checkins' are per-home — keys use '<prefix>:<homeId>'
+  const PERMISSION_ITEMS = [
+    { key: 'add-news',               label: 'Add News',            group: 'News' },
+    { key: 'update-news',            label: 'Manage News',         group: 'News' },
+    { key: 'manage-newsletters',     label: 'Newsletters',         group: 'News' },
+    { key: 'manage-faqs',            label: 'Manage FAQs',         group: 'Content' },
+    { key: 'manage-vacancies',       label: 'Manage Vacancies',    group: 'Content' },
+    { key: 'manage-events',          label: 'Manage Events',       group: 'Content' },
+    { key: 'manage-care-services',   label: 'Care Services',       group: 'Content' },
+    { key: 'reviews',                label: 'Reviews',             group: 'Content' },
+    { key: 'manage-management-team', label: 'Management Team',     group: 'Content' },
+    { key: 'manage-meal-plans',      label: 'Meal Plans',          group: 'Content' },
+    { key: 'kiosk-links',            label: 'Reception Kiosks',    group: 'Enquiries' },
+    { key: 'scheduled-tours',        label: 'Scheduled Tours',     group: 'Enquiries' },
+    { key: 'care-enquiries',         label: 'Care Enquiries',      group: 'Enquiries' },
+    { key: 'career-applications',    label: 'Career Applications', group: 'Enquiries' },
+  ];
+
+  // Returns true if the current logged-in user is allowed to see/use a view
+  const hasPermission = (viewKey) => {
+    if (!isTempAdmin) return true; // superadmin / home_admin always allowed
+    const perms = user?.permissions || [];
+    // per-home keys: true if user has access to ANY home for that feature
+    if (viewKey === 'update-home')    return perms.some(p => p.startsWith('update-home:'));
+    if (viewKey === 'live-page-edit') return perms.some(p => p.startsWith('live-page-edit:'));
+    if (viewKey === 'kiosk-checkins') return perms.some(p => p.startsWith('kiosk-checkins:'));
+    return perms.includes(viewKey);
+  };
 
   const [newsFormKey, setNewsFormKey] = useState(0);
   const [toast, setToast] = useState({ message: '', type: 'success', visible: false });
@@ -91,7 +122,227 @@ const AdminConsole = () => {
 
   const [users, setUsers] = useState([]);
   const [isAddingUser, setIsAddingUser] = useState(false);
-  const [userForm, setUserForm] = useState({ username: '', password: '', role: 'home_admin', home_id: '' });
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [userForm, setUserForm] = useState({ username: '', password: '', role: 'home_admin', home_id: '', permissions: [], temp_access_expires_at: '' });
+
+  // Convert a UTC ISO string to the YYYY-MM-DDTHH:MM format that datetime-local inputs need (local time)
+  const toLocalDatetimeInput = (utcStr) => {
+    if (!utcStr) return '';
+    const d = new Date(utcStr);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
+  // Per-home permission items for the three home-specific features
+  const homeUpdatePermItems    = homes.map(h => ({ key: `update-home:${h.id}`,    label: h.homeName, homeId: h.id, location: h.homeLocation }));
+  const livePageEditPermItems  = homes.map(h => ({ key: `live-page-edit:${h.id}`, label: h.homeName, homeId: h.id, location: h.homeLocation }));
+  const kioskCheckinPermItems  = homes.map(h => ({ key: `kiosk-checkins:${h.id}`, label: h.homeName, homeId: h.id, location: h.homeLocation }));
+
+  // Returns allowed home IDs for update-home (for temp_admin homes grid filter)
+  const allowedHomeIds = isTempAdmin
+    ? (user?.permissions || []).filter(p => p.startsWith('update-home:')).map(p => p.split(':')[1])
+    : null; // null = all homes allowed
+
+  // Allowed home IDs for live-page-edit and kiosk-checkins
+  const allowedLivePageEditHomeIds = isTempAdmin
+    ? (user?.permissions || []).filter(p => p.startsWith('live-page-edit:')).map(p => p.split(':')[1])
+    : null;
+  const allowedKioskCheckinHomeIds = isTempAdmin
+    ? (user?.permissions || []).filter(p => p.startsWith('kiosk-checkins:')).map(p => p.split(':')[1])
+    : null;
+
+  // Helper: get home names from a list of home IDs
+  const homeIdsToNames = (ids) =>
+    ids ? ids.map(id => { const h = homes.find(h => h.id === id); return h?.homeName || null; }).filter(Boolean) : null;
+
+  // Helper: renders a per-home sub-section (shared by Update Home, Live Page Edit, Kiosk Check-Ins)
+  const renderPerHomeSubSection = (idPrefix, subKey, icon, title, items) => {
+    const allKeys = items.map(i => i.key);
+    const allChecked = items.length > 0 && items.every(i => userForm.permissions.includes(i.key));
+    return (
+      <div style={{paddingLeft:'20px', marginBottom:'12px'}}>
+        <div style={{display:'flex', alignItems:'center', gap:'8px', marginBottom:'6px'}}>
+          <input
+            type="checkbox"
+            id={`${idPrefix}-subgrp-${subKey}`}
+            checked={allChecked}
+            onChange={e => {
+              if (e.target.checked) {
+                setUserForm(f => ({...f, permissions: [...new Set([...f.permissions, ...allKeys])]}));
+              } else {
+                setUserForm(f => ({...f, permissions: f.permissions.filter(k => !allKeys.includes(k))}));
+              }
+            }}
+          />
+          <label htmlFor={`${idPrefix}-subgrp-${subKey}`} style={{fontSize:'12px', fontWeight:'600', color:'#374151', cursor:'pointer'}}>
+            <i className={`fa-solid ${icon}`} style={{marginRight:'5px', color:'#6b7280'}}></i>
+            {title} — select which homes
+          </label>
+        </div>
+        {items.length === 0 && (
+          <p style={{fontSize:'12px', color:'#9ca3af', paddingLeft:'22px'}}>Loading homes…</p>
+        )}
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(200px, 1fr))', gap:'5px', paddingLeft:'22px'}}>
+          {items.map(item => {
+            const checked = userForm.permissions.includes(item.key);
+            return (
+              <label key={item.key} style={{display:'flex', alignItems:'center', gap:'8px', padding:'8px 10px', background: checked ? '#fffbeb' : '#f9fafb', border: `1px solid ${checked ? '#f59e0b' : '#e5e7eb'}`, borderRadius:'6px', cursor:'pointer', fontSize:'12px', transition:'all 0.15s'}}>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={e => {
+                    if (e.target.checked) {
+                      setUserForm(f => ({...f, permissions: [...f.permissions, item.key]}));
+                    } else {
+                      setUserForm(f => ({...f, permissions: f.permissions.filter(k => k !== item.key)}));
+                    }
+                  }}
+                />
+                <span>
+                  <strong style={{display:'block', fontSize:'12px'}}>{item.label}</strong>
+                  {item.location && <span style={{color:'#9ca3af', fontSize:'11px'}}>{item.location}</span>}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  // Shared permission picker renderer — used in both Create and Edit forms
+  const renderPermPicker = (idPrefix) => {
+    const allPerHomeKeys = [
+      ...homeUpdatePermItems.map(h => h.key),
+      ...livePageEditPermItems.map(h => h.key),
+      ...kioskCheckinPermItems.map(h => h.key),
+    ];
+    const allHomesGroupChecked =
+      allPerHomeKeys.length > 0 && allPerHomeKeys.every(k => userForm.permissions.includes(k));
+
+    return (
+      <div>
+        {/* ── HOMES group ── */}
+        <div style={{marginBottom:'16px'}}>
+          <div style={{display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px'}}>
+            <input
+              type="checkbox"
+              id={`${idPrefix}-grp-Homes`}
+              checked={allHomesGroupChecked}
+              onChange={e => {
+                if (e.target.checked) {
+                  setUserForm(f => ({...f, permissions: [...new Set([...f.permissions, ...allPerHomeKeys])]}));
+                } else {
+                  setUserForm(f => ({...f, permissions: f.permissions.filter(k => !allPerHomeKeys.includes(k))}));
+                }
+              }}
+            />
+            <label htmlFor={`${idPrefix}-grp-Homes`} style={{fontWeight:'600', textTransform:'uppercase', fontSize:'11px', letterSpacing:'0.5px', color:'#555', cursor:'pointer'}}>Homes</label>
+          </div>
+          {renderPerHomeSubSection(idPrefix, 'update-home',   'fa-house-medical',  'Update Home',      homeUpdatePermItems)}
+          {renderPerHomeSubSection(idPrefix, 'live-page-edit','fa-pen-to-square',   'Live Page Edit',   livePageEditPermItems)}
+        </div>
+
+        {/* ── News group ── */}
+        {['News','Content'].map(group => {
+          const groupItems = PERMISSION_ITEMS.filter(p => p.group === group);
+          const allChecked = groupItems.every(p => userForm.permissions.includes(p.key));
+          return (
+            <div key={group} style={{marginBottom:'16px'}}>
+              <div style={{display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px'}}>
+                <input
+                  type="checkbox"
+                  id={`${idPrefix}-grp-${group}`}
+                  checked={allChecked}
+                  onChange={e => {
+                    const keys = groupItems.map(p => p.key);
+                    if (e.target.checked) {
+                      setUserForm(f => ({...f, permissions: [...new Set([...f.permissions, ...keys])]}));
+                    } else {
+                      setUserForm(f => ({...f, permissions: f.permissions.filter(k => !keys.includes(k))}));
+                    }
+                  }}
+                />
+                <label htmlFor={`${idPrefix}-grp-${group}`} style={{fontWeight:'600', textTransform:'uppercase', fontSize:'11px', letterSpacing:'0.5px', color:'#555', cursor:'pointer'}}>{group}</label>
+              </div>
+              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(200px, 1fr))', gap:'6px', paddingLeft:'20px'}}>
+                {groupItems.map(item => {
+                  const checked = userForm.permissions.includes(item.key);
+                  return (
+                    <label key={item.key} style={{display:'flex', alignItems:'center', gap:'8px', padding:'8px 10px', background: checked ? '#fffbeb' : '#fff', border: `1px solid ${checked ? '#f59e0b' : '#e5e7eb'}`, borderRadius:'6px', cursor:'pointer', fontSize:'13px', transition:'all 0.15s'}}>
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setUserForm(f => ({...f, permissions: [...f.permissions, item.key]}));
+                          } else {
+                            setUserForm(f => ({...f, permissions: f.permissions.filter(k => k !== item.key)}));
+                          }
+                        }}
+                      />
+                      {item.label}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* ── Enquiries group (kiosk-checkins is per-home; others are flat) ── */}
+        <div style={{marginBottom:'16px'}}>
+          <div style={{display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px'}}>
+            <input
+              type="checkbox"
+              id={`${idPrefix}-grp-Enquiries`}
+              checked={PERMISSION_ITEMS.filter(p => p.group === 'Enquiries').every(p => userForm.permissions.includes(p.key)) && kioskCheckinPermItems.every(i => userForm.permissions.includes(i.key))}
+              onChange={e => {
+                const flatKeys = PERMISSION_ITEMS.filter(p => p.group === 'Enquiries').map(p => p.key);
+                const perHomeKeys = kioskCheckinPermItems.map(i => i.key);
+                const allKeys = [...flatKeys, ...perHomeKeys];
+                if (e.target.checked) {
+                  setUserForm(f => ({...f, permissions: [...new Set([...f.permissions, ...allKeys])]}));
+                } else {
+                  setUserForm(f => ({...f, permissions: f.permissions.filter(k => !allKeys.includes(k))}));
+                }
+              }}
+            />
+            <label htmlFor={`${idPrefix}-grp-Enquiries`} style={{fontWeight:'600', textTransform:'uppercase', fontSize:'11px', letterSpacing:'0.5px', color:'#555', cursor:'pointer'}}>Enquiries</label>
+          </div>
+          {/* Flat enquiry items */}
+          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(200px, 1fr))', gap:'6px', paddingLeft:'20px', marginBottom:'10px'}}>
+            {PERMISSION_ITEMS.filter(p => p.group === 'Enquiries').map(item => {
+              const checked = userForm.permissions.includes(item.key);
+              return (
+                <label key={item.key} style={{display:'flex', alignItems:'center', gap:'8px', padding:'8px 10px', background: checked ? '#fffbeb' : '#fff', border: `1px solid ${checked ? '#f59e0b' : '#e5e7eb'}`, borderRadius:'6px', cursor:'pointer', fontSize:'13px', transition:'all 0.15s'}}>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={e => {
+                      if (e.target.checked) {
+                        setUserForm(f => ({...f, permissions: [...f.permissions, item.key]}));
+                      } else {
+                        setUserForm(f => ({...f, permissions: f.permissions.filter(k => k !== item.key)}));
+                      }
+                    }}
+                  />
+                  {item.label}
+                </label>
+              );
+            })}
+          </div>
+          {/* Per-home Kiosk Check-Ins */}
+          {renderPerHomeSubSection(idPrefix, 'kiosk-checkins', 'fa-clipboard-check', 'Kiosk Check-Ins', kioskCheckinPermItems)}
+        </div>
+
+        <div style={{background:'#fffbeb', border:'1px solid #f59e0b', borderRadius:'6px', padding:'10px 14px', marginTop:'10px', fontSize:'13px', color:'#78350f'}}>
+          <i className="fa-solid fa-circle-info" style={{marginRight:'6px'}}></i>
+          <strong>{userForm.permissions.length}</strong> permission{userForm.permissions.length !== 1 ? 's' : ''} selected
+        </div>
+      </div>
+    );
+  };
 
   const loadUsers = useCallback(async () => {
     try {
@@ -112,21 +363,54 @@ const AdminConsole = () => {
       notify('Please select a home for Home Admin', 'error');
       return;
     }
+    if (userForm.role === 'temp_admin' && userForm.permissions.length === 0) {
+      notify('Please select at least one permission for Temporary Admin', 'error');
+      return;
+    }
 
     try {
       setIsBusy(true);
+      // Convert datetime-local (local time) to UTC ISO string before sending
       const payload = {
         ...userForm,
-        home_id: userForm.role === 'superadmin' ? null : (userForm.home_id || null)
+        home_id: userForm.role === 'superadmin' ? null : (userForm.home_id || null),
+        permissions: userForm.role === 'temp_admin' ? userForm.permissions : [],
+        temp_access_expires_at: userForm.role === 'temp_admin' && userForm.temp_access_expires_at
+          ? new Date(userForm.temp_access_expires_at).toISOString()
+          : null,
       };
       await createUser(payload);
       notify('User created successfully!', 'success');
       setIsAddingUser(false);
-      setUserForm({ username: '', password: '', role: 'home_admin', home_id: '' });
+      setUserForm({ username: '', password: '', role: 'home_admin', home_id: '', permissions: [], temp_access_expires_at: '' });
       loadUsers();
     } catch (e) {
       console.error(e);
       notify(e.message || 'Failed to create user', 'error');
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleSaveUserPermissions = async (userId) => {
+    // Capture form values immediately before any await to avoid stale closure issues
+    const permissionsToSave = [...(userForm.permissions || [])];
+    // Convert datetime-local (local time) to UTC ISO string so backend comparison is correct
+    const expiryToSave = userForm.temp_access_expires_at
+      ? new Date(userForm.temp_access_expires_at).toISOString()
+      : null;
+    try {
+      setIsBusy(true);
+      await updateUser(userId, {
+        permissions: permissionsToSave,
+        temp_access_expires_at: expiryToSave,
+      });
+      notify('Permissions updated!', 'success');
+      setEditingUserId(null);
+      loadUsers();
+    } catch (e) {
+      console.error(e);
+      notify('Failed to update permissions', 'error');
     } finally {
       setIsBusy(false);
     }
@@ -615,10 +899,41 @@ const AdminConsole = () => {
 
   const logout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('auth_token');
       localStorage.removeItem('isAuthenticated');
       navigate('/login');
     }
   };
+
+  // Auto-logout when temp_admin access expires (only affects temp_admin, not superadmin)
+  useEffect(() => {
+    if (!isTempAdmin || !user?.tempAccessExpiresAt || !user?.id) return;
+
+    const sessionUserId = user.id; // capture which user set this timer
+    const expiryMs = new Date(user.tempAccessExpiresAt).getTime();
+    const now = Date.now();
+
+    const doLogout = () => {
+      // Safety check: only log out if the SAME user is still logged in
+      // Prevents this timer from killing a superadmin who logged in on another tab
+      const current = getCurrentUser();
+      if (!current || current.id !== sessionUserId || current.role !== 'temp_admin') return;
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('isAuthenticated');
+      alert('Your temporary access has expired. You have been logged out.');
+      navigate('/login');
+    };
+
+    // Already expired at mount — log out immediately
+    if (expiryMs <= now) {
+      doLogout();
+      return;
+    }
+
+    // Schedule precise logout at the exact expiry moment
+    const timer = setTimeout(doLogout, expiryMs - now);
+    return () => clearTimeout(timer);
+  }, [isTempAdmin, user?.tempAccessExpiresAt, user?.id, navigate]);
   const [editingHomeId, setEditingHomeId] = useState(null);
   const [tempAdminEmail, setTempAdminEmail] = useState('');
 
@@ -698,88 +1013,114 @@ const AdminConsole = () => {
           {!isHomeAdmin ? (
           <>
           <div className="group-title">Homes</div>
-          <button 
-            className="disabled"
-            style={{ opacity: 0.5, cursor: 'not-allowed' }}
-            title="Temporarily Disabled"
-          >
-            <i className="fa-solid fa-house-medical"></i><span>Add Home (Disabled)</span>
-          </button>
-          <button 
-            className={activeView === 'update-home' ? 'active' : ''}
-            onClick={() => setActiveView('update-home')}
-          >
-            <i className="fa-solid fa-pen-to-square"></i><span>Update Home</span>
-          </button>
-          <button 
-            className={activeView === 'live-page-edit' ? 'active' : ''}
-            onClick={() => setActiveView('live-page-edit')}
-          >
-            <i className="fa-solid fa-eye"></i><span>Live Page Edit</span>
-          </button>
+          {!isTempAdmin && (
+            <button 
+              className="disabled"
+              style={{ opacity: 0.5, cursor: 'not-allowed' }}
+              title="Temporarily Disabled"
+            >
+              <i className="fa-solid fa-house-medical"></i><span>Add Home (Disabled)</span>
+            </button>
+          )}
+          {hasPermission('update-home') && (
+            <button 
+              className={activeView === 'update-home' ? 'active' : ''}
+              onClick={() => setActiveView('update-home')}
+            >
+              <i className="fa-solid fa-pen-to-square"></i><span>Update Home</span>
+            </button>
+          )}
+          {hasPermission('live-page-edit') && (
+            <button 
+              className={activeView === 'live-page-edit' ? 'active' : ''}
+              onClick={() => setActiveView('live-page-edit')}
+            >
+              <i className="fa-solid fa-eye"></i><span>Live Page Edit</span>
+            </button>
+          )}
           <div className="group-title">News</div>
-          <button 
-            className={activeView === 'add-news' ? 'active' : ''}
-            onClick={() => setActiveView('add-news')}
-          >
-            <i className="fa-solid fa-newspaper"></i><span>Add News</span>
-          </button>
-          <button 
-            className={activeView === 'update-news' ? 'active' : ''}
-            onClick={() => setActiveView('update-news')}
-          >
-            <i className="fa-solid fa-rectangle-list"></i><span>Update News</span>
-          </button>
-          <button 
-            className={activeView === 'manage-newsletters' ? 'active' : ''}
-            onClick={() => setActiveView('manage-newsletters')}
-          >
-            <i className="fa-solid fa-envelopes-bulk"></i><span>Newsletters & Subscribers</span>
-          </button>
+          {hasPermission('add-news') && (
+            <button 
+              className={activeView === 'add-news' ? 'active' : ''}
+              onClick={() => setActiveView('add-news')}
+            >
+              <i className="fa-solid fa-newspaper"></i><span>Add News</span>
+            </button>
+          )}
+          {hasPermission('update-news') && (
+            <button 
+              className={activeView === 'update-news' ? 'active' : ''}
+              onClick={() => setActiveView('update-news')}
+            >
+              <i className="fa-solid fa-rectangle-list"></i><span>Update News</span>
+            </button>
+          )}
+          {hasPermission('manage-newsletters') && (
+            <button 
+              className={activeView === 'manage-newsletters' ? 'active' : ''}
+              onClick={() => setActiveView('manage-newsletters')}
+            >
+              <i className="fa-solid fa-envelopes-bulk"></i><span>Newsletters & Subscribers</span>
+            </button>
+          )}
           <div className="group-title">Content</div>
-          <button 
-            className={activeView === 'manage-faqs' ? 'active' : ''}
-            onClick={() => setActiveView('manage-faqs')}
-          >
-            <i className="fa-solid fa-circle-question"></i><span>Manage FAQs</span>
-          </button>
-          <button 
-            className={activeView === 'manage-vacancies' ? 'active' : ''}
-            onClick={() => setActiveView('manage-vacancies')}
-          >
-            <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
-          </button>
-          <button 
-            className={activeView === 'manage-events' ? 'active' : ''}
-            onClick={() => setActiveView('manage-events')}
-          >
-            <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
-          </button>
-          <button 
-            className={activeView === 'manage-care-services' ? 'active' : ''}
-            onClick={() => setActiveView('manage-care-services')}
-          >
-            <i className="fa-solid fa-hand-holding-heart"></i><span>Global Care Services</span>
-          </button>
-          <button
-            className={activeView === 'reviews' ? 'active' : ''}
-            onClick={() => setActiveView('reviews')}
-          >
-            <i className="fa-solid fa-star-half-stroke"></i><span>Reviews</span>
-          </button>
-          <button
-            className={activeView === 'manage-management-team' ? 'active' : ''}
-            onClick={() => setActiveView('manage-management-team')}
-          >
-            <i className="fa-solid fa-user-tie"></i><span>Management Team</span>
-          </button>
-          <button
-            className={activeView === 'manage-meal-plans' ? 'active' : ''}
-            onClick={() => setActiveView('manage-meal-plans')}
-          >
-            <i className="fa-solid fa-utensils"></i><span>Meal Plans</span>
-          </button>
-          {!isHomeAdmin && (
+          {hasPermission('manage-faqs') && (
+            <button 
+              className={activeView === 'manage-faqs' ? 'active' : ''}
+              onClick={() => setActiveView('manage-faqs')}
+            >
+              <i className="fa-solid fa-circle-question"></i><span>Manage FAQs</span>
+            </button>
+          )}
+          {hasPermission('manage-vacancies') && (
+            <button 
+              className={activeView === 'manage-vacancies' ? 'active' : ''}
+              onClick={() => setActiveView('manage-vacancies')}
+            >
+              <i className="fa-solid fa-briefcase"></i><span>Manage Vacancies</span>
+            </button>
+          )}
+          {hasPermission('manage-events') && (
+            <button 
+              className={activeView === 'manage-events' ? 'active' : ''}
+              onClick={() => setActiveView('manage-events')}
+            >
+              <i className="fa-solid fa-calendar-alt"></i><span>Manage Events</span>
+            </button>
+          )}
+          {hasPermission('manage-care-services') && (
+            <button 
+              className={activeView === 'manage-care-services' ? 'active' : ''}
+              onClick={() => setActiveView('manage-care-services')}
+            >
+              <i className="fa-solid fa-hand-holding-heart"></i><span>Global Care Services</span>
+            </button>
+          )}
+          {hasPermission('reviews') && (
+            <button
+              className={activeView === 'reviews' ? 'active' : ''}
+              onClick={() => setActiveView('reviews')}
+            >
+              <i className="fa-solid fa-star-half-stroke"></i><span>Reviews</span>
+            </button>
+          )}
+          {hasPermission('manage-management-team') && (
+            <button
+              className={activeView === 'manage-management-team' ? 'active' : ''}
+              onClick={() => setActiveView('manage-management-team')}
+            >
+              <i className="fa-solid fa-user-tie"></i><span>Management Team</span>
+            </button>
+          )}
+          {hasPermission('manage-meal-plans') && (
+            <button
+              className={activeView === 'manage-meal-plans' ? 'active' : ''}
+              onClick={() => setActiveView('manage-meal-plans')}
+            >
+              <i className="fa-solid fa-utensils"></i><span>Meal Plans</span>
+            </button>
+          )}
+          {!isHomeAdmin && !isTempAdmin && (
             <>
               <div className="group-title">Users</div>
               <button 
@@ -791,36 +1132,46 @@ const AdminConsole = () => {
             </>
           )}
           <div className="group-title">Enquiries</div>
-          <button 
-            className={activeView === 'kiosk-links' ? 'active' : ''}
-            onClick={() => setActiveView('kiosk-links')}
-          >
-            <i className="fa-solid fa-tablet-screen-button"></i><span>Reception Kiosks</span>
-          </button>
-          <button 
-            className={activeView === 'scheduled-tours' ? 'active' : ''}
-            onClick={() => setActiveView('scheduled-tours')}
-          >
-            <i className="fa-solid fa-calendar-check"></i><span>Scheduled Tours</span>
-          </button>
-          <button 
-            className={activeView === 'kiosk-checkins' ? 'active' : ''}
-            onClick={() => { setActiveView('kiosk-checkins'); loadKioskCheckIns(); }}
-          >
-            <i className="fa-solid fa-clipboard-list"></i><span>Kiosk Check-Ins</span>
-          </button>
-          <button 
-            className={activeView === 'care-enquiries' ? 'active' : ''}
-            onClick={() => setActiveView('care-enquiries')}
-          >
-            <i className="fa-solid fa-heart"></i><span>Care Enquiries</span>
-          </button>
-          <button 
-            className={activeView === 'career-applications' ? 'active' : ''}
-            onClick={() => setActiveView('career-applications')}
-          >
-            <i className="fa-solid fa-briefcase"></i><span>Career Applications</span>
-          </button>
+          {hasPermission('kiosk-links') && (
+            <button 
+              className={activeView === 'kiosk-links' ? 'active' : ''}
+              onClick={() => setActiveView('kiosk-links')}
+            >
+              <i className="fa-solid fa-tablet-screen-button"></i><span>Reception Kiosks</span>
+            </button>
+          )}
+          {hasPermission('scheduled-tours') && (
+            <button 
+              className={activeView === 'scheduled-tours' ? 'active' : ''}
+              onClick={() => setActiveView('scheduled-tours')}
+            >
+              <i className="fa-solid fa-calendar-check"></i><span>Scheduled Tours</span>
+            </button>
+          )}
+          {hasPermission('kiosk-checkins') && (
+            <button 
+              className={activeView === 'kiosk-checkins' ? 'active' : ''}
+              onClick={() => { setActiveView('kiosk-checkins'); loadKioskCheckIns(); }}
+            >
+              <i className="fa-solid fa-clipboard-list"></i><span>Kiosk Check-Ins</span>
+            </button>
+          )}
+          {hasPermission('care-enquiries') && (
+            <button 
+              className={activeView === 'care-enquiries' ? 'active' : ''}
+              onClick={() => setActiveView('care-enquiries')}
+            >
+              <i className="fa-solid fa-heart"></i><span>Care Enquiries</span>
+            </button>
+          )}
+          {hasPermission('career-applications') && (
+            <button 
+              className={activeView === 'career-applications' ? 'active' : ''}
+              onClick={() => setActiveView('career-applications')}
+            >
+              <i className="fa-solid fa-briefcase"></i><span>Career Applications</span>
+            </button>
+          )}
           </>
           ) : (
           <>
@@ -899,19 +1250,33 @@ const AdminConsole = () => {
           <HomeForm mode="add" />
         )}
 
-        {activeView === 'live-page-edit' && (
+        {activeView === 'live-page-edit' && (() => {
+          // All known homes with their navigation slugs
+          const LIVE_PAGE_HOMES = [
+            { name: 'Bellavista Barry',     slug: 'bellavista-barry',      location: 'Barry',      color: '#1b3c78' },
+            { name: 'Bellavista Cardiff',   slug: 'bellavista-cardiff',    location: 'Cardiff Bay', color: '#2563eb' },
+            { name: 'Bellavista Baltimore', slug: 'baltimore-care-home',   location: 'Cardiff Bay', color: '#0891b2' },
+            { name: 'Waverley Care Centre', slug: 'waverley-care-centre',  location: 'Penarth',    color: '#059669' },
+            { name: 'College Fields',       slug: 'college-fields',        location: 'Barry',      color: '#7c3aed' },
+            { name: 'Meadow Vale Cwtch',    slug: 'meadow-vale-cwtch',     location: 'Bridgend',   color: '#db2777' },
+          ];
+          // For temp_admin: filter to only their allowed homes (cross-ref by homeName)
+          const allowedNames = homeIdsToNames(allowedLivePageEditHomeIds);
+          const visibleHomes = allowedNames
+            ? LIVE_PAGE_HOMES.filter(h => allowedNames.includes(h.name))
+            : LIVE_PAGE_HOMES;
+          return (
           <section className="panel">
             <h2>Live Page Edit</h2>
             <p style={{color: '#666', marginBottom: '20px'}}>Edit content directly on the live page. Click a home to open it in edit mode.</p>
+            {visibleHomes.length === 0 ? (
+              <div style={{padding:'30px', textAlign:'center', color:'#9ca3af', background:'#f9fafb', borderRadius:'10px'}}>
+                <i className="fa-solid fa-lock" style={{fontSize:'24px', marginBottom:'8px', display:'block'}}></i>
+                No homes assigned for live editing.
+              </div>
+            ) : (
             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'20px'}}>
-              {[
-                { name: 'Bellavista Barry', slug: 'bellavista-barry', location: 'Barry', color: '#1b3c78' },
-                { name: 'Bellavista Cardiff', slug: 'bellavista-cardiff', location: 'Cardiff Bay', color: '#2563eb' },
-                { name: 'Bellavista Baltimore', slug: 'baltimore-care-home', location: 'Cardiff Bay', color: '#0891b2' },
-                { name: 'Waverley Care Centre', slug: 'waverley-care-centre', location: 'Penarth', color: '#059669' },
-                { name: 'College Fields', slug: 'college-fields', location: 'Barry', color: '#7c3aed' },
-                { name: 'Meadow Vale Cwtch', slug: 'meadow-vale-cwtch', location: 'Bridgend', color: '#db2777' }
-              ].map(home => (
+              {visibleHomes.map(home => (
                 <div key={home.slug} style={{border:'1px solid #e0e0e0', borderRadius:'12px', overflow:'hidden', background:'white', boxShadow: '0 2px 8px rgba(0,0,0,0.08)'}}>
                   <div style={{height:'8px', background: home.color}}></div>
                   <div style={{padding:'20px'}}>
@@ -930,6 +1295,7 @@ const AdminConsole = () => {
                 </div>
               ))}
             </div>
+            )}
             <div style={{marginTop: '30px', padding: '20px', background: '#f0f9ff', borderRadius: '10px', border: '1px solid #bae6fd'}}>
               <h4 style={{margin: '0 0 10px 0', color: '#0369a1'}}><i className="fas fa-info-circle" style={{marginRight: '8px'}}></i>How to use</h4>
               <ol style={{margin: 0, paddingLeft: '20px', color: '#0c4a6e', lineHeight: '1.8'}}>
@@ -941,7 +1307,8 @@ const AdminConsole = () => {
               </ol>
             </div>
           </section>
-        )}
+          );
+        })()}
 
         {(activeView === 'update-home' || activeView.startsWith('home-section-')) && (
           (selectedHome || (isHomeAdmin && homes.find(h => h.id === user.homeId))) ? (
@@ -971,7 +1338,11 @@ const AdminConsole = () => {
               <div style={{marginTop:'20px'}}>
                 <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(250px, 1fr))', gap:'20px'}}>
                   {homes
-                    .filter(h => !isHomeAdmin || (user && user.homeId && h.id === user.homeId))
+                    .filter(h => {
+                      if (isHomeAdmin) return user && user.homeId && h.id === user.homeId;
+                      if (allowedHomeIds) return allowedHomeIds.includes(h.id);
+                      return true;
+                    })
                     .map(home => (
                     <div key={home.id} style={{border:'1px solid #e0e0e0', borderRadius:'10px', overflow:'hidden', background:'white'}}>
                       <div style={{height:'140px', background:`url(${home.homeImage}) center/cover`}}></div>
@@ -1681,14 +2052,29 @@ const AdminConsole = () => {
           </section>
         )}
 
-        {activeView === 'kiosk-checkins' && (
+        {activeView === 'kiosk-checkins' && (() => {
+          // For temp_admin: filter check-ins to only their allowed homes (match by homeName)
+          const allowedKioskNames = homeIdsToNames(allowedKioskCheckinHomeIds);
+          const visibleCheckIns = kioskCheckIns
+            .filter(c => !allowedKioskNames || allowedKioskNames.some(n => c.location?.toLowerCase().includes(n.toLowerCase()) || n.toLowerCase().includes(c.location?.toLowerCase() || '')))
+            .filter(c => kioskSearch === '' ||
+              c.name?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
+              c.location?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
+              c.email?.toLowerCase().includes(kioskSearch.toLowerCase())
+            );
+          return (
           <section className="panel">
             <h2>Visitor Check-Ins (Kiosk)</h2>
             <div className="toolbar">
               <input placeholder="Search by name, location, email..." style={{flex:1}} value={kioskSearch} onChange={e=>setKioskSearch(e.target.value)}/>
               <button className="btn ghost small" onClick={loadKioskCheckIns}><i className="fa-solid fa-rotate"></i>&nbsp;Refresh</button>
             </div>
-            
+            {allowedKioskNames && (
+              <div style={{margin:'10px 0', padding:'8px 12px', background:'#fffbeb', border:'1px solid #f59e0b', borderRadius:'6px', fontSize:'13px', color:'#92400e'}}>
+                <i className="fa-solid fa-filter" style={{marginRight:'6px'}}></i>
+                Showing check-ins for: <strong>{allowedKioskNames.join(', ') || 'No assigned homes'}</strong>
+              </div>
+            )}
             <div style={{marginTop:'16px', overflowX:'auto'}}>
               <table style={{width:'100%', borderCollapse:'collapse'}}>
                 <thead>
@@ -1703,13 +2089,7 @@ const AdminConsole = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {kioskCheckIns
-                    .filter(c => kioskSearch === '' || 
-                      c.name?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
-                      c.location?.toLowerCase().includes(kioskSearch.toLowerCase()) ||
-                      c.email?.toLowerCase().includes(kioskSearch.toLowerCase())
-                    )
-                    .map(c => (
+                  {visibleCheckIns.map(c => (
                       <tr key={c.id} style={{borderBottom:'1px solid #f0f0f0'}}>
                         <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}><strong>{c.name}</strong></td>
                         <td style={{padding:'10px', borderBottom:'1px solid #f0f0f0'}}>{c.email}</td>
@@ -1732,7 +2112,7 @@ const AdminConsole = () => {
                         </td>
                       </tr>
                     ))}
-                  {kioskCheckIns.length === 0 && (
+                  {visibleCheckIns.length === 0 && (
                     <tr>
                       <td colSpan="7" style={{padding:'20px', textAlign:'center', color:'#666'}}>No check-ins yet</td>
                     </tr>
@@ -1741,7 +2121,8 @@ const AdminConsole = () => {
               </table>
             </div>
           </section>
-        )}
+          );
+        })()}
 
         {activeView === 'care-enquiries' && (
           <section className="panel">
@@ -1882,10 +2263,11 @@ const AdminConsole = () => {
                     <label>Role</label>
                     <select 
                       value={userForm.role} 
-                      onChange={e => setUserForm({...userForm, role: e.target.value})}
+                      onChange={e => setUserForm({...userForm, role: e.target.value, permissions: [], home_id: ''})}
                     >
                       <option value="home_admin">Home Admin</option>
                       <option value="superadmin">Superadmin</option>
+                      <option value="temp_admin">Temporary Admin</option>
                     </select>
                   </div>
                   {userForm.role === 'home_admin' && (
@@ -1902,15 +2284,37 @@ const AdminConsole = () => {
                       </select>
                     </div>
                   )}
+                  {userForm.role === 'temp_admin' && (
+                    <div className="field">
+                      <label>Access Expires On</label>
+                      <input 
+                        type="datetime-local"
+                        value={userForm.temp_access_expires_at}
+                        onChange={e => setUserForm({...userForm, temp_access_expires_at: e.target.value})}
+                      />
+                    </div>
+                  )}
                 </div>
+
+                {userForm.role === 'temp_admin' && (
+                  <div style={{marginTop:'20px'}}>
+                    <label style={{fontWeight:'600', display:'block', marginBottom:'10px'}}>
+                      <i className="fa-solid fa-shield-halved" style={{marginRight:'6px', color:'#f59e0b'}}></i>
+                      Select Allowed Sections
+                    </label>
+                    <p style={{color:'#666', fontSize:'13px', marginBottom:'12px'}}>Only the selected sections will be visible to this user. All others will be hidden.</p>
+                    {renderPermPicker('create')}
+                  </div>
+                )}
+
                 <div className="toolbar" style={{marginTop:'20px'}}>
                   <button className="btn" onClick={handleCreateUser}>Create User</button>
-                  <button className="btn ghost" onClick={() => setIsAddingUser(false)}>Cancel</button>
+                  <button className="btn ghost" onClick={() => { setIsAddingUser(false); setUserForm({ username: '', password: '', role: 'home_admin', home_id: '', permissions: [], temp_access_expires_at: '' }); }}>Cancel</button>
                 </div>
               </div>
             ) : (
               <div className="toolbar">
-                 <p className="muted" style={{flex:1}}>Manage login accounts for Home Admins.</p>
+                 <p className="muted" style={{flex:1}}>Manage login accounts for Home Admins and Temporary Admins.</p>
                  <button className="btn" onClick={() => setIsAddingUser(true)}>
                    <i className="fa-solid fa-plus"></i>&nbsp;Add User
                  </button>
@@ -1923,36 +2327,124 @@ const AdminConsole = () => {
                   <tr style={{background:'#f7f9fc'}}>
                     <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Username</th>
                     <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Role</th>
-                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Assigned Home</th>
+                    <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Assigned Home / Permissions</th>
                     <th style={{textAlign:'left', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Created</th>
                     <th style={{textAlign:'right', padding:'12px', borderBottom:'1px solid #e0e0e0'}}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map(u => (
-                    <tr key={u.id}>
-                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}><strong>{u.username}</strong></td>
-                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}>
-                        <span style={{
-                          background: u.role === 'superadmin' ? '#e6f7ff' : '#f6ffed',
-                          color: u.role === 'superadmin' ? '#1890ff' : '#52c41a',
-                          padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold'
-                        }}>
-                          {u.role === 'superadmin' ? 'Superadmin' : 'Home Admin'}
-                        </span>
-                      </td>
-                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0'}}>
-                         {u.home_name || (u.role === 'superadmin' ? 'All Homes' : <span className="muted">None</span>)}
-                      </td>
-                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0', fontSize:'13px'}}>
-                        {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-'}
-                      </td>
-                      <td style={{padding:'12px', borderBottom:'1px solid #f0f0f0', textAlign:'right'}}>
-                        <button className="btn small" style={{background:'#ff4d4f', color:'white', borderColor:'#ff4d4f'}} onClick={() => handleDeleteUser(u.id)}>
-                           <i className="fa-solid fa-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
+                    <React.Fragment key={u.id}>
+                      <tr>
+                        <td style={{padding:'12px', borderBottom: editingUserId === u.id ? 'none' : '1px solid #f0f0f0'}}><strong>{u.username}</strong></td>
+                        <td style={{padding:'12px', borderBottom: editingUserId === u.id ? 'none' : '1px solid #f0f0f0'}}>
+                          <span style={{
+                            background: u.role === 'superadmin' ? '#e6f7ff' : u.role === 'temp_admin' ? '#fff7ed' : '#f6ffed',
+                            color: u.role === 'superadmin' ? '#1890ff' : u.role === 'temp_admin' ? '#c2410c' : '#52c41a',
+                            padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold'
+                          }}>
+                            {u.role === 'superadmin' ? 'Superadmin' : u.role === 'temp_admin' ? 'Temp Admin' : 'Home Admin'}
+                          </span>
+                          {u.role === 'temp_admin' && u.temp_access_expires_at && (
+                            <div style={{fontSize:'11px', color: new Date(u.temp_access_expires_at) < new Date() ? '#dc2626' : '#6b7280', marginTop:'4px'}}>
+                              <i className="fa-solid fa-clock" style={{marginRight:'3px'}}></i>
+                              {new Date(u.temp_access_expires_at) < new Date() ? (
+                                <span style={{color:'#dc2626', fontWeight:'600'}}>EXPIRED</span>
+                              ) : (
+                                <>Expires: {new Date(u.temp_access_expires_at).toLocaleString()}</>
+                              )}
+                            </div>
+                          )}
+                        </td>
+                        <td style={{padding:'12px', borderBottom: editingUserId === u.id ? 'none' : '1px solid #f0f0f0'}}>
+                          {u.role === 'temp_admin' ? (
+                            <div style={{fontSize:'13px', color:'#6b7280'}}>
+                              {(() => {
+                                const homePerms = (u.permissions || []).filter(p => p.startsWith('update-home:'));
+                                const homeNames = homePerms.map(p => {
+                                  const h = homes.find(h => h.id === p.split(':')[1]);
+                                  return h ? h.homeName : null;
+                                }).filter(Boolean);
+                                const otherCount = (u.permissions || []).filter(p => !p.startsWith('update-home:')).length;
+                                return (
+                                  <>
+                                    {homeNames.length > 0 && (
+                                      <div style={{marginBottom:'3px'}}>
+                                        <i className="fa-solid fa-house-medical" style={{marginRight:'4px', color:'#f59e0b'}}></i>
+                                        {homeNames.join(', ')}
+                                      </div>
+                                    )}
+                                    {otherCount > 0 && (
+                                      <div>
+                                        <i className="fa-solid fa-shield-halved" style={{marginRight:'4px', color:'#f59e0b'}}></i>
+                                        {otherCount} other section{otherCount !== 1 ? 's' : ''}
+                                      </div>
+                                    )}
+                                    {(u.permissions || []).length === 0 && <span className="muted">No permissions</span>}
+                                  </>
+                                );
+                              })()}
+                            </div>
+                          ) : (
+                            u.home_name || (u.role === 'superadmin' ? 'All Homes' : <span className="muted">None</span>)
+                          )}
+                        </td>
+                        <td style={{padding:'12px', borderBottom: editingUserId === u.id ? 'none' : '1px solid #f0f0f0', fontSize:'13px'}}>
+                          {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-'}
+                        </td>
+                        <td style={{padding:'12px', borderBottom: editingUserId === u.id ? 'none' : '1px solid #f0f0f0', textAlign:'right'}}>
+                          {u.role === 'temp_admin' && (
+                            <button
+                              className="btn small"
+                              style={{marginRight:'6px', background:'#f59e0b', color:'white', borderColor:'#f59e0b'}}
+                              onClick={() => {
+                                if (editingUserId === u.id) {
+                                  setEditingUserId(null);
+                                } else {
+                                  setEditingUserId(u.id);
+                                  setUserForm(f => ({...f, permissions: u.permissions || [], temp_access_expires_at: u.temp_access_expires_at ? toLocalDatetimeInput(u.temp_access_expires_at) : ''}));
+                                }
+                              }}
+                            >
+                              <i className="fa-solid fa-shield-halved"></i>
+                            </button>
+                          )}
+                          <button className="btn small" style={{background:'#ff4d4f', color:'white', borderColor:'#ff4d4f'}} onClick={() => handleDeleteUser(u.id)}>
+                             <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      {editingUserId === u.id && (
+                        <tr>
+                          <td colSpan="5" style={{padding:'0 12px 16px', borderBottom:'1px solid #f0f0f0', background:'#fffbeb'}}>
+                            <div style={{padding:'16px', borderRadius:'8px'}}>
+                              <div style={{display:'flex', alignItems:'center', gap:'10px', marginBottom:'14px', flexWrap:'wrap'}}>
+                                <span style={{fontWeight:'600', fontSize:'14px'}}>
+                                  <i className="fa-solid fa-shield-halved" style={{marginRight:'6px', color:'#f59e0b'}}></i>
+                                  Edit Permissions for <em>{u.username}</em>
+                                </span>
+                                <div style={{display:'flex', alignItems:'center', gap:'8px', marginLeft:'auto'}}>
+                                  <label style={{fontSize:'13px', fontWeight:'500'}}>Expires:</label>
+                                  <input
+                                    type="datetime-local"
+                                    value={userForm.temp_access_expires_at}
+                                    onChange={e => setUserForm(f => ({...f, temp_access_expires_at: e.target.value}))}
+                                    style={{padding:'5px 8px', border:'1px solid #d1d5db', borderRadius:'5px', fontSize:'13px'}}
+                                  />
+                                </div>
+                              </div>
+                              {renderPermPicker(`edit-${u.id}`)}
+                              <div className="toolbar" style={{marginTop:'12px'}}>
+                                <button className="btn" style={{background:'#f59e0b', borderColor:'#f59e0b'}} onClick={() => handleSaveUserPermissions(u.id)}>
+                                  <i className="fa-solid fa-check"></i>&nbsp;Save Permissions
+                                </button>
+                                <button className="btn ghost" onClick={() => setEditingUserId(null)}>Cancel</button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   ))}
                   {users.length === 0 && (
                     <tr><td colSpan="5" style={{padding:'20px', textAlign:'center', color:'#666'}}>No users found</td></tr>

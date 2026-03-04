@@ -27,7 +27,7 @@ export const login = async (username, password) => {
     const data = await response.json();
 
     if (response.ok && data.status === 'success') {
-      // Save token to localStorage
+      // Save token to localStorage (temp_access_expires_at is embedded in JWT)
       saveToken(data.token);
       return {
         success: true,
@@ -216,7 +216,10 @@ export const getCurrentUser = () => {
     username: decoded.username,
     role: decoded.role,
     homeId: decoded.home_id,
+    permissions: decoded.permissions || [],
     expiresAt: new Date(decoded.exp * 1000),
+    // Read directly from the JWT payload (embedded at login, always up-to-date)
+    tempAccessExpiresAt: decoded.temp_access_expires_at || null,
   };
 };
 
