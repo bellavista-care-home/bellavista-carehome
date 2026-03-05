@@ -641,9 +641,9 @@
     color: var(--text-secondary);
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1400px) {
     .title-main {
-        white-space: nowrap; /* Keep in one line on larger screens as requested */
+        white-space: nowrap; /* Keep in one line on large screens where width comfortably fits */
     }
 }
 
