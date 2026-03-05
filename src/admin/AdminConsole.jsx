@@ -13,6 +13,7 @@ import { fetchVacancies, createVacancy, updateVacancy, deleteVacancy } from '../
 import { fetchManagementTeam, createManagementMember, updateManagementMember, deleteManagementMember, seedManagementTeam } from '../services/managementService';
 import { fetchReviews, deleteReview, importGoogleReviews } from '../services/reviewService';
 import { fetchUsers, createUser, updateUser, deleteUser } from '../services/userService';
+import { fetchSubscribers } from '../services/newsletterService';
 import { convertBase64ToURLs, uploadImageToS3 } from '../utils/imageUploadHelper';
 import HomeForm from './components/HomeForm';
 import VacancyForm from './components/VacancyForm';
@@ -84,6 +85,10 @@ const AdminConsole = () => {
   const [globalSearch, setGlobalSearch] = useState('');
   const [selectedHome, setSelectedHome] = useState(null);
   const [homes, setHomes] = useState([]);
+  const [subscribers, setSubscribers] = useState([]);
+  const [subSearch, setSubSearch] = useState('');
+  const [subHomeFilter, setSubHomeFilter] = useState('all');
+  const [subStatusFilter, setSubStatusFilter] = useState('active');
   const [, setNewsForm] = useState({
     id: '',
     title: '',
@@ -1357,6 +1362,133 @@ const AdminConsole = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Newsletter Subscribers Table — super admin only */}
+              {!isHomeAdmin && !isTempAdmin && (() => {
+                // Load subscribers lazily on first render of this panel
+                if (subscribers.length === 0) {
+                  fetchSubscribers().then(data => setSubscribers(Array.isArray(data) ? data : []));
+                }
+                const q = subSearch.trim().toLowerCase();
+                const filtered = subscribers.filter(s => {
+                  const matchSearch = !q ||
+                    (s.email || '').toLowerCase().includes(q) ||
+                    (s.name || '').toLowerCase().includes(q);
+                  const matchHome = subHomeFilter === 'all' ||
+                    (subHomeFilter === 'none' ? !s.homeId : s.homeId === subHomeFilter);
+                  const matchStatus = subStatusFilter === 'all' ||
+                    (subStatusFilter === 'active' ? s.isActive : !s.isActive);
+                  return matchSearch && matchHome && matchStatus;
+                });
+                const activeCount = subscribers.filter(s => s.isActive).length;
+                return (
+                  <div style={{marginTop:'40px'}}>
+                    <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'16px', flexWrap:'wrap'}}>
+                      <h3 style={{margin:0, fontSize:'1.1rem', display:'flex', alignItems:'center', gap:'8px'}}>
+                        <i className="fas fa-envelope" style={{color:'#1B3C78'}}></i>
+                        Newsletter Subscribers
+                        <span style={{background:'#eff6ff', color:'#1B3C78', borderRadius:'12px', padding:'2px 10px', fontSize:'13px', fontWeight:600}}>
+                          {activeCount} active
+                        </span>
+                      </h3>
+                      <div style={{marginLeft:'auto', display:'flex', gap:'8px', flexWrap:'wrap'}}>
+                        <input
+                          placeholder="Search name or email…"
+                          value={subSearch}
+                          onChange={e => setSubSearch(e.target.value)}
+                          style={{padding:'7px 12px', borderRadius:'6px', border:'1px solid #cbd5e1', fontSize:'13px', width:'200px'}}
+                        />
+                        <select
+                          value={subHomeFilter}
+                          onChange={e => setSubHomeFilter(e.target.value)}
+                          style={{padding:'7px 10px', borderRadius:'6px', border:'1px solid #cbd5e1', fontSize:'13px'}}
+                        >
+                          <option value="all">All Homes</option>
+                          <option value="none">No Specific Home</option>
+                          {homes.map(h => (
+                            <option key={h.id} value={h.id}>{h.homeName}</option>
+                          ))}
+                        </select>
+                        <select
+                          value={subStatusFilter}
+                          onChange={e => setSubStatusFilter(e.target.value)}
+                          style={{padding:'7px 10px', borderRadius:'6px', border:'1px solid #cbd5e1', fontSize:'13px'}}
+                        >
+                          <option value="active">Active only</option>
+                          <option value="all">All statuses</option>
+                          <option value="inactive">Inactive only</option>
+                        </select>
+                        <button
+                          className="btn small"
+                          style={{fontSize:'13px', background:'#1B3C78', color:'white', border:'none'}}
+                          onClick={() => fetchSubscribers().then(data => setSubscribers(Array.isArray(data) ? data : []))}
+                          title="Refresh"
+                        >
+                          <i className="fas fa-sync-alt"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div style={{overflowX:'auto', borderRadius:'10px', border:'1px solid #e2e8f0'}}>
+                      <table style={{width:'100%', borderCollapse:'collapse', fontSize:'13px'}}>
+                        <thead>
+                          <tr style={{background:'#f8fafc', borderBottom:'2px solid #e2e8f0'}}>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>#</th>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>Email</th>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>Name</th>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>Home</th>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>Subscribed</th>
+                            <th style={{padding:'10px 14px', textAlign:'left', fontWeight:600, color:'#374151'}}>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filtered.length === 0 ? (
+                            <tr>
+                              <td colSpan={6} style={{padding:'30px', textAlign:'center', color:'#9ca3af'}}>
+                                <i className="fas fa-inbox" style={{fontSize:'20px', display:'block', marginBottom:'8px'}}></i>
+                                No subscribers found
+                              </td>
+                            </tr>
+                          ) : filtered.map((s, i) => {
+                            const homeName = s.homeId
+                              ? (homes.find(h => h.id === s.homeId)?.homeName || s.homeId)
+                              : <span style={{color:'#94a3b8', fontStyle:'italic'}}>All Homes</span>;
+                            const subscribedDate = s.subscribedAt
+                              ? new Date(s.subscribedAt).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'})
+                              : '—';
+                            return (
+                              <tr key={s.id} style={{borderBottom:'1px solid #f1f5f9', background: i % 2 === 0 ? 'white' : '#fafafa'}}>
+                                <td style={{padding:'9px 14px', color:'#94a3b8'}}>{i + 1}</td>
+                                <td style={{padding:'9px 14px', fontWeight:500}}>{s.email}</td>
+                                <td style={{padding:'9px 14px', color: s.name ? '#1e293b' : '#94a3b8', fontStyle: s.name ? 'normal' : 'italic'}}>
+                                  {s.name || 'Not provided'}
+                                </td>
+                                <td style={{padding:'9px 14px'}}>{homeName}</td>
+                                <td style={{padding:'9px 14px', color:'#64748b'}}>{subscribedDate}</td>
+                                <td style={{padding:'9px 14px'}}>
+                                  <span style={{
+                                    display:'inline-flex', alignItems:'center', gap:'4px',
+                                    padding:'3px 9px', borderRadius:'12px', fontSize:'12px', fontWeight:600,
+                                    background: s.isActive ? '#dcfce7' : '#fee2e2',
+                                    color: s.isActive ? '#166534' : '#991b1b'
+                                  }}>
+                                    <i className={`fas ${s.isActive ? 'fa-check-circle' : 'fa-times-circle'}`}></i>
+                                    {s.isActive ? 'Active' : 'Unsubscribed'}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                    {filtered.length > 0 && (
+                      <p style={{marginTop:'8px', fontSize:'12px', color:'#94a3b8', textAlign:'right'}}>
+                        Showing {filtered.length} of {subscribers.length} subscribers
+                      </p>
+                    )}
+                  </div>
+                );
+              })()}
             </section>
             )
           )
@@ -1679,6 +1811,7 @@ const AdminConsole = () => {
                   <div className="field" style={{gridColumn:'1/-1'}}>
                     <label>Description</label>
                     <ReactQuill 
+                      key={mgmtForm.id || 'new-member'}
                       theme="snow"
                       value={mgmtForm.description} 
                       onChange={value => setMgmtForm({...mgmtForm, description: value})}
@@ -1752,7 +1885,12 @@ const AdminConsole = () => {
                       <h3 style={{margin:0, fontSize:'16px'}}>{m.name}</h3>
                       <span className="muted" style={{fontSize:'13px'}}>{m.role}</span>
                     </div>
-                    <p style={{margin:'4px 0 0', fontSize:'14px', color:'#64748b'}}>{m.description}</p>
+                    <p style={{margin:'4px 0 0', fontSize:'14px', color:'#64748b'}}>
+                      {m.description
+                        ? (m.description.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180) || '')
+                        : ''}
+                      {m.description && m.description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim().length > 180 ? '…' : ''}
+                    </p>
                   </div>
                   <div style={{display:'flex', gap:'8px'}}>
                     <button className="btn small ghost" onClick={() => {

@@ -28,7 +28,7 @@ const AdminLiveEditPage = () => {
   }
 
   // Check if user has admin rights
-  const isAdmin = user.role === 'admin' || user.role === 'super_admin' || user.role === 'superadmin' || user.role === 'home_admin';
+  const isAdmin = user.role === 'admin' || user.role === 'super_admin' || user.role === 'superadmin' || user.role === 'home_admin' || user.role === 'temp_admin';
   
   if (!isAdmin) {
     return <Navigate to="/" replace />;

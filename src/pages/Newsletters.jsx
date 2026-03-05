@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { fetchNewsletters, subscribeToNewsletter, unsubscribeFromNewsletter } from '../services/newsletterService';
+import { fetchHomes } from '../services/homeService';
 import SEO from '../components/SEO';
 import '../styles/MainPage.css';
 import '../styles/NewsDetail.css';
@@ -11,9 +12,12 @@ const MONTH_NAMES = [
 ];
 
 const Newsletters = () => {
+  const navigate = useNavigate();
   const [newsletters, setNewsletters] = useState([]);
+  const [homes, setHomes] = useState([]);
   const [selectedYear, setSelectedYear] = useState('all');
   const [selectedMonth, setSelectedMonth] = useState('all');
+  const [selectedHome, setSelectedHome] = useState('all');
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const unsubscribeId = searchParams.get('unsubscribe');
@@ -21,6 +25,7 @@ const Newsletters = () => {
   // Subscribe form state
   const [subEmail, setSubEmail] = useState('');
   const [subName, setSubName] = useState('');
+  const [subHomeId, setSubHomeId] = useState('');
   const [subStatus, setSubStatus] = useState(null); // 'success', 'error', 'loading'
   const [subMessage, setSubMessage] = useState('');
 
@@ -30,8 +35,15 @@ const Newsletters = () => {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const items = await fetchNewsletters();
+      const [items, homeList] = await Promise.all([fetchNewsletters(), fetchHomes()]);
       setNewsletters(items);
+      setHomes(homeList || []);
+      // Pre-select home from URL param if present
+      const homeIdParam = searchParams.get('homeId');
+      if (homeIdParam) {
+        setSelectedHome(homeIdParam);
+        setSubHomeId(homeIdParam);
+      }
       setLoading(false);
     };
     load();
@@ -60,19 +72,25 @@ const Newsletters = () => {
     return years;
   }, [newsletters]);
 
-  // Available months from data for selected year
+  // Available months from data for selected year/home
   const availableMonths = useMemo(() => {
     let filtered = newsletters;
+    if (selectedHome !== 'all') {
+      filtered = filtered.filter(n => n.homeId === selectedHome || !n.homeId);
+    }
     if (selectedYear !== 'all') {
       filtered = filtered.filter(n => n.year === parseInt(selectedYear));
     }
     const months = [...new Set(filtered.map(n => n.month))].sort((a, b) => b - a);
     return months;
-  }, [newsletters, selectedYear]);
+  }, [newsletters, selectedYear, selectedHome]);
 
   // Filtered newsletters
   const filteredNewsletters = useMemo(() => {
     let filtered = newsletters;
+    if (selectedHome !== 'all') {
+      filtered = filtered.filter(n => n.homeId === selectedHome || !n.homeId);
+    }
     if (selectedYear !== 'all') {
       filtered = filtered.filter(n => n.year === parseInt(selectedYear));
     }
@@ -80,7 +98,7 @@ const Newsletters = () => {
       filtered = filtered.filter(n => n.month === parseInt(selectedMonth));
     }
     return filtered;
-  }, [newsletters, selectedYear, selectedMonth]);
+  }, [newsletters, selectedHome, selectedYear, selectedMonth]);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -88,11 +106,8 @@ const Newsletters = () => {
     setSubStatus('loading');
     setSubMessage('');
     try {
-      const result = await subscribeToNewsletter({ email: subEmail.trim(), name: subName.trim() });
-      setSubStatus('success');
-      setSubMessage(result.message || 'Successfully subscribed!');
-      setSubEmail('');
-      setSubName('');
+      await subscribeToNewsletter({ email: subEmail.trim(), name: subName.trim(), homeId: subHomeId || null });
+      navigate('/newsletter-subscribed');
     } catch (err) {
       setSubStatus('error');
       setSubMessage(err.message || 'Something went wrong. Please try again.');
@@ -159,10 +174,24 @@ const Newsletters = () => {
                       required
                       style={{
                         width: '100%', padding: '10px 14px', borderRadius: '8px',
-                        border: '1px solid #cbd5e1', fontSize: '14px', marginBottom: '10px',
+                        border: '1px solid #cbd5e1', fontSize: '14px', marginBottom: '8px',
                         boxSizing: 'border-box'
                       }}
                     />
+                    <select
+                      value={subHomeId}
+                      onChange={(e) => setSubHomeId(e.target.value)}
+                      style={{
+                        width: '100%', padding: '10px 14px', borderRadius: '8px',
+                        border: '1px solid #cbd5e1', fontSize: '14px', marginBottom: '10px',
+                        boxSizing: 'border-box', background: 'white', color: subHomeId ? '#1e293b' : '#94a3b8'
+                      }}
+                    >
+                      <option value="">All homes (general)</option>
+                      {homes.map(home => (
+                        <option key={home.id} value={home.id}>{home.name}</option>
+                      ))}
+                    </select>
                     <button
                       type="submit"
                       disabled={subStatus === 'loading'}
@@ -193,6 +222,34 @@ const Newsletters = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Filter by Home */}
+                {homes.length > 0 && (
+                <div className="sidebar-widget">
+                  <h3 className="widget-title">Filter by Home</h3>
+                  <div className="category-list">
+                    <button
+                      className={`category-btn ${selectedHome === 'all' ? 'active' : ''}`}
+                      onClick={() => { setSelectedHome('all'); setSelectedYear('all'); setSelectedMonth('all'); }}
+                    >
+                      All Homes
+                      <span className="category-count">({newsletters.length})</span>
+                    </button>
+                    {homes.map(home => (
+                      <button
+                        key={home.id}
+                        className={`category-btn ${selectedHome === home.id ? 'active' : ''}`}
+                        onClick={() => { setSelectedHome(home.id); setSelectedYear('all'); setSelectedMonth('all'); }}
+                      >
+                        {home.name}
+                        <span className="category-count">
+                          ({newsletters.filter(n => n.homeId === home.id || !n.homeId).length})
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                )}
 
                 {/* Filter by Year */}
                 <div className="sidebar-widget">
@@ -271,7 +328,9 @@ const Newsletters = () => {
                       ? `${MONTH_NAMES[parseInt(selectedMonth)]} ${selectedYear}`
                       : selectedYear !== 'all'
                         ? `Newsletters - ${selectedYear}`
-                        : 'All Newsletters'}
+                        : selectedHome !== 'all'
+                          ? `${homes.find(h => h.id === selectedHome)?.name || ''} Newsletters`
+                          : 'All Newsletters'}
                     <span className="result-count">({filteredNewsletters.length} editions)</span>
                   </h2>
                 </div>
@@ -313,6 +372,12 @@ const Newsletters = () => {
                             <span className="meta-date">
                               <i className="fas fa-calendar"></i> {MONTH_NAMES[newsletter.month]} {newsletter.year}
                             </span>
+                            {newsletter.homeId && homes.find(h => h.id === newsletter.homeId) && (
+                              <span style={{ fontSize: '12px', color: '#1B3C78', background: '#eff6ff', padding: '2px 8px', borderRadius: '12px', fontWeight: 500 }}>
+                                <i className="fas fa-home" style={{ marginRight: '4px' }}></i>
+                                {homes.find(h => h.id === newsletter.homeId)?.name}
+                              </span>
+                            )}
                           </div>
                           <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
                             <a
@@ -348,7 +413,7 @@ const Newsletters = () => {
                     </div>
                     <h3>No newsletters found</h3>
                     <p>Try selecting a different month or year, or check back soon for new editions.</p>
-                    <button className="reset-btn" onClick={() => { setSelectedYear('all'); setSelectedMonth('all'); }}>
+                    <button className="reset-btn" onClick={() => { setSelectedYear('all'); setSelectedMonth('all'); setSelectedHome('all'); }}>
                       Show All Newsletters
                     </button>
                   </div>

@@ -18,24 +18,6 @@ const ManagementTeam = () => {
     }
   };
 
-  const legacyTeam = [
-    {
-      name: "Helen Randall",
-      role: "Home Manager",
-      description: "Dedicated to ensuring the highest standards of care and operational excellence across our homes."
-    },
-    {
-      name: "Emma Pinnell",
-      role: "Deputy Manager",
-      description: "Supporting the management team and staff to deliver person-centred care to all residents."
-    },
-    {
-      name: "Bellavista Directors",
-      role: "Directors",
-      description: "As a family-owned business, the directors are fully involved in the daily management and strategic direction of the homes."
-    }
-  ];
-
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -49,8 +31,6 @@ const ManagementTeam = () => {
     };
     loadData();
   }, []);
-
-  const displayTeam = (team && team.length > 0) ? team : legacyTeam;
 
   return (
     <>
@@ -77,9 +57,14 @@ const ManagementTeam = () => {
 
         {loading ? (
           <div style={{textAlign:'center', padding:'50px'}}>Loading...</div>
+        ) : team.length === 0 ? (
+          <div style={{textAlign:'center', padding:'50px', color:'#6b7280'}}>
+            <i className="fas fa-users" style={{fontSize:'2.5rem', marginBottom:'12px', display:'block', opacity:0.4}}></i>
+            <p>No team members found.</p>
+          </div>
         ) : (
           <div className="team-grid">
-            {displayTeam.map((member, index) => (
+            {team.map((member, index) => (
               <div key={index} className="team-card">
                 <div className="member-avatar">
                   {member.image ? (
@@ -90,7 +75,11 @@ const ManagementTeam = () => {
                 </div>
                 <h3>{member.name}</h3>
                 <span className="member-role">{member.role}</span>
-                <div dangerouslySetInnerHTML={{ __html: member.description }} />
+                <div className="member-description">{
+                  member.description
+                    ? member.description.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim()
+                    : ''
+                }</div>
               </div>
             ))}
           </div>

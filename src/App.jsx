@@ -52,6 +52,7 @@ const Facilities = lazy(() => import('./pages/Facilities'));
 const News = lazy(() => import('./pages/OurNews'));
 const NewsDetail = lazy(() => import('./pages/NewsDetail'));
 const Newsletters = lazy(() => import('./pages/Newsletters'));
+const NewsletterSubscribed = lazy(() => import('./pages/NewsletterSubscribed'));
 const Testimonials = lazy(() => import('./pages/Testimonials'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const Career = lazy(() => import('./pages/Careers'));
@@ -252,6 +253,7 @@ const AppContent = () => {
             <Route path="/news" element={<News />} />
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/newsletters" element={<Newsletters />} />
+            <Route path="/newsletter-subscribed" element={<NewsletterSubscribed />} />
             <Route path="/testimonials" element={<Testimonials />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/career" element={<Career />} />

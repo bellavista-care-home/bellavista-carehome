@@ -1,5 +1,6 @@
 
 import { API_URL } from '../config/apiConfig';
+import { getToken } from './authService';
 
 const API_BASE = API_URL;
 
@@ -22,7 +23,7 @@ export async function createManagementMember(member) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${getToken()}`
       },
       body: JSON.stringify(member)
     });
@@ -41,7 +42,7 @@ export async function updateManagementMember(id, member) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${getToken()}`
       },
       body: JSON.stringify(member)
     });
@@ -59,7 +60,7 @@ export async function deleteManagementMember(id) {
     const res = await fetch(`${API_BASE}/management-team/${id}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${getToken()}`
       }
     });
     if (!res.ok) throw new Error('Failed to delete member');
