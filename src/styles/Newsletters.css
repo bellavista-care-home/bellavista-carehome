@@ -1,0 +1,224 @@
+/* ============================================================
+   Newsletters Page — scoped styles (.newsletters-page prefix)
+   Only applies to /newsletters, never bleeds into OurNews etc.
+   ============================================================ */
+
+/* ---- Page background ---- */
+.newsletters-page {
+    background-color: #f7faff;
+}
+
+/* ---- Sidebar: top accent + tighter padding ---- */
+.newsletters-page .news-sidebar {
+    border-top: 4px solid #1B3C78;
+}
+
+.newsletters-page .sidebar-widget {
+    padding: 20px 24px;
+}
+
+.newsletters-page .widget-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1B3C78;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+}
+
+/* ---- Category filter buttons: brand colours ---- */
+.newsletters-page .category-btn:hover {
+    background: #eff6ff;
+    color: #1B3C78;
+    border-color: #bfdbfe;
+}
+
+.newsletters-page .category-btn.active {
+    background: linear-gradient(135deg, #1B3C78 0%, #2563eb 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(27, 60, 120, 0.25);
+}
+
+/* ---- Stats widget: side-by-side + brand ---- */
+.newsletters-page .stats-widget {
+    flex-direction: row;
+    gap: 10px;
+}
+
+.newsletters-page .stat-item {
+    background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+    border: 1px solid #bfdbfe;
+    flex: 1;
+    padding: 14px 8px;
+    border-radius: 12px;
+}
+
+.newsletters-page .stat-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1B3C78;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.newsletters-page .stat-label {
+    font-size: 0.68rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* ---- Content header: left accent bar ---- */
+.newsletters-page .content-header {
+    padding: 22px 28px;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    border-left: 4px solid #1B3C78;
+}
+
+/* ---- Section heading: smaller, pill count ---- */
+.newsletters-page .section-heading {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.newsletters-page .result-count {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1B3C78;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+/* ---- Newsletter cards: tighter grid, flex layout, top accent ---- */
+.newsletters-page .news-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 24px 26px;
+}
+
+.newsletters-page .news-article-card {
+    border-radius: 16px;
+    border-top: 3px solid transparent;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletters-page .news-article-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 44px rgba(0,0,0,0.12);
+    border-top-color: #1B3C78;
+}
+
+/* ---- Card image: cover fit + brand background ---- */
+.newsletters-page .article-image {
+    height: 210px;
+    background: #e0f2fe;
+    flex-shrink: 0;
+}
+
+.newsletters-page .article-image img {
+    object-fit: cover;
+}
+
+/* ---- Card badge: brand navy, no uppercase ---- */
+.newsletters-page .article-badge {
+    background: #1B3C78;
+    text-transform: none;
+    letter-spacing: 0.2px;
+    font-size: 0.73rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* ---- Card body: flex so the button sticks to bottom ---- */
+.newsletters-page .article-content {
+    padding: 20px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletters-page .article-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    line-height: 1.45;
+}
+
+.newsletters-page .article-title a:hover {
+    color: #1B3C78;
+}
+
+.newsletters-page .article-meta {
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.newsletters-page .meta-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.newsletters-page .meta-date i {
+    color: #1B3C78;
+    opacity: 0.6;
+    font-size: 0.75rem;
+}
+
+/* ---- Reset / no-results button ---- */
+.newsletters-page .reset-btn {
+    background: linear-gradient(135deg, #1B3C78 0%, #2563eb 100%);
+    box-shadow: 0 4px 14px rgba(27, 60, 120, 0.25);
+    padding: 12px 28px;
+}
+
+.newsletters-page .reset-btn:hover {
+    box-shadow: 0 8px 24px rgba(27, 60, 120, 0.4);
+}
+
+/* ---- Responsive adjustments ---- */
+@media (max-width: 768px) {
+    .newsletters-page .sidebar-widget {
+        padding: 16px 18px;
+    }
+
+    .newsletters-page .content-header {
+        padding: 18px 20px;
+    }
+
+    .newsletters-page .news-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 18px 20px;
+    }
+
+    .newsletters-page .section-heading {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .newsletters-page .stats-widget {
+        flex-direction: row;
+    }
+
+    .newsletters-page .article-content {
+        padding: 16px 18px;
+    }
+}

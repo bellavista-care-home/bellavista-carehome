@@ -5,6 +5,7 @@ import { fetchHomes } from '../services/homeService';
 import SEO from '../components/SEO';
 import '../styles/MainPage.css';
 import '../styles/NewsDetail.css';
+import '../styles/Newsletters.css';
 
 const MONTH_NAMES = [
   '', 'January', 'February', 'March', 'April', 'May', 'June',
@@ -121,24 +122,70 @@ const Newsletters = () => {
         description="Browse our monthly newsletters with updates, stories, and news from Bellavista Nursing Homes across South Wales."
         url="/newsletters"
       />
-      <div className="news-page">
+      <div className="news-page newsletters-page">
         {/* Hero Section */}
         <section style={{
-          background: 'linear-gradient(135deg, #1B3C78 0%, #2563eb 100%)',
-          padding: '60px 20px 50px',
+          background: 'linear-gradient(135deg, #1B3C78 0%, #1d4ed8 60%, #2563eb 100%)',
+          padding: '64px 20px 0',
           textAlign: 'center',
-          color: 'white'
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <div className="container">
-            <h1 style={{ fontSize: '2.5rem', marginBottom: '12px', fontWeight: 700 }}>
-              <i className="fas fa-newspaper" style={{ marginRight: '12px', opacity: 0.85 }}></i>
+          {/* Decorative circles */}
+          <div style={{ position: 'absolute', top: '-50px', left: '-50px', width: '220px', height: '220px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: '30px', right: '-70px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: '20px', right: '12%', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.07)', pointerEvents: 'none' }} />
+          <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(255,255,255,0.15)', padding: '5px 16px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, marginBottom: '18px', backdropFilter: 'blur(10px)', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+              <i className="fas fa-newspaper"></i> Monthly Editions
+            </div>
+            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '14px', fontWeight: 800, letterSpacing: '-0.5px', lineHeight: 1.2 }}>
               Our Newsletters
             </h1>
-            <p style={{ fontSize: '1.15rem', opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}>
-              Stay connected with the latest updates, stories, and events from Bellavista Nursing Homes. Browse our monthly editions below.
+            <p style={{ fontSize: '1.05rem', opacity: 0.88, maxWidth: '560px', margin: '0 auto 32px', lineHeight: 1.7 }}>
+              Stay connected with updates, stories, and events from Bellavista Nursing Homes across South Wales.
             </p>
+            {/* Stats bar */}
+            {!loading && newsletters.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '48px', marginBottom: '36px', flexWrap: 'wrap' }}>
+                {[
+                  { icon: 'fa-book-open', value: newsletters.length, label: 'Editions' },
+                  { icon: 'fa-home', value: homes.length, label: 'Care Homes' },
+                  { icon: 'fa-calendar-alt', value: availableYears.length, label: availableYears.length === 1 ? 'Year' : 'Years' },
+                ].map(stat => (
+                  <div key={stat.label} style={{ textAlign: 'center' }}>
+                    <i className={`fas ${stat.icon}`} style={{ fontSize: '1.25rem', marginBottom: '6px', display: 'block', opacity: 0.8 }}></i>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 800, lineHeight: 1 }}>{stat.value}</div>
+                    <div style={{ fontSize: '11px', opacity: 0.72, textTransform: 'uppercase', letterSpacing: '0.7px', marginTop: '3px' }}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+          {/* Wave divider */}
+          <svg style={{ display: 'block', marginBottom: '-2px' }} viewBox="0 0 1440 52" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 52L80 44C160 36 320 20 480 16C640 12 800 20 960 24C1120 28 1280 28 1360 28L1440 28V52H0Z" fill="#F7FAFF"/>
+          </svg>
         </section>
+
+        {/* Active home filter banner */}
+        {selectedHome !== 'all' && homes.find(h => h.id === selectedHome) && (
+          <div style={{ background: '#eff6ff', borderBottom: '1px solid #bfdbfe', padding: '10px 20px' }}>
+            <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <i className="fas fa-filter" style={{ color: '#1B3C78', fontSize: '12px' }}></i>
+              <span style={{ fontSize: '13px', color: '#1e40af', fontWeight: 500 }}>
+                Filtering by: <strong>{homes.find(h => h.id === selectedHome)?.homeName}</strong>
+              </span>
+              <button
+                onClick={() => { setSelectedHome('all'); setSelectedYear('all'); setSelectedMonth('all'); }}
+                style={{ marginLeft: 'auto', background: 'none', border: '1px solid #93c5fd', borderRadius: '6px', color: '#1B3C78', cursor: 'pointer', fontSize: '12px', padding: '3px 10px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+              >
+                <i className="fas fa-times"></i> Clear filter
+              </button>
+            </div>
+          </div>
+        )}
 
         <section className="news-main" style={{ paddingTop: '40px' }}>
           <div className="container">
@@ -146,13 +193,13 @@ const Newsletters = () => {
               {/* Sidebar */}
               <aside className="news-sidebar">
                 {/* Subscribe Widget */}
-                <div className="sidebar-widget" style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)', border: '1px solid #bae6fd' }}>
-                  <h3 className="widget-title" style={{ color: '#0369a1' }}>
-                    <i className="fas fa-envelope" style={{ marginRight: '8px' }}></i>
+                <div className="sidebar-widget" style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #eff6ff 100%)', border: '1px solid #bfdbfe', borderTop: 'none' }}>
+                  <h3 className="widget-title" style={{ color: '#1B3C78' }}>
+                    <i className="fas fa-envelope"></i>
                     Subscribe
                   </h3>
-                  <p style={{ fontSize: '13px', color: '#475569', marginBottom: '12px', lineHeight: 1.5 }}>
-                    Get our monthly newsletter delivered to your inbox.
+                  <p style={{ fontSize: '12.5px', color: '#475569', marginBottom: '12px', lineHeight: 1.6 }}>
+                    Get our newsletter delivered to your inbox each month.
                   </p>
                   <form onSubmit={handleSubscribe}>
                     <input
@@ -349,19 +396,33 @@ const Newsletters = () => {
                             <img src={newsletter.coverImage} alt={newsletter.title} />
                           ) : (
                             <div className="article-placeholder-image" style={{
-                              background: 'linear-gradient(135deg, #1B3C78 0%, #2563eb 100%)',
+                              background: 'linear-gradient(135deg, #1e3a8a 0%, #1B3C78 40%, #2563eb 100%)',
                               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                              color: 'white', gap: '8px'
+                              color: 'white', gap: '10px', height: '100%', position: 'relative', overflow: 'hidden'
                             }}>
-                              <i className="fas fa-newspaper" style={{ fontSize: '2.5rem', opacity: 0.9 }}></i>
-                              <span style={{ fontSize: '14px', fontWeight: 600, opacity: 0.85 }}>
-                                {MONTH_NAMES[newsletter.month]} {newsletter.year}
-                              </span>
+                              {/* Decorative lines */}
+                              <div style={{ position: 'absolute', inset: 0, opacity: 0.07, backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(255,255,255,0.8) 18px, rgba(255,255,255,0.8) 19px)', pointerEvents: 'none' }} />
+                              <i className="fas fa-newspaper" style={{ fontSize: '2.8rem', opacity: 0.9, position: 'relative' }}></i>
+                              <div style={{ textAlign: 'center', position: 'relative' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 700, opacity: 0.95, letterSpacing: '0.3px' }}>
+                                  {MONTH_NAMES[newsletter.month]} {newsletter.year}
+                                </div>
+                                <div style={{ fontSize: '10px', opacity: 0.65, textTransform: 'uppercase', letterSpacing: '1px', marginTop: '3px' }}>Newsletter</div>
+                              </div>
                             </div>
                           )}
-                          <div className="article-badge" style={{ background: '#1B3C78' }}>
+                          <div className="article-badge">
                             {MONTH_NAMES[newsletter.month]} {newsletter.year}
                           </div>
+                          {(() => {
+                            const now = new Date();
+                            const isNew = newsletter.year === now.getFullYear() && newsletter.month >= now.getMonth();
+                            return isNew ? (
+                              <div style={{ position: 'absolute', top: '14px', right: '14px', background: '#10b981', color: 'white', padding: '4px 10px', borderRadius: '20px', fontSize: '10px', fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+                                New
+                              </div>
+                            ) : null;
+                          })()}
                         </div>
                         <div className="article-content">
                           <h3 className="article-title">{newsletter.title}</h3>
@@ -379,27 +440,30 @@ const Newsletters = () => {
                               </span>
                             )}
                           </div>
-                          <div style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+                          <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', paddingTop: '16px', flexWrap: 'wrap' }}>
                             <a
                               href={newsletter.fileUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="read-more-btn"
-                              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none', padding: '9px 16px', fontSize: '13px', marginTop: 0, flex: 1, justifyContent: 'center', minWidth: '110px' }}
                             >
-                              <i className="fas fa-eye"></i> View Newsletter
+                              <i className="fas fa-eye"></i> View
                             </a>
                             <a
                               href={newsletter.fileUrl}
                               download
-                              className="read-more-btn"
                               style={{
                                 display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none',
-                                background: 'transparent', color: '#1B3C78', border: '1px solid #1B3C78',
-                                padding: '8px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 600
+                                background: 'white', color: '#1B3C78', border: '1.5px solid #bfdbfe',
+                                padding: '9px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: 600,
+                                flex: 1, justifyContent: 'center', minWidth: '110px',
+                                transition: 'all 0.2s ease'
                               }}
+                              onMouseEnter={e => { e.currentTarget.style.background = '#eff6ff'; e.currentTarget.style.borderColor = '#1B3C78'; }}
+                              onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.borderColor = '#bfdbfe'; }}
                             >
-                              <i className="fas fa-download"></i> Download PDF
+                              <i className="fas fa-download"></i> PDF
                             </a>
                           </div>
                         </div>
