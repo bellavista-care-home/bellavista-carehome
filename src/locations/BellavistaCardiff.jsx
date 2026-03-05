@@ -604,7 +604,7 @@ const BellavistaCardiff = () => {
                   <i className="fas fa-file-pdf"></i> CIW Report
                 </div>
               )}
-              <div className="btn btn-primary" onClick={() => navigate('/newsletters')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+              <div className="btn btn-primary" onClick={() => navigate('/newsletters' + (homeData?.id ? '?homeId=' + homeData.id : ''))} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
                 <i className="fas fa-newspaper"></i> Newsletter
               </div>
             </div>

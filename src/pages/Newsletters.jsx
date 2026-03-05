@@ -189,7 +189,7 @@ const Newsletters = () => {
                     >
                       <option value="">All homes (general)</option>
                       {homes.map(home => (
-                        <option key={home.id} value={home.id}>{home.name}</option>
+                          <option key={home.id} value={home.id}>{home.homeName}</option>
                       ))}
                     </select>
                     <button
@@ -241,7 +241,7 @@ const Newsletters = () => {
                         className={`category-btn ${selectedHome === home.id ? 'active' : ''}`}
                         onClick={() => { setSelectedHome(home.id); setSelectedYear('all'); setSelectedMonth('all'); }}
                       >
-                        {home.name}
+                        {home.homeName}
                         <span className="category-count">
                           ({newsletters.filter(n => n.homeId === home.id || !n.homeId).length})
                         </span>
@@ -329,7 +329,7 @@ const Newsletters = () => {
                       : selectedYear !== 'all'
                         ? `Newsletters - ${selectedYear}`
                         : selectedHome !== 'all'
-                          ? `${homes.find(h => h.id === selectedHome)?.name || ''} Newsletters`
+                          ? `${homes.find(h => h.id === selectedHome)?.homeName || ''} Newsletters`
                           : 'All Newsletters'}
                     <span className="result-count">({filteredNewsletters.length} editions)</span>
                   </h2>
@@ -375,7 +375,7 @@ const Newsletters = () => {
                             {newsletter.homeId && homes.find(h => h.id === newsletter.homeId) && (
                               <span style={{ fontSize: '12px', color: '#1B3C78', background: '#eff6ff', padding: '2px 8px', borderRadius: '12px', fontWeight: 500 }}>
                                 <i className="fas fa-home" style={{ marginRight: '4px' }}></i>
-                                {homes.find(h => h.id === newsletter.homeId)?.name}
+                                {homes.find(h => h.id === newsletter.homeId)?.homeName}
                               </span>
                             )}
                           </div>
