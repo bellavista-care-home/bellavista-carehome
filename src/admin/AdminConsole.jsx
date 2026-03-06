@@ -1258,12 +1258,13 @@ const AdminConsole = () => {
         {activeView === 'live-page-edit' && (() => {
           // All known homes with their navigation slugs
           const LIVE_PAGE_HOMES = [
-            { name: 'Bellavista Barry',     slug: 'bellavista-barry',      location: 'Barry',      color: '#1b3c78' },
-            { name: 'Bellavista Cardiff',   slug: 'bellavista-cardiff',    location: 'Cardiff Bay', color: '#2563eb' },
-            { name: 'Bellavista Baltimore', slug: 'baltimore-care-home',   location: 'Cardiff Bay', color: '#0891b2' },
-            { name: 'Waverley Care Centre', slug: 'waverley-care-centre',  location: 'Penarth',    color: '#059669' },
-            { name: 'College Fields',       slug: 'college-fields',        location: 'Barry',      color: '#7c3aed' },
-            { name: 'Meadow Vale Cwtch',    slug: 'meadow-vale-cwtch',     location: 'Bridgend',   color: '#db2777' },
+            { name: 'Bellavista Barry',           slug: 'bellavista-barry',      location: 'Barry',       color: '#1b3c78' },
+            { name: 'Bellavista Cardiff',         slug: 'bellavista-cardiff',    location: 'Cardiff Bay', color: '#2563eb' },
+            { name: 'Baltimore Care Home',        slug: 'baltimore-care-home',   location: 'Cardiff Bay', color: '#0891b2' },
+            { name: 'Waverley Care Centre',       slug: 'waverley-care-centre',  location: 'Penarth',     color: '#059669' },
+            { name: 'College Fields Nursing Home', slug: 'college-fields',       location: 'Barry',       color: '#7c3aed' },
+            { name: 'Meadow Vale Cwtch',          slug: 'meadow-vale-cwtch',     location: 'Bridgend',    color: '#db2777' },
+            { name: 'Bellavista Pontypridd',      slug: 'bellavista-pontypridd', location: 'Pontypridd',  color: '#b45309' },
           ];
           // For temp_admin: filter to only their allowed homes (cross-ref by homeName)
           const allowedNames = homeIdsToNames(allowedLivePageEditHomeIds);
