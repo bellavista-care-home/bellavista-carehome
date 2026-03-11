@@ -22,16 +22,23 @@ redirects:
   - source: https://bellavistanursinghomes.com/<*>
     target: https://www.bellavistanursinghomes.com/<*>
     status: 301
-    
+
   # Redirect HTTP to HTTPS + WWW
   - source: http://bellavistanursinghomes.com/<*>
     target: https://www.bellavistanursinghomes.com/<*>
     status: 301
-    
+
   # Redirect HTTP WWW to HTTPS WWW
   - source: http://www.bellavistanursinghomes.com/<*>
     target: https://www.bellavistanursinghomes.com/<*>
     status: 301
+
+  # SPA fallback — must be LAST. Serves index.html for any path not matched
+  # by a real file on disk (client-side routes). Prerendered pages are served
+  # as real .html files and will be matched BEFORE this rule hits.
+  - source: /<*>
+    target: /index.html
+    status: 200
 
 # Custom headers for security and SEO
 customHeaders:
