@@ -16,6 +16,10 @@
   border-radius: 16px;
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.07);
   overflow: hidden;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .hec-layout > * {
@@ -74,6 +78,8 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
   text-align: center;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
 .hec-weekday {
@@ -97,6 +103,9 @@
   position: relative;
   font-size: 0.9rem;
   color: #333;
+  max-width: 42px;
+  max-height: 42px;
+  margin: 0 auto;
 }
 
 .hec-day--empty {
@@ -124,15 +133,29 @@
 
 .hec-day__dot {
   display: block;
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   background: #C5A059;
   border-radius: 50%;
-  margin-top: 3px;
+  margin-top: 2px;
+}
+
+.hec-day--has-events {
+  background: #FAF5EB;
+  font-weight: 600;
+  color: #11120D;
+}
+
+.hec-day--has-events:hover {
+  background: #F0E8D5;
 }
 
 .hec-day--selected .hec-day__dot {
   background: #fff;
+}
+
+.hec-day--selected.hec-day--has-events {
+  background: #565449 !important;
 }
 
 /* ---- Events Panel ---- */
@@ -411,6 +434,28 @@
   max-width: 100%;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+/* ---- Large screens (TVs, ultrawide) ---- */
+@media (min-width: 1400px) {
+  .hec-layout {
+    max-width: 900px;
+  }
+
+  .hec-grid {
+    max-width: 340px;
+  }
+
+  .hec-day {
+    max-width: 42px;
+    max-height: 42px;
+  }
+}
+
+@media (min-width: 1800px) {
+  .hec-layout {
+    max-width: 900px;
+  }
 }
 
 /* ---- Responsive ---- */

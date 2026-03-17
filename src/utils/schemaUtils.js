@@ -16,7 +16,7 @@ export const generateOrganizationSchema = () => ({
     "postalCode": "CF10 5GB",
     "addressCountry": "UK"
   },
-  "telephone": "+442920705282",
+  "telephone": "+442920494447",
   "priceRange": "£££",
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -172,7 +172,7 @@ export const locations = {
       city: "Cardiff",
       postcode: "CF10 5GB"
     },
-    phone: "+44 29 2070 5282",
+    phone: "+44 29 2049 4447",
     coordinates: {
       lat: 51.464,
       lng: -3.165
@@ -220,7 +220,7 @@ export const locations = {
       city: "Barry",
       postcode: "CF62 8LE"
     },
-    phone: "+44 1446 743893",
+    phone: "+44 1446 747778",
     coordinates: {
       lat: 51.408,
       lng: -3.282
@@ -236,7 +236,7 @@ export const locations = {
       city: "Barry",
       postcode: "CF62 6NU"
     },
-    phone: "+44 1446 743893",
+    phone: "+44 1446 420714",
     coordinates: {
       lat: 51.398,
       lng: -3.285
@@ -252,7 +252,7 @@ export const locations = {
       city: "Sully, Penarth",
       postcode: "CF64 5TD"
     },
-    phone: "+44 29 2053 1081",
+    phone: "+44 29 2240 4104",
     coordinates: {
       lat: 51.390,
       lng: -3.345

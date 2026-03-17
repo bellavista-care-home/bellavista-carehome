@@ -200,7 +200,7 @@ const BellavistaCardiff = () => {
     "url": "https://www.bellavistanursinghomes.com/bellavista-cardiff",
     "description": "Bellavista Cardiff is a top-rated, award-winning nursing home in Cardiff Bay. Offering exceptional dementia and nursing care in a modern, luxury environment with stunning views.",
     "slogan": "Luxury Care in the Heart of Cardiff Bay",
-    "telephone": "+44 29 2070 5282",
+    "telephone": "+44 29 2049 4447",
     "priceRange": "£££",
     "openingHoursSpecification": [
       {
@@ -1064,7 +1064,7 @@ const BellavistaCardiff = () => {
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-phone"></i>
-                  <a href="tel:02920705282">029 2070 5282</a>
+                  <a href="tel:02920494447">029 2049 4447</a>
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-envelope"></i>

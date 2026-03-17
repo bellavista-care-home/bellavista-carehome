@@ -378,9 +378,9 @@ img {
   }
 
   /* Larger grids for ultra-wide */
-  [class*="-grid"],
-  [class*="grid"],
-  .grid {
+  [class*="-grid"]:not(.calendar-grid):not(.hec-grid),
+  [class*="grid"]:not(.calendar-grid):not(.hec-grid),
+  .grid:not(.calendar-grid):not(.hec-grid) {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
     gap: 40px !important;
   }
@@ -431,9 +431,9 @@ img {
   }
 
   /* Maximum grid columns for 4K */
-  [class*="-grid"],
-  [class*="grid"],
-  .grid {
+  [class*="-grid"]:not(.calendar-grid):not(.hec-grid),
+  [class*="grid"]:not(.calendar-grid):not(.hec-grid),
+  .grid:not(.calendar-grid):not(.hec-grid) {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
     gap: 50px !important;
   }

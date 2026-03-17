@@ -165,7 +165,7 @@ const Enquiry = () => {
             </div>
             <div className="info-card">
               <h3><i className="fas fa-phone-alt"></i> Direct Contact</h3>
-              <p>Prefer to speak to someone? Call our main office on <strong>01446 743983</strong>.</p>
+              <p>Prefer to speak to someone? Call our main office on <strong>029 2240 4104</strong>.</p>
             </div>
             <div className="info-card">
               <h3><i className="fas fa-envelope-open-text"></i> Quick Response</h3>

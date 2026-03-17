@@ -21,14 +21,14 @@ const Contact = () => {
     {
       name: 'Bellavista Nursing Home Barry',
       address: '106-108 Tynewydd Road, Barry, CF62 8BB',
-      phone: '01446 743983',
+      phone: '01446 743893',
       email: 'manager@bellavistanursinghome.com',
       mapLink: 'https://maps.google.com/?q=106-108+Tynewydd+Road,+Barry,+CF62+8BB'
     },
     {
       name: 'Bellavista Nursing Home Cardiff',
       address: '2 Harrowby Place, Cardiff Bay, CF10 5GB',
-      phone: '029 2048 5588',
+      phone: '029 2049 4447',
       email: 'cardiff@bellavistanursinghome.com',
       mapLink: 'https://maps.google.com/?q=2+Harrowby+Place,+Cardiff+Bay,+CF10+5GB'
     },
@@ -56,7 +56,7 @@ const Contact = () => {
     {
       name: 'Meadow Vale Cwtch',
       address: '27-29 Cog Road, Sully, Penarth, CF64 5TD',
-      phone: '029 2070 5282',
+      phone: '029 2240 4104',
       email: 'admin@bellavistacarehomes.com',
       mapLink: 'https://maps.google.com/?q=27-29+Cog+Road,+Sully,+Penarth,+CF64+5TD'
     }

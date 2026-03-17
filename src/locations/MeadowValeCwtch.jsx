@@ -158,7 +158,7 @@ const MeadowValeCwtch = () => {
     "url": "https://www.bellavistanursinghomes.com/meadow-vale-cwtch",
     "description": "Meadow Vale Cwtch is a top-rated specialist nursing home for young onset dementia in the UK. Award-winning, eco-conscious care in South Wales.",
     "slogan": "Setting a New Standard in Dementia Care",
-    "telephone": "+44 29 2070 5282",
+    "telephone": "+44 29 2240 4104",
     "priceRange": "£££",
     "openingHoursSpecification": [
       {
@@ -1031,7 +1031,7 @@ const MeadowValeCwtch = () => {
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-phone"></i>
-                  <a href="tel:02920705282">029 2070 5282</a>
+                  <a href="tel:02922404104">029 2240 4104</a>
                 </div>
                 <div className="contact-mini-item">
                   <i className="fas fa-envelope"></i>

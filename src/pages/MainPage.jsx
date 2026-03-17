@@ -333,7 +333,7 @@ const Home = () => {
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+44-1446-748899",
+      "telephone": "+44-29-2240-4104",
       "contactType": "customer service",
       "areaServed": "UK",
       "availableLanguage": "English"
