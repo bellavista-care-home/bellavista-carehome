@@ -337,25 +337,23 @@ const BellavistaBarry = () => {
     <div className="location-page theme-barry home">
       <style>{`
         .theme-barry {
-          /* Core Brand Colors - Blue Palette */
+          /* Core Brand Colors - Deep Royal Blue Palette */
           --color-primary: var(--primary-blue);
-          --color-primary-dark: #0d2650; /* Darker Navy */
-          --color-accent: var(--cta-default);
+          --color-primary-dark: #1E40AF; /* Darker Navy */
+          --color-accent: #2563EB;
           --color-secondary: var(--secondary-blue);
           --color-text-main: #333333;
           --color-bg-light: var(--soft-blue);
           --color-bg-white: var(--surface-blue);
           
           /* Gradients matching MainPage */
-          --hero-gradient-start: rgba(27, 60, 120, 0.95);
-          --hero-gradient-end: rgba(49, 93, 168, 0.85);
           
           /* Typography */
-          --font-heading: 'Playfair Display', serif;
-          --font-body: 'Lato', sans-serif;
+          --font-heading: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          --font-body: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
           
           /* Mappings for consistency */
-          --white: var(--color-bg-white);
+          --white: #FFFFFF;
           --smoky-black: var(--color-primary-dark);
           --text-light: #555555;
           --olive-drab: var(--color-primary);
@@ -372,15 +370,18 @@ const BellavistaBarry = () => {
         }
         .theme-barry .hero-title .title-main {
           white-space: normal;
-          line-height: 1.1;
-          font-family: var(--font-heading);
+          line-height: 1.05;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-weight: 700;
+          font-style: normal;
+          letter-spacing: -0.01em;
         }
         .theme-barry .hero-title .title-sub {
           color: var(--soft-blue);
           font-style: italic;
           opacity: 0.95;
           margin-top: 16px;
-          font-family: var(--font-heading);
+          font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .hero-description {
           color: rgba(255, 251, 244, 0.9);
@@ -393,7 +394,7 @@ const BellavistaBarry = () => {
           border-bottom: 3px solid var(--color-secondary);
           padding-bottom: 10px;
           display: inline-block;
-          font-family: var(--font-heading);
+          font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .group-intro-text p {
           color: var(--color-text-main);
@@ -405,34 +406,41 @@ const BellavistaBarry = () => {
           padding-left: 15px;
           margin-top: 30px;
           margin-bottom: 15px;
-          font-family: var(--font-heading);
+          font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .btn-primary {
-          background-color: var(--color-primary);
-          border-color: var(--color-primary);
-          color: var(--color-bg-light);
+          background-color: var(--white, #FFFFFF);
+          border: 2px solid var(--color-primary);
+          color: var(--color-primary);
           text-transform: uppercase;
           letter-spacing: 1px;
           transition: all 0.3s ease;
-          font-family: var(--font-body);
-          font-weight: 700;
+          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.8px;
+          border-radius: 50px;
         }
         .theme-barry .btn-primary:hover {
-          background-color: var(--color-primary-dark);
+          background-color: var(--color-primary);
+          color: var(--white, #FFFFFF);
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(86, 84, 73, 0.3);
+          box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
         }
         .theme-barry .btn-outline {
           color: var(--color-primary);
-          border-color: var(--color-primary);
+          border: 2px solid var(--color-primary);
           text-transform: uppercase;
           letter-spacing: 1px;
-          font-family: var(--font-body);
-          font-weight: 700;
+          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.8px;
+          border-radius: 50px;
         }
         .theme-barry .btn-outline:hover {
           background-color: var(--color-primary);
-          color: var(--color-bg-light);
+          color: var(--white, #FFFFFF);
         }
 
         /* 3. QUICK STATS */
@@ -452,14 +460,16 @@ const BellavistaBarry = () => {
         /* 4. ACTIVITIES & FACILITIES SECTIONS */
         .theme-barry .section-header__subtitle {
           color: var(--color-primary);
-          font-family: var(--font-body);
-          font-weight: 700;
+          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.8px;
           letter-spacing: 2px;
           text-transform: uppercase;
         }
         .theme-barry .section-header__title {
           color: var(--color-primary-dark);
-          font-family: var(--font-heading);
+          font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .detailed-facility-card {
           border-color: var(--color-secondary);
@@ -509,7 +519,7 @@ const BellavistaBarry = () => {
           border-bottom: 2px solid var(--color-secondary);
           padding-bottom: 10px;
           margin-bottom: 20px;
-          font-family: var(--font-heading);
+          font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .contact-mini-item i {
           color: var(--color-primary);
@@ -570,6 +580,9 @@ const BellavistaBarry = () => {
         
         /* Fix button width and overflow */
         .hero-buttons-row .btn {
+          background-color: #FFFFFF !important;
+          color: #1D4ED8 !important;
+          border: 2px solid #1D4ED8 !important;
           min-width: 160px;
           flex: 1;
           white-space: normal !important; /* Allow wrapping */

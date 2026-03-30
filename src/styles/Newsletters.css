@@ -10,7 +10,7 @@
 
 /* ---- Sidebar: top accent + tighter padding ---- */
 .newsletters-page .news-sidebar {
-    border-top: 4px solid #1B3C78;
+    border-top: 4px solid #1D4ED8;
 }
 
 .newsletters-page .sidebar-widget {
@@ -20,7 +20,7 @@
 .newsletters-page .widget-title {
     font-size: 0.75rem;
     font-weight: 700;
-    color: #1B3C78;
+    color: #1D4ED8;
     margin-bottom: 14px;
     text-transform: uppercase;
     letter-spacing: 0.9px;
@@ -29,12 +29,12 @@
 /* ---- Category filter buttons: brand colours ---- */
 .newsletters-page .category-btn:hover {
     background: #eff6ff;
-    color: #1B3C78;
+    color: #1D4ED8;
     border-color: #bfdbfe;
 }
 
 .newsletters-page .category-btn.active {
-    background: linear-gradient(135deg, #1B3C78 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
     color: white;
     border-color: transparent;
     box-shadow: 0 4px 12px rgba(27, 60, 120, 0.25);
@@ -57,7 +57,7 @@
 .newsletters-page .stat-number {
     font-size: 1.6rem;
     font-weight: 800;
-    color: #1B3C78;
+    color: #1D4ED8;
     margin-bottom: 4px;
     line-height: 1;
 }
@@ -72,7 +72,7 @@
 .newsletters-page .content-header {
     padding: 22px 28px;
     background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
-    border-left: 4px solid #1B3C78;
+    border-left: 4px solid #1D4ED8;
 }
 
 /* ---- Section heading: smaller, pill count ---- */
@@ -90,7 +90,7 @@
 .newsletters-page .result-count {
     font-size: 0.78rem;
     font-weight: 600;
-    color: #1B3C78;
+    color: #1D4ED8;
     background: #eff6ff;
     border: 1px solid #bfdbfe;
     padding: 3px 10px;
@@ -117,7 +117,7 @@
 .newsletters-page .news-article-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 18px 44px rgba(0,0,0,0.12);
-    border-top-color: #1B3C78;
+    border-top-color: #1D4ED8;
 }
 
 /* ---- Card image: cover fit + brand background ---- */
@@ -133,7 +133,7 @@
 
 /* ---- Card badge: brand navy, no uppercase ---- */
 .newsletters-page .article-badge {
-    background: #1B3C78;
+    background: #1D4ED8;
     text-transform: none;
     letter-spacing: 0.2px;
     font-size: 0.73rem;
@@ -157,7 +157,7 @@
 }
 
 .newsletters-page .article-title a:hover {
-    color: #1B3C78;
+    color: #1D4ED8;
 }
 
 .newsletters-page .article-meta {
@@ -176,14 +176,14 @@
 }
 
 .newsletters-page .meta-date i {
-    color: #1B3C78;
+    color: #1D4ED8;
     opacity: 0.6;
     font-size: 0.75rem;
 }
 
 /* ---- Reset / no-results button ---- */
 .newsletters-page .reset-btn {
-    background: linear-gradient(135deg, #1B3C78 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
     box-shadow: 0 4px 14px rgba(27, 60, 120, 0.25);
     padding: 12px 28px;
 }

@@ -77,7 +77,7 @@ const DesktopExperienceNotice = () => {
             width: '32px',
             height: '32px',
             borderRadius: '999px',
-            backgroundImage: 'linear-gradient(135deg, #1B3C78, #1FA4A9)',
+            backgroundImage: 'linear-gradient(135deg, #1652C9, #1FA4A9)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

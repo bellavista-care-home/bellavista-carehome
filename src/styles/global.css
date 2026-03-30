@@ -3,13 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Global Styles & Reset */
 :root {
-  /* Core Brand Colors - New Blue Luxury Palette */
-  --primary-blue: #1B3C78;    /* Primary Navy */
-  --secondary-blue: #315DA8;  /* Secondary Blue */
+  /* Core Brand Colors - Royal Blue Palette */
+  --primary-blue: #1D4ED8;    /* Royal Blue (Tailwind blue-700) */
+  --secondary-blue: #2563EB;  /* Bright Blue (Tailwind blue-600) */
   --soft-blue: #DBE6F5;       /* Soft Blue Background (Darker for contrast) */
   --surface-blue: #F7FAFF;    /* Surface Blue */
   
@@ -17,8 +17,8 @@
   --text-primary: #1F2937;    /* Dark Grey Text */
   --text-secondary: #6B7280;  /* Muted Text */
   
-  --cta-default: #1FA4A9;     /* Teal CTA */
-  --cta-hover: #178C91;       /* Darker Teal CTA */
+  --cta-default: #2563EB;     /* Blue CTA */
+  --cta-hover: #1E40AF;       /* Darker Blue CTA */
   
   --success: #22C55E;
   --warning: #F59E0B;
@@ -61,14 +61,14 @@
   --gradient-dark: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-blue) 100%);
   
   /* Shadows - Tinted with brand colors */
-  --shadow-sm: 0 1px 2px 0 rgba(17, 18, 13, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(17, 18, 13, 0.1), 0 2px 4px -1px rgba(17, 18, 13, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(17, 18, 13, 0.1), 0 4px 6px -2px rgba(17, 18, 13, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(17, 18, 13, 0.1), 0 10px 10px -5px rgba(17, 18, 13, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(17, 18, 13, 0.25);
+  --shadow-sm: 0 1px 2px 0 rgba(29, 78, 216, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(29, 78, 216, 0.1), 0 2px 4px -1px rgba(29, 78, 216, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(29, 78, 216, 0.1), 0 4px 6px -2px rgba(29, 78, 216, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(29, 78, 216, 0.1), 0 10px 10px -5px rgba(29, 78, 216, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(29, 78, 216, 0.25);
   
   /* Typography */
-  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-primary: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
 }
@@ -81,6 +81,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-y: scroll; /* Always show scrollbar for consistent viewport width */
 }
 
 html, body {
@@ -91,7 +92,6 @@ html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-y: auto; /* Ensure vertical scroll works */
 }
 
 /* Ensure no element can cause horizontal overflow */
@@ -204,32 +204,34 @@ img {
 /* Button Utility */
 .btn {
   display: inline-block;
-  padding: 14px 32px;
+  padding: 13px 28px;
   border-radius: 50px;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s ease;
   border: none;
-  font-family: var(--font-display);
-  letter-spacing: 0.5px;
+  font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 13px;
   position: relative;
   overflow: hidden;
 }
 
 .btn-primary {
-  background: var(--gradient-primary);
-  color: white;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid transparent;
+  background: var(--primary-blue);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--primary-blue);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(255, 107, 107, 0.4), 0 0 60px rgba(255, 107, 107, 0.2);
-  background: var(--gradient-accent);
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
+  background: var(--secondary-blue);
+  border-color: var(--secondary-blue);
+  color: #FFFFFF;
 }
 
 .btn-outline {
@@ -243,7 +245,7 @@ img {
   background: var(--primary-blue);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(255, 107, 107, 0.3), 0 0 45px rgba(255, 107, 107, 0.1);
+  box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
   border-color: transparent;
 }
 

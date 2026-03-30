@@ -396,7 +396,7 @@ const Newsletters = () => {
                             <img src={newsletter.coverImage} alt={newsletter.title} />
                           ) : (
                             <div className="article-placeholder-image" style={{
-                              background: 'linear-gradient(135deg, #1e3a8a 0%, #1B3C78 40%, #2563eb 100%)',
+                              background: 'linear-gradient(135deg, #1D4ED8 0%, #1B3C78 40%, #2563eb 100%)',
                               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                               color: 'white', gap: '10px', height: '100%', position: 'relative', overflow: 'hidden'
                             }}>

@@ -43,7 +43,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #3b82f6 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: sticky;
@@ -673,7 +673,7 @@
 }
 
 .live-preview-scale-select option {
-  background: #1e3a8a;
+  background: #1D4ED8;
   color: white;
 }
 

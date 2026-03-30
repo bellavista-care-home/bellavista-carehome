@@ -8,15 +8,13 @@
    1. VARIABLES & CONFIGURATION
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Colors - Default (Blue/Navy Theme) */
-  --color-primary: #1B3C78;       /* Primary Blue */
-  --color-primary-dark: #1F2937;  /* Navy for Text */
-  --color-accent: #1FA4A9;        /* Teal Accent */
-  --color-accent-dark: #178C91;   /* Teal Hover */
+  /* Brand Colors - Default (Deep Royal Blue Theme) */
+  --color-primary: #1D4ED8;       /* Deep Royal Blue */
+  --color-primary-dark: #1E40AF;  /* Navy for Text */
+  --color-accent: #2563EB;        /* Medium Blue Accent */
+  --color-accent-dark: #0F2D7A;   /* Blue Hover */
   
-  /* Location Specific Hero Theme (Default) */
-  --hero-gradient-start: rgba(27, 60, 120, 0.9);
-  --hero-gradient-end: rgba(20, 45, 90, 0.8);
+  /* Location Specific Hero Theme (Default) - gradient handled directly on .hero */
   /* --hero-bg-image: url('/care-home-banner-image.png'); Removed default to prevent fallback conflict */
 
   /* Neutral Colors */
@@ -47,7 +45,7 @@
   --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
   --shadow-md: 0 10px 15px rgba(0,0,0,0.08);
   --shadow-lg: 0 20px 25px rgba(0,0,0,0.1);
-  --shadow-hover: 0 20px 40px rgba(30, 91, 168, 0.15);
+  --shadow-hover: 0 20px 40px rgba(29, 78, 216, 0.15);
 
   --transition-fast: 0.2s ease;
   --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1024,7 +1022,7 @@
 
 /* Hero Section */
 .hero {
-    background: radial-gradient(120% 120% at 0% 0%, rgba(216, 207, 188, 0.25) 0%, rgba(17, 18, 13, 0.98) 60%), linear-gradient(140deg, #11120D 0%, #11120D 55%, #11120D 100%);
+    background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 30%, #1D4ED8 65%, #2563EB 100%);
     padding-top: clamp(85px, 9vw, 110px);
     padding-bottom: clamp(40px, 5vw, 60px);
     position: relative;
@@ -1033,19 +1031,35 @@
 }
 
 .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(600px 500px at 80% 10%, rgba(216, 207, 188, 0.25), transparent 70%);
-    z-index: 0;
+    display: none;
 }
 
 .hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(17, 18, 13, 0.2), rgba(17, 18, 13, 0.7));
-    z-index: 0;
+    display: none;
+}
+
+/* All buttons inside hero — white fill with blue text/border */
+.hero .btn-primary,
+.hero .btn {
+    background-color: #FFFFFF;
+    color: #1D4ED8;
+    border: 2px solid #1D4ED8;
+    font-family: 'Inter', 'Open Sans', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+}
+
+.hero .btn-primary:hover,
+.hero .btn:hover {
+    background-color: #1D4ED8;
+    color: #FFFFFF;
+    border-color: #1D4ED8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
 }
 
 .hero-right-full {
@@ -1063,7 +1077,7 @@
 .hero-image-wrap {
     position: relative;
     overflow: hidden;
-    background: #1c1a15;
+    background: #2563EB;
     height: 100%;
     width: 100%;
     border-radius: 0;
@@ -1080,10 +1094,7 @@
 }
 
 .hero-image-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(160deg, rgba(17, 18, 13, 0.1), rgba(17, 18, 13, 0.4));
+    display: none;
 }
 
 .hero-container {
@@ -1114,33 +1125,35 @@
 }
 
 .title-main {
-    font-size: clamp(36px, 5.5vw, 72px);
-    font-family: var(--font-heading);
-    color: var(--soft-blue); /* Soft Blue */
+    font-size: clamp(44px, 6.5vw, 88px);
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #FFFFFF;
     line-height: 1.05;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     display: block;
-    text-shadow: 0 4px 16px rgba(0,0,0,0.7);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 .title-sub {
-    font-family: var(--font-heading);
-    font-size: clamp(24px, 3.5vw, 42px);
-    color: var(--soft-blue); /* Soft Blue */
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(20px, 2.8vw, 36px);
+    color: rgba(255, 255, 255, 0.95);
     display: block;
-    margin-top: 10px;
+    margin-top: 14px;
     font-style: italic;
     font-weight: 400;
-    opacity: 0.9;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.2);
 }
 
 .hero-description {
-    font-size: clamp(15px, 2vw, 19px);
-    color: var(--soft-blue);
-    line-height: 1.75;
+    font-size: clamp(15px, 1.8vw, 18px);
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.8;
     max-width: 500px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
 }
 
 .hero-marquee-full-width {
@@ -1237,47 +1250,56 @@
 
 /* Buttons */
 .btn-primary {
-    background: var(--cta-default); /* Teal CTA */
-    color: var(--white);
-    border: 1px solid var(--cta-default);
-    padding: 12px 24px;
-    border-radius: 8px;
+    background: var(--primary-blue, #1D4ED8); /* Solid blue fill */
+    color: #FFFFFF;
+    border: 2px solid var(--primary-blue, #1D4ED8);
+    padding: 12px 26px;
+    border-radius: 50px;
     text-decoration: none;
+    font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
     font-weight: 600;
-    transition: all 0.3s ease;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    text-transform: uppercase;
 }
 
 .btn-primary:hover {
-    background: var(--cta-hover);
-    color: var(--white);
+    background: var(--secondary-blue, #2563EB);
+    border-color: var(--secondary-blue, #2563EB);
+    color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
 }
 
 .btn-outline {
     background: transparent;
-    color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
-    padding: 12px 24px;
-    border-radius: 8px;
+    color: var(--primary-blue, #1D4ED8);
+    border: 2px solid var(--primary-blue, #1D4ED8);
+    padding: 12px 26px;
+    border-radius: 50px;
     text-decoration: none;
+    font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
     font-weight: 600;
-    transition: all 0.3s ease;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    transition: all 0.25px ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    text-transform: uppercase;
 }
 
 .btn-outline:hover {
-    background: var(--primary-blue);
-    color: var(--white);
+    background: var(--primary-blue, #1D4ED8);
+    color: var(--white, #FFFFFF);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
 }
 
 /* Responsive Styles */
@@ -1509,7 +1531,7 @@
         width: 35% !important;
         position: relative !important;
         z-index: 20 !important;
-        margin-left: 5vw !important; /* Add some spacing from left edge */
+        margin-left: 40px !important;
         gap: 32px !important;
         text-align: left !important;
         align-items: flex-start !important;

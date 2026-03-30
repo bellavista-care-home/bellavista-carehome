@@ -373,8 +373,7 @@ const Home = () => {
         <div className="container hero-container">
           <div className="hero-content-left">
             <h1 className="hero-title">
-              <span className="title-main">Bellavista Group Of Nursing Homes</span>
-              <span className="title-sub">A Home from Home</span>
+              <span className="title-main">A Home from Home</span>
             </h1>
             <p className="hero-description">
               Award-winning residential, nursing, and dementia care in South Wales. 

@@ -24,7 +24,7 @@ const NewsletterSubscribed = () => {
             <i className="fas fa-check-circle" style={{ fontSize: '2.5rem', color: '#16a34a' }}></i>
           </div>
 
-          <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1B3C78', marginBottom: '12px' }}>
+          <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1652C9', marginBottom: '12px' }}>
             Thanks for Subscribing!
           </h1>
           <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '10px' }}>
@@ -39,7 +39,7 @@ const NewsletterSubscribed = () => {
               to="/newsletters"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
-                background: '#1B3C78', color: 'white', padding: '12px 24px',
+                background: '#1652C9', color: 'white', padding: '12px 24px',
                 borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '15px'
               }}
             >

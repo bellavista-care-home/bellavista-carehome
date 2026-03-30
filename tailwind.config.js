@@ -8,10 +8,10 @@ export default {
     extend: {
       colors: {
         // Bellavista brand colors
-        'brand-primary': '#1b3c78',
-        'brand-secondary': '#2563eb',
-        'brand-accent': '#0891b2',
-        'brand-dark': '#0d2650',
+        'brand-primary': '#0B1D51',
+        'brand-secondary': '#1B45B8',
+        'brand-accent': '#0F2A6E',
+        'brand-dark': '#091744',
         'brand-light': '#f0f9ff',
       },
       fontFamily: {
