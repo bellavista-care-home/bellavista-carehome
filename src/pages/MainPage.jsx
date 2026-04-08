@@ -506,6 +506,50 @@ const Home = () => {
 
       <FindNearestHome />
 
+      {/* ── Carer Friendly Accreditation ── */}
+      <section className="carer-friendly-section" id="carer-friendly">
+        <div className="container">
+          <div className="cf-inner">
+            {/* Logo column */}
+            <div className="cf-logo-col">
+              <img
+                src="/carer-friendly-logo.png"
+                alt="We Are Carer Friendly Accredited"
+                className="cf-logo"
+              />
+            </div>
+            {/* Content column */}
+            <div className="cf-content-col">
+              <span className="cf-label">Proud Accreditation</span>
+              <h2 className="cf-title">We Are Carer Friendly</h2>
+              <p className="cf-desc">
+                Carer Friendly aims to improve, share and recognise support for unpaid carers
+                throughout our communities. Designed in collaboration with carers, it improves
+                access to information and support for carers across Wales.
+              </p>
+              <ul className="cf-points">
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Recognising the impact of being an unpaid carer and how this affects those accessing our services
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Supporting customers and employees who have a caring role
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  A clear plan on how to actively support this vital work
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Committing to two Carer Friendly Actions
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <OurHomes isStandalone={false} />
 
       <section className="about-pillars">

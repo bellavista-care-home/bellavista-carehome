@@ -7,70 +7,76 @@
 
 /* Global Styles & Reset */
 :root {
-  /* Core Brand Colors - Royal Blue Palette */
-  --primary-blue: #1D4ED8;    /* Royal Blue (Tailwind blue-700) */
-  --secondary-blue: #2563EB;  /* Bright Blue (Tailwind blue-600) */
-  --soft-blue: #DBE6F5;       /* Soft Blue Background (Darker for contrast) */
-  --surface-blue: #F7FAFF;    /* Surface Blue */
-  
-  --white: #FFFFFF;
-  --text-primary: #1F2937;    /* Dark Grey Text */
-  --text-secondary: #6B7280;  /* Muted Text */
-  
-  --cta-default: #2563EB;     /* Blue CTA */
-  --cta-hover: #1E40AF;       /* Darker Blue CTA */
-  
-  --success: #22C55E;
-  --warning: #F59E0B;
-  --danger: #DC2626;
+  /* ── Core Brand Colors – Deeper Royal Blue Palette ── */
+  --primary-blue:   #1741C4;     /* Deep Royal Blue (richer than before) */
+  --secondary-blue: #1E56E0;     /* Vivid Blue */
+  --soft-blue:      #D4E3F8;     /* Refined Soft Blue */
+  --surface-blue:   #F4F8FF;     /* Crisp Surface */
 
-  /* Legacy Variable Mappings (for backward compatibility) */
-  --smoky-black: var(--text-primary);
-  --olive-drab: var(--primary-blue);
-  --bone: var(--soft-blue);
+  /* ── Warm Gold Accent (premium highlights) ── */
+  --accent-gold:    #C9A84C;
+  --accent-gold-light: rgba(201, 168, 76, 0.15);
+
+  --white: #FFFFFF;
+  --text-primary:   #111827;     /* Near-black for max contrast */
+  --text-secondary: #4B5563;     /* Mid-grey, more readable */
+
+  --cta-default: #1E56E0;
+  --cta-hover:   #1435A8;
+
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger:  #DC2626;
+
+  /* ── Legacy Variable Mappings (backward compatibility) ── */
+  --smoky-black:  var(--text-primary);
+  --olive-drab:   var(--primary-blue);
+  --bone:         var(--soft-blue);
   --floral-white: var(--surface-blue);
 
-  /* Functional Color Mappings */
-  --primary-color: var(--primary-blue);
+  /* ── Functional Color Mappings ── */
+  --primary-color:   var(--primary-blue);
   --secondary-color: var(--secondary-blue);
-  --accent-color: var(--cta-default);
-  
-  /* Overriding existing variables to enforce palette globally */
-  --primary-teal: var(--cta-default);
+  --accent-color:    var(--cta-default);
+
+  --primary-teal:   var(--cta-default);
   --primary-purple: var(--secondary-blue);
-  --primary-pink: var(--cta-hover);
+  --primary-pink:   var(--cta-hover);
   --primary-orange: var(--warning);
-  --primary-green: var(--success);
-  --primary-red: var(--danger);
-  
-  /* Neutrals */
-  --text-dark: var(--text-primary);
+  --primary-green:  var(--success);
+  --primary-red:    var(--danger);
+
+  /* ── Neutrals ── */
+  --text-dark:  var(--text-primary);
   --text-light: var(--text-secondary);
   --text-muted: var(--text-secondary);
-  
-  /* Backgrounds */
-  --bg-light: var(--surface-blue);
-  --bg-medium: var(--soft-blue); 
-  --bg-dark: var(--secondary-blue);
+
+  /* ── Backgrounds ── */
+  --bg-light:  var(--surface-blue);
+  --bg-medium: var(--soft-blue);
+  --bg-dark:   var(--secondary-blue);
   --bg-darker: var(--primary-blue);
-  
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  --gradient-secondary: linear-gradient(135deg, var(--soft-blue) 0%, var(--surface-blue) 100%);
-  --gradient-accent: linear-gradient(135deg, var(--cta-default) 0%, var(--cta-hover) 100%);
-  --gradient-dark: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-blue) 100%);
-  
-  /* Shadows - Tinted with brand colors */
-  --shadow-sm: 0 1px 2px 0 rgba(29, 78, 216, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(29, 78, 216, 0.1), 0 2px 4px -1px rgba(29, 78, 216, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(29, 78, 216, 0.1), 0 4px 6px -2px rgba(29, 78, 216, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(29, 78, 216, 0.1), 0 10px 10px -5px rgba(29, 78, 216, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(29, 78, 216, 0.25);
-  
-  /* Typography */
+
+  /* ── Gradients – richer and more vibrant ── */
+  --gradient-primary:   linear-gradient(135deg, #1741C4 0%, #1E56E0 100%);
+  --gradient-secondary: linear-gradient(135deg, #D4E3F8 0%, #F4F8FF 100%);
+  --gradient-accent:    linear-gradient(135deg, #1E56E0 0%, #1435A8 100%);
+  --gradient-dark:      linear-gradient(135deg, #111827 0%, #1741C4 100%);
+  --gradient-gold:      linear-gradient(135deg, #C9A84C 0%, #E2C46B 100%);
+  --gradient-hero:      linear-gradient(125deg, #060e1e 0%, #0d1f4a 20%,
+                          #122459 38%, #1a3a8f 58%, #1d4ed8 80%, #2563eb 100%);
+
+  /* ── Shadows – brand-tinted ── */
+  --shadow-sm:  0 1px 3px 0 rgba(23, 65, 196, 0.08);
+  --shadow-md:  0 4px 8px -1px rgba(23, 65, 196, 0.14), 0 2px 4px -1px rgba(23, 65, 196, 0.08);
+  --shadow-lg:  0 12px 20px -3px rgba(23, 65, 196, 0.14), 0 4px 8px -2px rgba(23, 65, 196, 0.08);
+  --shadow-xl:  0 22px 30px -5px rgba(23, 65, 196, 0.16), 0 10px 12px -5px rgba(23, 65, 196, 0.06);
+  --shadow-2xl: 0 28px 56px -12px rgba(23, 65, 196, 0.32);
+
+  /* ── Typography ── */
   --font-primary: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
+  --font-mono:    'Fira Code', 'Monaco', 'Consolas', monospace;
 }
 
 * {
