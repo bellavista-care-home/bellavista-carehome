@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import gsap from 'gsap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -16,6 +17,28 @@ import '../styles/MainPage.css';
 
 const Home = () => {
   const location = useLocation();
+  const titleRef = useRef(null);
+  const descRef = useRef(null);
+  const actionsRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
+    tl.fromTo(titleRef.current, 
+      { y: 50, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out" }
+    )
+    .fromTo(descRef.current,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+      "-=0.8"
+    )
+    .fromTo(actionsRef.current,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)" },
+      "-=0.6"
+    );
+  }, []);
+
   const [activeTab, setActiveTab] = useState('living');
   const [activeFilter, setActiveFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
@@ -372,15 +395,15 @@ const Home = () => {
 
         <div className="container hero-container">
           <div className="hero-content-left">
-            <h1 className="hero-title">
+            <h1 className="hero-title" ref={titleRef}>
               <span className="title-main">A Home from Home</span>
             </h1>
-            <p className="hero-description">
+            <p className="hero-description" ref={descRef}>
               Award-winning residential, nursing, and dementia care in South Wales. 
               We provide a warm, safe, and enriching environment where every resident 
               is treated with dignity and compassion.
             </p>
-            <div className="hero-actions">
+            <div className="hero-actions" ref={actionsRef}>
               <Link to="/schedule-tour" className="btn btn-primary"><i className="fa-solid fa-calendar-check" style={{marginRight: '8px'}}></i>Book a Tour</Link>
               <Link to="/enquiry" className="btn btn-outline"><i className="fa-solid fa-heart" style={{marginRight: '8px'}}></i>Care Enquiry</Link>
             </div>
@@ -505,50 +528,6 @@ const Home = () => {
       </section>
 
       <FindNearestHome />
-
-      {/* ── Carer Friendly Accreditation ── */}
-      <section className="carer-friendly-section" id="carer-friendly">
-        <div className="container">
-          <div className="cf-inner">
-            {/* Logo column */}
-            <div className="cf-logo-col">
-              <img
-                src="/carer-friendly-logo.png"
-                alt="We Are Carer Friendly Accredited"
-                className="cf-logo"
-              />
-            </div>
-            {/* Content column */}
-            <div className="cf-content-col">
-              <span className="cf-label">Proud Accreditation</span>
-              <h2 className="cf-title">We Are Carer Friendly</h2>
-              <p className="cf-desc">
-                Carer Friendly aims to improve, share and recognise support for unpaid carers
-                throughout our communities. Designed in collaboration with carers, it improves
-                access to information and support for carers across Wales.
-              </p>
-              <ul className="cf-points">
-                <li>
-                  <i className="fas fa-check-circle" />
-                  Recognising the impact of being an unpaid carer and how this affects those accessing our services
-                </li>
-                <li>
-                  <i className="fas fa-check-circle" />
-                  Supporting customers and employees who have a caring role
-                </li>
-                <li>
-                  <i className="fas fa-check-circle" />
-                  A clear plan on how to actively support this vital work
-                </li>
-                <li>
-                  <i className="fas fa-check-circle" />
-                  Committing to two Carer Friendly Actions
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <OurHomes isStandalone={false} />
 
@@ -676,7 +655,7 @@ const Home = () => {
               </a>
               <a href="https://www.carehome.co.uk/care_search_results.cfm/searchgroup/72849#reviews" target="_blank" rel="noopener noreferrer" className="rating-badge carehome-badge">
                 <img src="/carehome-logo.svg" alt="carehome.co.uk" />
-                <span className="badge-score">9.2<small>/10</small></span>
+                <span className="badge-score">9.5<small>/10</small></span>
               </a>
             </div>
             <p className="section-subtitle">

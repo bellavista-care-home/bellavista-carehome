@@ -294,7 +294,7 @@ const BellavistaBaltimore = () => {
           font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-baltimore .btn-primary {
-          background-color: var(--white, #FFFFFF);
+          background: var(--white, #FFFFFF);
           border: 2px solid var(--color-primary);
           color: var(--color-primary);
           text-transform: uppercase;
@@ -307,7 +307,7 @@ const BellavistaBaltimore = () => {
           border-radius: 50px;
         }
         .theme-baltimore .btn-primary:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
@@ -324,7 +324,7 @@ const BellavistaBaltimore = () => {
           border-radius: 50px;
         }
         .theme-baltimore .btn-outline:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
         }
 
@@ -380,7 +380,7 @@ const BellavistaBaltimore = () => {
           color: var(--color-primary);
         }
         .theme-baltimore .news-card__link::after {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
         }
 
         /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */

@@ -409,7 +409,7 @@ const BellavistaBarry = () => {
           font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-barry .btn-primary {
-          background-color: var(--white, #FFFFFF);
+          background: var(--white, #FFFFFF);
           border: 2px solid var(--color-primary);
           color: var(--color-primary);
           text-transform: uppercase;
@@ -422,7 +422,7 @@ const BellavistaBarry = () => {
           border-radius: 50px;
         }
         .theme-barry .btn-primary:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
@@ -439,7 +439,7 @@ const BellavistaBarry = () => {
           border-radius: 50px;
         }
         .theme-barry .btn-outline:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
         }
 
@@ -507,7 +507,7 @@ const BellavistaBarry = () => {
           color: var(--color-primary);
         }
         .theme-barry .news-card__link::after {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
         }
 
         /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
@@ -1060,7 +1060,7 @@ const BellavistaBarry = () => {
               </a>
               <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/20005022BELA" target="_blank" rel="noopener noreferrer" className="rating-badge carehome-badge">
                 <img src="/carehome-logo.svg" alt="carehome.co.uk" />
-                <span className="badge-score">9.3<small>/10</small></span>
+                <span className="badge-score">9.5<small>/10</small></span>
               </a>
             </div>
             <p className="section-subtitle">

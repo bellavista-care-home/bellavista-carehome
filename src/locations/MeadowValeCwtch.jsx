@@ -318,7 +318,7 @@ const MeadowValeCwtch = () => {
           font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-meadow-vale .btn-primary {
-          background-color: var(--white, #FFFFFF);
+          background: var(--white, #FFFFFF);
           border: 2px solid var(--color-primary);
           color: var(--color-primary);
           text-transform: uppercase;
@@ -331,7 +331,7 @@ const MeadowValeCwtch = () => {
           border-radius: 50px;
         }
         .theme-meadow-vale .btn-primary:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
@@ -348,7 +348,7 @@ const MeadowValeCwtch = () => {
           border-radius: 50px;
         }
         .theme-meadow-vale .btn-outline:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
         }
 
@@ -416,7 +416,7 @@ const MeadowValeCwtch = () => {
           color: var(--color-primary);
         }
         .theme-meadow-vale .news-card__link::after {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
         }
 
         /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */

@@ -14,6 +14,7 @@ import { fetchHome } from '../services/homeService';
 import { fetchReviews } from '../services/reviewService';
 import '../styles/MainPage.css';
 import '../styles/Testimonials.css';
+import '../styles/About.css';
 import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
@@ -370,7 +371,7 @@ const BellavistaCardiff = () => {
           font-family: 'Playfair Display', Georgia, serif;
         }
         .theme-cardiff .btn-primary {
-          background-color: var(--white, #FFFFFF);
+          background: var(--white, #FFFFFF);
           border: 2px solid var(--color-primary);
           color: var(--color-primary);
           text-transform: uppercase;
@@ -383,7 +384,7 @@ const BellavistaCardiff = () => {
           border-radius: 50px;
         }
         .theme-cardiff .btn-primary:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
@@ -400,7 +401,7 @@ const BellavistaCardiff = () => {
           border-radius: 50px;
         }
         .theme-cardiff .btn-outline:hover {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
           color: var(--white, #FFFFFF);
         }
 
@@ -468,7 +469,7 @@ const BellavistaCardiff = () => {
           color: var(--color-primary);
         }
         .theme-cardiff .news-card__link::after {
-          background-color: var(--color-primary);
+          background: var(--color-primary);
         }
 
         /* 7. BOTTOM CARDS (Contact, Facts, Reviews) */
@@ -585,7 +586,7 @@ const BellavistaCardiff = () => {
       <section className="hero" id="hero-section">
         <div className="hero-right-full">
           <div className="hero-image-wrap">
-            <img src="/home-images/cardiff.jpg" alt="Bellavista Cardiff" />
+            <img src="/home-images/cardiff-new-hero.png" alt="Bellavista Cardiff" />
           </div>
         </div>
 
@@ -698,6 +699,50 @@ const BellavistaCardiff = () => {
                 outings to local places of interest and pursue activities that support an active and 
                 independent lifestyle.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Carer Friendly Accreditation ── */}
+      <section className="carer-friendly-section" id="carer-friendly" style={{ marginBottom: '60px' }}>
+        <div className="container">
+          <div className="cf-inner">
+            {/* Logo column */}
+            <div className="cf-logo-col">
+              <img
+                src="/carer-friendly-logo.png"
+                alt="We Are Carer Friendly Accredited"
+                className="cf-logo"
+              />
+            </div>
+            {/* Content column */}
+            <div className="cf-content-col">
+              <span className="cf-label">Proud Accreditation</span>
+              <h2 className="cf-title">We Are Carer Friendly</h2>
+              <p className="cf-desc">
+                Carer Friendly aims to improve, share and recognise support for unpaid carers
+                throughout our communities. Designed in collaboration with carers, it improves
+                access to information and support for carers across Wales.
+              </p>
+              <ul className="cf-points">
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Recognising the impact of being an unpaid carer and how this affects those accessing our services
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Supporting customers and employees who have a caring role
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  A clear plan on how to actively support this vital work
+                </li>
+                <li>
+                  <i className="fas fa-check-circle" />
+                  Committing to two Carer Friendly Actions
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -967,7 +1012,7 @@ const BellavistaCardiff = () => {
               </a>
               <a href="https://www.carehome.co.uk/carehome.cfm/searchazref/20005020ATLA" target="_blank" rel="noopener noreferrer" className="rating-badge carehome-badge">
                 <img src="/carehome-logo.svg" alt="carehome.co.uk" />
-                <span className="badge-score">9.3<small>/10</small></span>
+                <span className="badge-score">9.6<small>/10</small></span>
               </a>
             </div>
             <p className="section-subtitle">
