@@ -156,15 +156,17 @@
 
 .unified-hero__image-card {
   width: 100%;
+  height: clamp(340px, 40vw, 560px); /* Standardized height for all homes */
   border-radius: 28px;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 18px 40px rgba(17, 52, 94, 0.16);
 }
 
-.unified-hero__image-card img {
+.unified-hero__image-card img,
+.unified-hero__image-card video {
   width: 100%;
-  height: clamp(300px, 36vw, 520px);
+  height: 100%;
   object-fit: cover;
   display: block;
 }

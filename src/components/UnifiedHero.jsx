@@ -114,7 +114,18 @@ const UnifiedHero = ({
 
         <div className="unified-hero__image-col gs-reveal">
           <div className="unified-hero__image-card">
-            <img src={imageSrc} alt={imageAlt} />
+            {imageSrc?.toLowerCase().endsWith('.mp4') ? (
+              <video
+                src={imageSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label={imageAlt}
+              />
+            ) : (
+              <img src={imageSrc} alt={imageAlt} />
+            )}
           </div>
         </div>
       </div>

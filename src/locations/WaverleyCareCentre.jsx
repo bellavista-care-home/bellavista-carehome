@@ -515,7 +515,7 @@ const WaverleyCareCentre = () => {
         title="Waverley Care Centre"
         subtitle="Warm, friendly and professional care in Penarth"
         description="At Waverley Care Centre, our team combines professional expertise with a warm, friendly and personal approach to daily care and wellbeing."
-        imageSrc="/home-images/waverley.jpg"
+        imageSrc="/home-images/waverley-hero.mp4"
         imageAlt="Waverley Care Centre"
         galleryImages={bannerImages}
         galleryAltPrefix="Bellavista highlight"
