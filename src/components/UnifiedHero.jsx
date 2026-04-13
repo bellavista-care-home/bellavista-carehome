@@ -114,7 +114,7 @@ const UnifiedHero = ({
 
         <div className="unified-hero__image-col gs-reveal">
           <div className="unified-hero__image-card">
-            {imageSrc?.toLowerCase().endsWith('.mp4') ? (
+            {imageSrc?.toLowerCase().includes('.mp4') ? (
               <video
                 src={imageSrc}
                 autoPlay
