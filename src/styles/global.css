@@ -8,75 +8,81 @@
 /* Global Styles & Reset */
 :root {
   /* ── Core Brand Colors – Deeper Royal Blue Palette ── */
-  --primary-blue:   #1741C4;     /* Deep Royal Blue (richer than before) */
-  --secondary-blue: #1E56E0;     /* Vivid Blue */
-  --soft-blue:      #D4E3F8;     /* Refined Soft Blue */
-  --surface-blue:   #F4F8FF;     /* Crisp Surface */
+  --primary-blue: #1741C4;
+  /* Deep Royal Blue (richer than before) */
+  --secondary-blue: #1E56E0;
+  /* Vivid Blue */
+  --soft-blue: #D4E3F8;
+  /* Refined Soft Blue */
+  --surface-blue: #F4F8FF;
+  /* Crisp Surface */
 
   /* ── Warm Gold Accent (premium highlights) ── */
-  --accent-gold:    #C9A84C;
+  --accent-gold: #C9A84C;
   --accent-gold-light: rgba(201, 168, 76, 0.15);
 
   --white: #FFFFFF;
-  --text-primary:   #111827;     /* Near-black for max contrast */
-  --text-secondary: #4B5563;     /* Mid-grey, more readable */
+  --text-primary: #111827;
+  /* Near-black for max contrast */
+  --text-secondary: #4B5563;
+  /* Mid-grey, more readable */
 
   --cta-default: #1E56E0;
-  --cta-hover:   #1435A8;
+  --cta-hover: #1435A8;
 
   --success: #16A34A;
   --warning: #D97706;
-  --danger:  #DC2626;
+  --danger: #DC2626;
 
   /* ── Legacy Variable Mappings (backward compatibility) ── */
-  --smoky-black:  var(--text-primary);
-  --olive-drab:   var(--primary-blue);
-  --bone:         var(--soft-blue);
+  --smoky-black: var(--text-primary);
+  --olive-drab: var(--primary-blue);
+  --bone: var(--soft-blue);
   --floral-white: var(--surface-blue);
 
   /* ── Functional Color Mappings ── */
-  --primary-color:   var(--primary-blue);
+  --primary-color: var(--primary-blue);
   --secondary-color: var(--secondary-blue);
-  --accent-color:    var(--cta-default);
+  --accent-color: var(--cta-default);
 
-  --primary-teal:   var(--cta-default);
+  --primary-teal: var(--cta-default);
   --primary-purple: var(--secondary-blue);
-  --primary-pink:   var(--cta-hover);
+  --primary-pink: var(--cta-hover);
   --primary-orange: var(--warning);
-  --primary-green:  var(--success);
-  --primary-red:    var(--danger);
+  --primary-green: var(--success);
+  --primary-red: var(--danger);
 
   /* ── Neutrals ── */
-  --text-dark:  var(--text-primary);
+  --text-dark: var(--text-primary);
   --text-light: var(--text-secondary);
   --text-muted: var(--text-secondary);
 
   /* ── Backgrounds ── */
-  --bg-light:  var(--surface-blue);
+  --bg-light: var(--surface-blue);
   --bg-medium: var(--soft-blue);
-  --bg-dark:   var(--secondary-blue);
+  --bg-dark: var(--secondary-blue);
   --bg-darker: var(--primary-blue);
 
   /* ── Gradients – richer and more vibrant ── */
-  --gradient-primary:   linear-gradient(135deg, #1741C4 0%, #1E56E0 100%);
+  --gradient-primary: linear-gradient(135deg, #1741C4 0%, #1E56E0 100%);
   --gradient-secondary: linear-gradient(135deg, #D4E3F8 0%, #F4F8FF 100%);
-  --gradient-accent:    linear-gradient(135deg, #1E56E0 0%, #1435A8 100%);
-  --gradient-dark:      linear-gradient(135deg, #111827 0%, #1741C4 100%);
-  --gradient-gold:      linear-gradient(135deg, #C9A84C 0%, #E2C46B 100%);
-  --gradient-hero:      linear-gradient(125deg, #060e1e 0%, #0d1f4a 20%,
-                          #122459 38%, #1a3a8f 58%, #1d4ed8 80%, #2563eb 100%);
+  --gradient-accent: linear-gradient(135deg, #1E56E0 0%, #1435A8 100%);
+  --gradient-dark: linear-gradient(135deg, #111827 0%, #1741C4 100%);
+  --gradient-gold: linear-gradient(135deg, #C9A84C 0%, #E2C46B 100%);
+  --gradient-hero: linear-gradient(125deg, #060e1e 0%, #0d1f4a 20%,
+      #122459 38%, #1a3a8f 58%, #1d4ed8 80%, #2563eb 100%);
 
   /* ── Shadows – brand-tinted ── */
-  --shadow-sm:  0 1px 3px 0 rgba(23, 65, 196, 0.08);
-  --shadow-md:  0 4px 8px -1px rgba(23, 65, 196, 0.14), 0 2px 4px -1px rgba(23, 65, 196, 0.08);
-  --shadow-lg:  0 12px 20px -3px rgba(23, 65, 196, 0.14), 0 4px 8px -2px rgba(23, 65, 196, 0.08);
-  --shadow-xl:  0 22px 30px -5px rgba(23, 65, 196, 0.16), 0 10px 12px -5px rgba(23, 65, 196, 0.06);
+  --shadow-sm: 0 1px 3px 0 rgba(23, 65, 196, 0.08);
+  --shadow-md: 0 4px 8px -1px rgba(23, 65, 196, 0.14), 0 2px 4px -1px rgba(23, 65, 196, 0.08);
+  --shadow-lg: 0 12px 20px -3px rgba(23, 65, 196, 0.14), 0 4px 8px -2px rgba(23, 65, 196, 0.08);
+  --shadow-xl: 0 22px 30px -5px rgba(23, 65, 196, 0.16), 0 10px 12px -5px rgba(23, 65, 196, 0.06);
   --shadow-2xl: 0 28px 56px -12px rgba(23, 65, 196, 0.32);
 
   /* ── Typography ── */
   --font-primary: 'Inter', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-mono:    'Fira Code', 'Monaco', 'Consolas', monospace;
+  --font-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
 }
 
 * {
@@ -87,10 +93,12 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-y: scroll; /* Always show scrollbar for consistent viewport width */
+  overflow-y: scroll;
+  /* Always show scrollbar for consistent viewport width */
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -104,14 +112,19 @@ html, body {
 body {
   max-width: 100% !important;
   overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on iOS */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 /* Force containment on all major sections and their direct children */
-section, footer, main, .App, .home {
+section,
+footer,
+main,
+.App,
+.home {
   max-width: 100% !important;
   overflow-x: hidden !important;
   box-sizing: border-box;
@@ -119,8 +132,8 @@ section, footer, main, .App, .home {
 }
 
 /* Except for those specifically intended to scroll horizontally */
-.scrollable, 
-.homes-grid.scrollable, 
+.scrollable,
+.homes-grid.scrollable,
 .activity-grid,
 .news-grid.modern {
   overflow-x: auto !important;
@@ -156,7 +169,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.25;
@@ -190,7 +208,7 @@ img {
   .container {
     padding: 0 40px;
   }
-  
+
   .activities-intro,
   .services-intro,
   .careers-intro,
@@ -269,20 +287,31 @@ img {
     width: 95%;
     padding: 0 12px;
   }
+
   .btn {
     min-height: 44px;
     padding: 12px 24px;
     font-size: 16px;
   }
+
   body {
     font-size: 16px;
   }
-  h1 { font-size: 28px; }
-  h2 { font-size: 24px; }
-  h3 { font-size: 20px; }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
 
   /* Standardized Mobile Spacing */
-  .section, 
+  .section,
   .activities-section,
   .services-section,
   .testimonials-section,
@@ -309,7 +338,8 @@ img {
     padding: 20px !important;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
     margin-bottom: 20px !important;
   }
 }
@@ -319,20 +349,31 @@ img {
     width: 100%;
     padding: 0 12px;
   }
+
   .btn {
     min-height: 44px;
     padding: 11px 22px;
     font-size: 14px;
   }
+
   body {
     font-size: 15px;
   }
-  h1 { font-size: 24px; }
-  h2 { font-size: 20px; }
-  h3 { font-size: 18px; }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
 
   /* Standardized Small Mobile Spacing */
-  .section, 
+  .section,
   [class*="-section"] {
     padding: 30px 0 !important;
   }
@@ -347,7 +388,8 @@ img {
     padding: 16px !important;
   }
 
-  h2, h3 {
+  h2,
+  h3 {
     margin-bottom: 16px !important;
   }
 }
@@ -359,22 +401,22 @@ img {
     padding: 0 60px;
   }
 
-  h1 { 
+  h1 {
     font-size: 4rem;
     line-height: 1.2;
   }
-  
-  h2 { 
+
+  h2 {
     font-size: 3.2rem;
     line-height: 1.2;
   }
-  
-  h3 { 
+
+  h3 {
     font-size: 2.4rem;
     line-height: 1.3;
   }
-  
-  body { 
+
+  body {
     font-size: 22px;
     line-height: 1.7;
   }
@@ -412,22 +454,22 @@ img {
     padding: 0 80px;
   }
 
-  h1 { 
+  h1 {
     font-size: 4rem;
     line-height: 1.15;
   }
-  
-  h2 { 
+
+  h2 {
     font-size: 3.2rem;
     line-height: 1.2;
   }
-  
-  h3 { 
+
+  h3 {
     font-size: 2.3rem;
     line-height: 1.3;
   }
-  
-  body { 
+
+  body {
     font-size: 20px;
     line-height: 1.8;
   }
@@ -469,6 +511,7 @@ img {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -480,6 +523,7 @@ img {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -491,6 +535,7 @@ img {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -502,6 +547,7 @@ img {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -509,18 +555,24 @@ img {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.8;
   }
@@ -552,17 +604,34 @@ img {
 }
 
 /* Staggered Animations */
-.animate-stagger > * {
+.animate-stagger>* {
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
 }
 
-.animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
-.animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
-.animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
-.animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
-.animate-stagger > *:nth-child(5) { animation-delay: 0.5s; }
-.animate-stagger > *:nth-child(6) { animation-delay: 0.6s; }
+.animate-stagger>*:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-stagger>*:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-stagger>*:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-stagger>*:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.animate-stagger>*:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.animate-stagger>*:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* Smooth Scroll Behavior */
 html {
@@ -590,12 +659,14 @@ html {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(255,255,255,.3);
+  border: 3px solid rgba(255, 255, 255, .3);
   border-radius: 50%;
   border-top-color: #fff;
   animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

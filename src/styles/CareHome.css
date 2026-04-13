@@ -1044,7 +1044,7 @@
     background-color: #FFFFFF;
     color: #1D4ED8;
     border: 2px solid #1D4ED8;
-    font-family: 'Inter', 'Open Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.6px;
@@ -1126,7 +1126,7 @@
 
 .title-main {
     font-size: clamp(44px, 6.5vw, 88px);
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     color: #FFFFFF;
     line-height: 1.05;
     font-weight: 700;
@@ -1136,7 +1136,7 @@
 }
 
 .title-sub {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     font-size: clamp(20px, 2.8vw, 36px);
     color: rgba(255, 255, 255, 0.95);
     display: block;
@@ -1256,7 +1256,7 @@
     padding: 12px 26px;
     border-radius: 50px;
     text-decoration: none;
-    font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.8px;
@@ -1283,7 +1283,7 @@
     padding: 12px 26px;
     border-radius: 50px;
     text-decoration: none;
-    font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.8px;

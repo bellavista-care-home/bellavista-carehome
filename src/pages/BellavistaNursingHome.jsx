@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
-import Header from '../components/Header';
 import { generateLocalBusinessSchema, locations } from '../utils/schemaUtils';
 import { fetchReviews } from '../services/reviewService';
 import { Link } from 'react-router-dom';
+import UnifiedHero from '../components/UnifiedHero';
 import '../styles/BellavistaNursingHome.css';
 
 const BellavistaNursingHome = () => {
@@ -36,30 +36,20 @@ const BellavistaNursingHome = () => {
         canonical="https://www.bellavistanursinghomes.com/bellavista-nursing-home"
         schema={generateLocalBusinessSchema(locations.cardiff)}
       />
-      <Header />
-      
       <main className="bellavista-main">
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div className="container">
-            <h1>Bellavista Nursing Home</h1>
-            <p className="hero-subtitle">Exceptional 5-Star Dementia & Elderly Care Across South Wales</p>
-            <div className="hero-stats">
-              <div className="stat">
-                <span className="stat-number">25+</span>
-                <span className="stat-label">Years Experience</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">4.9★</span>
-                <span className="stat-label">Average Rating</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">6</span>
-                <span className="stat-label">Locations</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <UnifiedHero
+          title="Bellavista Nursing Home"
+          subtitle="Exceptional 5-Star Dementia & Elderly Care Across South Wales"
+          description="Exceptional 5-star dementia and elderly care across South Wales with a warm, safe and enriching environment for every resident."
+          imageSrc="/main-page-banner.jpg"
+          imageAlt="Bellavista Nursing Home"
+          showGallery={false}
+          badges={[
+            { label: '25+ Years Experience', icon: 'fas fa-award' },
+            { label: '4.9★ Average Rating', icon: 'fas fa-star' },
+            { label: '6 Locations', icon: 'fas fa-map-marker-alt' }
+          ]}
+        />
 
         {/* Introduction */}
         <section className="intro-section">

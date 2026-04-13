@@ -115,6 +115,28 @@ const AppContent = () => {
   const navigate = useNavigate();
   const [isSessionExpired, setIsSessionExpired] = useState(false);
 
+  const hasStoredAuth = () =>
+    Boolean(localStorage.getItem('auth_token')) ||
+    localStorage.getItem('isAuthenticated') === 'true';
+
+  const hasAuthorizationHeader = (headersLike) => {
+    if (!headersLike) return false;
+
+    if (headersLike instanceof Headers) {
+      return headersLike.has('Authorization');
+    }
+
+    if (Array.isArray(headersLike)) {
+      return headersLike.some(([key]) => String(key).toLowerCase() === 'authorization');
+    }
+
+    if (typeof headersLike === 'object') {
+      return Object.keys(headersLike).some((key) => key.toLowerCase() === 'authorization');
+    }
+
+    return false;
+  };
+
   // Initialize Google Analytics
   useAnalytics();
 
@@ -140,8 +162,12 @@ const AppContent = () => {
   useEffect(() => {
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
+      const [input, init] = args;
       const response = await originalFetch(...args);
-      if (response.status === 401) {
+      const requestHeaders = init?.headers || (input instanceof Request ? input.headers : null);
+      const isAuthenticatedRequest = hasAuthorizationHeader(requestHeaders);
+
+      if (response.status === 401 && isAuthenticatedRequest && hasStoredAuth()) {
         // Check if we are already on the login page to avoid loop
         if (!window.location.pathname.includes('/login')) {
           setIsSessionExpired(true);

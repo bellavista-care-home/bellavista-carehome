@@ -32,9 +32,124 @@ const Header = () => {
     };
   }, [sideMenuOpen]);
 
+  const homeLinks = [
+    { to: '/bellavista-barry', label: 'Bellavista Barry' },
+    { to: '/bellavista-cardiff', label: 'Bellavista Cardiff' },
+    { to: '/waverley-care-center', label: 'Waverley Care Center' },
+    { to: '/college-fields-nursing-home', label: 'College Fields' },
+    { to: '/baltimore-care-home', label: 'Baltimore Care Home' },
+    { to: '/meadow-vale-cwtch', label: 'Meadow Vale Cwtch' },
+    { to: '/bellavista-pontypridd', label: 'Bellavista Pontypridd' }
+  ];
+
+  const activityLinks = [
+    { to: '/activities/bellavista-barry', label: 'Bellavista Barry' },
+    { to: '/activities/bellavista-cardiff', label: 'Bellavista Cardiff' },
+    { to: '/activities/waverley-care-center', label: 'Waverley Care Center' },
+    { to: '/activities/college-fields-nursing-home', label: 'College Fields' },
+    { to: '/activities/baltimore-care-home', label: 'Baltimore Care Home' },
+    { to: '/activities/meadow-vale-cwtch', label: 'Meadow Vale Cwtch' },
+    { to: '/activities/bellavista-pontypridd', label: 'Bellavista Pontypridd' }
+  ];
+
+  const facilityLinks = [
+    { to: '/facilities/bellavista-barry', label: 'Bellavista Barry' },
+    { to: '/facilities/bellavista-cardiff', label: 'Bellavista Cardiff' },
+    { to: '/facilities/waverley-care-center', label: 'Waverley Care Center' },
+    { to: '/facilities/college-fields-nursing-home', label: 'College Fields' },
+    { to: '/facilities/baltimore-care-home', label: 'Baltimore Care Home' },
+    { to: '/facilities/meadow-vale-cwtch', label: 'Meadow Vale Cwtch' },
+    { to: '/facilities/bellavista-pontypridd', label: 'Bellavista Pontypridd' }
+  ];
+
+  const navLinks = [
+    {
+      to: '/our-homes',
+      label: 'Our Homes',
+      children: homeLinks
+    },
+    {
+      to: '/services',
+      label: 'Services',
+      children: [
+        { label: 'Activities', children: activityLinks },
+        { label: 'Facilities', children: facilityLinks },
+        { to: '/events', label: 'Calendar Events' },
+        { to: '/services', label: 'Care Services' },
+        { to: '/dementia-friendly-environment', label: 'Dementia Environment' },
+        { to: '/dining-and-nutrition', label: 'Dining & Nutrition' },
+        { to: '/visitor-policy', label: 'Visitor Policy' }
+      ]
+    },
+    {
+      to: '/about',
+      label: 'About us',
+      children: [
+        { to: '/our-vision', label: 'Our Vision' },
+        { to: '/our-values', label: 'Our Values' },
+        { to: '/our-care', label: 'Our Care' },
+        { to: '/management-team', label: 'Management Team' }
+      ]
+    },
+    { to: '/testimonials', label: 'Reviews' },
+    {
+      to: '/career',
+      label: 'Career',
+      children: [
+        { to: '/current-jobs', label: 'Current Jobs' },
+        { to: '/training-and-development', label: 'Training and Development' },
+        { to: '/staff-portal', label: 'Staff Portal' }
+      ]
+    },
+    { to: '/contact', label: 'Contact' }
+  ];
+
+  const sideMenuSections = [
+    {
+      title: 'Main',
+      links: [
+        { to: '/', label: 'Home' },
+        { to: '/our-homes', label: 'Our Homes' },
+        { to: '/services', label: 'Services' }
+      ]
+    },
+    {
+      title: 'Services',
+      links: [
+        { to: '/events', label: 'Calendar Events' },
+        { to: '/events', label: 'Activities & Events' },
+        { to: '/facilities', label: 'Facilities' },
+        { to: '/services', label: 'Care Services' }
+      ]
+    },
+    {
+      title: 'Get Started',
+      links: [
+        { to: '/enquiry', label: 'Care Enquiry' },
+        { to: '/schedule-tour', label: 'Schedule a Tour' }
+      ]
+    },
+    {
+      title: 'Information',
+      links: [
+        { to: '/testimonials', label: 'Reviews' },
+        { to: '/news', label: 'News & Updates' },
+        { to: '/newsletters', label: 'Newsletters' },
+        { to: '/faq', label: 'FAQ' }
+      ]
+    },
+    {
+      title: 'Support',
+      links: [
+        { to: '/contact', label: 'Contact Us' },
+        { to: '/career', label: 'Careers' }
+      ]
+    }
+  ];
+
   return (
     <header>
-      <div className="header-container">
+      <div className="header-shell">
         <div className="left-menu-wrapper">
           <button
             type="button"
@@ -61,121 +176,68 @@ const Header = () => {
             >
               <i className="fas fa-times" aria-hidden="true"></i>
             </button>
-            <div
-              id="mobile-main-navigation"
-              className="nav-scrollable"
-            >
-              <ul>
-                <div className="nav-category">Main</div>
-                <li><Link to="/" onClick={closeSideMenu}>Home</Link></li>
-                <li><Link to="/our-homes" onClick={closeSideMenu}>Our Homes</Link></li>
-                <div className="nav-category">Services</div>
-                <li><Link to="/events" onClick={closeSideMenu}>Calendar Events</Link></li>
-                <li><Link to="/activities" onClick={closeSideMenu}>Activities & Events</Link></li>
-                <li><Link to="/facilities" onClick={closeSideMenu}>Facilities</Link></li>
-                <li><Link to="/services" onClick={closeSideMenu}>Care Services</Link></li>
-                <div className="nav-category">Get Started</div>
-                <li><Link to="/enquiry" onClick={closeSideMenu}>Care Enquiry</Link></li>
-                <li><Link to="/schedule-tour" onClick={closeSideMenu}>Schedule a Tour</Link></li>
-                <div className="nav-category">Information</div>
-                <li><Link to="/testimonials" onClick={closeSideMenu}>Reviews</Link></li>
-                <li><Link to="/news" onClick={closeSideMenu}>News & Updates</Link></li>
-                <li><Link to="/newsletters" onClick={closeSideMenu}>Newsletters</Link></li>
-                <li><Link to="/faq" onClick={closeSideMenu}>FAQ</Link></li>
-                <div className="nav-category">Support</div>
-                <li><Link to="/contact" onClick={closeSideMenu}>Contact Us</Link></li>
-                <li><Link to="/career" onClick={closeSideMenu}>Careers</Link></li>
-              </ul>
+            <div id="mobile-main-navigation" className="nav-scrollable">
+              {sideMenuSections.map((section) => (
+                <div key={section.title} className="side-menu-section">
+                  <div className="side-section-title">{section.title}</div>
+                  <ul className="side-links side-section-links">
+                    {section.links.map((link) => (
+                      <li key={`${section.title}-${link.to}-${link.label}`}>
+                        <Link to={link.to} onClick={closeSideMenu}>{link.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
           <div className={`menu-overlay ${sideMenuOpen ? 'active' : ''}`} onClick={closeSideMenu} />
         </div>
-        
+
         <Link to="/" className="logo">
-          <div className="logo-image" style={{ marginRight: '12px', display: 'flex', alignItems: 'center' }}>
-            <img src="/bellavista_logo_final.png" alt="Bellavista Logo" style={{ height: '90px', width: '90px', objectFit: 'contain', borderRadius: '0 !important' }} />
+          <div className="logo-image">
+            <img src="/bellavista_logo_final.png" alt="Bellavista Logo" />
           </div>
           <div className="logo-text-group">
-            <div className="logo-text">Bellavista <span>Nursing Homes</span></div>
-            <div className="tagline">A Home From Home</div>
+            <div className="logo-text">Bellavista Nursing Homes</div>
+            <div className="logo-subtext">A Home From Home</div>
           </div>
         </Link>
-        <nav>
+        <nav className="desktop-nav">
           <ul>
-            <li className="has-dropdown">
-              <Link to="/our-homes">Our Homes <i className="fas fa-chevron-down"></i></Link>
-              <ul className="dropdown-menu">
-                <li><Link to="/bellavista-barry">Bellavista Barry</Link></li>
-                <li><Link to="/bellavista-cardiff">Bellavista Cardiff</Link></li>
-                <li><Link to="/waverley-care-center">Waverley Care Center</Link></li>
-                <li><Link to="/college-fields-nursing-home">College Fields Nursing Home</Link></li>
-                <li><Link to="/baltimore-care-home">Baltimore Care Home</Link></li>
-                <li><Link to="/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
-                <li><Link to="/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
-              </ul>
-            </li>
-            <li className="has-dropdown">
-              <Link>Services <i className="fas fa-chevron-down"></i></Link>
-              <ul className="dropdown-menu">
-                
-                {/* Activities with Nested Dropdown */}
-                <li className="has-submenu">
-                  <span className="submenu-trigger" style={{ cursor: 'pointer' }}>
-                    Activities <i className="fas fa-chevron-right"></i>
-                  </span>
-                  <ul className="submenu">
-                    <li><Link to="/activities/bellavista-barry">Bellavista Barry</Link></li>
-                    <li><Link to="/activities/bellavista-cardiff">Bellavista Cardiff</Link></li>
-                    <li><Link to="/activities/waverley-care-center">Waverley Care Center</Link></li>
-                    <li><Link to="/activities/college-fields-nursing-home">College Fields</Link></li>
-                    <li><Link to="/activities/baltimore-care-home">Baltimore Care Home</Link></li>
-                    <li><Link to="/activities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
-                    <li><Link to="/activities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
+            {navLinks.map((link) => (
+              <li key={link.to} className={link.children ? 'has-dropdown' : ''}>
+                <Link to={link.to}>
+                  {link.label}
+                  {link.children && <i className="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>}
+                </Link>
+                {link.children && (
+                  <ul className="desktop-dropdown">
+                    {link.children.map((child) => (
+                      <li key={child.to || child.label} className={child.children ? 'has-submenu' : ''}>
+                        {child.children ? (
+                          <>
+                            <span className="submenu-trigger">
+                              {child.label}
+                              <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                            </span>
+                            <ul className="submenu">
+                              {child.children.map((subItem) => (
+                                <li key={subItem.to}>
+                                  <Link to={subItem.to}>{subItem.label}</Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <Link to={child.to}>{child.label}</Link>
+                        )}
+                      </li>
+                    ))}
                   </ul>
-                </li>
-
-                {/* Facilities with Nested Dropdown */}
-                <li className="has-submenu">
-                  <span className="submenu-trigger" style={{ cursor: 'pointer' }}>
-                    Facilities <i className="fas fa-chevron-right"></i>
-                  </span>
-                  <ul className="submenu">
-                    <li><Link to="/facilities/bellavista-barry">Bellavista Barry</Link></li>
-                    <li><Link to="/facilities/bellavista-cardiff">Bellavista Cardiff</Link></li>
-                    <li><Link to="/facilities/waverley-care-center">Waverley Care Center</Link></li>
-                    <li><Link to="/facilities/college-fields-nursing-home">College Fields</Link></li>
-                    <li><Link to="/facilities/baltimore-care-home">Baltimore Care Home</Link></li>
-                    <li><Link to="/facilities/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
-                    <li><Link to="/facilities/bellavista-pontypridd">Bellavista Pontypridd</Link></li>
-                  </ul>
-                </li>
-
-                <li><Link to="/events">Calendar Events</Link></li>
-                <li><Link to="/services">Care Services</Link></li>
-                <li><Link to="/dementia-friendly-environment">Dementia Environment</Link></li>
-                <li><Link to="/dining-and-nutrition">Dining & Nutrition</Link></li>
-                <li><Link to="/visitor-policy">Visitor Policy</Link></li>
-              </ul>
-            </li>
-            <li className="has-dropdown">
-              <Link>About us<i className="fas fa-chevron-down"></i></Link>
-              <ul className="dropdown-menu">
-                <li><Link to="/our-vision">Our Vision</Link></li>
-                <li><Link to="/our-values">Our Values</Link></li>
-                <li><Link to="/our-care">Our Care</Link></li>
-                <li><Link to="/management-team">Management Team</Link></li>
-              </ul>
-            </li>
-            <li><Link to="/testimonials">Reviews</Link></li>
-            <li className='has-dropdown'>
-                <Link to="/career">Career <i className="fas fa-chevron-down"></i></Link>
-                <ul className="dropdown-menu">
-                  <li><Link to="/current-jobs">Current Jobs</Link></li>
-                  <li><Link to="/training-and-development">Training and Development</Link></li>
-                  <li><Link to="/staff-portal">Staff Portal</Link></li>
-                </ul>
-            </li>
-            <li><Link to="/contact">Contact</Link></li>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
       </div>

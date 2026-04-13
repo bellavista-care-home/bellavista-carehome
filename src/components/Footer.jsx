@@ -4,10 +4,10 @@ import '../styles/Footer.css';
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="container">
-        <div className="footer-container">
-          <div className="footer-col">
+    <footer className="site-footer">
+      <div className="footer-shell">
+        <div className="footer-top">
+          <div className="footer-brand">
             <h3>Bellavista Group Of Nursing Homes</h3>
             <p>Providing exceptional care with a focus on comfort, dignity, and personalized attention in a beautiful, serene environment.</p>
             <div className="social-links">
@@ -16,8 +16,9 @@ const Footer = () => {
               <a aria-label="YouTube" href="https://www.youtube.com/@bellavistagroupofnursinghomes" target="_blank" rel="noopener noreferrer"><i className="fab fa-youtube"></i></a>
             </div>
           </div>
+
           <div className="footer-col">
-            <h3>Quick Links</h3>
+            <h4>Quick Links</h4>
             <ul className="footer-links">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About Us</Link></li>
@@ -27,8 +28,9 @@ const Footer = () => {
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
+
           <div className="footer-col">
-            <h3>Our Homes</h3>
+            <h4>Our Homes</h4>
             <ul className="footer-links">
               <li><Link to="/bellavista-barry">Bellavista Barry</Link></li>
               <li><Link to="/bellavista-cardiff">Bellavista Cardiff</Link></li>
@@ -38,25 +40,40 @@ const Footer = () => {
               <li><Link to="/meadow-vale-cwtch">Meadow Vale Cwtch</Link></li>
             </ul>
           </div>
-          <div className="footer-col">
-            <h3>Contact Us</h3>
-            <ul className="footer-links">
-              <li><Link to="/contact"><i className="fas fa-envelope-open-text"></i> General Enquiries</Link></li>
-              <li><Link to="/contact"><i className="fas fa-map-marked-alt"></i> Find a Home</Link></li>
-              <li><Link to="/career"><i className="fas fa-user-nurse"></i> Careers</Link></li>
+
+          <div className="footer-col footer-contact">
+            <h4>Contact Us</h4>
+            <ul className="footer-contact-links">
+              <li>
+                <Link to="/contact">
+                  <i className="fas fa-envelope-open-text"></i>
+                  <span>General Enquiries</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/our-homes">
+                  <i className="fas fa-map-marked-alt"></i>
+                  <span>Find a Home</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/career">
+                  <i className="fas fa-user-nurse"></i>
+                  <span>Careers</span>
+                </Link>
+              </li>
             </ul>
-            <div style={{marginTop: '15px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '15px'}}>
-               <p style={{fontSize: '13px', margin: 0, color: 'rgba(255,255,255,0.6)'}}>
-                 Looking for a specific home's contact info? Select a home from the list.
-               </p>
-               <p style={{fontSize: '12px', marginTop: '8px', color: 'rgba(255,255,255,0.6)'}}>
-                 <Link to="/privacy-policy" style={{color: 'rgba(255,255,255,0.8)'}}>Privacy Policy</Link> ·{' '}
-                 <Link to="/terms-of-service" style={{color: 'rgba(255,255,255,0.8)'}}>Terms of Use</Link>
-               </p>
+
+            <p className="footer-contact-note">Looking for a specific home's contact info? Select a home from the list.</p>
+
+            <div className="footer-legal-links">
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms-of-service">Terms of Use</Link>
             </div>
           </div>
         </div>
-        <div className="copyright">
+
+        <div className="footer-bottom">
           <p>© 2026 Bellavista Group Of Nursing Homes. All Rights Reserved.</p>
         </div>
       </div>

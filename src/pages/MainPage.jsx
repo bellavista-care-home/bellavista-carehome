@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectFade } from 'swiper/modules';
+import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
@@ -13,7 +14,10 @@ import { fetchNewsItems } from '../services/newsService';
 import { fetchReviews } from '../services/reviewService';
 import { fetchHomes } from '../services/homeService';
 import FindNearestHome from '../components/FindNearestHome';
+import UnifiedHero from '../components/UnifiedHero';
 import '../styles/MainPage.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const location = useLocation();
@@ -22,41 +26,117 @@ const Home = () => {
   const actionsRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
-    tl.fromTo(titleRef.current, 
-      { y: 50, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out" }
-    )
-    .fromTo(descRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      "-=0.8"
-    )
-    .fromTo(actionsRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)" },
-      "-=0.6"
-    );
+    let ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+
+      tl.fromTo('.unified-hero__image-card img',
+        { scale: 1.15, opacity: 0.5 },
+        { scale: 1.05, opacity: 1, duration: 1.8, ease: "power2.out" }
+      )
+        .fromTo(titleRef.current,
+          { y: 50, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out" },
+          "-=1.4"
+        )
+        .fromTo(descRef.current,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+          "-=0.8"
+        )
+        .fromTo(actionsRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)" },
+          "-=0.6"
+        )
+        .fromTo('.gs-reveal',
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+          "-=0.6"
+        )
+        .fromTo('.unified-hero__gallery',
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+          "-=0.4"
+        );
+
+      // Scroll Animations for sections
+      const sections = gsap.utils.toArray('.section-header');
+      sections.forEach(sec => {
+        gsap.fromTo(sec,
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.8, ease: "power3.out",
+            scrollTrigger: {
+              trigger: sec,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+
+      const aboutGroup = document.querySelector('.about-group-content');
+      if (aboutGroup) {
+        gsap.fromTo(aboutGroup,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: '.about-group-intro', start: "top 80%" } }
+        );
+      }
+
+      gsap.fromTo('.why-card',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '.why-grid', start: "top 80%" } }
+      );
+
+      gsap.fromTo('.about-pillar',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: '.about-pillars-grid', start: "top 80%" } }
+      );
+
+      gsap.fromTo('.activity-card',
+        { scale: 0.9, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.5)", scrollTrigger: { trigger: '.activity-grid', start: "top 80%" } }
+      );
+
+      gsap.fromTo('.activity-featured',
+        { x: -40, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: '.activities-layout', start: "top 80%" } }
+      );
+
+      gsap.fromTo('.home-testimonials .section-header',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: '.home-testimonials', start: "top 85%" } }
+      );
+
+      gsap.fromTo('.testimonials-carousel-wrapper',
+        { y: 40, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: '.home-testimonials', start: "top 80%" } }
+      );
+    });
+
+    return () => ctx.revert();
   }, []);
+
+
 
   const [activeTab, setActiveTab] = useState('living');
   const [activeFilter, setActiveFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [newsList, setNewsList] = useState([]);
-  
+
   const stripHtml = (html) => {
     if (!html) return '';
     const tmp = document.createElement('DIV');
     tmp.innerHTML = html;
     let text = tmp.textContent || tmp.innerText || '';
-    
+
     // Check if text looks like HTML (double encoded)
     if (text.match(/<[^>]*>/)) {
       tmp.innerHTML = text;
       text = tmp.textContent || tmp.innerText || '';
     }
-    
+
     return text.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ');
   };
 
@@ -105,7 +185,7 @@ const Home = () => {
         // Fallback to default reviews (already in state)
       }
     };
-    
+
     loadReviews();
   }, []);
 
@@ -125,7 +205,7 @@ const Home = () => {
       try {
         const homes = await fetchHomes();
         const allBanners = [];
-        
+
         if (homes && Array.isArray(homes)) {
           homes.forEach(home => {
             let banners = home.bannerImages;
@@ -138,7 +218,7 @@ const Home = () => {
             }
           });
         }
-        
+
         if (allBanners.length > 0) {
           setSlides(allBanners);
         }
@@ -156,6 +236,26 @@ const Home = () => {
     };
     loadNews();
   }, []);
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      if (newsList.length > 0) {
+        gsap.fromTo('.news-visible',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power3.out", scrollTrigger: { trigger: '.news-grid', start: "top 85%" } }
+        );
+
+        const featured = document.querySelector('.news-featured');
+        if (featured) {
+          gsap.fromTo(featured,
+            { x: -30, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.6, ease: "power3.out", scrollTrigger: { trigger: '.news-showcase', start: "top 85%" } }
+          );
+        }
+      }
+    });
+    return () => ctx.revert();
+  }, [newsList, activeFilter]);
 
   // Handle modal body lock
   useEffect(() => {
@@ -177,8 +277,8 @@ const Home = () => {
   };
 
   // Filter news based on active filter
-  const filteredNews = activeFilter === 'all' 
-    ? newsList 
+  const filteredNews = activeFilter === 'all'
+    ? newsList
     : newsList.filter(news => news.category && news.category.toLowerCase() === activeFilter);
 
 
@@ -379,82 +479,30 @@ const Home = () => {
 
   return (
     <div className="home">
-      <SEO 
+      <SEO
         title="Bellavista Nursing Home | Award-Winning Care Homes in South Wales & Cardiff"
         description="Bellavista Nursing Home provides exceptional residential, nursing, and dementia care across South Wales. Rated best care homes in Cardiff, Barry, and Vale of Glamorgan."
         keywords="Bellavista Nursing Home, care homes South Wales, nursing home Cardiff, dementia care Barry, residential care Vale of Glamorgan, best nursing homes UK"
         image="https://www.bellavistanursinghomes.com/main-page-banner.jpg"
         schema={mainPageSchema}
       />
-      <section className="hero">
-        <div className="hero-right-full">
-          <div className="hero-image-wrap">
-            <img src="/main-page-banner.jpg" alt="Bellavista Nursing Home" />
-          </div>
-        </div>
-
-        <div className="container hero-container">
-          <div className="hero-content-left">
-            <h1 className="hero-title" ref={titleRef}>
-              <span className="title-main">A Home from Home</span>
-            </h1>
-            <p className="hero-description" ref={descRef}>
-              Award-winning residential, nursing, and dementia care in South Wales. 
-              We provide a warm, safe, and enriching environment where every resident 
-              is treated with dignity and compassion.
-            </p>
-            <div className="hero-actions" ref={actionsRef}>
-              <Link to="/schedule-tour" className="btn btn-primary"><i className="fa-solid fa-calendar-check" style={{marginRight: '8px'}}></i>Book a Tour</Link>
-              <Link to="/enquiry" className="btn btn-outline"><i className="fa-solid fa-heart" style={{marginRight: '8px'}}></i>Care Enquiry</Link>
-            </div>
-          </div>
-        </div>
-
-        {slides.length > 0 && (
-          <div className="hero-bottom-carousel">
-            <Swiper
-              modules={[Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1.2}
-              centeredSlides={false}
-              loop={slides.length > 3} /* Only loop if enough slides */
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-              }}
-              breakpoints={{
-                480: {
-                  slidesPerView: 2.2,
-                  spaceBetween: 20,
-                },
-                768: {
-                  slidesPerView: 3.2,
-                  spaceBetween: 25,
-                },
-                1024: {
-                  slidesPerView: 4,
-                  spaceBetween: 30,
-                },
-                1400: {
-                  slidesPerView: 5,
-                  spaceBetween: 30,
-                }
-              }}
-              className="bottom-swiper"
-            >
-              {/* Duplicate slides to ensure we have enough content for the carousel loop if needed */}
-              {[...slides, ...slides, ...slides].slice(0, 12).map((slide, index) => (
-                <SwiperSlide key={`bottom-slide-${index}`}>
-                  <div className="carousel-item-card">
-                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-      </section>
+      <UnifiedHero
+        className="unified-hero--main"
+        title="A Home from Home"
+        description="Award-winning residential, nursing, and dementia care in South Wales. We provide a warm, safe, and enriching environment where every resident is treated with dignity and compassion."
+        imageSrc="/main-page-banner.jpg"
+        imageAlt="Bellavista Nursing Home resident in comfortable room"
+        galleryImages={slides}
+        titleRef={titleRef}
+        descriptionRef={descRef}
+        actionsRef={actionsRef}
+        actions={
+          <>
+            <Link to="/schedule-tour" className="btn btn-primary"><i className="fa-solid fa-calendar-check" style={{ marginRight: '8px' }}></i>Book a Tour</Link>
+            <Link to="/enquiry" className="btn btn-outline"><i className="fa-solid fa-heart" style={{ marginRight: '8px' }}></i>Care Enquiry</Link>
+          </>
+        }
+      />
 
       <section className="about-group-intro">
         <div className="container">
@@ -465,22 +513,22 @@ const Home = () => {
             </h2>
             <div className="group-intro-text">
               <p>
-                At Bellavista Group of Nursing Homes, we redefine care. Nestled in the heart of South 
-                Wales, we provide premium residential and nursing services tailored to the unique 
-                needs of each resident. Our modern, thoughtfully designed facilities combine the 
-                warmth and comfort of home with the highest professional standards, ensuring dignity, 
-                wellbeing, and peace of mind at every stage of life. 
+                At Bellavista Group of Nursing Homes, we redefine care. Nestled in the heart of South
+                Wales, we provide premium residential and nursing services tailored to the unique
+                needs of each resident. Our modern, thoughtfully designed facilities combine the
+                warmth and comfort of home with the highest professional standards, ensuring dignity,
+                wellbeing, and peace of mind at every stage of life.
               </p>
               <p>
-                Our team of highly trained, compassionate professionals is dedicated to delivering 
-                personalized care, attention, and support—creating an environment where residents 
-                feel valued, secure, and truly at home. From bespoke nursing plans to engaging 
-                activities and holistic wellness programs, every aspect of our service is designed to 
-                enhance quality of life. 
+                Our team of highly trained, compassionate professionals is dedicated to delivering
+                personalized care, attention, and support—creating an environment where residents
+                feel valued, secure, and truly at home. From bespoke nursing plans to engaging
+                activities and holistic wellness programs, every aspect of our service is designed to
+                enhance quality of life.
               </p>
               <p>
-                Experience a new standard of care at Bellavista Nursing Home—where expertise meets 
-                compassion, and every resident is at the heart of everything we do. 
+                Experience a new standard of care at Bellavista Nursing Home—where expertise meets
+                compassion, and every resident is at the heart of everything we do.
               </p>
             </div>
           </div>
@@ -578,7 +626,7 @@ const Home = () => {
             <div className="news-featured">
               <div className="news-image-large">
                 {featuredNews.image ? (
-                  <img src={featuredNews.image} alt={featuredNews.title}/>
+                  <img src={featuredNews.image} alt={featuredNews.title} />
                 ) : (
                   <div className="featured-placeholder-image"><i className="fas fa-newspaper"></i></div>
                 )}
@@ -614,7 +662,7 @@ const Home = () => {
               <div key={news.id || index} className="news-card modern news-visible" data-category={news.category}>
                 <div className="news-image">
                   {news.image ? (
-                    <img alt={news.title} src={news.image}/>
+                    <img alt={news.title} src={news.image} />
                   ) : (
                     <div className="news-placeholder-image-small"><i className="fas fa-newspaper"></i></div>
                   )}
@@ -664,8 +712,8 @@ const Home = () => {
           </div>
 
           <div className="testimonials-carousel-wrapper">
-            <button 
-              className="carousel-nav-btn carousel-prev" 
+            <button
+              className="carousel-nav-btn carousel-prev"
               onClick={() => setCurrentReviewIndex((prev) => (prev - 1 + reviews.length) % reviews.length)}
               aria-label="Previous testimonial"
             >
@@ -673,8 +721,8 @@ const Home = () => {
             </button>
 
             <div className="testimonials-carousel">
-              <div 
-                className="testimonials-track" 
+              <div
+                className="testimonials-track"
                 style={{ transform: `translateX(-${currentReviewIndex * 100}%)` }}
               >
                 {reviews.map((review, index) => (
@@ -690,8 +738,8 @@ const Home = () => {
               </div>
             </div>
 
-            <button 
-              className="carousel-nav-btn carousel-next" 
+            <button
+              className="carousel-nav-btn carousel-next"
               onClick={() => setCurrentReviewIndex((prev) => (prev + 1) % reviews.length)}
               aria-label="Next testimonial"
             >
@@ -721,7 +769,7 @@ const Home = () => {
           <div className="activities-layout">
             <div className="activity-featured">
               <div className="activity-image">
-                <img src="/medical-suite.jpg" alt="Compassionate Care"/>
+                <img src="/medical-suite.jpg" alt="Compassionate Care" />
                 <div className="activity-badge">💝 Our Commitment</div>
               </div>
               <div className="activity-info">
@@ -789,7 +837,7 @@ const Home = () => {
             <div className="activities-showcase">
               <div className="activity-featured">
                 <div className="activity-image">
-                  <img src="/music-and-arts-therapy.jpg" alt="Music Therapy"/>
+                  <img src="/music-and-arts-therapy.jpg" alt="Music Therapy" />
                 </div>
                 <div className="activity-info">
                   <div className="activity-badge">🎵 Popular</div>
@@ -892,7 +940,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Private Rooms" src="/facilities-images/private-rooms.jpg"/>
+                    <img alt="Private Rooms" src="/facilities-images/private-rooms.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-bed"></i> Private Rooms</h4>
@@ -901,7 +949,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Communal Lounges" src="/facilities-images/communal-longues.jpg"/>
+                    <img alt="Communal Lounges" src="/facilities-images/communal-longues.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-couch"></i> Communal Lounges</h4>
@@ -910,7 +958,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Gardens" src="/gardens.jpg"/>
+                    <img alt="Gardens" src="/gardens.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-leaf"></i> Landscaped Gardens</h4>
@@ -923,7 +971,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Medical Suite" src="/medical-suite.jpg"/>
+                    <img alt="Medical Suite" src="/medical-suite.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-stethoscope"></i> Medical Suite</h4>
@@ -932,7 +980,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Therapy Rooms" src="/facilities-images/theraphy-rooms.jpg"/>
+                    <img alt="Therapy Rooms" src="/facilities-images/theraphy-rooms.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-dumbbell"></i> Therapy Rooms</h4>
@@ -941,7 +989,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Wellness Spa" src="/facilities-images/wellness-spa.jpg"/>
+                    <img alt="Wellness Spa" src="/facilities-images/wellness-spa.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-spa"></i> Wellness Spa</h4>
@@ -954,7 +1002,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Cinema Room" src="/facilities-images/cinema-rooms.jpg"/>
+                    <img alt="Cinema Room" src="/facilities-images/cinema-rooms.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-film"></i> Cinema Room</h4>
@@ -963,7 +1011,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Arts Studio" src="/facilities-images/arts-studio.jpg"/>
+                    <img alt="Arts Studio" src="/facilities-images/arts-studio.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-palette"></i> Arts Studio</h4>
@@ -972,7 +1020,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Library" src="/library.jpg"/>
+                    <img alt="Library" src="/library.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-book"></i> Library Corner</h4>
@@ -985,7 +1033,7 @@ const Home = () => {
               <div className="facilities-grid compact">
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Restaurant Dining" src="/facilities-images/restaurant-dining.jpg"/>
+                    <img alt="Restaurant Dining" src="/facilities-images/restaurant-dining.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-utensils"></i> Restaurant Dining</h4>
@@ -994,7 +1042,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Laundry" src="/laundry.jpg"/>
+                    <img alt="Laundry" src="/laundry.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-tshirt"></i> Laundry Service</h4>
@@ -1003,7 +1051,7 @@ const Home = () => {
                 </div>
                 <div className="facility-card modern">
                   <div className="facility-image">
-                    <img alt="Reception" src="/facilities-images/reception.jpg"/>
+                    <img alt="Reception" src="/facilities-images/reception.jpg" />
                   </div>
                   <div className="facility-info">
                     <h4><i className="fas fa-concierge-bell"></i> 24/7 Reception</h4>
@@ -1018,7 +1066,7 @@ const Home = () => {
 
       {modalOpen && modalContent && (
         <div className="service-modal-overlay" onClick={closeModal}>
-          <div className="service-modal-content" onClick={(e) => e.stopPropagation()} style={{overscrollBehavior: 'contain'}}>
+          <div className="service-modal-content" onClick={(e) => e.stopPropagation()} style={{ overscrollBehavior: 'contain' }}>
             <button className="service-modal-close" onClick={closeModal}>&times;</button>
             <div className="service-modal-header">
               <h3>{modalContent.title}</h3>

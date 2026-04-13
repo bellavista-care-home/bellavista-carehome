@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
 
 import '../styles/CareHome.css';
 import '../styles/MainPage.css';
@@ -18,9 +17,9 @@ import SEO from '../components/SEO';
 
 import DynamicContentSection from '../components/DynamicContentSection';
 import HomeEventsCalendar from '../components/HomeEventsCalendar';
+import UnifiedHero from '../components/UnifiedHero';
 
 const BellavistaBaltimore = () => {
-  const navigate = useNavigate();
   const [baltimoreNews, setBaltimoreNews] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [homeData, setHomeData] = useState(null);
@@ -234,7 +233,7 @@ const BellavistaBaltimore = () => {
           /* Gradients matching MainPage */
           
           /* Typography */
-          --font-heading: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
           --font-body: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
           
           /* Mappings for consistency */
@@ -245,7 +244,7 @@ const BellavistaBaltimore = () => {
           --bone: var(--soft-blue);
           --floral-white: var(--color-bg-light);
           
-          --font-display: var(--font-heading);
+          --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
           --font-primary: var(--font-body);
         }
 
@@ -256,7 +255,7 @@ const BellavistaBaltimore = () => {
         .theme-baltimore .hero-title .title-main {
           white-space: normal;
           line-height: 1.05;
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
           font-weight: 700;
           font-style: normal;
           letter-spacing: -0.01em;
@@ -266,7 +265,7 @@ const BellavistaBaltimore = () => {
           font-style: italic;
           opacity: 0.95;
           margin-top: 16px;
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-baltimore .hero-description {
           color: rgba(255, 251, 244, 0.9);
@@ -279,7 +278,7 @@ const BellavistaBaltimore = () => {
           border-bottom: 3px solid var(--color-secondary);
           padding-bottom: 10px;
           display: inline-block;
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-baltimore .group-intro-text p {
           color: var(--color-text-main);
@@ -291,7 +290,7 @@ const BellavistaBaltimore = () => {
           padding-left: 15px;
           margin-top: 30px;
           margin-bottom: 15px;
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-baltimore .btn-primary {
           background: var(--white, #FFFFFF);
@@ -300,7 +299,7 @@ const BellavistaBaltimore = () => {
           text-transform: uppercase;
           letter-spacing: 1px;
           transition: all 0.3s ease;
-          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
           font-weight: 600;
           font-size: 13px;
           letter-spacing: 0.8px;
@@ -317,7 +316,7 @@ const BellavistaBaltimore = () => {
           border: 2px solid var(--color-primary);
           text-transform: uppercase;
           letter-spacing: 1px;
-          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
           font-weight: 600;
           font-size: 13px;
           letter-spacing: 0.8px;
@@ -345,7 +344,7 @@ const BellavistaBaltimore = () => {
         /* 4. ACTIVITIES & FACILITIES SECTIONS */
         .theme-baltimore .section-header__subtitle {
           color: var(--color-primary);
-          font-family: 'Inter', 'Open Sans', system-ui, -apple-system, sans-serif;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
           font-weight: 600;
           font-size: 13px;
           letter-spacing: 0.8px;
@@ -354,7 +353,7 @@ const BellavistaBaltimore = () => {
         }
         .theme-baltimore .section-header__title {
           color: var(--color-primary-dark);
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-baltimore .facility-card {
           border-color: var(--color-secondary);
@@ -392,7 +391,7 @@ const BellavistaBaltimore = () => {
           border-bottom: 2px solid var(--color-secondary);
           padding-bottom: 10px;
           margin-bottom: 20px;
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-baltimore .contact-mini-item i {
           color: var(--color-primary);
@@ -491,105 +490,46 @@ const BellavistaBaltimore = () => {
         url="/bellavista-baltimore"
         schema={baltimoreSchema}
       />
-      {/* 1. HERO SECTION */}
-      <section className="hero" id="hero-section">
-        <div className="hero-right-full">
-          <div className="hero-image-wrap">
-            <Swiper
-              modules={[Autoplay, EffectFade]}
-              effect="fade"
-              autoplay={{
-                delay: 6000,
-                disableOnInteraction: false,
-              }}
-              loop={true}
-              speed={1500}
-              className="hero-swiper"
-            >
-              {bannerImages.length > 0 ? (
-                bannerImages.map((slide, index) => (
-                  <SwiperSlide key={index}>
-                    <img src={slide} alt={`Baltimore Banner ${index + 1}`} />
-                  </SwiperSlide>
-                ))
-              ) : (
-                <SwiperSlide>
-                  <img src="/home-images/baltimore.jpg" alt="Baltimore House Care Home" />
-                </SwiperSlide>
-              )}
-            </Swiper>
-          </div>
-        </div>
-
-        <div className="container hero-container">
-          <div className="hero-content-left">
-            <h1 className="hero-title">
-              <span className="title-main">Welcome to Baltimore House</span>
-              <span className="title-sub">A Warm, Homely Environment with Professional Care</span>
-            </h1>
-            <p className="hero-description">
-              Baltimore House Care Home is a well-established residential facility located in the 
-              scenic and tranquil surroundings of Barry, offering the perfect balance of rural charm 
-              and professional care.
-            </p>
-            
-            <div className="hero-cta-buttons hero-buttons-row">
-              <div className="btn btn-primary" style={{ cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-bed"></i> {homeData?.statsBedrooms || "26 Rooms"}
-              </div>
-              <div className="btn btn-primary" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry', '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-map-marker-alt"></i> Barry
-              </div>
-              <div className="btn btn-primary" onClick={() => navigate('/our-care')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-star"></i> Quality Care
-              </div>
-              <div className="btn btn-primary" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-users"></i> Expert Team
-              </div>
-              {homeData?.ciwReportUrl && (
-                <div className="btn btn-primary" onClick={() => window.open(homeData.ciwReportUrl, '_blank')} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                  <i className="fas fa-file-pdf"></i> CIW Report
-                </div>
-              )}
-              <div className="btn btn-primary" onClick={() => navigate('/newsletters' + (homeData?.id ? '?homeId=' + homeData.id : ''))} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
-                <i className="fas fa-newspaper"></i> Newsletter
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {bannerImages.length > 0 && (
-          <div className="hero-bottom-carousel">
-            <Swiper
-              modules={[Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1.2}
-              centeredSlides={false}
-              loop={bannerImages.length > 3}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-              }}
-              breakpoints={{
-                480: { slidesPerView: 2.2, spaceBetween: 20 },
-                768: { slidesPerView: 3.2, spaceBetween: 25 },
-                1024: { slidesPerView: 4, spaceBetween: 30 },
-                1400: { slidesPerView: 5, spaceBetween: 30 }
-              }}
-              className="bottom-swiper"
-            >
-              {[...bannerImages, ...bannerImages, ...bannerImages].slice(0, 12).map((slide, index) => (
-                <SwiperSlide key={`bottom-slide-${index}`}>
-                  <div className="carousel-item-card">
-                    <img src={slide} alt={`Bellavista highlight ${index + 1}`} />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-      </section>
+      <UnifiedHero
+        title="Baltimore House Care Home"
+        subtitle="A warm, welcoming care home in the heart of Barry"
+        description="Baltimore House Care Home offers a warm and welcoming environment with professional support, helping residents feel safe, comfortable and genuinely at home."
+        imageSrc="/home-images/baltimore.jpg"
+        imageAlt="Baltimore House Care Home"
+        galleryImages={bannerImages}
+        galleryAltPrefix="Bellavista highlight"
+        badges={[
+          {
+            icon: 'fas fa-bed',
+            label: homeData?.statsBedrooms || '26 Bedrooms'
+          },
+          {
+            icon: 'fas fa-map-marker-alt',
+            label: 'Barry Location',
+            href: 'https://www.google.com/maps/search/?api=1&query=Baltimore+House+Care+Home+Barry'
+          },
+          {
+            icon: 'fas fa-star',
+            label: 'Quality Care',
+            to: '/our-care'
+          },
+          {
+            icon: 'fas fa-users',
+            label: 'Expert Team',
+            onClick: () => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })
+          },
+          ...(homeData?.ciwReportUrl ? [{
+            icon: 'fas fa-file-pdf',
+            label: 'CIW Report',
+            href: homeData.ciwReportUrl
+          }] : []),
+          {
+            icon: 'fas fa-newspaper',
+            label: 'Newsletter',
+            to: `/newsletters${homeData?.id ? `?homeId=${homeData.id}` : ''}`
+          }
+        ]}
+      />
 
       <section className="about-group-intro" id="about-section">
         <div className="container">
