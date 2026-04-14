@@ -109,17 +109,31 @@ const Header = () => {
       title: 'Main',
       links: [
         { to: '/', label: 'Home' },
-        { to: '/our-homes', label: 'Our Homes' },
-        { to: '/services', label: 'Services' }
+        { to: '/our-homes', label: 'Our Homes' }
       ]
+    },
+    {
+      title: 'Our Homes',
+      links: homeLinks
     },
     {
       title: 'Services',
       links: [
+        { to: '/services', label: 'Care Services' },
         { to: '/events', label: 'Calendar Events' },
-        { to: '/events', label: 'Activities & Events' },
-        { to: '/facilities', label: 'Facilities' },
-        { to: '/services', label: 'Care Services' }
+        { to: '/dementia-friendly-environment', label: 'Dementia Environment' },
+        { to: '/dining-and-nutrition', label: 'Dining & Nutrition' },
+        { to: '/visitor-policy', label: 'Visitor Policy' }
+      ]
+    },
+    {
+      title: 'About Us',
+      links: [
+        { to: '/about', label: 'About Us' },
+        { to: '/our-vision', label: 'Our Vision' },
+        { to: '/our-values', label: 'Our Values' },
+        { to: '/our-care', label: 'Our Care' },
+        { to: '/management-team', label: 'Management Team' }
       ]
     },
     {
@@ -139,13 +153,27 @@ const Header = () => {
       ]
     },
     {
+      title: 'Career',
+      links: [
+        { to: '/career', label: 'Careers' },
+        { to: '/current-jobs', label: 'Current Jobs' },
+        { to: '/training-and-development', label: 'Training & Development' },
+        { to: '/staff-portal', label: 'Staff Portal' }
+      ]
+    },
+    {
       title: 'Support',
       links: [
-        { to: '/contact', label: 'Contact Us' },
-        { to: '/career', label: 'Careers' }
+        { to: '/contact', label: 'Contact Us' }
       ]
     }
   ];
+
+  const handleDropdownMouseLeave = () => {
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+  };
 
   return (
     <header>
@@ -206,7 +234,11 @@ const Header = () => {
         <nav className="desktop-nav">
           <ul>
             {navLinks.map((link) => (
-              <li key={link.to} className={link.children ? 'has-dropdown' : ''}>
+              <li
+                key={link.to}
+                className={link.children ? 'has-dropdown' : ''}
+                onMouseLeave={link.children ? handleDropdownMouseLeave : undefined}
+              >
                 <Link to={link.to}>
                   {link.label}
                   {link.children && <i className="fas fa-chevron-down nav-chevron" aria-hidden="true"></i>}

@@ -316,7 +316,7 @@ img {
   .services-section,
   .testimonials-section,
   .training-section,
-  [class*="-section"] {
+  [class*="-section"]:not(.side-menu-section):not(.side-section-links) {
     padding: 40px 0 !important;
   }
 
@@ -374,8 +374,8 @@ img {
 
   /* Standardized Small Mobile Spacing */
   .section,
-  [class*="-section"] {
-    padding: 30px 0 !important;
+  [class*="-section"]:not(.side-menu-section):not(.side-section-links) {
+    padding: 10px 0 !important;
   }
 
   [class*="-grid"],
@@ -437,8 +437,8 @@ img {
 
   /* Increase spacing */
   .section,
-  [class*="-section"] {
-    padding: 100px 0 !important;
+  [class*="-section"]:not(.side-menu-section):not(.side-section-links) {
+    padding: 10px 0 !important;
   }
 
   [class*="-card"],
@@ -490,7 +490,7 @@ img {
 
   /* Premium spacing for large displays */
   .section,
-  [class*="-section"] {
+  [class*="-section"]:not(.side-menu-section):not(.side-section-links) {
     padding: 120px 0 !important;
   }
 

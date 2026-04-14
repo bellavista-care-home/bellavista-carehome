@@ -256,23 +256,21 @@ const WaverleyCareCentre = () => {
         }
 
         /* 1. HERO SECTION */
-        .theme-waverley .hero-title {
+        .theme-waverley .unified-hero__content {
           width: 100%;
         }
-        .theme-waverley .hero-title .title-main {
+        .theme-waverley .unified-hero__title {
           white-space: normal;
           line-height: 1.05;
-          font-family: 'Outfit', system-ui, sans-serif;
           font-weight: 700;
           font-style: normal;
           letter-spacing: -0.01em;
         }
-        .theme-waverley .hero-title .title-sub {
+        .theme-waverley .unified-hero__subtitle {
           color: var(--soft-blue);
           font-style: italic;
           opacity: 0.95;
           margin-top: 16px;
-          font-family: 'Outfit', system-ui, sans-serif;
         }
         .theme-waverley .hero-description {
           color: rgba(255, 251, 244, 0.9);
@@ -515,7 +513,8 @@ const WaverleyCareCentre = () => {
         title="Waverley Care Centre"
         subtitle="Warm, friendly and professional care in Penarth"
         description="At Waverley Care Centre, our team combines professional expertise with a warm, friendly and personal approach to daily care and wellbeing."
-        imageSrc="/home-images/waverley-hero.mp4?v=2"
+        imageSrc="/home-images/waverley.jpg"
+        videoBackground="/home-images/waverley-hero.mp4?v=2"
         imageAlt="Waverley Care Centre"
         galleryImages={bannerImages}
         galleryAltPrefix="Bellavista highlight"

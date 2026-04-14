@@ -21,7 +21,8 @@ const UnifiedHero = ({
   className = '',
   titleRef = null,
   descriptionRef = null,
-  actionsRef = null
+  actionsRef = null,
+  videoBackground = null
 }) => {
   const previewImages = (galleryImages || []).filter(Boolean);
   const normalizedBadges = (badges || [])
@@ -41,7 +42,21 @@ const UnifiedHero = ({
   };
 
   return (
-    <section className={`unified-hero ${className}`.trim()} id="hero-section">
+    <section className={`unified-hero ${videoBackground ? 'unified-hero--has-video' : ''} ${className}`.trim()} id="hero-section">
+      {videoBackground && (
+        <div className="unified-hero__video-background">
+          <video
+            src={videoBackground}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="unified-hero__bg-video"
+          />
+          <div className="unified-hero__video-overlay" />
+        </div>
+      )}
+
       <div className="unified-hero__split-bg" />
 
       <div className="unified-hero__container">

@@ -5,7 +5,7 @@
 }
 
 .footer-shell {
-  width: min(1320px, calc(100% - 30px));
+  width: min(1360px, calc(100% - 30px));
   margin: 0 auto;
   border-radius: 20px;
   background: #ffffff;
@@ -175,5 +175,40 @@
 
   .footer-bottom p {
     text-align: center;
+  }
+}
+
+/* ── Large-screen footer scaling ── */
+
+@media (min-width: 1400px) {
+  .footer-shell {
+    width: min(1500px, calc(100% - 40px));
+    padding: 32px;
+  }
+
+  .footer-top {
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .footer-shell {
+    width: min(1660px, calc(100% - 48px));
+    padding: 36px;
+  }
+
+  .footer-top {
+    gap: 36px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer-shell {
+    width: min(1840px, calc(100% - 60px));
+    padding: 40px;
+  }
+
+  .footer-top {
+    gap: 40px;
   }
 }
