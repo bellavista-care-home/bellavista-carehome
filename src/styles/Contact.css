@@ -4,10 +4,8 @@
 }
 
 .contact-page .page-header {
-    background: var(--gradient-primary), url('/background-banner-image.png');
-    background-size: cover;
-    background-position: center;
-    color: var(--floral-white);
+    background: linear-gradient(90deg, #fbfeff 0%, #f5fbff 56%, #ebf6ff 100%);
+    color: #25364f;
     padding: 120px 0;
     text-align: center;
     margin-bottom: 60px;
@@ -21,13 +19,13 @@
 .contact-page .page-header h1 {
     font-size: 3rem;
     margin-bottom: 10px;
-    color: var(--floral-white);
+    color: #0f2e64;
 }
 
 .contact-page .page-header p {
     font-size: 1.5rem;
     font-style: italic;
-    color: var(--bone);
+    color: #C9A84C;
 }
 
 .locations-grid {

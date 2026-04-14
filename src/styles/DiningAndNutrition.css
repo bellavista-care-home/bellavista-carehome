@@ -27,8 +27,7 @@
 .dining-hero {
   position: relative;
   height: 400px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="1200" height="400" fill="url(%23dots)"/></svg>');
+  background: linear-gradient(90deg, #fbfeff 0%, #f5fbff 56%, #ebf6ff 100%);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -36,19 +35,14 @@
 }
 
 .dining-hero__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  display: none;
 }
 
 .dining-hero__content {
   position: relative;
   z-index: 1;
   text-align: center;
-  color: var(--color-white);
+  color: #25364f;
 }
 
 .dining-hero__title {
@@ -57,13 +51,14 @@
   margin: 0 0 var(--spacing-md) 0;
   font-family: 'Playfair Display', serif;
   letter-spacing: -1px;
+  color: #0f2e64;
 }
 
 .dining-hero__subtitle {
   font-size: 1.5rem;
   font-weight: 300;
   margin: 0;
-  opacity: 0.95;
+  color: #C9A84C;
 }
 
 /* Container */

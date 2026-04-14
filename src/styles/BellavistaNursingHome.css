@@ -5,8 +5,8 @@
 
 /* Hero Section */
 .hero-section {
-  background: var(--gradient-primary);
-  color: var(--floral-white);
+  background: linear-gradient(90deg, #fbfeff 0%, #f5fbff 56%, #ebf6ff 100%);
+  color: #25364f;
   padding: 80px 0;
   text-align: center;
 }
@@ -15,12 +15,13 @@
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  color: #0f2e64;
 }
 
 .hero-subtitle {
   font-size: 1.5rem;
   margin-bottom: 3rem;
-  opacity: 0.9;
+  color: #C9A84C;
 }
 
 .hero-stats {
@@ -38,12 +39,12 @@
   display: block;
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--bone);
+  color: #0f2e64;
 }
 
 .stat-label {
   font-size: 1rem;
-  opacity: 0.8;
+  color: #25364f;
 }
 
 /* Sections */
