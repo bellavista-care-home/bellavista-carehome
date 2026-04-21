@@ -38,6 +38,7 @@ const WaverleyCareCentre = () => {
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
   const [facilitiesGalleryImages, setFacilitiesGalleryImages] = useState(defaultFacilitiesImages);
   const [teamGalleryImages, setTeamGalleryImages] = useState(defaultTeamImages);
+  const [servicesGalleryImages, setServicesGalleryImages] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -64,6 +65,9 @@ const WaverleyCareCentre = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.careGalleryImages && home.careGalleryImages.length > 0) {
+          setServicesGalleryImages(home.careGalleryImages);
         }
         if (home.bannerImages && Array.isArray(home.bannerImages)) {
           setBannerImages(home.bannerImages.map(img => img.url));
@@ -653,45 +657,55 @@ const WaverleyCareCentre = () => {
       {/* Services Section */}
       <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
+          <div className={servicesGalleryImages.length > 0 ? "loc-grid" : ""}>
+            {servicesGalleryImages.length > 0 && (
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {servicesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <SlideMedia item={img} folder="care" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+            )}
+            <div className={servicesGalleryImages.length > 0 ? "loc-grid__content" : ""}>
               <div className="section-header">
-                <span className="section-header__subtitle">High Quality Care</span>
-                <h2 className="section-header__title">Our Services</h2>
+                <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'High Quality Care'}</span>
+                <h2 className="section-header__title">{homeData?.servicesTitle || 'Our Services'}</h2>
               </div>
-              <p className="loc-text">
-                Waverley Care Centre is designed to provide exceptional, person-centred care for 
-                up to 129 residents, with plans for additional capacity through recent 
-                developments. The home is thoughtfully organised into four specialist units—Cliff Haven-1, 
-                Cliff Haven-2, Seaview, and Glan-y-Mor—each with dedicated management and staff to 
-                ensure tailored support for every resident.
-              </p>
-              
-              <div style={{ marginTop: '20px' }}>
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>General Nursing Care</h4>
-                <p className="loc-text" style={{ marginBottom: '15px' }}>
-                  Offers comprehensive support for residents with a wide range of healthcare needs, 
-                  delivering expert nursing and personalised care plans.
-                </p>
-
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>EMI (Elderly Mentally Infirm) Care</h4>
-                <p className="loc-text" style={{ marginBottom: '15px' }}>
-                  Provides specialist support for individuals living with dementia or cognitive 
-                  impairments, focusing on safety, engagement, and quality of life.
-                </p>
-
-                <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>FMI (Functional Mental Infirmity) Care</h4>
-                <p className="loc-text" style={{ marginBottom: '15px' }}>
-                  Offers focused, compassionate support tailored to the functional needs of residents 
-                  with specific mental health challenges.
-                </p>
-              </div>
-              
-              <p className="loc-text" style={{ marginTop: '15px' }}>
-                Through ongoing redevelopment, the home includes modernised accommodation, 
-                improved communal spaces, and additional beds, offering a comfortable, home-like 
-                environment in each unit.
-              </p>
+              {homeData?.servicesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.servicesContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    {homeData?.servicesIntro || 'Waverley Care Centre is designed to provide exceptional, person-centred care for up to 129 residents, with plans for additional capacity through recent developments.'}
+                  </p>
+                  
+                  <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>General Nursing Care</h4>
+                    <p className="loc-text" style={{ marginBottom: '15px' }}>
+                      Offers comprehensive support for residents with a wide range of healthcare needs, delivering expert nursing and personalised care plans.
+                    </p>
+                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>EMI (Elderly Mentally Infirm) Care</h4>
+                    <p className="loc-text" style={{ marginBottom: '15px' }}>
+                      Provides specialist support for individuals living with dementia or cognitive impairments, focusing on safety, engagement, and quality of life.
+                    </p>
+                    <h4 style={{ color: 'var(--color-primary)', marginBottom: '10px' }}>FMI (Functional Mental Infirmity) Care</h4>
+                    <p className="loc-text" style={{ marginBottom: '15px' }}>
+                      Offers focused, compassionate support tailored to the functional needs of residents with specific mental health challenges.
+                    </p>
+                  </div>
+                  
+                  <p className="loc-text">
+                    {homeData?.servicesClosing || 'Through ongoing redevelopment, the home includes modernised accommodation, improved communal spaces, and additional beds, offering a comfortable, home-like environment in each unit.'}
+                  </p>
+                </>
+              )}
               <Link to="/care/waverley-care-center" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>

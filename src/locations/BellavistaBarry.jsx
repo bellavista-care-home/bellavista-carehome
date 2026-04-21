@@ -42,6 +42,7 @@ const BellavistaBarry = () => {
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
   const [facilitiesGalleryImages, setFacilitiesGalleryImages] = useState(defaultFacilitiesImages);
   const [teamGalleryImages, setTeamGalleryImages] = useState(defaultTeamImages);
+  const [servicesGalleryImages, setServicesGalleryImages] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -90,6 +91,9 @@ const BellavistaBarry = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.careGalleryImages && home.careGalleryImages.length > 0) {
+          setServicesGalleryImages(home.careGalleryImages);
         }
         if (home.bannerImages && Array.isArray(home.bannerImages)) {
           setBannerImages(home.bannerImages.map(img => img.url));
@@ -749,8 +753,23 @@ const BellavistaBarry = () => {
       {/* High Quality Care - Our Services Section */}
       <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
+          <div className={servicesGalleryImages.length > 0 ? "loc-grid" : ""}>
+            {servicesGalleryImages.length > 0 && (
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {servicesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <SlideMedia item={img} folder="care" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </div>
+            )}
+            <div className={servicesGalleryImages.length > 0 ? "loc-grid__content" : ""}>
               <div className="section-header">
                 <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'High Quality Care'}</span>
                 <h2 className="section-header__title">{homeData?.servicesTitle || 'Our Services'}</h2>
@@ -760,10 +779,10 @@ const BellavistaBarry = () => {
               ) : (
                 <>
                   <p className="loc-text">
-                    Our team delivers professional social care and nursing services for older adults, including:
+                    {homeData?.servicesIntro || 'Our team delivers professional social care and nursing services for older adults, including:'}
                   </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                    {servicesList.map((service, index) => (
+                    {(homeData?.servicesList && homeData.servicesList.length > 0 ? homeData.servicesList : servicesList).map((service, index) => (
                       <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
                         <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
                         {service}
@@ -771,14 +790,7 @@ const BellavistaBarry = () => {
                     ))}
                   </ul>
                   <p className="loc-text">
-                    This comprehensive approach ensures residents enjoy the perfect balance of peace, 
-                    tranquillity, privacy, companionship, and safety, all within a secure and supportive 
-                    environment.
-                  </p>
-                  <p className="loc-text" style={{ marginTop: '30px' }}>
-                    We invite families, healthcare professionals, and prospective residents to explore our 
-                    approach to care, see how our team supports residents, and experience the warmth 
-                    and professionalism that define Bellavista Barry.
+                    {homeData?.servicesClosing || 'This comprehensive approach ensures residents enjoy the perfect balance of peace, tranquillity, privacy, companionship, and safety, all within a secure and supportive environment.'}
                   </p>
                 </>
               )}

@@ -36,6 +36,7 @@ const CollegeFieldsNursingHome = () => {
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
   const [facilitiesGalleryImages, setFacilitiesGalleryImages] = useState(defaultFacilitiesImages);
   const [teamGalleryImages, setTeamGalleryImages] = useState(defaultTeamImages);
+  const [servicesGalleryImages, setServicesGalleryImages] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -62,6 +63,9 @@ const CollegeFieldsNursingHome = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.careGalleryImages && home.careGalleryImages.length > 0) {
+          setServicesGalleryImages(home.careGalleryImages);
         }
         if (home.bannerImages && Array.isArray(home.bannerImages)) {
           setBannerImages(home.bannerImages.map(img => img.url));
@@ -668,21 +672,49 @@ const CollegeFieldsNursingHome = () => {
       {/* HIGH QUALITY CARE / OUR SERVICES SECTION */}
       <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">High Quality Care</span>
-                <h2 className="section-header__title">Our Services</h2>
+          <div className={servicesGalleryImages.length > 0 ? "loc-grid" : ""}>
+            {servicesGalleryImages.length > 0 && (
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {servicesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <SlideMedia item={img} folder="care" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
               </div>
-              <p className="loc-text">
-                College Fields Nursing Home provides compassionate, person-centred care for residents 
-                of all ages with varying care needs. We deliver nursing care tailored to each individual's 
-                requirements, supporting their independence, dignity, and quality of life.
-              </p>
-              <p className="loc-text" style={{ marginTop: '15px' }}>
-                Our professional team is committed to providing excellent nursing support, combined with 
-                a warm, homely environment where residents feel valued, respected, and truly at home.
-              </p>
+            )}
+            <div className={servicesGalleryImages.length > 0 ? "loc-grid__content" : ""}>
+              <div className="section-header">
+                <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'High Quality Care'}</span>
+                <h2 className="section-header__title">{homeData?.servicesTitle || 'Our Services'}</h2>
+              </div>
+              {homeData?.servicesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.servicesContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    {homeData?.servicesIntro || 'College Fields Nursing Home provides compassionate, person-centred care for residents of all ages with varying care needs. We deliver nursing care tailored to each individual\'s requirements, supporting their independence, dignity, and quality of life.'}
+                  </p>
+                  <p className="loc-text" style={{ marginTop: '15px' }}>
+                    {homeData?.servicesClosing || 'Our professional team is committed to providing excellent nursing support, combined with a warm, homely environment where residents feel valued, respected, and truly at home.'}
+                  </p>
+                  {homeData?.servicesList && homeData.servicesList.length > 0 && (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                      {homeData.servicesList.map((service, index) => (
+                        <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                          <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                          {service}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
               <Link to="/care/college-fields-nursing-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>

@@ -361,6 +361,7 @@ const AdminPageEditor = () => {
           servicesContent: homeData.servicesContent || homeData.servicesIntro,
           services: homeData.servicesList || [],
           servicesClosing: homeData.servicesClosing,
+          careGalleryImages: homeData.careGalleryImages || [],
         };
       case 'facilities':
         return {

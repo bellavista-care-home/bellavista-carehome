@@ -51,6 +51,7 @@ const BellavistaCardiff = () => {
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
   const [facilitiesGalleryImages, setFacilitiesGalleryImages] = useState(defaultFacilitiesImages);
   const [teamGalleryImages, setTeamGalleryImages] = useState(defaultTeamImages);
+  const [servicesGalleryImages, setServicesGalleryImages] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -99,6 +100,9 @@ const BellavistaCardiff = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.careGalleryImages && home.careGalleryImages.length > 0) {
+          setServicesGalleryImages(home.careGalleryImages);
         }
         if (home.bannerImages && Array.isArray(home.bannerImages)) {
           setBannerImages(home.bannerImages.map(img => img.url));
@@ -745,26 +749,47 @@ const BellavistaCardiff = () => {
       {/* Services Section */}
       <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">High Quality Care</span>
-                <h2 className="section-header__title">Our Services</h2>
+          <div className={servicesGalleryImages.length > 0 ? "loc-grid" : ""}>
+            {servicesGalleryImages.length > 0 && (
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {servicesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <SlideMedia item={img} folder="care" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
               </div>
-              <p className="loc-text">
-                Bellavista Nursing Home Cardiff is registered to provide a wide range of care services, including:
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                {servicesList.map((service, index) => (
-                  <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    {service}
-                  </li>
-                ))}
-              </ul>
-              <p className="loc-text">
-                We strive to create the ideal balance of peace, privacy, companionship, and high quality care, ensuring a safe and nurturing environment for all our residents.
-              </p>
+            )}
+            <div className={servicesGalleryImages.length > 0 ? "loc-grid__content" : ""}>
+              <div className="section-header">
+                <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'High Quality Care'}</span>
+                <h2 className="section-header__title">{homeData?.servicesTitle || 'Our Services'}</h2>
+              </div>
+              {homeData?.servicesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.servicesContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    {homeData?.servicesIntro || 'Bellavista Nursing Home Cardiff is registered to provide a wide range of care services, including:'}
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                    {(homeData?.servicesList && homeData.servicesList.length > 0 ? homeData.servicesList : servicesList).map((service, index) => (
+                      <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="loc-text">
+                    {homeData?.servicesClosing || 'We strive to create the ideal balance of peace, privacy, companionship, and high quality care, ensuring a safe and nurturing environment for all our residents.'}
+                  </p>
+                </>
+              )}
               <Link to="/care/bellavista-cardiff" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>

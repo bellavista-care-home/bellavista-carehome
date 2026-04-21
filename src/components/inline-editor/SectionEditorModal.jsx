@@ -595,7 +595,8 @@ const SectionEditorModal = ({
         return {
           servicesTitle: data.servicesTitle,
           servicesSubtitle: data.servicesSubtitle,
-          servicesContent: data.servicesContent || data.servicesIntro
+          servicesContent: data.servicesContent || data.servicesIntro,
+          careGalleryImages: data.careGalleryImages || []
         };
       case 'facilities':
         return {
@@ -1146,6 +1147,23 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
               onChange={(html) => onChange('servicesContent', html)}
               placeholder="Describe your services... Use bullet points, bold, italic, and alignment from the toolbar above."
               minHeight={200}
+            />
+          </div>
+          
+          {/* Services Gallery */}
+          <div className="form-group">
+            <div className="section-divider">
+              <i className="fas fa-hand-holding-heart"></i> Services Gallery
+            </div>
+            <MediaGalleryEditor
+              galleryItems={formData.careGalleryImages || []}
+              onAddItem={onAddItem}
+              onRemoveItem={onRemoveItem}
+              onMoveItem={onMoveItem}
+              onUpdateItem={onArrayChange}
+              fieldName="careGalleryImages"
+              isUploading={isUploading}
+              setIsUploading={setIsUploading}
             />
           </div>
         </div>

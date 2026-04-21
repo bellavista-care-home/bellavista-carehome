@@ -39,6 +39,7 @@ const BellavistaBaltimore = () => {
   const [activitiesGalleryImages, setActivitiesGalleryImages] = useState(defaultActivitiesImages);
   const [facilitiesGalleryImages, setFacilitiesGalleryImages] = useState(defaultFacilitiesImages);
   const [teamGalleryImages, setTeamGalleryImages] = useState(defaultTeamImages);
+  const [servicesGalleryImages, setServicesGalleryImages] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -87,6 +88,9 @@ const BellavistaBaltimore = () => {
         }
         if (home.teamGalleryImages && home.teamGalleryImages.length > 0) {
           setTeamGalleryImages(home.teamGalleryImages);
+        }
+        if (home.careGalleryImages && home.careGalleryImages.length > 0) {
+          setServicesGalleryImages(home.careGalleryImages);
         }
         if (home.bannerImages && Array.isArray(home.bannerImages)) {
           setBannerImages(home.bannerImages.map(img => img.url));
@@ -626,47 +630,58 @@ const BellavistaBaltimore = () => {
         </div>
       </section>
 
-      {/* 4. HIGH QUALITY CARE / OUR SERVICES SECTION (CONTENT ONLY) */}
+      {/* 4. HIGH QUALITY CARE / OUR SERVICES SECTION */}
       <section className="loc-section loc-section--white" id="services-section">
         <div className="container">
-          <div className="loc-grid">
-            <div className="loc-grid__content">
-              <div className="section-header">
-                <span className="section-header__subtitle">Our Care and Services</span>
-                <h2 className="section-header__title">Services</h2>
+          <div className={servicesGalleryImages.length > 0 ? "loc-grid" : ""}>
+            {servicesGalleryImages.length > 0 && (
+              <div className="loc-grid__media">
+                <div className="loc-slider">
+                  <Swiper {...sliderSettings} className="custom-swiper">
+                    {servicesGalleryImages.map((img, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="loc-slider__item">
+                          <SlideMedia item={img} folder="care" />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
               </div>
-              <p className="loc-text">
-                Baltimore House provides support for up to 26 residents, including those living with 
-                cognitive impairments, dementia, Alzheimer’s disease, and functional mental health 
-                conditions such as Bipolar Disorder and Depression. Each speciality is overseen by a 
-                dedicated manager and trained staff team, ensuring that every resident receives care 
-                that is tailored to their individual needs.
-              </p>
-              <p className="loc-text">
-                Our home focuses on person-centred care, creating a homely environment where 
-                residents can continue to live safely, comfortably, and independently wherever 
-                possible. Services include:
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    General Residential Care for older adults
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    Dementia and Alzheimer’s Care
-                </li>
-                <li style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
-                    <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
-                    Support for Functional Mental Illness (Bipolar/Depression)
-                </li>
-              </ul>
-              <p className="loc-text">
-                Residents benefit from prompt access to GP services, community healthcare support 
-                including dietetics, occupational therapy, and mental health teams. Visiting specialists 
-                such as chiropodists are available, and families are encouraged to arrange personal 
-                therapists or hairdressing visits if desired.
-              </p>
+            )}
+            <div className={servicesGalleryImages.length > 0 ? "loc-grid__content" : ""}>
+              <div className="section-header">
+                <span className="section-header__subtitle">{homeData?.servicesSubtitle || 'Our Care and Services'}</span>
+                <h2 className="section-header__title">{homeData?.servicesTitle || 'Services'}</h2>
+              </div>
+              
+              {homeData?.servicesContent ? (
+                <div className="loc-text" dangerouslySetInnerHTML={{ __html: homeData.servicesContent }} />
+              ) : (
+                <>
+                  <p className="loc-text">
+                    {homeData?.servicesIntro || 'Baltimore House provides support for up to 26 residents, including those living with cognitive impairments, dementia, Alzheimer’s disease, and functional mental health conditions such as Bipolar Disorder and Depression.'}
+                  </p>
+                  <p className="loc-text" style={{ marginTop: '15px' }}>
+                    Each speciality is overseen by a dedicated manager and trained staff team, ensuring that every resident receives care that is tailored to their individual needs. Our home focuses on person-centred care, creating a homely environment where residents can continue to live safely, comfortably, and independently wherever possible.
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                    {(homeData?.servicesList && homeData.servicesList.length > 0 ? homeData.servicesList : [
+                      "General Residential Care for older adults",
+                      "Dementia and Alzheimer’s Care",
+                      "Support for Functional Mental Illness (Bipolar/Depression)"
+                    ]).map((service, index) => (
+                      <li key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+                        <i className="fas fa-check" style={{ color: 'var(--color-primary)', marginRight: '10px' }}></i>
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="loc-text">
+                    {homeData?.servicesClosing || 'Residents benefit from prompt access to GP services, community healthcare support including dietetics, occupational therapy, and mental health teams. Visiting specialists such as chiropodists are available, and families are encouraged to arrange personal therapists or hairdressing visits if desired.'}
+                  </p>
+                </>
+              )}
               <Link to="/care/baltimore-care-home" className="btn btn-primary" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                 <i className="fas fa-heart"></i> Find Out More About Our Care
               </Link>
