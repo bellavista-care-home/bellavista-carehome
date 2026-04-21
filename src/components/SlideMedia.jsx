@@ -18,6 +18,8 @@ const SlideMedia = ({ item, folder }) => {
     ? rawUrl 
     : `/${folder}/${rawUrl}`;
 
+  let content;
+
   if (isVideo) {
     // Check for YouTube URL
     const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
@@ -27,12 +29,12 @@ const SlideMedia = ({ item, folder }) => {
       const videoId = youtubeMatch[1];
       
       if (!isPlaying) {
-        return (
+        content = (
           <div 
             className="video-thumbnail-wrapper"
             style={{
               width: '100%', 
-              aspectRatio: '16/9',
+              height: '100%',
               position: 'relative', 
               cursor: 'pointer',
               background: '#000'
@@ -64,44 +66,56 @@ const SlideMedia = ({ item, folder }) => {
             </div>
           </div>
         );
+      } else {
+        content = (
+          <div className="swiper-no-swiping" style={{width: '100%', height: '100%'}}>
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+            />
+          </div>
+        );
       }
-
-      return (
-        <div className="swiper-no-swiping" style={{width: '100%', aspectRatio: '16/9'}}>
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{width: '100%', height: '100%', objectFit: 'cover'}}
-          />
-        </div>
+    } else {
+      content = (
+        <video 
+          src={src} 
+          controls 
+          style={{width: '100%', height: '100%', objectFit: 'cover'}}
+          onPlay={() => swiper.autoplay.stop()}
+          onEnded={() => {
+             swiper.slideNext();
+             swiper.autoplay.start();
+          }}
+        />
       );
     }
-
-    return (
-      <video 
-        src={src} 
-        controls 
-        style={{width: '100%', height: '100%', objectFit: 'cover'}}
-        onPlay={() => swiper.autoplay.stop()}
-        onEnded={() => {
-           swiper.slideNext();
-           swiper.autoplay.start();
-        }}
-      />
-    );
-  }
-
-  return (
-    <div className="slide-media-container" style={{ position: 'relative', width: '100%', height: '100%' }}>
+  } else {
+    content = (
       <img 
         src={src} 
         alt={item.title || "Gallery Item"} 
         loading="lazy" 
         style={{width: '100%', height: '100%', objectFit: cropMode === 'cropped' ? 'cover' : 'contain'}}
       />
+    );
+  }
+
+  return (
+    <div className="slide-media-wrapper" style={{ 
+      position: 'absolute', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100%',
+      overflow: 'hidden'
+    }}>
+      {content}
+      
       {item.title && (
         <div className="slide-media-caption" style={{
           position: 'absolute',
