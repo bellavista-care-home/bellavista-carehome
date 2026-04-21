@@ -105,20 +105,20 @@ const SlideMedia = ({ item, folder }) => {
       {item.title && (
         <div className="slide-media-caption" style={{
           position: 'absolute',
-          bottom: '12px',
-          left: '12px',
-          right: '12px',
-          background: 'rgba(255, 255, 255, 0.9)',
-          color: 'var(--color-primary)',
-          padding: '6px 12px',
-          borderRadius: '8px',
-          fontSize: '0.85rem',
+          bottom: '0',
+          left: '0',
+          right: '0',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%)',
+          color: 'white',
+          padding: '20px 15px 12px',
+          fontSize: '0.9rem',
           fontWeight: '600',
           textAlign: 'center',
           pointerEvents: 'none',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           zIndex: 2,
-          border: '1px solid rgba(0,0,0,0.05)'
+          fontFamily: 'var(--font-heading)',
+          letterSpacing: '0.5px',
+          textShadow: '0 2px 4px rgba(0,0,0,0.3)'
         }}>
           {item.title}
         </div>

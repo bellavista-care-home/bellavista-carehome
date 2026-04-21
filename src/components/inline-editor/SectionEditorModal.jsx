@@ -419,24 +419,28 @@ const GalleryItemCard = ({ item, index, total, fieldName, onMoveItem, onRemoveIt
               placeholder={fieldName === 'teamGallery' ? "e.g., Nursing Team" : "Activity/Facility Title"}
             />
           </div>
-          <div className="edit-form-field">
-            <label>Short Description (Card)</label>
-            <textarea
-              value={shortDesc}
-              onChange={(e) => handleUpdate({ shortDescription: e.target.value })}
-              placeholder="Brief description for the card..."
-              rows={3}
-            />
-          </div>
-          <div className="edit-form-field edit-form-field--rich">
-            <label>Full Description (Detail Page)</label>
-            <RichTextEditor
-              value={fullDesc}
-              onChange={(html) => handleUpdate({ fullDescription: html })}
-              placeholder="Detailed description with formatting..."
-              minHeight={150}
-            />
-          </div>
+          {fieldName !== 'teamGallery' && (
+            <>
+              <div className="edit-form-field">
+                <label>Short Description (Card)</label>
+                <textarea
+                  value={shortDesc}
+                  onChange={(e) => handleUpdate({ shortDescription: e.target.value })}
+                  placeholder="Brief description for the card..."
+                  rows={3}
+                />
+              </div>
+              <div className="edit-form-field edit-form-field--rich">
+                <label>Full Description (Detail Page)</label>
+                <RichTextEditor
+                  value={fullDesc}
+                  onChange={(html) => handleUpdate({ fullDescription: html })}
+                  placeholder="Detailed description with formatting..."
+                  minHeight={150}
+                />
+              </div>
+            </>
+          )}
           <div className="edit-form-checkbox">
             <label>
               <input
