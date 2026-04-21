@@ -411,12 +411,12 @@ const GalleryItemCard = ({ item, index, total, fieldName, onMoveItem, onRemoveIt
       {isExpanded && (
         <div className="gallery-item__edit-form">
           <div className="edit-form-field">
-            <label>Title</label>
+            <label>{fieldName === 'teamGallery' ? 'Team Name / Label' : 'Title'}</label>
             <input
               type="text"
               value={title}
               onChange={(e) => handleUpdate({ title: e.target.value })}
-              placeholder="Activity/Facility Title"
+              placeholder={fieldName === 'teamGallery' ? "e.g., Nursing Team" : "Activity/Facility Title"}
             />
           </div>
           <div className="edit-form-field">
@@ -1317,7 +1317,6 @@ const renderSectionForm = (sectionType, formData, onChange, onArrayChange, onAdd
               fieldName="teamGallery"
               isUploading={isUploading}
               setIsUploading={setIsUploading}
-              showEdit={false}
             />
           </div>
         </div>

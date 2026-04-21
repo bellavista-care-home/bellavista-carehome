@@ -389,7 +389,7 @@ const AdminPageEditor = () => {
           teamContent: homeData.teamContent || homeData.teamIntro,
           teamIntro2: homeData.teamIntro2,
           teamMembers: homeData.teamMembers || [],
-          teamGallery: homeData.teamGallery || [],
+          teamGallery: homeData.teamGalleryImages || [],
         };
       case 'testimonials':
         return {

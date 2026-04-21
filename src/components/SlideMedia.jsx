@@ -95,12 +95,35 @@ const SlideMedia = ({ item, folder }) => {
   }
 
   return (
-    <img 
-      src={src} 
-      alt="Gallery Item" 
-      loading="lazy" 
-      style={{width: '100%', height: '100%', objectFit: cropMode === 'cropped' ? 'cover' : 'contain'}}
-    />
+    <div className="slide-media-container" style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <img 
+        src={src} 
+        alt={item.title || "Gallery Item"} 
+        loading="lazy" 
+        style={{width: '100%', height: '100%', objectFit: cropMode === 'cropped' ? 'cover' : 'contain'}}
+      />
+      {item.title && (
+        <div className="slide-media-caption" style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: '12px',
+          right: '12px',
+          background: 'rgba(255, 255, 255, 0.9)',
+          color: 'var(--color-primary)',
+          padding: '6px 12px',
+          borderRadius: '8px',
+          fontSize: '0.85rem',
+          fontWeight: '600',
+          textAlign: 'center',
+          pointerEvents: 'none',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          zIndex: 2,
+          border: '1px solid rgba(0,0,0,0.05)'
+        }}>
+          {item.title}
+        </div>
+      )}
+    </div>
   );
 };
 
