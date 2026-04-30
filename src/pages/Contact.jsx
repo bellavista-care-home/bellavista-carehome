@@ -227,10 +227,10 @@ const Contact = () => {
                   <option value="General Enquiry">General Enquiry</option>
                   <option value="Bellavista Barry">Bellavista Nursing Home (Barry)</option>
                   <option value="Bellavista Cardiff">Bellavista Nursing Home (Cardiff)</option>
-                  <option value="Meadow Vale Cwtch">Meadow Vale Cwtch (Cardiff)</option>
                   <option value="Waverley Care Centre">Waverley Care Centre</option>
                   <option value="College Fields Nursing Home">College Fields Nursing Home</option>
                   <option value="Baltimore Care Home">Baltimore Care Home</option>
+                  <option value="Meadow Vale Cwtch">Meadow Vale Cwtch (Cardiff)</option>
                 </select>
               </div>
               <div className="form-group">

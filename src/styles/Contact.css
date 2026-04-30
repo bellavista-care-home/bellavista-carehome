@@ -69,9 +69,12 @@
     margin-right: 10px;
 }
 
-.contact-detail p {
+.contact-detail p,
+.contact-detail a {
     color: var(--text-muted);
     font-size: 0.95rem;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .btn-map {

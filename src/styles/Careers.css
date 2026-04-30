@@ -61,6 +61,9 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
   border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .job-card:hover {
@@ -98,6 +101,7 @@
   color: #555;
   line-height: 1.6;
   margin-bottom: 20px;
+  flex: 1;
 }
 
 .job-requirements h4 {
@@ -315,7 +319,8 @@
 
 .vacancy-actions {
     display: flex;
-    margin-top: 20px;
+    margin-top: auto;
+    padding-top: 20px;
 }
 
 @keyframes slideUp {

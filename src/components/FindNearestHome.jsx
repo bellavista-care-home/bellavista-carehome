@@ -22,13 +22,13 @@ const HOMES = [
     url: '/bellavista-cardiff'
   },
   {
-    id: 'baltimore-care-home',
-    name: 'Baltimore House Care Home',
-    address: '1 & 2 Park Road, Barry, CF62 6NU',
-    lat: 51.398,
-    lng: -3.285,
-    image: '/home-images/baltimore.jpg',
-    url: '/baltimore-care-home'
+    id: 'waverley-care-center',
+    name: 'Waverley Care Centre',
+    address: '122-124 Plymouth Road, Penarth, CF64 5DN',
+    lat: 51.432,
+    lng: -3.175,
+    image: '/home-images/waverley.jpg',
+    url: '/waverley-care-center'
   },
   {
     id: 'college-fields-nursing-home',
@@ -40,6 +40,15 @@ const HOMES = [
     url: '/college-fields-nursing-home'
   },
   {
+    id: 'baltimore-care-home',
+    name: 'Baltimore House Care Home',
+    address: '1 & 2 Park Road, Barry, CF62 6NU',
+    lat: 51.398,
+    lng: -3.285,
+    image: '/home-images/baltimore.jpg',
+    url: '/baltimore-care-home'
+  },
+  {
     id: 'meadow-vale-cwtch',
     name: 'Meadow Vale Cwtch',
     address: 'Near Cardiff Airport, Rhoose, Vale of Glamorgan',
@@ -47,15 +56,6 @@ const HOMES = [
     lng: -3.345,
     image: '/home-images/meadow-vale-cwtch.jpg',
     url: '/meadow-vale-cwtch'
-  },
-  {
-    id: 'waverley-care-center',
-    name: 'Waverley Care Centre',
-    address: '122-124 Plymouth Road, Penarth, CF64 5DN',
-    lat: 51.432,
-    lng: -3.175,
-    image: '/home-images/waverley.jpg',
-    url: '/waverley-care-center'
   }
 ];
 

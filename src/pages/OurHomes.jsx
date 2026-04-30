@@ -64,13 +64,28 @@ const OurHomes = ({ isStandalone = false }) => {
              };
            });
            
+           // Sort homes based on predefined order
+           const sortOrder = ['barry', 'cardiff', 'waverley', 'college fields', 'baltimore'];
+           const sortedHomes = mappedHomes.sort((a, b) => {
+             const nameA = a.name.toLowerCase();
+             const nameB = b.name.toLowerCase();
+             
+             const indexA = sortOrder.findIndex(keyword => nameA.includes(keyword));
+             const indexB = sortOrder.findIndex(keyword => nameB.includes(keyword));
+             
+             if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+             if (indexA !== -1) return -1;
+             if (indexB !== -1) return 1;
+             return nameA.localeCompare(nameB);
+           });
+
            // Update state and cache
-           setHomes(mappedHomes);
-           sessionStorage.setItem('bellavista_homes_data', JSON.stringify(mappedHomes));
+           setHomes(sortedHomes);
+           sessionStorage.setItem('bellavista_homes_data', JSON.stringify(sortedHomes));
            
            // Only reset indices if we didn't have cache (to avoid jumping images)
            if (!cached) {
-             setImageIndices(mappedHomes.map(() => 0));
+             setImageIndices(sortedHomes.map(() => 0));
            }
         }
       } catch (err) {
