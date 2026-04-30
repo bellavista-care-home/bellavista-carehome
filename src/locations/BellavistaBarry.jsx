@@ -612,6 +612,11 @@ const BellavistaBarry = () => {
             display: flex;
           }
         }
+
+        /* Fix background on refresh while video loads */
+        .home .hero-image-wrap {
+          background-color: var(--color-primary) !important;
+        }
       `}</style>
       <SEO 
         title="Bellavista Barry | Best Nursing Home in Barry & South Wales"
@@ -625,6 +630,7 @@ const BellavistaBarry = () => {
         subtitle={homeData?.heroSubtitle || "Bellavista Barry — Award-winning care overlooking the Bristol Channel"}
         description={homeData?.heroDescription || homeData?.heroExpandedDesc || 'Bellavista Barry provides warm, professional and compassionate care where residents feel comfortable, supported and valued every day.'}
         imageSrc="/home-images/barry.jpg"
+        videoBackground="/home-images/barry-hero.mp4"
         imageAlt="Bellavista Nursing Home Barry"
         galleryImages={bannerImages}
         galleryAltPrefix="Bellavista highlight"
