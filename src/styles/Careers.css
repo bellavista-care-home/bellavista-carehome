@@ -102,6 +102,10 @@
   line-height: 1.6;
   margin-bottom: 20px;
   flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .job-requirements h4 {
